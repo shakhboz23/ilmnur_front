@@ -1,0 +1,24 @@
+// Define your radius variables
+$radius: (
+  8: 8px,
+  12: 12px,
+  20: 20px,
+  f: 50%,
+);
+
+// Mixin to generate background radius classes
+@mixin generate-radius-classes($radius-map) {
+  @each $name, $r in $radius-map {
+    .r_#{$name} {
+      border-radius: $r;
+    }
+  }
+}
+
+// Function to get a radius from the map
+// @function getborder($key) {
+//   @return map-get($radius, $key);
+// }
+
+// Generate classes
+@include generate-radius-classes($radius);

@@ -1,0 +1,57 @@
+@import "./colors.scss";
+
+.ant-tabs-content-holder {
+  overflow: hidden;
+  .ant-tabs-tabpane {
+    visibility: visible !important;
+    overflow: visible !important;
+    // height: auto !important;
+  }
+}
+
+.ant-tabs-nav-list {
+  max-width: fit-content;
+}
+
+.ant-tabs-tab {
+  user-select: none;
+  color: color(c24);
+  padding: 0 0 8px 0 !important;
+}
+
+.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: color(main) !important;
+}
+
+.ant-tabs-ink-bar, .ant-tabs-nav::before {
+    background: color(main) !important;
+    border-radius: 2px !important;
+}
+
+.ant-tabs-nav-more {
+  display: none !important;
+}
+
+.ant-tabs-nav-wrap::after, .ant-tabs-nav-wrap::before {
+  display: none !important;
+}
+
+.ant-progress-text {
+  display: none !important;
+}
+
+.ant-progress-line {
+  margin: 0 !important;
+}
+
+.ant-progress-outer {
+  padding: 0 !important;
+}
+
+.lesson_tab .ant-tabs-nav {
+  position: sticky !important;
+  top: 118px !important;
+  z-index: 20;
+  background: white;
+  padding-top: 20px;
+}
