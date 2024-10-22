@@ -19,7 +19,7 @@ export const sidebar = [
   {
     id: 1,
     name: "To'lovlar",
-    url: "/payments",
+    url: "/",
     svg: _lesson,
     // svgActive: dashboardActive,
     // role: ["admin"],
@@ -28,7 +28,7 @@ export const sidebar = [
   {
     id: 1,
     name: "O'qituvchilar",
-    url: "/teachers",
+    url: "/",
     svg: _lesson,
     // svgActive: dashboardActive,
     role: ["admin"],
@@ -36,7 +36,7 @@ export const sidebar = [
   {
     id: 1,
     name: "O'quvchilar",
-    url: "/students",
+    url: "/",
     svg: _lesson,
     // svgActive: dashboardActive,
     role: ["admin"],
@@ -44,7 +44,7 @@ export const sidebar = [
   {
     id: 1,
     name: "Darsliklar",
-    url: "/subjects",
+    url: "/",
     svg: _lesson,
     // svgActive: dashboardActive,
     role: [],
@@ -52,7 +52,7 @@ export const sidebar = [
   {
     id: 1,
     name: "Reyting",
-    url: "/reyting",
+    url: "/",
     svg: _reyting,
     // svgActive: dashboardActive,
     role: [],
@@ -60,7 +60,7 @@ export const sidebar = [
   {
     id: 1,
     name: "Sinflar",
-    url: "/classes",
+    url: "/",
     svg: _class,
     // svgActive: dashboardActive,
     role: ["admin", "teacher"],
@@ -68,7 +68,7 @@ export const sidebar = [
   {
     id: 1,
     name: "Yangiliklar",
-    url: "/news",
+    url: "/",
     svg: _news,
     // svgActive: dashboardActive,
     role: [],
@@ -76,7 +76,7 @@ export const sidebar = [
   {
     id: 1,
     name: "Sozlamalar",
-    url: "/settings",
+    url: "/",
     svg: _lesson,
     // svgActive: dashboardActive,
     role: [],
