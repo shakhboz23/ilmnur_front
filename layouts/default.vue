@@ -4,7 +4,7 @@
       <Nav class="w-[calc(100vw_-_60px)]" />
     </div>
     <Sidebar class="fixed top-[120px] max-w-[260px]" />
-    <div class="flex gap-5 max-w-[100vw] mt-[120px]">
+    <div class="flex gap-5 max-w-[100vw] mt-[120px] min-h-[calc(100vh_-_140px)]">
       <div class="min-w-[260px]"></div>
       <main class="max-w-[calc(100vw_-_340px)] w-full bg-white p-5 r_8">
         <slot />

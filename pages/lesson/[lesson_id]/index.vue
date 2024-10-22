@@ -12,16 +12,17 @@
                     </li>
                 </ul>
             </nav>
-            <section>
-                <video class="w-full h-[312px] bg-black r_8" controls>
-                    <source src="http://res.cloudinary.com/dqq3cnpxv/video/upload/v1727576885/qbqep6ctx2mdgtbgxrqq.mp4"
-                        type="video/mp4">
-                    <source src="http://res.cloudinary.com/dqq3cnpxv/video/upload/v1727576885/qbqep6ctx2mdgtbgxrqq.mp4"
-                        type="video/ogg">
-                    Your browser does not support the video tag.
-                </video>
+            <section class="px-[0.5px]">
+                <!-- {{ useLessons.store.lessons.video }} -->
+                <div class="w-full h-[312px] bg-black r_8">
+                    <video v-if="useLessons.store.lessons?.video" class="w-full h-[312px] bg-black r_8" controls>
+                        <source :src="useLessons.store.lessons?.video" type="video/mp4">
+                        <source :src="useLessons.store.lessons?.video" type="video/ogg">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
                 <div class="flex items-center justify-between my-5">
-                    <h1 class="text-xl font-semibold">VueJS</h1>
+                    <h1 class="text-xl font-semibold">{{ useLessons.store.lessons?.title }}</h1>
                     <div class="space-x-3">
                         <button class="b_main p-3 r_8">
                             <img class="stroke-[#FF852E]" src="@/assets/svg/course/markasread.svg" alt="">
@@ -33,10 +34,10 @@
                 </div>
                 <ul class="flex items-center justify-between">
                     <li class="flex items-center gap-2">
-                        <img class="object-cover r_f w-10 h-10" src="@/assets/svg/icon/useravatar.svg" alt="">
+                        <img class="object-cover r_f w-10 h-10" :src="useLessons.store.lessons?.course?.cover" alt="">
                         <ul>
-                            <li class="text-sm font-bold">Marius Ciocirland</li>
-                            <li class="text-xs">Behance</li>
+                            <li class="text-sm font-bold">{{ useLessons.store.lessons?.course?.title }}</li>
+                            <li class="text-xs">850K subscribers</li>
                         </ul>
                     </li>
                     <li class="flex gap-2">
@@ -47,14 +48,23 @@
             </section>
         </nav>
         <section class="bg-white z-10 relative">
-            <Tabs  class="lesson_tab" />
+            <PageLessonTabs class="lesson_tab" :lesson_lecture="useLessons.store.lessons?.content"
+                :lesson_course="useLessons.store.lessons?.course" />
         </section>
     </div>
 </template>
 
 <script setup>
+import { useLessonsStore } from '~/store';
+
+
+const useLessons = useLessonsStore();
 const store = reactive({
     active_id: 0,
+})
+
+onBeforeMount(() => {
+    useLessons.getById();
 })
 </script>
 

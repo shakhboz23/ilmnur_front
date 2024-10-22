@@ -17,12 +17,12 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
       } else if (localStorage.hasOwnProperty("user_id")) {
       }
     }
-  } catch (error) {
+  } catch (err) {
     if (
       localStorage.hasOwnProperty("user_id") ||
       localStorage.hasOwnProperty("token")
     ) {
     }
-    console.log(error);
+    console.log(err);
   }
 });

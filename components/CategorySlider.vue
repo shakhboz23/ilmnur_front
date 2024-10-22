@@ -1,12 +1,17 @@
 <template>
     <div class="stack-tab-container mb-5">
-        <div class="tab-bar">
+        <div v-if="isLoading.isLoadingType('category')" class="flex gap-5">
+            <button class="r_20 overflow-hidden" v-for="i in 12">
+                <LoadingDiv class="w-20 h-full min-h-[34px] r_f" />
+            </button>
+        </div>
+        <div v-else class="tab-bar">
             <button class="left-arrow">
                 <img class="rotate-90" src="@/assets/svg/icon/arrow.svg" alt="">
             </button>
             <ul class="tabs">
-                <button class="bg_main r_f py-2 px-3 text-xs c_white">All</button>
-                <button v-for="i in 25" class="b_main r_20 py-2 px-3 text-xs c_main">Business</button>
+                <button class="bg_main r_20 py-2 px-3 text-xs c_white">All</button>
+                <button v-for="i in useCategory.store.category" class="b_main r_20 py-2 px-3 text-xs c_main">{{i.name}}</button>
             </ul>
             <button class="right-arrow active">
                 <img class="-rotate-90" src="@/assets/svg/icon/arrow.svg" alt="">
@@ -16,6 +21,11 @@
 </template>
 
 <script setup>
+import { useLoadingStore, useCategoryStore } from '~/store';
+
+const isLoading = useLoadingStore();
+const useCategory = useCategoryStore();
+
 onMounted(() => {
     const tabs = document.querySelectorAll(".stack-tab-container a.tab");
     const scrollRightArrow = document.querySelector(
@@ -35,74 +45,70 @@ onMounted(() => {
     // Function to remove "active" class from all tabs
     const removeActiveClasses = () => {
         tabs.forEach((tab) => {
-            tab.classList.remove("active");
+            tab?.classList.remove("active");
         });
     };
 
     //Function to activate the left scroll button
     const manageLeftbtn = () => {
         if (tabList.scrollLeft >= 20) {
-            leftArrowContainer.classList.add("active");
+            leftArrowContainer?.classList.add("active");
         } else {
-            leftArrowContainer.classList.remove("active");
+            leftArrowContainer?.classList.remove("active");
         }
 
         let maxScroll = tabList.scrollWidth - tabList.clientWidth - 20;
         if (tabList.scrollLeft >= maxScroll) {
-            rightArrowContainer.classList.remove("active");
+            rightArrowContainer?.classList.remove("active");
         } else {
-            rightArrowContainer.classList.add("active");
+            rightArrowContainer?.classList.add("active");
         }
     };
 
     // Add "active" class to clicked tab and remove from others
     tabs.forEach((tab) => {
-        tab.addEventListener("click", () => {
+        tab?.addEventListener("click", () => {
             event.preventDefault();
             removeActiveClasses();
-            tab.classList.add("active");
+            tab?.classList.add("active");
         });
     });
 
-    console.log(scrollRightArrow);
     // Scroll the tab list to the right
-    scrollRightArrow.addEventListener("click", () => {
-        console.log(tabList.scrollLeft)
+    scrollRightArrow?.addEventListener("click", () => {
         // tabList.scrollLeft += 300;
         smoothScroll(tabList, tabList.scrollLeft + 300, 600);
-        console.log(tabList.scrollLeft)
         manageLeftbtn();
     });
 
     // Scroll the tab list to the left
-    scrollLeftArrow.addEventListener("click", () => {
-        console.log("Hi")
+    scrollLeftArrow?.addEventListener("click", () => {
         // tabList.scrollLeft -= 300;
         smoothScroll(tabList, tabList.scrollLeft - 300, 600);
         manageLeftbtn();
     });
 
     // Listen to scroll event to activate the buttons
-    tabList.addEventListener("scroll", manageLeftbtn);
+    tabList?.addEventListener("scroll", manageLeftbtn);
 
     // Adding the dragging functionality
     let drag = false;
     const dragging = (e) => {
         // Add the event parameter
         if (!drag) return;
-        tabList.classList.add("dragging");
+        tabList?.classList.add("dragging");
         tabList.scrollLeft -= e.movementX;
     };
 
-    tabList.addEventListener("mousedown", () => {
+    tabList?.addEventListener("mousedown", () => {
         drag = true;
-        tabList.addEventListener("mousemove", dragging); // Add mousemove listener here
+        tabList?.addEventListener("mousemove", dragging); // Add mousemove listener here
     });
 
-    document.addEventListener("mouseup", () => {
+    document?.addEventListener("mouseup", () => {
         drag = false;
-        tabList.removeEventListener("mousemove", dragging); // Remove mousemove listener here
-        tabList.classList.remove("dragging");
+        tabList?.removeEventListener("mousemove", dragging); // Remove mousemove listener here
+        tabList?.classList.remove("dragging");
     });
 })
 function smoothScroll(element, target, duration) {

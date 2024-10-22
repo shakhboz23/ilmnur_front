@@ -1,11 +1,22 @@
 <template>
     <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-        <PageCard v-for="i in store.courses" />
+        <LoadingDiv v-if="isLoading.isLoadingType('groups')" v-for="i in 12"
+            class="w-full h-full min-h-[360px] r_12 !overflow-hidden" />
+        <PageCard v-else :carddata="i" v-for="i in useGroups.store.groups?.groups" />
     </div>
 </template>
 <script setup>
+import { useLoadingStore, useGroupsStore } from '~/store';
+
+const isLoading = useLoadingStore();
+const useGroups = useGroupsStore();
+
 const store = reactive({
     courses: []
+})
+
+onBeforeMount(() => {
+    useGroups.getGroups();
 })
 onMounted(() => {
     async function getImage(n) {
@@ -25,14 +36,15 @@ onMounted(() => {
 
     window.addEventListener("scroll", function (e) {
         let { clientHeight, scrollHeight, scrollTop } = e.target.documentElement;
-        console.log(clientHeight);
-        console.log(scrollTop);
-        console.log(scrollHeight);
         if (clientHeight + scrollTop + 1 >= scrollHeight) {
             getImage(9);
         }
     })
     getImage(9);
+})
+
+onBeforeUnmount(() => {
+    window?.removeEventListener("scroll", {})
 })
 </script>
 

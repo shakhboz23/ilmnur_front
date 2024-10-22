@@ -20,6 +20,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       baseURL: process.env.BASE_URL,
+      localBaseURL: process.env.LOCAL_BASE_URL,
     },
   },
   css: ["~/assets/scss/main.scss"],
@@ -31,6 +32,10 @@ export default defineNuxtConfig({
     },
   },
   plugins: ["~/plugins/ant-design-vue.client.ts"],
+  typescript: {
+    typeCheck: true,
+    strict: false
+  },
   // router: {
   //   extendRoutes(routes, resolve) {
   //     routes.push({

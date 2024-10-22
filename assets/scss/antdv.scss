@@ -23,16 +23,18 @@
   color: color(main) !important;
 }
 
-.ant-tabs-ink-bar, .ant-tabs-nav::before {
-    background: color(main) !important;
-    border-radius: 2px !important;
+.ant-tabs-ink-bar,
+.ant-tabs-nav::before {
+  background: color(main) !important;
+  border-radius: 2px !important;
 }
 
 .ant-tabs-nav-more {
   display: none !important;
 }
 
-.ant-tabs-nav-wrap::after, .ant-tabs-nav-wrap::before {
+.ant-tabs-nav-wrap::after,
+.ant-tabs-nav-wrap::before {
   display: none !important;
 }
 
@@ -55,3 +57,8 @@
   background: white;
   padding-top: 20px;
 }
+
+// .ant-tabs-content-holder {
+//   // overflow: visible !important;
+//   // overflow-x: hidden !important;
+// }
