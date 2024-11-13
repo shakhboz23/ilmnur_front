@@ -14,7 +14,8 @@
             :class="store.scrollY ? 'bottom-0' : '-bottom-40'">
             <ul>
                 <li v-if="activeKey == 1">
-                    <router-link to="/test/1" class="full_flex bg-white">
+                    <router-link :to="`/test/${$router.currentRoute.value.params.lesson_id}`"
+                        class="full_flex bg-white">
                         <button class="bg_main px-5 py-2 r_8 w-full text-white">Start test</button>
                     </router-link>
                 </li>
@@ -23,7 +24,10 @@
                         <img src="@/assets/svg/icon/star.svg" alt="">
                         <span class="max-w-full truncate">Like</span>
                     </button>
-                    <button class="bg_main px-5 py-2 r_8 w-full text-white truncate">Continue</button>
+                    <button v-if="lesson_course?.is_subscribed"
+                        class="bg_main px-5 py-2 r_8 w-full text-white truncate">Subscribed</button>
+                    <button v-else @click="useCourses.subscribeCourse(lesson_course?.id)"
+                        class="bg_main px-5 py-2 r_8 w-full text-white truncate">Subscribe</button>
                 </li>
                 <li v-else-if="activeKey == 3" class="flex items-center gap-4 ">
                     <img src="@/assets/svg/chat/upload.svg" alt="">
@@ -49,9 +53,12 @@ defineProps({
 })
 import { lesson_tabs } from "@/constants"
 import { useTabs } from "~/composables";
+import { useCoursesStore } from "~/store";
 const router = useRouter();
 const { tabsDrag } = useTabs()
 const activeKey = ref(1);
+
+const useCourses = useCoursesStore();
 
 const PageLessonLectures = resolveComponent('PageLessonLectures');
 const PageLessonOverview = resolveComponent('PageLessonOverview');

@@ -1,5 +1,5 @@
 <template>
-    <div class="stack-tab-container mb-5">
+    <div class="stack-tab-container">
         <div v-if="isLoading.isLoadingType('category')" class="flex gap-5">
             <button class="r_20 overflow-hidden" v-for="i in 12">
                 <LoadingDiv class="w-20 h-full min-h-[34px] r_f" />

@@ -1,0 +1,396 @@
+<template>
+    <div v-if="useTests.store.tests?.user_id == isLoading.user?.id">
+        <div class="pb-8 pt-3 font-semibold text-xl">
+            <h1>Test yaratishni boshlang:</h1>
+        </div>
+        <nav class="bg_bg py-6 -mx-5 px-7">
+            <div class="flex items-center justify-between mb-5">
+                <p>10 ta test</p>
+                <div class="flex gap-2">
+                    <div>
+                        <label for="import_file"
+                            class="full_flex gap-2 bg-white p-1.5 rounded-md border_ced cursor-pointer">
+                            <img class="h-7 w-7" src="@/assets/svg/image/word.png" alt="" />
+                            <p>WORD</p>
+                        </label>
+                    </div>
+                    <button @click="isLoading.modal.create = true" class="bg-white rounded-md p-1.5 w-10">
+                        <img class="mx-auto" src="@/assets/svg/icon/settings.svg" alt="" />
+                    </button>
+                </div>
+            </div>
+            <ul class="flex flex-wrap gap-3">
+                <li @click="store.slideStep = index + 1" v-for="(_, index) in 50"
+                    class="w-10 h-10 r_f full_flex text-sm pcursor"
+                    :class="store.slideStep == index + 1 ? 'bg_main text-white' : 'bg_white'">{{ index + 1 }}</li>
+            </ul>
+        </nav>
+        <section>
+            <div class="px-2 py-6">
+                <ul class="flex items-center justify-between my-6">
+                    <li class="text-lg font-semibold">1. Savol </li>
+                    <!-- <li>Multiple</li> -->
+                    <a-select class="min-w-fit" v-model:value="role" placeholder="Select a person" :options="testType"
+                        @change="handleChange"></a-select>
+                </ul>
+                <!-- <a-textarea v-model:value="description" placeholder="Description"
+                    :auto-size="{ minRows: 2, maxRows: 10 }" /> -->
+                    <div>
+                        <ClientOnly>
+                            <Editor_cki @input="handleInput" />
+                        </ClientOnly>
+                    </div>
+                <h2 class="font-medium mt-6 mb-4">Resurslarni biriktiring</h2>
+                <button class="full_flex gap-3 b_ced py-2 px-8 rounded-full">
+                    <img src="@/assets/svg/group/upload.svg" alt="">
+                    <span>Fayl biriktirish</span>
+                </button>
+            </div>
+            <hr />
+            <div class="px-2 py-6">
+                <h2>Variantlar</h2>
+                <p class="mt-3 mb-6">To‘g‘ri javobni belgilang</p>
+                <ul class="bg_cf5 min-h-fit p-4 r_8">
+                    <li class="flex gap-4">
+                        <a-checkbox>
+                        </a-checkbox>
+                        <a-textarea class="border-none bg-transparent w-full" v-model:value="description"
+                            placeholder="Description" :auto-size="{ minRows: 1, maxRows: 10 }" />
+                    </li>
+                    <hr />
+                    <li class="flex gap-4">
+                        <a-checkbox>
+                        </a-checkbox>
+                        <a-textarea class="border-none bg-transparent w-full" v-model:value="description"
+                            placeholder="Description" :auto-size="{ minRows: 1, maxRows: 10 }" />
+                    </li>
+                    <hr />
+                    <li class="flex gap-4">
+                        <a-checkbox>
+                        </a-checkbox>
+                        <a-textarea class="border-none bg-transparent w-full" v-model:value="description"
+                            placeholder="Description" :auto-size="{ minRows: 1, maxRows: 10 }" />
+                    </li>
+                </ul>
+            </div>
+        </section>
+    </div>
+    <div v-else>
+        <div v-if="true">
+            <nav class="py-5">
+                <ul class="full_flex gap-3">
+                    <li v-for="i in testBar" class="full_flex r_4 bg_ce2 h-8 w-8">
+                        <img :src="i" alt="">
+                    </li>
+                </ul>
+            </nav>
+            <section class="bg-white mx-[100px] r_8 relative">
+                <section class="flex gap-7 items-start max-w-fit mx-auto p-8 ">
+                    <img @click="$router.back()" class="-ml-[52px] pcursor" src="@/assets/svg/icon/closex.svg" alt="">
+                    <div>
+                        <nav class="min-w-[50vw]">
+                            <ul class="flex flex-wrap gap-3">
+                                <li @click="store.slideStep = index + 1" v-for="(_, index) in useTests.store.tests.test"
+                                    class="w-6 h-6 r_f full_flex text-sm text-white pcursor"
+                                    :class="store.slideStep == index + 1 ? 'bg_main' : 'bg_cee'">{{ index + 1 }}</li>
+                            </ul>
+                        </nav>
+                        <swiper @slider-move="changeSlide" :watchSlidesProgress="true" :slidesPerView="1"
+                            :spaceBetween="30" :pagination="{ clickable: true }" :modules="modules"
+                            class="flex max-w-[50vw] overflow-hidden">
+                            <swiper-slide :id="index + 1" class="min-w-full"
+                                v-for="(i, index) in useTests.store.tests.test">
+                                <section
+                                    class="max-h-[calc(100vh_-_300px)] min-h-[calc(100vh_-_300px)] overflow-y-auto mt-10 space-y-7 max-w-fit mx-auto">
+                                    <h1 class="font-bold text-2xl break-words">{{ index + 1 }}. {{ i.question }}hkhl lhl
+                                        hh lkjhjk kjklhdksljkdffkj
+                                        fkdsjfslkdfjdsffkdsjfslkdfjdsffkdsjfslkdfjdsffkdsjfslkdfjdsf
+                                        fkdsjfslkdfjdsffkdsjfslkdfjdsffkdsjfslkdfjdsffkdsjfslkdfjdsffkdsjfslkdfjdsffkdsjfslkdfjdsffkdsjfslkdfjdsffkdsjfslkdfjdsffkdsjfslkdfjdsf
+                                    </h1>
+                                    <hr />
+                                    <ul class="space-y-4 pcursor">
+                                        <li @click="selectedAnswer(index + 1, variant)"
+                                            v-for="(variant, v_index) in i.variants"
+                                            class="flex gap-8 items-center border duration-700 pl-3 pr-5 py-[10px] max-w-fit r_10"
+                                            :class="useTests.store.true_answers[index + 1] == variant
+                                                ? 'orange border-[#FF852E]'
+                                                : 'border-[#E1E1E1]'
+                                                ">
+
+                                            <p class="border duration-700 w-6 h-6 full_flex r_4 text-sm font-medium"
+                                                :class="useTests.store.true_answers[index + 1] == variant
+                                                    ? 'orange border-[#FF852E]'
+                                                    : 'border-[#EDEDED]'
+                                                    ">
+                                                A
+                                            </p>
+                                            <p>{{ variant }}</p>
+                                        </li>
+                                    </ul>
+                                </section>
+                            </swiper-slide>
+                        </swiper>
+                    </div>
+                </section>
+                <!-- {{ useTests.store.checked_answers }} -->
+                <footer class="w-full bg-white r_8 overflow-hidden">
+                    <hr />
+                    <ul class="flex items-center justify-around py-5">
+                        <li class="full_flex gap-3">
+                            <img src="@/assets/svg/test/help.svg" alt="">
+                            <p class="font-medium text-sm max-w-[112px] c_c65">Muammo haqida xabar bering</p>
+                        </li>
+                        <ul v-if="!isNaN(useTests.store.checked_answers[store.slideStep])">
+                            <li v-if="useTests.store.checked_answers[store.slideStep]" class="full_flex gap-3">
+                                <img src="@/assets/svg/test/true.svg" alt="">
+                                <p class="c_green font-bold">Javob to‘g‘ri!</p>
+                            </li>
+                            <li v-else="!useTests.store.checked_answers[store.slideStep]" class="full_flex gap-3">
+                                <img src="@/assets/svg/test/false.svg" alt="">
+                                <p class="c_red font-bold">Javob noto‘g‘ri!</p>
+                            </li>
+                        </ul>
+                        <!-- {{ Object.keys(useTests.store.checked_answers)?.length + ' ' + useTests.store.tests.test?.length }} -->
+                        <li>
+                            <button
+                                v-if="Object.keys(useTests.store.checked_answers)?.length == useTests.store.tests.test?.length"
+                                @click="() => useTests.checkAllAnswers()"
+                                class="bg_main px-[54px] py-3 r_50 text-white">Yakunlash</button>
+                            <button v-else-if="isNaN(useTests.store.checked_answers[store.slideStep])"
+                                @click="() => { useTests.checkAnswer(useTests.store.tests.test[store.slideStep - 1]?.id, store.slideStep) }"
+                                class="bg_main px-[54px] py-3 r_50 text-white">Tekshirish</button>
+                            <button v-else @click="() => store.slideStep++"
+                                class="bg_main px-[54px] py-3 r_50 text-white">Keyingisi</button>
+                        </li>
+                    </ul>
+                </footer>
+            </section>
+        </div>
+        <section v-else class="bg-white">
+            <section class="flex gap-7 items-start max-w-fit mx-auto p-8">
+                <img class="-ml-[52px] pcursor" src="@/assets/svg/icon/closex.svg" alt="">
+                <section
+                    class="text-center max-h-[calc(100vh_-_195px)] min-h-[calc(100vh_-_195px)] overflow-y-auto mt-10 px-40 space-y-7">
+                    <div class="full_flex min-w-[200px] min-h-[160px]">
+                        <img v-if="true" src="@/assets/svg/test/true.svg" alt="">
+                        <img v-else src="@/assets/svg/test/false.svg" alt="">
+                    </div>
+                    <h1 v-if="true" class="c_main font-bold text-2xl">Siz muvaffaqiyatli o‘tdingiz</h1>
+                    <h1 v-else class="c_red font-bold text-2xl">Afsuski test mufaqqiyatsiz bo‘ldi</h1>
+                    <p v-if="true" class="c_c66">Sinov tugallandi</p>
+                    <p v-else class="c_c66">Yetarli bal to‘play olmadingiz. Hechqisi yo‘q qayta urinib ko‘ring</p>
+                    <ul class="flex items-center justify-between gap-[60px]">
+                        <li class="c_yellow space-y-3">
+                            <div class="full_flex gap-3">
+                                <img src="@/assets/svg/test/overalltime.svg" alt="">
+                                <p>Vaqt</p>
+                            </div>
+                            <p class="font-semibold text-2xl">3:52</p>
+                        </li>
+                        <li class="c_green space-y-3">
+                            <div class="full_flex gap-3">
+                                <img src="@/assets/svg/test/accuracy.svg" alt="">
+                                <p>Aniqlik</p>
+                            </div>
+                            <p class="font-semibold text-2xl">88%</p>
+                        </li>
+                        <li class="c_main space-y-3">
+                            <div class="full_flex gap-3">
+                                <img src="@/assets/svg/test/ball.svg" alt="">
+                                <p>Ball</p>
+                            </div>
+                            <p class="font-semibold text-2xl">15</p>
+                        </li>
+                    </ul>
+
+                </section>
+            </section>
+            <footer class="w-full bg-white r_8 overflow-hidden px-40">
+                <hr />
+                <ul class="flex items-center justify-around py-5">
+                    <li>
+                        <button class="full_flex gap-3 px-[54px] py-3 r_50 c_c24 border border-[#BBBBBB]">
+                            <img src="@/assets/svg/test/again.svg" alt="">
+                            <span>Qayta topshirish</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="bg_main px-[54px] py-3 r_50 text-white">Keyingisi</button>
+                    </li>
+                </ul>
+            </footer>
+        </section>
+    </div>
+    <!-- modal -->
+    <UIModal :isOpen="isLoading.modal.create" :loadingType="'creategroup'"
+        @update:isOpen="(value) => handleModal(value)">
+        <div class="flex justify-between items-center w-full">
+            <h1 class="font-semibold text-2xl">Sozlamalalar</h1>
+        </div>
+        <div class="mt-4 space-y-4">
+            <div class="space-y-2">
+                <label for="name">Boshlanish vaqti</label>
+                <div class="flex gap-2">
+                    <a-date-picker class="w-full" v-model:value="useTests.test_settings.start_date"
+                        placeholder="0000-00-00" />
+                    <a-time-picker v-model:value="useTests.test_settings.start_date" format="HH:mm"
+                        placeholder="00:00" />
+                </div>
+            </div>
+            <div class="space-y-2">
+                <label for="name">Tugash vaqti</label>
+                <div class="flex gap-2">
+                    <a-date-picker class="w-full" v-model:value="useTests.test_settings.end_date"
+                        placeholder="0000-00-00" />
+                    <a-time-picker v-model:value="useTests.test_settings.end_date" format="HH:mm" placeholder="00:00" />
+                </div>
+            </div>
+            <div class="space-y-2">
+                <label for="name">Test muddati</label>
+                <!-- {{ useTests.test_settings.period }} -->
+                <div>
+                    <a-time-picker @change="(val) => {
+                        const hours = val.split(':');
+                        const hour = +hours[0] * 60;
+                        const minute = +hours[1];
+                        useTests.test_settings.period = minute + hour;
+                    }
+                        " format="HH:mm" value-format="HH:mm" placeholder="00:00" />
+                </div>
+            </div>
+            <div class="space-y-2">
+                <h2>Saralash</h2>
+                <label for="sortnum">Saralash bosqichi</label>
+                <div class="flex items-center gap-4" v-for="(i, index) in useTests.store.test_step">
+                    {{ index + 1 }}.
+                    <a-select v-model:value="useTests.test_settings.sort_level[index]"
+                        class="min-w-[80px] test_arrow !h-[42px] sr_12" show-search required>
+                        <a-select-option v-for="i in useTests.store.test_count" :value="i">{{ i }}</a-select-option>
+                        <!-- <template #suffixIcon>
+                            <div class="full_flex bg-[#FFF3EB] w-[42px] !h-[42px]">
+                                <img src="@/assets/svg/icon/arrow.svg" alt="" />
+                            </div>
+                        </template> -->
+                    </a-select>
+                    <p @click="addTestStep('add')" v-if="useTests.store.test_step == index + 1"
+                        class="full_flex min-w-[50px] h-[50px] rounded-full border border-[#CCCCCC] cursor-pointer">
+                        <img src="@/assets/svg/icon/plus.svg" alt="" />
+                    </p>
+                    <p v-else @click="addTestStep('remove', index)"
+                        class="full_flex min-w-[50px] h-[50px] rounded-full border border-[#CCCCCC] cursor-pointer">
+                        <img src="@/assets/svg/icon/minus.svg" alt="" />
+                    </p>
+                </div>
+                <div class="grid grid-cols-3">
+                    <div class="space-y-2">
+                        <label for="sortnum">Testlar soni</label>
+                        <a-select v-model:value="useTests.test_settings.test_count"
+                            class="min-w-[80px] test_arrow !h-[42px] sr_12" show-search required>
+                            <a-select-option v-for="i in useTests.store.test_count" :value="i">{{ i
+                                }}</a-select-option>
+                            <!-- <template #suffixIcon>
+                                <div class="full_flex bg-[#FFF3EB] w-[42px] !h-[42px]">
+                                    <img src="@/assets/svg/icon/arrow.svg" alt="" />
+                                </div>
+                            </template> -->
+                        </a-select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </UIModal>
+</template>
+
+<script setup>
+const route = useRoute();
+if (route.params.test_id != 'create') {
+    definePageMeta({
+        layout: false,
+    })
+} else {
+    definePageMeta({
+        layout: 'default',
+    })
+}
+
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/pagination";
+import { Pagination } from "swiper/modules";
+
+import time from "@/assets/svg/test/time.svg"
+import pen from "@/assets/svg/test/pen.svg"
+import calculator from "@/assets/svg/test/calculator.svg"
+import periodic from "@/assets/svg/test/periodic.svg"
+import { useLoadingStore, useTestsStore } from "~/store";
+import { isNumericLiteral } from "typescript";
+
+const testBar = [time, pen, calculator, periodic]
+const modules = [Pagination];
+
+const testType = ref([
+    { value: 'Multiple', label: 'Multiple choise' },
+    { value: 'filled', label: 'To‘ldiriladigan' },
+    { value: 'draggable', label: 'Moslashtiriladigan' },
+]);
+
+const useTests = useTestsStore();
+const isLoading = useLoadingStore();
+useTests.getByLesson();
+
+const store = reactive({
+    slideStep: 1,
+})
+
+
+function handleModal(value) {
+    if (value == "OK") {
+        if (isLoading.modal.delete) {
+            useCourses.deleteCourse();
+        } else if (isLoading.modal.create && !isLoading.modal.edit) {
+            useCourses.createCourse();
+        } else {
+            useCourses.updateCourse();
+        }
+    } else {
+        isLoading.modal.create = false;
+        isLoading.modal.delete = false;
+        useCourses.clearData();
+    }
+}
+
+
+function selectedAnswer(id, variant) {
+    //   if (!useTests.store.isTestEnd) {
+    useTests.store.true_answers[id] = variant;
+    //   }
+}
+
+function changeSlide() {
+    setTimeout(() => {
+        store.slideStep = +document.querySelector(".swiper-slide-visible")?.id;
+    }, 200);
+}
+
+watch(
+    () => store.slideStep,
+    () => {
+        // useUser.create.role = roles[store.slideStep].role;
+        // useUser.getAll();
+        const swiper = document.querySelector(".swiper-pagination-clickable");
+        const swiperCount = document.querySelectorAll(".swiper-wrapper>div");
+        console.log(swiperCount.length);
+        if (swiper && swiper.children.length >= store.slideStep) {
+            const secondChild = swiper.children[store.slideStep - 1];
+            if (secondChild) {
+                secondChild.click();
+            }
+        }
+
+
+        // router.push(`/users?role=${store.activeTab}`);
+    }
+);
+</script>
+
+<style lang="scss" scoped></style>

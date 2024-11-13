@@ -1,7 +1,7 @@
 <template>
     <div @click="$router.push('/course/1')" class="r_12 overflow-hidden bg_white pcursor">
         <img class="aspect-video w-full object-cover"
-            :src="lessoncarddata.cover"
+            :src="lessoncarddata?.cover"
             alt="">
         <div class="p-3 space-y-1">
             <h1 class="font-bold">{{ lessoncarddata.title }}</h1>

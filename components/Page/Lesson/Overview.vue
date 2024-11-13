@@ -4,11 +4,11 @@
             <ul class="text-sm text-white space-y-3">
                 <li class="flex items-center gap-3">
                     <img src="@/assets/svg/lesson/lesson.svg" alt="">
-                    <span>{{lesson_course.lesson_count}} Lesson</span>
+                    <span>{{lesson_course?.lesson_count}} Lesson</span>
                 </li>
                 <li class="flex items-center gap-3">
                     <img src="@/assets/svg/lesson/lectures.svg" alt="">
-                    <span>{{lesson_course.lecture_count}} Lectures</span>
+                    <span>{{lesson_course?.lecture_count}} Lectures</span>
                 </li>
                 <li class="flex items-center gap-3">
                     <img src="@/assets/svg/lesson/total.svg" alt="">
@@ -21,7 +21,7 @@
             </ul>
         </nav>
         <section>
-            <p v-html="lesson_course.description"></p>
+            <p v-html="lesson_course?.description"></p>
         </section>
     </div>
 </template>

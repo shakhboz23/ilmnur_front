@@ -29,6 +29,7 @@ export const useApiRequest = () => {
         axios
           .get(url, { headers })
           .then((res) => {
+            console.log(res, "res");
             isLoading.removeLoading(loadingType);
             console.log(isLoading.store.loadingTypes);
             resolve(res);
@@ -45,49 +46,66 @@ export const useApiRequest = () => {
     }
   }
 
-  function post(url: string, data = {}) {
+  function post(url: string, data = {}, loadingType?: string) {
     let headers = getHeader();
+    isLoading.addLoading(loadingType);
     url = endPoint + url;
     return new Promise(function (resolve, reject) {
       axios
         .post(url, data, { headers })
         .then((res) => {
+          isLoading.store.errorMessage.message = "";
+          isLoading.removeLoading(loadingType);
           resolve(res);
         })
         .catch((err) => {
+          isLoading.removeLoading(loadingType);
           reject(err);
           if (err) {
+            isLoading.store.errorMessage.message = err.response.data.message;
             console.log(err);
           }
         });
     });
   }
 
-  function put(url: string, data = {}) {
+  function put(url: string, data = {}, loadingType?: string) {
     let headers = getHeader();
     url = endPoint + url;
+    isLoading.addLoading(loadingType);
     return new Promise(function (resolve, reject) {
       axios
         .put(url, data, { headers: headers })
         .then((res) => {
+          isLoading.removeLoading(loadingType);
+          isLoading.store.errorMessage.message = "";
           resolve(res);
         })
         .catch((err) => {
+          isLoading.removeLoading(loadingType);
+          isLoading.store.errorMessage.message = err.response.data.message;
+          console.log(err);
           reject(err);
         });
     });
   }
 
-  function delete_req(url: string) {
+  function delete_req(url: string, loadingType?: string) {
     let headers = getHeader();
     url = endPoint + url;
+    isLoading.addLoading(loadingType);
     return new Promise(function (resolve, reject) {
       axios
         .delete(url, { headers: headers })
         .then((res) => {
+          isLoading.removeLoading(loadingType);
+          isLoading.store.errorMessage.message = "";
           resolve(res);
         })
         .catch((err) => {
+          isLoading.removeLoading(loadingType);
+          isLoading.store.errorMessage.message = err.response.data.message;
+          console.log(err);
           reject(err);
         });
     });

@@ -12,6 +12,8 @@ export const useLoadingStore = defineStore("loading", () => {
     loadingTypes: [],
     baseUrl: localBaseURL,
     isLogin: false,
+    middleware: true,
+    errorMessage: {},
     // page_name: "",
     // pagination_type: 15,
     pagination: {
@@ -24,6 +26,14 @@ export const useLoadingStore = defineStore("loading", () => {
       from: "",
       to: "",
     },
+  });
+
+  const user = reactive({})
+
+  const modal = reactive({
+    create: false,
+    edit: false,
+    delete: false,
   });
   checkCurrentUrl();
 
@@ -108,6 +118,8 @@ export const useLoadingStore = defineStore("loading", () => {
 
   return {
     store,
+    user,
+    modal,
     addLoading,
     removeLoading,
     isLoadingType,

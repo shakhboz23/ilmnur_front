@@ -1,5 +1,5 @@
 <template>
-    <CategorySlider />
+    <CategorySlider class="mb-5" />
     <Tabs />
 </template>
 

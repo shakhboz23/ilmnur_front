@@ -1,7 +1,7 @@
 <template>
     <aside class="min-w-[260px] h-[calc(100vh_-_140px)] overflow-y-auto noscroll p-4 bg-white r_8">
         <ul class="space-y-7">
-            <li class="flex items-center gap-1">
+            <li v-if="isLoading.store.isLogin" class="flex items-center gap-1">
                 <div class="relative min-w-fit">
                     <div class="clip">
                         <img class="min-h-[53px] min-w-[53px] max-h-[53px] max-w-[53px] rounded-full object-cover"
@@ -12,18 +12,28 @@
                     <img class="absolute rotate-[180deg] -bottom-1 -right-[1px]" src="@/assets/svg/icon/online.svg"
                         alt="" />
                 </div>
+                <!-- {{ isLoading.user }} -->
                 <ul>
-                    <li class="font-bold">Asaloy Yo'ldosheva</li>
+                    <li class="font-bold">{{ isLoading.user?.name }} {{ isLoading.user?.surname }}</li>
                     <li class="flex gap-1 pcursor font-medium text-sm c_c66">
-                        <span>id: 514259</span>
+                        <span>id: {{ isLoading.user?.id }}</span>
                         <img src="@/assets/svg/icon/copy.svg" alt="" />
 
                     </li>
                 </ul>
                 <img class="" src="@/assets/svg/icon/arrow.svg" alt="" />
             </li>
-            <li>
+            <li v-if="!$router.currentRoute.value.path.includes('my_groups')">
                 <router-link :to="i.url" v-for="i in sidebar" :key="i.id">
+                    <div
+                        class="flex items-center hover:bg-[#FF852E] hover:bg-opacity-80 px-2 rounded-lg gap-2 h-12 cursor-pointer text-[#555555]">
+                        <img class="w-5 h-5" :src="i.svg" alt="" />
+                        <p>{{ i.name }}</p>
+                    </div>
+                </router-link>
+            </li>
+            <li v-else>
+                <router-link :to="i.url" v-for="i in group_sidebar" :key="i.id">
                     <div
                         class="flex items-center hover:bg-[#FF852E] hover:bg-opacity-80 px-2 rounded-lg gap-2 h-12 cursor-pointer text-[#555555]">
                         <img class="w-5 h-5" :src="i.svg" alt="" />
@@ -36,7 +46,10 @@
 </template>
 
 <script setup>
-import { sidebar } from "@/constants";
+import { sidebar, group_sidebar } from "@/constants";
+import { useLoadingStore } from "~/store";
+
+const isLoading = useLoadingStore();
 </script>
 
 <style lang="scss" scoped>

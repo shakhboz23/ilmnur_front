@@ -3,7 +3,9 @@
         <div>
             <a-tabs v-model:activeKey="activeKey" animated>
                 <a-tab-pane v-for="i in home_tabs" :key="i.id" :tab="i.name">
-                    <InfiniteScroll />
+                    <!-- <InfiniteScroll /> -->
+                    <!-- <PageHomeLesson /> -->
+                    <component :is="getComponent(i.component)" />
                 </a-tab-pane>
             </a-tabs>
         </div>
@@ -16,6 +18,19 @@ import { useTabs } from "~/composables";
 const router = useRouter();
 const { tabsDrag } = useTabs()
 const activeKey = ref(1);
+const InfiniteScroll = resolveComponent('InfiniteScroll');
+const PageHomeLesson = resolveComponent('PageHomeLesson');
+const PageHomeCourses = resolveComponent('PageHomeCourses');
+
+
+const tabsComponents = {
+    InfiniteScroll,
+    PageHomeLesson,
+    PageHomeCourses,
+}
+const getComponent = (componentName) => {
+    return tabsComponents[componentName];
+}
 
 onMounted(() => {
     tabsDrag();

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <CategorySlider />
+        <CategorySlider class="mb-5" />
         <section class="w-[60%] space-y-5">
             <ul v-for="i in 10" class="space-y-5 pb-10 border-b border-[#EDEDED]">
                 <li class="flex leading-5 gap-3 font-medium">

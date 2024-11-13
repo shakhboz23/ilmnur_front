@@ -7,25 +7,26 @@
                 yangi o'rinni egallashga harakat qiling</p>
         </section>
         <section class="mt-10">
-            <CategorySlider />
+            <CategorySlider class="mb-5" />
             <hr />
             <!-- <ul>
                 <li class="">
 
                 </li>
             </ul> -->
+            <!-- {{useReyting.store.reytings}} -->
             <table class="c_c1f mx-auto w-[80%]">
                 <!-- <tr>
                     <th>Company</th>
                     <th>Contact</th>
                     <th>Country</th>
                 </tr> -->
-                <tr v-for="i in 10">
-                    <td class="w-6">{{ i }}</td>
+                <tr v-for="(i, index) in useReyting.store.reytings">
+                    <td class="w-6">{{ index + 1 }}</td>
                     <td class="flex items-center gap-4 px-4 py-[10px]">
-                        <EmptyAvatar class="!h-10 !w-10" /> <span class="truncate w-[90%]">Maria Anders</span>
+                        <EmptyAvatar class="!h-10 !w-10" /> <span class="truncate w-[90%]">{{i.name}} {{i.surname}}</span>
                     </td>
-                    <td class="c_c75 text-sm whitespace-nowrap">432 ball</td>
+                    <td class="c_c75 text-sm whitespace-nowrap">{{i.totalReyting}} ball</td>
                 </tr>
             </table>
             <ul class="full_flex w-full gap-5 whitespace-nowrap c_main">
@@ -57,7 +58,11 @@
 
 <script setup>
 import EmptyAvatar from '~/components/UI/EmptyAvatar.vue';
+import { useReytingStore } from '~/store';
 
+const useReyting = useReytingStore();
+
+useReyting.getReyting();
 
 </script>
 

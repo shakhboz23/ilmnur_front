@@ -15,7 +15,8 @@
             <section class="px-[0.5px]">
                 <!-- {{ useLessons.store.lessons.video }} -->
                 <div class="w-full h-[312px] bg-black r_8">
-                    <video v-if="useLessons.store.lessons?.video" class="w-full h-[312px] bg-black r_8" controls>
+                    <video capture v-if="useLessons.store.lessons?.video" class="w-full h-[312px] bg-black r_8"
+                        controls>
                         <source :src="useLessons.store.lessons?.video" type="video/mp4">
                         <source :src="useLessons.store.lessons?.video" type="video/ogg">
                         Your browser does not support the video tag.
@@ -24,10 +25,11 @@
                 <div class="flex items-center justify-between my-5">
                     <h1 class="text-xl font-semibold">{{ useLessons.store.lessons?.title }}</h1>
                     <div class="space-x-3">
-                        <button class="b_main p-3 r_8">
+                        <button v-if="useLessons.store.lessons?.course?.user_id != isLoading.user?.id" class="b_main p-3 r_8">
                             <img class="stroke-[#FF852E]" src="@/assets/svg/course/markasread.svg" alt="">
                         </button>
-                        <button class="b_main p-3 r_8">
+                        <button v-if="useLessons.store.lessons?.course?.user_id == isLoading.user?.id"
+                            class="b_main p-3 r_8">
                             <img src="@/assets/svg/course/editpen.svg" alt="">
                         </button>
                     </div>
@@ -55,9 +57,9 @@
 </template>
 
 <script setup>
-import { useLessonsStore } from '~/store';
+import { useLessonsStore, useLoadingStore } from '~/store';
 
-
+const isLoading = useLoadingStore()
 const useLessons = useLessonsStore();
 const store = reactive({
     active_id: 0,

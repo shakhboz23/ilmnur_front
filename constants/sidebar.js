@@ -1,83 +1,126 @@
 import _class from "@/assets/svg/icon/useravatar.svg";
 import _myclass from "@/assets/svg/icon/useravatar.svg";
-import _message from "@/assets/svg/icon/useravatar.svg";
+import _shorts from "@/assets/svg/sidebar/shorts.svg";
 import _settings from "@/assets/svg/icon/useravatar.svg";
-import _lesson from "@/assets/svg/icon/useravatar.svg";
-import _reyting from "@/assets/svg/icon/useravatar.svg";
+import _lessons from "@/assets/svg/sidebar/lessons.svg";
+import _reyting from "@/assets/svg/sidebar/reyting.svg";
 import _news from "@/assets/svg/icon/useravatar.svg";
 import _children from "@/assets/svg/icon/useravatar.svg";
 
 export const sidebar = [
   {
     id: 1,
-    name: "Foydalanuvchilar",
+    name: "Home",
     url: "/",
-    svg: _lesson,
+    svg: _lessons,
     // svgActive: dashboardActive,
     role: ["admin"],
   },
   {
     id: 1,
-    name: "To'lovlar",
-    url: "/",
-    svg: _lesson,
+    name: "Shorts",
+    url: "/shorts",
+    svg: _shorts,
     // svgActive: dashboardActive,
     // role: ["admin"],
     role: ["admin"],
   },
   {
     id: 1,
-    name: "O'qituvchilar",
-    url: "/",
-    svg: _lesson,
+    name: "Subscriptions",
+    url: "/subscriptions",
+    svg: _lessons,
     // svgActive: dashboardActive,
     role: ["admin"],
   },
   {
     id: 1,
-    name: "O'quvchilar",
-    url: "/",
-    svg: _lesson,
+    name: "History",
+    url: "/history",
+    svg: _lessons,
     // svgActive: dashboardActive,
     role: ["admin"],
   },
   {
     id: 1,
-    name: "Darsliklar",
-    url: "/",
-    svg: _lesson,
+    name: "Playlists",
+    url: "/playlists",
+    svg: _lessons,
     // svgActive: dashboardActive,
     role: [],
   },
   {
     id: 1,
-    name: "Reyting",
-    url: "/",
+    name: "Your groups",
+    url: "/my_groups",
     svg: _reyting,
     // svgActive: dashboardActive,
     role: [],
   },
+  // {
+  //   id: 1,
+  //   name: "Sinflar",
+  //   url: "/",
+  //   svg: _class,
+  //   // svgActive: dashboardActive,
+  //   role: ["admin", "teacher"],
+  // },
+  // {
+  //   id: 1,
+  //   name: "Yangiliklar",
+  //   url: "/",
+  //   svg: _news,
+  //   // svgActive: dashboardActive,
+  //   role: [],
+  // },
   {
     id: 1,
-    name: "Sinflar",
+    name: "Sozlamalar",
     url: "/",
-    svg: _class,
+    svg: _lessons,
     // svgActive: dashboardActive,
-    role: ["admin", "teacher"],
+    role: [],
   },
+];
+
+export const group_sidebar = [
   {
     id: 1,
-    name: "Yangiliklar",
-    url: "/",
-    svg: _news,
+    name: "Dashboard",
+    url: "/my_groups",
+    svg: _lessons,
     // svgActive: dashboardActive,
     role: [],
   },
   {
     id: 1,
-    name: "Sozlamalar",
+    name: "Groups",
+    url: "/my_groups/groups",
+    svg: _lessons,
+    // svgActive: dashboardActive,
+    role: [],
+  },
+  {
+    id: 1,
+    name: "Analytics",
     url: "/",
-    svg: _lesson,
+    svg: _lessons,
+    // svgActive: dashboardActive,
+    role: [],
+  },
+  {
+    id: 1,
+    name: "Comments",
+    url: "/",
+    svg: _lessons,
+    // svgActive: dashboardActive,
+    role: [],
+  },
+  {
+    id: 1,
+    name: "Earn",
+    url: "/",
+    svg: _lessons,
     // svgActive: dashboardActive,
     role: [],
   },

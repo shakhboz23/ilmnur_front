@@ -1,9 +1,9 @@
 <template>
-    <nav class="tabnav">
+    <nav class="lesson_tab tabnav -mt-8">
         <div>
             <a-tabs v-model:activeKey="activeKey" animated>
                 <a-tab-pane v-for="i in group_tabs" :key="i.id" :tab="i.name">
-                    <component :is="getComponent(i.component)" />
+                    <component :is="getComponent(i)" />
                 </a-tab-pane>
             </a-tabs>
         </div>
@@ -20,7 +20,9 @@ const PageGroupLessonsMain = resolveComponent('PageGroupLessonsMain');
 const PageGroupReytingMain = resolveComponent('PageGroupReytingMain');
 const PageGroupChatMain = resolveComponent('PageGroupChatMain');
 const PageGroupNewsMain = resolveComponent('PageGroupNewsMain');
+const PageGroupMembersMain = resolveComponent('PageGroupMembersMain');
 const InfiniteScroll = resolveComponent('InfiniteScroll');
+const PageGroupCalendarMain = resolveComponent('PageGroupCalendarMain');
 
 const tabsComponents = {
     InfiniteScroll,
@@ -28,9 +30,12 @@ const tabsComponents = {
     PageGroupReytingMain,
     PageGroupChatMain,
     PageGroupNewsMain,
+    PageGroupMembersMain,
+    PageGroupCalendarMain,
 }
-const getComponent = (componentName) => {
-    return tabsComponents[componentName];
+const getComponent = (component) => {
+    router.push(component.url)
+    return tabsComponents[component.component];
 }
 
 onMounted(() => {

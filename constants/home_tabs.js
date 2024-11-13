@@ -1,20 +1,29 @@
 export const home_tabs = [
+  // {
+  //   id: 1,
+  //   name: "Barchasi",
+  //   url: "/",
+  //   role: [],
+  // },
   {
     id: 1,
-    name: "Barcha kurslar",
+    name: "Darslar",
     url: "/",
+    component: "PageHomeLesson",
     role: [],
   },
   {
     id: 2,
-    name: "O'quv markazlar",
+    name: "Kurslar",
     url: "/",
+    component: "PageHomeCourses",
     role: [],
   },
   {
     id: 3,
-    name: "Onlayn kurslar",
+    name: "Guruhlar",
     url: "/",
+    component: "InfiniteScroll",
     role: [],
   },
 ];

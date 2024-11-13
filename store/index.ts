@@ -1,3 +1,7 @@
+import { useSubscriptionStore } from './subscriptions';
+import { useReytingStore } from './reyting';
+import { useTestsStore } from './tests';
+import { useAuthStore } from './auth';
 import { useLessonsStore } from './lessons';
 import { useLoadingStore } from "./loading"
 import { useCoursesStore } from "./courses"
@@ -10,4 +14,8 @@ export {
     useCoursesStore,
     useCategoryStore,
     useLessonsStore,
+    useAuthStore,
+    useTestsStore,
+    useReytingStore,
+    useSubscriptionStore,
 }
