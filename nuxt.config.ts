@@ -40,26 +40,28 @@ export default defineNuxtConfig({
       ],
     },
   },
+
   runtimeConfig: {
     public: {
       baseURL: process.env.BASE_URL,
       localBaseURL: process.env.LOCAL_BASE_URL,
       client_id: process.env.CLIENT_ID,
+      openaiApiKey: process.env.OPENAI_API_KEY
     },
   },
+
   css: ["~/assets/scss/main.scss"],
   modules: ["@pinia/nuxt", "@nuxtjs/tailwindcss", "nuxt-swiper"],
+
   postcss: {
     plugins: {
       tailwindcss: {},
       autoprefixer: {},
     },
   },
+
   plugins: ["~/plugins/ant-design-vue.client.ts"],
-  typescript: {
-    typeCheck: true,
-    strict: false,
-  },
+
   // router: {
   //   extendRoutes(routes, resolve) {
   //     routes.push({
@@ -69,4 +71,10 @@ export default defineNuxtConfig({
   //     })
   //   }
   // },
+  typescript: {
+    typeCheck: true,
+    strict: false,
+  },
+
+  compatibilityDate: "2024-11-15",
 });

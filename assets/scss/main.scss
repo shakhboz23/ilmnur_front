@@ -44,10 +44,18 @@ select,
 }
 
 .ck-editor {
-  * {
+  .ck-sticky-panel__content,
+  .ck-content,
+  .ck-toolbar {
     border: 0 !important;
+    border-radius: 8px !important;
   }
 }
+.ck-editor {
+  border-radius: 8px;
+  border: 1px solid #EDEDED !important;
+}
+
 input::-webkit-inner-spin-button,
 input::-webkit-outer-spin-button {
   -moz-appearance: textfield;

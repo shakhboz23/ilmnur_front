@@ -39,6 +39,9 @@
                                 </div>
                             </th>
                             <td class="px-6 py-5">
+                                <button class="bg-[#13C1B7] text-white py-1 px-5 rounded-full">{{i.course?.title}}</button>
+                            </td>
+                            <td class="px-6 py-5">
                                 <button class="bg_main text-white py-1 px-3 rounded-full">{{i.is_active}}</button>
                             </td>
                             <td class="px-6 py-5">

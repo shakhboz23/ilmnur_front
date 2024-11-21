@@ -14,7 +14,8 @@
         @update:isOpen="(value) => handleModal(value)">
         <div class="space-y-6">
             <label for="file_input" class="block pcursor">
-                <img class="aspect-video w-full object-cover r_8" v-if="useGroups.store.image" :src="useGroups.store.image" alt="">
+                <img class="aspect-video w-full object-cover r_8" v-if="useGroups.store.image"
+                    :src="useGroups.store.image" alt="">
                 <div v-else
                     class="aspect-video w-full full_flex flex-col text-center space-y-10 r_8 py-10 border border-dashed border-[#CCCCCC]">
                     <button class="bg_main py-2 px-7 text-white rounded-full">Rasm yuklash</button>
@@ -26,8 +27,10 @@
             <a-textarea v-model:value="useGroups.create.description" placeholder="Description"
                 :auto-size="{ minRows: 2, maxRows: 10 }" />
             <a-select class="w-full" v-model:value="value" show-search placeholder="Select a person"
-                :options="options" :filter-option="filterOption" @focus="handleFocus" @blur="handleBlur"
-                @change="handleChange"></a-select>
+                :filter-option="filterOption" @focus="handleFocus"
+                @blur="handleBlur" @change="handleChange">
+                <a-select-option v-for="i in useCategory.store.category" :value="i.id">{{ i.category }}</a-select-option>
+            </a-select>
             <p class="c_red">{{ isLoading.store.errorMessage.message }}</p>
         </div>
         <div class="file_input">
@@ -38,21 +41,22 @@
         @update:isOpen="(value) => handleModal(value)" />
 </template>
 <script setup>
-import { useLoadingStore, useGroupsStore } from '~/store';
+import { useLoadingStore, useGroupsStore, useCategoryStore } from '~/store';
 
 const isLoading = useLoadingStore();
 const useGroups = useGroupsStore();
+const useCategory = useCategoryStore();
 
 const store = reactive({
     courses: [],
     create: false,
 })
 
-const options = ref([
-  { value: 'jack', label: 'Jack' },
-  { value: 'lucy', label: 'Lucy' },
-  { value: 'tom', label: 'Tom' },
-]);
+// const options = ref([
+//   { value: 'jack', label: 'Jack' },
+//   { value: 'lucy', label: 'Lucy' },
+//   { value: 'tom', label: 'Tom' },
+// ]);
 
 function handleModal(value) {
     if (value == "OK") {
@@ -78,6 +82,7 @@ function handleImage(e) {
 
 onBeforeMount(() => {
     useGroups.getGroups();
+    useCategory.getCategory();
 })
 </script>
 

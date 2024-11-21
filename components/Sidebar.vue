@@ -1,5 +1,5 @@
 <template>
-    <aside class="min-w-[260px] h-[calc(100vh_-_140px)] overflow-y-auto noscroll p-4 bg-white r_8">
+    <aside class="min-w-[260px] h-[calc(100vh_-_140px)] overflow-y-auto noscroll md:p-4 bg-white r_8">
         <ul class="space-y-7">
             <li v-if="isLoading.store.isLogin" class="flex items-center gap-1">
                 <div class="relative min-w-fit">

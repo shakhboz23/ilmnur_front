@@ -5,13 +5,16 @@
                 <LoadingDiv class="w-20 h-full min-h-[34px] r_f" />
             </button>
         </div>
-        <div v-else class="tab-bar">
+        <div v-else class="tab-bar whitespace-nowrap">
             <button class="left-arrow">
                 <img class="rotate-90" src="@/assets/svg/icon/arrow.svg" alt="">
             </button>
             <ul class="tabs">
-                <button class="bg_main r_20 py-2 px-3 text-xs c_white">All</button>
-                <button v-for="i in useCategory.store.category" class="b_main r_20 py-2 px-3 text-xs c_main">{{i.name}}</button>
+                <button @click="setCategory(0)" class="duration-700 r_20 py-2 px-3 text-xs b_main"
+                    :class="isLoading.store.category_id == 0 ? 'bg_main c_white' : 'c_main'">All</button>
+                <button @click="setCategory(i)" v-for="i in category" class="duration-700 r_20 py-2 px-3 text-xs b_main"
+                    :class="isLoading.store.category_id == i.id ? 'bg_main c_white' : 'c_main'">{{ i.category || i.title
+                    }}</button>
             </ul>
             <button class="right-arrow active">
                 <img class="-rotate-90" src="@/assets/svg/icon/arrow.svg" alt="">
@@ -23,8 +26,24 @@
 <script setup>
 import { useLoadingStore, useCategoryStore } from '~/store';
 
+defineProps({
+    category: {
+        type: Array,
+        default: [],
+    },
+});
 const isLoading = useLoadingStore();
 const useCategory = useCategoryStore();
+const router = useRouter();
+
+function setCategory(category) {
+    isLoading.store.category_id = category.id || 0
+    category == 0 ? router.push({
+        query: {
+            category: undefined
+        }
+    }) : router.push(`?category=${category.category}`);
+}
 
 onMounted(() => {
     const tabs = document.querySelectorAll(".stack-tab-container a.tab");
@@ -152,7 +171,7 @@ function smoothScroll(element, target, duration) {
 .stack-tab-container .left-arrow,
 .stack-tab-container .right-arrow {
     position: absolute;
-    width: 100px;
+    width: 50px;
     height: 100%;
     top: 0;
     display: none;

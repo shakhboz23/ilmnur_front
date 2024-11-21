@@ -104,8 +104,8 @@
                 :auto-size="{ minRows: 2, maxRows: 10 }" />
         </div>
         <div v-else>
-            <FloatingInput :id="'title'" :maxValue="50" class="w-full" :type="'text'" v-model="useLessons.store.create.title"
-                :label="'Title'" required />
+            <FloatingInput :id="'title'" :maxValue="50" class="w-full" :type="'text'"
+                v-model="useLessons.store.create.title" :label="'Title'" required />
         </div>
         <div class="file_input">
             <input @change="handleVideo" id="file_input" class="file_input" type="file">

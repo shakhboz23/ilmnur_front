@@ -1,11 +1,13 @@
 import { useApiRequest } from "~/composables";
 import type { CoursesType } from "~/types/store";
 import { useLoadingStore } from "./loading";
+import { useSubscriptionStore } from "./subscriptions";
 
 export const useCoursesStore = defineStore("courses", () => {
   const apiRequest = useApiRequest();
   const router = useRouter();
   const isLoading = useLoadingStore();
+  const useSubscription = useSubscriptionStore();
 
   const store: CoursesType = reactive({
     courses: [],
@@ -21,6 +23,7 @@ export const useCoursesStore = defineStore("courses", () => {
     price: "0",
     discount: "0",
     group_id: router.currentRoute.value.params.group_id,
+    category_id: null,
   });
 
   function clearData() {
@@ -47,11 +50,11 @@ export const useCoursesStore = defineStore("courses", () => {
 
   async function getUsersByGroupId() {
     const data: any = await apiRequest.get(
-      `course/getUsersByGroupId/${router.currentRoute.value.params.group_id}`,
+      `course/getUsersByGroupId/${router.currentRoute.value.params.group_id}?date=${useSubscription.store.currentDate}`,
       "course"
     );
     console.log(data, "users");
-    store.users = data.data.subscriptions;
+    store.users = data.data;
   }
 
   async function subscribeCourse(id: any) {

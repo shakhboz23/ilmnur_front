@@ -35,6 +35,14 @@ export const sidebar = [
   },
   {
     id: 1,
+    name: "Categories",
+    url: "/categories",
+    svg: _lessons,
+    // svgActive: dashboardActive,
+    role: [],
+  },
+  {
+    id: 1,
     name: "History",
     url: "/history",
     svg: _lessons,
@@ -103,7 +111,7 @@ export const group_sidebar = [
   {
     id: 1,
     name: "Analytics",
-    url: "/",
+    url: "/my_groups/analytics",
     svg: _lessons,
     // svgActive: dashboardActive,
     role: [],
@@ -111,7 +119,7 @@ export const group_sidebar = [
   {
     id: 1,
     name: "Comments",
-    url: "/",
+    url: "/my_groups/comments",
     svg: _lessons,
     // svgActive: dashboardActive,
     role: [],
@@ -119,7 +127,7 @@ export const group_sidebar = [
   {
     id: 1,
     name: "Earn",
-    url: "/",
+    url: "/my_groups/earn",
     svg: _lessons,
     // svgActive: dashboardActive,
     role: [],

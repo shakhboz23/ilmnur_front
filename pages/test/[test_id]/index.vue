@@ -13,6 +13,9 @@
                             <img class="h-7 w-7" src="@/assets/svg/image/word.png" alt="" />
                             <p>WORD</p>
                         </label>
+                        <div class="file_input">
+                            <input @change="importFile" class="file_input" type="file" id="import_file" />
+                        </div>
                     </div>
                     <button @click="isLoading.modal.create = true" class="bg-white rounded-md p-1.5 w-10">
                         <img class="mx-auto" src="@/assets/svg/icon/settings.svg" alt="" />
@@ -20,59 +23,60 @@
                 </div>
             </div>
             <ul class="flex flex-wrap gap-3">
-                <li @click="store.slideStep = index + 1" v-for="(_, index) in 50"
+                <li @click="store.slideStep = index" v-for="(_, index) in useTests.test"
                     class="w-10 h-10 r_f full_flex text-sm pcursor"
-                    :class="store.slideStep == index + 1 ? 'bg_main text-white' : 'bg_white'">{{ index + 1 }}</li>
+                    :class="store.slideStep == index ? 'bg_main text-white' : 'bg_white'">{{ index }}</li>
             </ul>
         </nav>
         <section>
-            <div class="px-2 py-6">
-                <ul class="flex items-center justify-between my-6">
-                    <li class="text-lg font-semibold">1. Savol </li>
-                    <!-- <li>Multiple</li> -->
-                    <a-select class="min-w-fit" v-model:value="role" placeholder="Select a person" :options="testType"
-                        @change="handleChange"></a-select>
-                </ul>
-                <!-- <a-textarea v-model:value="description" placeholder="Description"
-                    :auto-size="{ minRows: 2, maxRows: 10 }" /> -->
-                    <div>
-                        <ClientOnly>
-                            <Editor_cki @input="handleInput" />
-                        </ClientOnly>
-                    </div>
-                <h2 class="font-medium mt-6 mb-4">Resurslarni biriktiring</h2>
-                <button class="full_flex gap-3 b_ced py-2 px-8 rounded-full">
-                    <img src="@/assets/svg/group/upload.svg" alt="">
-                    <span>Fayl biriktirish</span>
-                </button>
-            </div>
-            <hr />
-            <div class="px-2 py-6">
-                <h2>Variantlar</h2>
-                <p class="mt-3 mb-6">To‘g‘ri javobni belgilang</p>
-                <ul class="bg_cf5 min-h-fit p-4 r_8">
-                    <li class="flex gap-4">
-                        <a-checkbox>
-                        </a-checkbox>
-                        <a-textarea class="border-none bg-transparent w-full" v-model:value="description"
-                            placeholder="Description" :auto-size="{ minRows: 1, maxRows: 10 }" />
-                    </li>
-                    <hr />
-                    <li class="flex gap-4">
-                        <a-checkbox>
-                        </a-checkbox>
-                        <a-textarea class="border-none bg-transparent w-full" v-model:value="description"
-                            placeholder="Description" :auto-size="{ minRows: 1, maxRows: 10 }" />
-                    </li>
-                    <hr />
-                    <li class="flex gap-4">
-                        <a-checkbox>
-                        </a-checkbox>
-                        <a-textarea class="border-none bg-transparent w-full" v-model:value="description"
-                            placeholder="Description" :auto-size="{ minRows: 1, maxRows: 10 }" />
-                    </li>
-                </ul>
-            </div>
+            <ClientOnly>
+                <swiper @slider-move="changeSlide" :watchSlidesProgress="true" :slidesPerView="1" :spaceBetween="30"
+                    :pagination="{ clickable: true }" :modules="modules" class="flex max-w-[50vw] overflow-hidden">
+                    <swiper-slide :id="index + 1" class="min-w-full" v-for="(i, index) in useTests.test">
+                        <div class="px-2 py-6">
+                            <ul class="flex items-center justify-between my-6">
+                                <li class="text-lg font-semibold">{{ index }}. Savol </li>
+                                <a-select class="min-w-[200px]" v-model:value="useTests.test[index].type"
+                                    placeholder="Select a person" show-search :options="testType"></a-select>
+                            </ul>
+                            <div>
+                                <ClientOnly>
+                                    <CKEditor class="minh_80" v-model:editorContent="useTests.test[index].question[0]"
+                                        :toolbar="false" :placeholder="'Savolingizni shu yerga yozing'" />
+                                </ClientOnly>
+                            </div>
+                            <h2 class="font-medium mt-6 mb-4">Resurslarni biriktiring</h2>
+                            <button class="full_flex gap-3 b_ced py-2 px-8 rounded-full">
+                                <img src="@/assets/svg/group/upload.svg" alt="">
+                                <span>Fayl biriktirish</span>
+                            </button>
+                        </div>
+                        <hr />
+                        <div class="px-2 py-6">
+                            <h2 class="text-2xl">Variantlar</h2>
+                            <p class="mt-3 mb-6">To‘g‘ri javobni belgilang</p>
+                            <ul class="min-h-fit p-4 r_8" :class="checkCurrentType(useTests.test[index].type, false)">
+                                <li v-for="(i, v_index) in useTests.test[index]?.variant">
+                                    <div class="flex gap-4 bg_cf5 px-4 r_8"
+                                        :class="checkCurrentType(useTests.test[index].type, true)">
+                                        <a-checkbox>
+                                        </a-checkbox>
+                                        <ClientOnly>
+                                            <CKEditor class="w-full b-none"
+                                                v-model:editorContent="useTests.test[index].variant[v_index]"
+                                                :toolbar="false" :placeholder="'Savolingizni shu yerga yozing'" />
+                                        </ClientOnly>
+                                    </div>
+                                    <hr class="w-full" />
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="text-end">
+                            <button class="bg_main text-white px-8 py-2 rounded-full">Keyingi</button>
+                        </div>
+                    </swiper-slide>
+                </swiper>
+            </ClientOnly>
         </section>
     </div>
     <div v-else>
@@ -90,7 +94,7 @@
                     <div>
                         <nav class="min-w-[50vw]">
                             <ul class="flex flex-wrap gap-3">
-                                <li @click="store.slideStep = index + 1" v-for="(_, index) in useTests.store.tests.test"
+                                <li @click="store.slideStep = index + 1" v-for="(_, index) in useTests.store.tests"
                                     class="w-6 h-6 r_f full_flex text-sm text-white pcursor"
                                     :class="store.slideStep == index + 1 ? 'bg_main' : 'bg_cee'">{{ index + 1 }}</li>
                             </ul>
@@ -98,14 +102,11 @@
                         <swiper @slider-move="changeSlide" :watchSlidesProgress="true" :slidesPerView="1"
                             :spaceBetween="30" :pagination="{ clickable: true }" :modules="modules"
                             class="flex max-w-[50vw] overflow-hidden">
-                            <swiper-slide :id="index + 1" class="min-w-full"
-                                v-for="(i, index) in useTests.store.tests.test">
+                            <swiper-slide :id="index + 1" class="min-w-full" v-for="(i, index) in useTests.store.tests">
                                 <section
                                     class="max-h-[calc(100vh_-_300px)] min-h-[calc(100vh_-_300px)] overflow-y-auto mt-10 space-y-7 max-w-fit mx-auto">
-                                    <h1 class="font-bold text-2xl break-words">{{ index + 1 }}. {{ i.question }}hkhl lhl
-                                        hh lkjhjk kjklhdksljkdffkj
-                                        fkdsjfslkdfjdsffkdsjfslkdfjdsffkdsjfslkdfjdsffkdsjfslkdfjdsf
-                                        fkdsjfslkdfjdsffkdsjfslkdfjdsffkdsjfslkdfjdsffkdsjfslkdfjdsffkdsjfslkdfjdsffkdsjfslkdfjdsffkdsjfslkdfjdsffkdsjfslkdfjdsffkdsjfslkdfjdsf
+                                    <h1 class="font-bold text-2xl break-words">
+                                        {{ index + 1 }}. {{ i.question }}
                                     </h1>
                                     <hr />
                                     <ul class="space-y-4 pcursor">
@@ -153,11 +154,11 @@
                         <!-- {{ Object.keys(useTests.store.checked_answers)?.length + ' ' + useTests.store.tests.test?.length }} -->
                         <li>
                             <button
-                                v-if="Object.keys(useTests.store.checked_answers)?.length == useTests.store.tests.test?.length"
+                                v-if="Object.keys(useTests.store.checked_answers)?.length == useTests.store.tests?.length"
                                 @click="() => useTests.checkAllAnswers()"
                                 class="bg_main px-[54px] py-3 r_50 text-white">Yakunlash</button>
                             <button v-else-if="isNaN(useTests.store.checked_answers[store.slideStep])"
-                                @click="() => { useTests.checkAnswer(useTests.store.tests.test[store.slideStep - 1]?.id, store.slideStep) }"
+                                @click="() => { useTests.checkAnswer(useTests.store.tests[store.slideStep - 1]?.id, store.slideStep) }"
                                 class="bg_main px-[54px] py-3 r_50 text-white">Tekshirish</button>
                             <button v-else @click="() => store.slideStep++"
                                 class="bg_main px-[54px] py-3 r_50 text-white">Keyingisi</button>
@@ -254,45 +255,69 @@
                         const hour = +hours[0] * 60;
                         const minute = +hours[1];
                         useTests.test_settings.period = minute + hour;
-                    }
-                        " format="HH:mm" value-format="HH:mm" placeholder="00:00" />
+                    }" format="HH:mm" value-format="HH:mm" placeholder="00:00" />
                 </div>
             </div>
-            <div class="space-y-2">
+            <div class="space-y-3">
                 <h2>Saralash</h2>
+                <div class="py-2 space-x-3">
+                    <label for="filter">Aralashtirish</label>
+                    <a-switch id="filter" v-model:checked="useTests.test_settings.mix" />
+                </div>
                 <label for="sortnum">Saralash bosqichi</label>
-                <div class="flex items-center gap-4" v-for="(i, index) in useTests.store.test_step">
-                    {{ index + 1 }}.
+                <div class="space-y-4">
                     <a-select v-model:value="useTests.test_settings.sort_level[index]"
-                        class="min-w-[80px] test_arrow !h-[42px] sr_12" show-search required>
-                        <a-select-option v-for="i in useTests.store.test_count" :value="i">{{ i }}</a-select-option>
+                        class="min-w-[80px] w-full test_arrow !h-[42px] sr_12" show-search required>
+                        <a-select-option v-for="i in useTests.store.questions_count" :value="i">{{ i
+                            }}</a-select-option>
                         <!-- <template #suffixIcon>
                             <div class="full_flex bg-[#FFF3EB] w-[42px] !h-[42px]">
                                 <img src="@/assets/svg/icon/arrow.svg" alt="" />
                             </div>
                         </template> -->
                     </a-select>
-                    <p @click="addTestStep('add')" v-if="useTests.store.test_step == index + 1"
+                    <!-- <p @click="addTestStep('add')" v-if="useTests.store.test_step == index + 1"
                         class="full_flex min-w-[50px] h-[50px] rounded-full border border-[#CCCCCC] cursor-pointer">
                         <img src="@/assets/svg/icon/plus.svg" alt="" />
                     </p>
                     <p v-else @click="addTestStep('remove', index)"
                         class="full_flex min-w-[50px] h-[50px] rounded-full border border-[#CCCCCC] cursor-pointer">
                         <img src="@/assets/svg/icon/minus.svg" alt="" />
-                    </p>
+                    </p> -->
+                    <div class="flex items-center gap-4" v-for="(i, index) in useTests.store.test_step">
+                        {{ index + 1 }}.
+                        <a-select v-model:value="useTests.test_settings.sort_level[index][0]"
+                            class="min-w-[80px] test_arrow w-full !h-[42px] sr_12" show-search required>
+                            <a-select-option v-for="i in subjects" :value="i">{{ i
+                                }}</a-select-option>
+                        </a-select>
+                        <a-select v-model:value="useTests.test_settings.sort_level[index][1]"
+                            class="min-w-[80px] test_arrow !h-[42px] sr_12" show-search required>
+                            <a-select-option v-for="i in useTests.store.questions_count" :value="i">{{ i
+                                }}</a-select-option>
+                        </a-select>
+                        <a-select v-model:value="useTests.test_settings.sort_level[index][2]"
+                            class="min-w-[80px] test_arrow !h-[42px] sr_12" show-search required>
+                            <a-select-option v-for="i in useTests.store.questions_count" :value="i">{{ i
+                                }}</a-select-option>
+                        </a-select>
+                        <p @click="addTestStep('add', index)" v-if="useTests.store.test_step == index + 1"
+                            class="full_flex min-w-[50px] h-[50px] rounded-full border border-[#CCCCCC] cursor-pointer">
+                            <img src="@/assets/svg/icon/plus.svg" alt="" />
+                        </p>
+                        <p v-else @click="addTestStep('remove', index)"
+                            class="full_flex min-w-[50px] h-[50px] rounded-full border border-[#CCCCCC] cursor-pointer">
+                            <img src="@/assets/svg/icon/minus.svg" alt="" />
+                        </p>
+                    </div>
                 </div>
                 <div class="grid grid-cols-3">
                     <div class="space-y-2">
                         <label for="sortnum">Testlar soni</label>
                         <a-select v-model:value="useTests.test_settings.test_count"
                             class="min-w-[80px] test_arrow !h-[42px] sr_12" show-search required>
-                            <a-select-option v-for="i in useTests.store.test_count" :value="i">{{ i
+                            <a-select-option v-for="i in useTests.store.questions_count" :value="i">{{ i
                                 }}</a-select-option>
-                            <!-- <template #suffixIcon>
-                                <div class="full_flex bg-[#FFF3EB] w-[42px] !h-[42px]">
-                                    <img src="@/assets/svg/icon/arrow.svg" alt="" />
-                                </div>
-                            </template> -->
                         </a-select>
                     </div>
                 </div>
@@ -323,16 +348,19 @@ import pen from "@/assets/svg/test/pen.svg"
 import calculator from "@/assets/svg/test/calculator.svg"
 import periodic from "@/assets/svg/test/periodic.svg"
 import { useLoadingStore, useTestsStore } from "~/store";
-import { isNumericLiteral } from "typescript";
+import mammoth from "mammoth";
 
 const testBar = [time, pen, calculator, periodic]
 const modules = [Pagination];
+const editorData = ref('')
+const editorData2 = ref('')
 
-const testType = ref([
-    { value: 'Multiple', label: 'Multiple choise' },
-    { value: 'filled', label: 'To‘ldiriladigan' },
-    { value: 'draggable', label: 'Moslashtiriladigan' },
-]);
+const testType = [
+    { value: 'variant', label: 'Variantli' },
+    { value: 'multiple', label: 'Multiple choise' },
+    { value: 'fill', label: 'To‘ldiriladigan' },
+    { value: 'customizable', label: 'Moslashtiriladigan' },
+];
 
 const useTests = useTestsStore();
 const isLoading = useLoadingStore();
@@ -340,25 +368,121 @@ useTests.getByLesson();
 
 const store = reactive({
     slideStep: 1,
+    convertedContent: [],
 })
+
+const subjects = [
+    "Matematika",
+    "Ona tili",
+    "Rus tili",
+    "Tarix",
+]
 
 
 function handleModal(value) {
     if (value == "OK") {
         if (isLoading.modal.delete) {
-            useCourses.deleteCourse();
+            // useCourses.deleteCourse();
         } else if (isLoading.modal.create && !isLoading.modal.edit) {
-            useCourses.createCourse();
+            // useCourses.createCourse();
         } else {
-            useCourses.updateCourse();
+            // useCourses.updateCourse();
         }
     } else {
         isLoading.modal.create = false;
         isLoading.modal.delete = false;
-        useCourses.clearData();
+        // useCourses.clearData();
     }
 }
 
+function checkCurrentType(type, is_inline) {
+    if (type == 'variant') {
+        return is_inline ? 'mb-5' : 'space-y-5'
+    } else if (type == 'multiple' || type == 'fill') {
+        return 'bg_cf5'
+    } else if (type == 'customizable') {
+        return is_inline ? 'mb-5' : 'grid grid-cols-2 -mt-5 gap-5'
+    }
+}
+
+function addTestStep(type, index) {
+    console.log(index);
+    if (type == "add") {
+        useTests.test_settings.sort_level[index + 1] = [null, null, null];
+        useTests.store.test_step += 1;
+    } else {
+        useTests.test_settings.sort_level.splice(index, 1);
+        useTests.store.test_step -= 1;
+    }
+}
+
+async function importFile(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const result = await convertFileToHtml(file);
+    console.log(result);
+    store.convertedContent = result.value;
+    htmlTableToArray(result.value);
+}
+
+function htmlTableToArray(htmlTable) {
+    const rows = htmlTable.match(/<tr>.*?<\/tr>/gs); // Extract rows
+    if (!rows) return [];
+
+    let result = rows.map((row) => {
+        const cells = row.match(/<td>(.*?)<\/td>/gs); // Extract cells
+        if (!cells) return [];
+        return cells.map((cell) => cell.replace(/<\/?td>/g, "")); // Remove <td> tags
+    });
+
+    result.shift();
+    console.log(result, "res");
+    let test = {};
+    useTests.store.questions_count = result.length;
+
+    for (let i = 0; i < result.length; i++) {
+        // Initialize `useTests.test[i + 1]` as an object if it hasn't been initialized yet
+        // console.log(useTests.test[i + 1]);
+        if (!useTests.test[i + 1]) {
+            useTests.test[i + 1] = { question: [], variant: [] };
+        } else if (i == 0) {
+            useTests.test[i + 1] = { question: [], variant: [] };
+        }
+        // Set the question
+        useTests.test[i + 1].question[0] = result[i][1];
+        // Initialize and populate variants
+        for (let j = 2; j < result[i]?.length; j++) {
+            useTests.test[i + 1].variant[j - 2] = result[i][j];
+        }
+    }
+    // return result;
+    // const regex = /<p>(.*?)<\/p>/g;
+    // const matches = htmlTable.match(regex);
+    // if (!matches) return [];
+
+    // matches.map((match) => match.replace(/<\/?p>/g, ""));
+    // console.log(matches);
+}
+
+function convertFileToHtml(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = async (event) => {
+            const arrayBuffer = event.target.result;
+            console.log(arrayBuffer);
+            const result = await mammoth.convertToHtml(
+                { arrayBuffer },
+                {
+                    styleMap: ["p[style-name='Equation'] => span.math-display:fresh"],
+                }
+            );
+            console.log(result);
+            resolve(result);
+        };
+        reader.onerror = reject;
+        reader.readAsArrayBuffer(file);
+    });
+}
 
 function selectedAnswer(id, variant) {
     //   if (!useTests.store.isTestEnd) {
@@ -375,8 +499,6 @@ function changeSlide() {
 watch(
     () => store.slideStep,
     () => {
-        // useUser.create.role = roles[store.slideStep].role;
-        // useUser.getAll();
         const swiper = document.querySelector(".swiper-pagination-clickable");
         const swiperCount = document.querySelectorAll(".swiper-wrapper>div");
         console.log(swiperCount.length);
@@ -386,9 +508,6 @@ watch(
                 secondChild.click();
             }
         }
-
-
-        // router.push(`/users?role=${store.activeTab}`);
     }
 );
 </script>

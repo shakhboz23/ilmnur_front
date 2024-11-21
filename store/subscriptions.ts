@@ -2,6 +2,8 @@ import { useApiRequest } from "~/composables";
 import { useLoadingStore } from "./loading";
 import { useAuthStore } from "./auth";
 import { useCoursesStore } from "./courses";
+// import { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
 
 export const useSubscriptionStore = defineStore("subscription", () => {
   const apiRequest = useApiRequest();
@@ -12,6 +14,8 @@ export const useSubscriptionStore = defineStore("subscription", () => {
 
   const store: any = reactive({
     course_id: 0,
+    subscription_id: 0,
+    currentDate: dayjs(new Date()),
   });
 
   // const create: any = reactive({});
@@ -42,6 +46,21 @@ export const useSubscriptionStore = defineStore("subscription", () => {
         course_id: 1,
       }
       // "subscriptions"
+    );
+    useCourses.getUsersByGroupId();
+    isLoading.modal.create = false;
+    console.log(data);
+  }
+
+  
+  async function changeSubscriptionStatus(status: string) {
+    const data: any = await apiRequest.post(
+      "subscription_activity/create",
+      {
+        subscription_id: store.subscription_id,
+        status,
+        date: store.currentDate,
+      }
     );
     useCourses.getUsersByGroupId();
     isLoading.modal.create = false;
@@ -82,5 +101,6 @@ export const useSubscriptionStore = defineStore("subscription", () => {
     store,
     clearData,
     createSubscribeUser,
+    changeSubscriptionStatus,
   };
 });

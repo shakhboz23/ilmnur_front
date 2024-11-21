@@ -12,11 +12,26 @@ export const useTestsStore = defineStore("tests", () => {
     true_answers: {},
     checked_answers: {},
     is_checked: false,
+    questions_count: 0,
+    test_step: 1,
   });
 
-  const test_settings: any = reactive({
-    
-  })
+  const test = reactive({
+    1: {
+      question: [],
+      variant: [],
+      type: "variant"
+    }
+  });
+
+  const test_settings = reactive({
+    start_date: "",
+    end_date: "",
+    sort_level: [[]],
+    test_count: "",
+    period: "",
+    mix: true,
+  });
 
   async function getByLesson() {
     const data: any = await apiRequest.get(
@@ -56,6 +71,7 @@ export const useTestsStore = defineStore("tests", () => {
 
   return {
     store,
+    test,
     test_settings,
     getByLesson,
     checkAnswer,

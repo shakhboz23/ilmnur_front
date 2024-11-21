@@ -1,13 +1,16 @@
 <template>
   <nav class="full_flex bg_white r_8 py-4 px-5 !justify-between">
-    <ul class="full_flex gap-20 w-[50%]">
+    <ul class="flex md:justify-center items-center md:gap-20 gap-4 w-[50%] h-[40px]">
+      <li class="md:hidden block" @click="isLoading.store.drawer = true">
+        <img class="h-6 min-w-[24px]" src="@/assets/svg/icon/menu.svg" alt="">
+      </li>
       <li>
         <router-link to="/">
           <img class="min-w-fit" src="public/logo.svg" alt="">
         </router-link>
       </li>
-      <li class="bg_cf5 relative r_8 w-full">
-        <input type="text" class="h-[46px]" placeholder="Qidirish...">
+      <li class="md:block hidden bg_cf5 relative r_8 w-full">
+        <input type="text" class="h-[40px]" placeholder="Qidirish...">
         <img class="absolute top-0 bottom-0 my-auto right-5" src="@/assets/svg/nav/search.svg" alt="">
       </li>
     </ul>

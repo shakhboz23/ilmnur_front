@@ -4,4 +4,6 @@ export interface LoadingType {
     isLogin: boolean;
     middleware: boolean;
     pagination: Object;
+    category_id: number,
+    drawer: boolean,
 }

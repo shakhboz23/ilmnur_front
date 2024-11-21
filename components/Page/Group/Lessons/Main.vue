@@ -7,14 +7,14 @@
                 <LoadingDiv v-for="i in 12" class="w-full h-full min-h-[360px] r_12 !overflow-hidden" />
             </div>
             <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5" v-else>
-                <PageGroupLessonsCard :lessoncarddata="i" v-for="i in useLessons.store.lessons" />
+                <PageGroupLessonsCard :lessoncarddata="i" v-for="i in useLessons.store.courses" />
 
                 <div @click="isLoading.modal.create = true" class="addbox addbox-h">Guruh qo'shish</div>
             </div>
         </section>
         <!-- modal -->
-        <UIModal v-if="!$router.currentRoute.value.query.page" :isOpen="isLoading.modal.create" :loadingType="'creategroup'"
-            @update:isOpen="(value) => handleModal(value)">
+        <UIModal v-if="!$router.currentRoute.value.query.page" :isOpen="isLoading.modal.create"
+            :loadingType="'creategroup'" @update:isOpen="(value) => handleModal(value)">
             <div class="space-y-6">
                 <label for="file_input" class="block pcursor">
                     <img class="aspect-video w-full object-cover r_8" v-if="useCourses.store.image"
@@ -29,9 +29,12 @@
                     v-model="useCourses.create.title" :label="'Title'" required />
                 <a-textarea v-model:value="useCourses.create.description" placeholder="Description"
                     :auto-size="{ minRows: 2, maxRows: 10 }" />
-                <a-select class="w-full" v-model:value="value" show-search placeholder="Select a person"
-                    :options="options" :filter-option="filterOption" @focus="handleFocus" @blur="handleBlur"
-                    @change="handleChange"></a-select>
+                <a-select class="w-full" v-model:value="useCourses.create.category_id" show-search placeholder="Select a person"
+                    :filter-option="filterOption" @focus="handleFocus" @blur="handleBlur" @change="handleChange">
+                    <a-select-option v-for="i in useCategory.store.category" :value="i.id">
+                        {{ i.category }}
+                    </a-select-option>
+                </a-select>
                 <div class="grid grid-cols-2 gap-5">
                     <FloatingInput :id="'price'" :is_select="true" class="w-full" :type="'text'"
                         v-model="useCourses.create.price" :label="'Price'" required />
@@ -50,10 +53,11 @@
 </template>
 
 <script setup>
-import { useCoursesStore, useLessonsStore, useLoadingStore } from '~/store';
+import { useCategoryStore, useCoursesStore, useLessonsStore, useLoadingStore } from '~/store';
 
 const isLoading = useLoadingStore();
 const useLessons = useLessonsStore();
+const useCategory = useCategoryStore();
 const useCourses = useCoursesStore();
 
 function handleModal(value) {

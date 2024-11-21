@@ -8,9 +8,10 @@ export const useLessonsStore = defineStore("lessons", () => {
   const router = useRouter();
   const isLoading = useLoadingStore();
   const useCourses = useCoursesStore();
-
+  
   const store: LessonsType = reactive({
     lessons: [],
+    courses: [], 
     modal: {
       create: false,
     },
@@ -25,6 +26,7 @@ export const useLessonsStore = defineStore("lessons", () => {
   const create: any = reactive({
     title: "",
     course_id: 0,
+    lesson_id: null,
     published: true,
     type: "module",
     video: "",
@@ -40,7 +42,7 @@ export const useLessonsStore = defineStore("lessons", () => {
   }
 
   async function getLessons() {
-    const data: any = await apiRequest.get("lesson", "lessons");
+    const data: any = await apiRequest.get(`lesson/${isLoading.store.category_id}`, "lessons");
     console.log(data);
     store.lessons = data.data;
   }
@@ -56,15 +58,16 @@ export const useLessonsStore = defineStore("lessons", () => {
   }
   async function getByCourse() {
     const data: any = await apiRequest.get(
-      "course/getByCourse/1",
+      `course/getByCourse/1/${isLoading.store.category_id}`,
       "getByCourse"
     );
     console.log(data, "skslaskl");
-    store.lessons = data.data;
+    store.courses = data.data;
   }
 
   async function createLesson(is_create: string) {
     console.log(is_create);
+    create.lesson_id = router.currentRoute.value.query.lesson_id;
     if (is_create == "create") {
       create.course_id = router.currentRoute.value.params.lesson_id;
       create.type = "lesson";

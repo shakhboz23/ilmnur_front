@@ -23,6 +23,8 @@ const PageGroupNewsMain = resolveComponent('PageGroupNewsMain');
 const PageGroupMembersMain = resolveComponent('PageGroupMembersMain');
 const InfiniteScroll = resolveComponent('InfiniteScroll');
 const PageGroupCalendarMain = resolveComponent('PageGroupCalendarMain');
+const PageGroupSettingsMain = resolveComponent('PageGroupSettingsMain');
+const PageGroupActivityMain = resolveComponent('PageGroupActivityMain');
 
 const tabsComponents = {
     InfiniteScroll,
@@ -32,9 +34,17 @@ const tabsComponents = {
     PageGroupNewsMain,
     PageGroupMembersMain,
     PageGroupCalendarMain,
+    PageGroupSettingsMain,
+    PageGroupActivityMain,
 }
 const getComponent = (component) => {
-    router.push(component.url)
+    if (activeKey.value == component.id) {
+        router.push({
+            query: {
+                page: component.url || undefined,
+            }
+        })
+    }
     return tabsComponents[component.component];
 }
 

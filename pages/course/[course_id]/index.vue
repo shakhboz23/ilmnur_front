@@ -57,43 +57,16 @@
             </div>
             <!-- lessons -->
             <ul v-if="!isLoading.isLoadingType('getByCourse')" class="mt-5">
-                <li v-for="i in useCourses.store.courses?.lessons" class="duration-700 overflow-hidden"
-                    :style="store.active_id == i.id ? { height: `${40 * (i.lessons?.length ? i.lessons?.length + 1 : 1)}px` } : { height: '40px' }"
-                    :class="store.active_id == i.id ? `bg_bg r_8` : ''">
-                    <div @click="(e) => handleClick(e, i)"
-                        class="full_flex pcursor gap-5 border-b border-[#EDEDED] h-10 px-4">
-                        <h1 class="w-full">{{ i.title }}</h1>
-                        <p class="min-w-fit">18 daqiqa</p>
-                        <div class="min-w-fit">
-                            <img v-if="checkIsFinished(i)" src="@/assets/svg/course/finished.svg" alt="">
-                            <img v-else src="@/assets/svg/course/lock.svg" alt="">
-                        </div>
-                        <a-dropdown>
-                            <div>
-                                <img class="threedot" src="@/assets/svg/icon/threedot.svg" alt="">
-                            </div>
-                            <template #overlay>
-                                <a-menu>
-                                    <a-menu-item @click="handleButton('edit', i)">
-                                        <a href="javascript:;">Edit</a>
-                                    </a-menu-item>
-                                    <a-menu-item @click="handleButton('delete', i)">
-                                        <a href="javascript:;">Delete</a>
-                                    </a-menu-item>
-                                </a-menu>
-                            </template>
-                        </a-dropdown>
-                        <img v-if="i.type == 'module'" class="w-5 h-5 duration-700"
-                            :class="store.active_id == i.id ? 'rotate-180' : 'rotate-0'"
-                            src="@/assets/svg/icon/arrow.svg" alt="">
-                    </div>
-                    <ul>
-                        <li @click="handleClick(lesson)" v-for="lesson in i.lessons"
+                <draggable :list="useCourses.store.courses.lessons" class="drag-area" group="lessons" :animation="200">
+                    <li v-for="(i, index) in useCourses.store.courses.lessons" class="duration-700 overflow-hidden"
+                        :style="store.active_id == i.id ? { height: `${40 * (i.lessons?.length ? i.lessons?.length + 1 : 1)}px` } : { height: '40px' }"
+                        :class="store.active_id == i.id ? `bg_bg r_8` : ''">
+                        <div @click="(e) => handleClick(e, i)"
                             class="full_flex pcursor gap-5 border-b border-[#EDEDED] h-10 px-4">
-                            <h1 class="w-full">{{ lesson.title }}</h1>
+                            <h1 class="w-full">{{ i.title }}</h1>
                             <p class="min-w-fit">18 daqiqa</p>
                             <div class="min-w-fit">
-                                <img v-if="lesson.is_finished" src="@/assets/svg/course/finished.svg" alt="">
+                                <img v-if="checkIsFinished(i)" src="@/assets/svg/course/finished.svg" alt="">
                                 <img v-else src="@/assets/svg/course/lock.svg" alt="">
                             </div>
                             <a-dropdown>
@@ -102,18 +75,54 @@
                                 </div>
                                 <template #overlay>
                                     <a-menu>
-                                        <a-menu-item @click="handleButton('edit', lesson)">
-                                            <a href="javascript:;">Edit</a>
+                                        <a-menu-item
+                                            @click="$router.push(`/lesson/${$router.currentRoute.value.params.course_id}/create?lesson_id=${i.id}`)">
+                                            Add lesson
                                         </a-menu-item>
-                                        <a-menu-item @click="handleButton('delete', lesson)">
-                                            <a href="javascript:;">Delete</a>
+                                        <a-menu-item @click="handleButton('edit', i)">
+                                            Edit
+                                        </a-menu-item>
+                                        <a-menu-item @click="handleButton('delete', i)">
+                                            Delete
                                         </a-menu-item>
                                     </a-menu>
                                 </template>
                             </a-dropdown>
-                        </li>
-                    </ul>
-                </li>
+                            <img v-if="i.type == 'module'" class="w-5 h-5 duration-700"
+                                :class="store.active_id == i.id ? 'rotate-180' : 'rotate-0'"
+                                src="@/assets/svg/icon/arrow.svg" alt="">
+                        </div>
+                        <ul>
+                            <draggable :list="useCourses.store.courses.lessons[index].lessons" class="drag-area"
+                                group="lessons" :animation="200">
+                                <li @click="handleClick(lesson)" v-for="lesson in i.lessons"
+                                    class="full_flex pcursor gap-5 border-b border-[#EDEDED] h-10 px-4">
+                                    <h1 class="w-full">{{ lesson.title }}</h1>
+                                    <p class="min-w-fit">18 daqiqa</p>
+                                    <div class="min-w-fit">
+                                        <img v-if="lesson.is_finished" src="@/assets/svg/course/finished.svg" alt="">
+                                        <img v-else src="@/assets/svg/course/lock.svg" alt="">
+                                    </div>
+                                    <a-dropdown>
+                                        <div>
+                                            <img class="threedot" src="@/assets/svg/icon/threedot.svg" alt="">
+                                        </div>
+                                        <template #overlay>
+                                            <a-menu>
+                                                <a-menu-item @click="handleButton('edit', lesson)">
+                                                    <a href="javascript:;">Edit</a>
+                                                </a-menu-item>
+                                                <a-menu-item @click="handleButton('delete', lesson)">
+                                                    <a href="javascript:;">Delete</a>
+                                                </a-menu-item>
+                                            </a-menu>
+                                        </template>
+                                    </a-dropdown>
+                                </li>
+                            </draggable>
+                        </ul>
+                    </li>
+                </draggable>
             </ul>
             <div v-else class="space-y-1 mt-5">
                 <LoadingDiv v-for="_ in 5" class="h-9 w-full" />
@@ -135,6 +144,7 @@
 
 <script setup>
 import { useLoadingStore, useCoursesStore, useLessonsStore } from '~/store';
+import { VueDraggableNext as draggable } from "vue-draggable-next";
 
 const isLoading = useLoadingStore();
 const useCourses = useCoursesStore();
