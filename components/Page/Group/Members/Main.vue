@@ -1,12 +1,12 @@
 <template>
     <div>
-        <nav class="flex items-center justify-between gap-10 w-full mb-6">
+        <nav class="md:flex flex-wrap items-center justify-between gap-5 w-full">
             <!-- <ul class="flex items-center gap-10 text-xl font-medium opacity-40">
                 <li>General info</li>
                 <li>Billing details</li>
                 <li>Documents</li>
             </ul> -->
-            <CategorySlider class="w-full" />
+            <CategorySlider :category="useLessons.store.courses" class="md:w-fit w-full" />
             <div class="flex gap-3 min-w-fit">
                 <div class="flex items-center bg_bg h-[46px] w-[46px] rounded-[10px]">
                     <button class="flex items-center justify-center h-[46px] w-[46px] rounded-[10px]">
@@ -23,26 +23,29 @@
             <div class="relative overflow-x-auto">
                 <table class="w-full text-sm text-left rtl:text-right border-separate border-spacing-y-3">
                     <tbody class="!space-y-5">
-                        <tr v-for="i in useCourses.store.users" class="bg_bg">
+                        <tr v-for="i in useCourses.store.users?.users" class="bg_bg">
                             <th scope="row" class="p-5 rounded-l-xl">
                                 <div class="flex items-center gap-5">
-                                    <img class="w-20 h-20 r_f object-cover"
+                                    <img class="md:w-20 md:h-20 w-12 h-12 r_f object-cover"
                                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKtKkuCjVMZ09HHU7OxCs0h7421BzTwVWGjA&s"
                                         alt="">
-                                    <ul class="space-y-3">
-                                        <li class="text-xl font-semibold">{{ i?.user?.name }} {{ i?.user?.surname }}</li>
+                                    <ul class="md:space-y-3">
+                                        <li class="md:text-xl text-lg font-semibold">{{ i?.user?.name }} {{
+                                            i?.user?.surname }}
+                                        </li>
                                         <li class="font-normal space-x-2">
-                                            <span>{{ i?.user?.current_role }}</span>
+                                            <span>{{ i?.role }}</span>
                                             <span class="c_blue font-medium">5.0</span>
                                         </li>
                                     </ul>
                                 </div>
                             </th>
                             <td class="px-6 py-5">
-                                <button class="bg-[#13C1B7] text-white py-1 px-5 rounded-full">{{i.course?.title}}</button>
+                                <button class="bg-[#13C1B7] text-white py-1 px-5 rounded-full">{{ i.course?.title
+                                    }}</button>
                             </td>
                             <td class="px-6 py-5">
-                                <button class="bg_main text-white py-1 px-3 rounded-full">{{i.is_active}}</button>
+                                <button class="bg_main text-white py-1 px-3 rounded-full">{{ i.is_active }}</button>
                             </td>
                             <td class="px-6 py-5">
                                 +12 34 567890
@@ -83,7 +86,6 @@
         </section>
 
         <!-- modal -->
-        <!-- modal -->
         <UIModal v-if="$router.currentRoute.value.query.page == 'members'" :isOpen="isLoading.modal.create"
             :loadingType="'creategroup'" @update:isOpen="(value) => handleModal(value)">
             <div class="space-y-6">
@@ -112,6 +114,19 @@
                     </div>
                     <div class="col-span-2 space-y-2">
                         <h1 class="font-bold">Category</h1>
+                        <a-select class="w-full" v-model:value="useSubscription.store.course_id" show-search
+                            placeholder="Select a person" :filter-option="filterOption">
+                            <a-select-option @click="handleCourseId(category)" :value="category"
+                                v-for="category in useLessons.store.courses"
+                                :class="checkCourseId(category) ? 'bg_main' : ''">{{
+                                    category.title
+                                }}</a-select-option>
+                        </a-select>
+                    </div>
+                    <!-- <CategorySlider :category="useSubscription.store.course_ids" :all="false" class="w-full" /> -->
+                    <!-- {{ useSubscription.store.course_ids }} -->
+                    <div class="col-span-2 space-y-2">
+                        <h1 class="font-bold">Role</h1>
                         <a-select class="w-full" v-model:value="useAuth.user.role" show-search
                             placeholder="Select a person" :options="options" :filter-option="filterOption"
                             @focus="handleFocus" @blur="handleBlur" @change="handleChange"></a-select>
@@ -131,10 +146,11 @@
 </template>
 
 <script setup>
-import { useLoadingStore, useAuthStore, useCoursesStore, useSubscriptionStore } from '~/store';
+import { useLoadingStore, useAuthStore, useCoursesStore, useSubscriptionStore, useLessonsStore } from '~/store';
 
 const isLoading = useLoadingStore();
 const useAuth = useAuthStore();
+const useLessons = useLessonsStore();
 const useCourses = useCoursesStore();
 const useSubscription = useSubscriptionStore();
 useCourses.getUsersByGroupId();
@@ -161,6 +177,29 @@ function handleModal(value) {
         // useCourses.clearData();
     }
 }
+
+function checkCourseId(course) {
+    for (let i of useSubscription.store.course_ids) {
+        if (i.id == course.id) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function handleCourseId(course) {
+    useSubscription.store.course_id = null;
+    for (let i of useSubscription.store.course_ids) {
+        if (i.id == course.id) {
+            return;
+        }
+    }
+    useSubscription.store.course_ids.push(course);
+}
+
+watch(() => isLoading.store.category_id, () => {
+    useCourses.getUsersByGroupId();
+})
 </script>
 
 <style lang="scss" scoped></style>

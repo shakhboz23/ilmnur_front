@@ -61,7 +61,7 @@ export const useLessonsStore = defineStore("lessons", () => {
       `course/getByCourse/1/${isLoading.store.category_id}`,
       "getByCourse"
     );
-    console.log(data, "skslaskl");
+    console.log(data, "coursebyid");
     store.courses = data.data;
   }
 

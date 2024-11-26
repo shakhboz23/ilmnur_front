@@ -7,7 +7,7 @@ import { useLoadingStore } from "./loading"
 import { useCoursesStore } from "./courses"
 import { useGroupsStore } from "./groups"
 import { useCategoryStore } from "./category"
-
+import { useUploadStore } from "./upload"
 export {
     useLoadingStore,
     useGroupsStore,
@@ -18,4 +18,5 @@ export {
     useTestsStore,
     useReytingStore,
     useSubscriptionStore,
+    useUploadStore,
 }

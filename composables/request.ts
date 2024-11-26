@@ -46,7 +46,9 @@ export const useApiRequest = () => {
     }
   }
 
-  function post(url: string, data = {}, loadingType?: string) {
+  function post(url: string, data: any = {}, loadingType?: string) {
+    console.log(data);
+    console.log(data.sort_level)
     let headers = getHeader();
     isLoading.addLoading(loadingType);
     url = endPoint + url;

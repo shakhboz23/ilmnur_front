@@ -25,6 +25,14 @@ const InfiniteScroll = resolveComponent('InfiniteScroll');
 const PageGroupCalendarMain = resolveComponent('PageGroupCalendarMain');
 const PageGroupSettingsMain = resolveComponent('PageGroupSettingsMain');
 const PageGroupActivityMain = resolveComponent('PageGroupActivityMain');
+let t = 1;
+for (let i of group_tabs) {
+    console.log(i);
+    if (i.url == router.currentRoute.value.query.page) {
+        activeKey.value = t;
+    }
+    t++;
+}
 
 const tabsComponents = {
     InfiniteScroll,

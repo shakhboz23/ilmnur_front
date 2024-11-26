@@ -11,6 +11,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
         const exp = parts[1];
         const decodedPayload = JSON.parse(atob(exp));
         const experition = decodedPayload.exp;
+        isLoading.user.id = decodedPayload.id;
         const now = +Date.now().toString().slice(0, 10);
         if (now >= experition) {
           localStorage.removeItem("token");

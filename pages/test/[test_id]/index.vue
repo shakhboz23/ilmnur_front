@@ -32,7 +32,7 @@
             <ClientOnly>
                 <swiper @slider-move="changeSlide" :watchSlidesProgress="true" :slidesPerView="1" :spaceBetween="30"
                     :pagination="{ clickable: true }" :modules="modules" class="flex max-w-[50vw] overflow-hidden">
-                    <swiper-slide :id="index + 1" class="min-w-full" v-for="(i, index) in useTests.test">
+                    <swiper-slide :id="index" class="min-w-full" v-for="(i, index) in useTests.test">
                         <div class="px-2 py-6">
                             <ul class="flex items-center justify-between my-6">
                                 <li class="text-lg font-semibold">{{ index }}. Savol </li>
@@ -41,7 +41,7 @@
                             </ul>
                             <div>
                                 <ClientOnly>
-                                    <CKEditor class="minh_80" v-model:editorContent="useTests.test[index].question[0]"
+                                    <CKEditor class="minh_80" v-model:editorContent="useTests.test[index].question"
                                         :toolbar="false" :placeholder="'Savolingizni shu yerga yozing'" />
                                 </ClientOnly>
                             </div>
@@ -56,14 +56,14 @@
                             <h2 class="text-2xl">Variantlar</h2>
                             <p class="mt-3 mb-6">To‘g‘ri javobni belgilang</p>
                             <ul class="min-h-fit p-4 r_8" :class="checkCurrentType(useTests.test[index].type, false)">
-                                <li v-for="(i, v_index) in useTests.test[index]?.variant">
+                                <li v-for="(i, v_index) in useTests.test[index]?.variants">
                                     <div class="flex gap-4 bg_cf5 px-4 r_8"
                                         :class="checkCurrentType(useTests.test[index].type, true)">
                                         <a-checkbox>
                                         </a-checkbox>
                                         <ClientOnly>
                                             <CKEditor class="w-full b-none"
-                                                v-model:editorContent="useTests.test[index].variant[v_index]"
+                                                v-model:editorContent="useTests.test[index].variants[v_index]"
                                                 :toolbar="false" :placeholder="'Savolingizni shu yerga yozing'" />
                                         </ClientOnly>
                                     </div>
@@ -71,8 +71,11 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="text-end">
-                            <button class="bg_main text-white px-8 py-2 rounded-full">Keyingi</button>
+                        <div class="flex gap-4 justify-end px-5">
+                            <button @click="useTests.createTest"
+                                class="b_main c_main px-8 py-2 rounded-full">Yuklash</button>
+                            <button @click="nextSlide"
+                                class="bg_main text-white px-8 py-2 rounded-full">Keyingi</button>
                         </div>
                     </swiper-slide>
                 </swiper>
@@ -266,16 +269,6 @@
                 </div>
                 <label for="sortnum">Saralash bosqichi</label>
                 <div class="space-y-4">
-                    <a-select v-model:value="useTests.test_settings.sort_level[index]"
-                        class="min-w-[80px] w-full test_arrow !h-[42px] sr_12" show-search required>
-                        <a-select-option v-for="i in useTests.store.questions_count" :value="i">{{ i
-                            }}</a-select-option>
-                        <!-- <template #suffixIcon>
-                            <div class="full_flex bg-[#FFF3EB] w-[42px] !h-[42px]">
-                                <img src="@/assets/svg/icon/arrow.svg" alt="" />
-                            </div>
-                        </template> -->
-                    </a-select>
                     <!-- <p @click="addTestStep('add')" v-if="useTests.store.test_step == index + 1"
                         class="full_flex min-w-[50px] h-[50px] rounded-full border border-[#CCCCCC] cursor-pointer">
                         <img src="@/assets/svg/icon/plus.svg" alt="" />
@@ -288,8 +281,8 @@
                         {{ index + 1 }}.
                         <a-select v-model:value="useTests.test_settings.sort_level[index][0]"
                             class="min-w-[80px] test_arrow w-full !h-[42px] sr_12" show-search required>
-                            <a-select-option v-for="i in subjects" :value="i">{{ i
-                                }}</a-select-option>
+                            <a-select-option v-for="i in useCategory.store.category" :value="i.id">
+                                {{ i.category }}</a-select-option>
                         </a-select>
                         <a-select v-model:value="useTests.test_settings.sort_level[index][1]"
                             class="min-w-[80px] test_arrow !h-[42px] sr_12" show-search required>
@@ -301,24 +294,14 @@
                             <a-select-option v-for="i in useTests.store.questions_count" :value="i">{{ i
                                 }}</a-select-option>
                         </a-select>
+                        <p v-if="useTests.test_settings.sort_level?.length != 1" @click="addTestStep('remove', index)"
+                            class="full_flex min-w-[50px] h-[50px] rounded-full border border-[#CCCCCC] cursor-pointer">
+                            <img src="@/assets/svg/icon/minus.svg" alt="" />
+                        </p>
                         <p @click="addTestStep('add', index)" v-if="useTests.store.test_step == index + 1"
                             class="full_flex min-w-[50px] h-[50px] rounded-full border border-[#CCCCCC] cursor-pointer">
                             <img src="@/assets/svg/icon/plus.svg" alt="" />
                         </p>
-                        <p v-else @click="addTestStep('remove', index)"
-                            class="full_flex min-w-[50px] h-[50px] rounded-full border border-[#CCCCCC] cursor-pointer">
-                            <img src="@/assets/svg/icon/minus.svg" alt="" />
-                        </p>
-                    </div>
-                </div>
-                <div class="grid grid-cols-3">
-                    <div class="space-y-2">
-                        <label for="sortnum">Testlar soni</label>
-                        <a-select v-model:value="useTests.test_settings.test_count"
-                            class="min-w-[80px] test_arrow !h-[42px] sr_12" show-search required>
-                            <a-select-option v-for="i in useTests.store.questions_count" :value="i">{{ i
-                                }}</a-select-option>
-                        </a-select>
                     </div>
                 </div>
             </div>
@@ -347,7 +330,7 @@ import time from "@/assets/svg/test/time.svg"
 import pen from "@/assets/svg/test/pen.svg"
 import calculator from "@/assets/svg/test/calculator.svg"
 import periodic from "@/assets/svg/test/periodic.svg"
-import { useLoadingStore, useTestsStore } from "~/store";
+import { useCategoryStore, useLoadingStore, useTestsStore } from "~/store";
 import mammoth from "mammoth";
 
 const testBar = [time, pen, calculator, periodic]
@@ -364,19 +347,14 @@ const testType = [
 
 const useTests = useTestsStore();
 const isLoading = useLoadingStore();
+const useCategory = useCategoryStore();
 useTests.getByLesson();
+useCategory.getCategory();
 
 const store = reactive({
     slideStep: 1,
     convertedContent: [],
 })
-
-const subjects = [
-    "Matematika",
-    "Ona tili",
-    "Rus tili",
-    "Tarix",
-]
 
 
 function handleModal(value) {
@@ -439,20 +417,24 @@ function htmlTableToArray(htmlTable) {
     console.log(result, "res");
     let test = {};
     useTests.store.questions_count = result.length;
+    console.log(useTests.test_settings.sort_level[0][1])
+    try {
+        useTests.test_settings.sort_level[0][1] = useTests.test_settings.sort_level[0][1] || result.length;
+        useTests.test_settings.sort_level[0][2] = useTests.test_settings.sort_level[0][2] || result.length;
+    } catch (_) { }
 
+    useTests.test[1] = { question: null, variants: [], type: 'variant' }
     for (let i = 0; i < result.length; i++) {
         // Initialize `useTests.test[i + 1]` as an object if it hasn't been initialized yet
         // console.log(useTests.test[i + 1]);
         if (!useTests.test[i + 1]) {
-            useTests.test[i + 1] = { question: [], variant: [] };
-        } else if (i == 0) {
-            useTests.test[i + 1] = { question: [], variant: [] };
+            useTests.test[i + 1] = { question: null, variants: [], type: 'variant' };
         }
         // Set the question
-        useTests.test[i + 1].question[0] = result[i][1];
+        useTests.test[i + 1].question = result[i][1];
         // Initialize and populate variants
         for (let j = 2; j < result[i]?.length; j++) {
-            useTests.test[i + 1].variant[j - 2] = result[i][j];
+            useTests.test[i + 1].variants[j - 2] = result[i][j];
         }
     }
     // return result;
@@ -493,7 +475,20 @@ function selectedAnswer(id, variant) {
 function changeSlide() {
     setTimeout(() => {
         store.slideStep = +document.querySelector(".swiper-slide-visible")?.id;
+        console.log(store.slideStep);
     }, 200);
+}
+
+function nextSlide() {
+    console.log(Object.keys(useTests.test)?.length)
+    if (Object.keys(useTests.test)?.length == store.slideStep) {
+        useTests.test[+store.slideStep + 1] = { question: null, variants: [null, null, null], type: 'variant' };
+        setTimeout(() => {
+        store.slideStep = +store.slideStep + 1;
+        }, 500)
+    } else {
+        store.slideStep = +store.slideStep + 1;
+    }
 }
 
 watch(

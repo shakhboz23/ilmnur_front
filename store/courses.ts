@@ -50,11 +50,12 @@ export const useCoursesStore = defineStore("courses", () => {
 
   async function getUsersByGroupId() {
     const data: any = await apiRequest.get(
-      `course/getUsersByGroupId/${router.currentRoute.value.params.group_id}?date=${useSubscription.store.currentDate}`,
+      `course/getUsersByGroupId/${router.currentRoute.value.params.group_id}?date=${useSubscription.store.currentDate}&course_id=${isLoading.store.category_id}`,
       "course"
     );
     console.log(data, "users");
     store.users = data.data;
+    isLoading.store.category_id = data.data?.user?.course_id || isLoading.store.category_id;
   }
 
   async function subscribeCourse(id: any) {

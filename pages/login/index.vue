@@ -1,6 +1,6 @@
 <template>
   <main
-    class="py-10 md:px-0 px-4 max-h-screen min-h-[calc(100vh_-_100px)] overflow-y-auto"
+    class="flex items-center py-10 md:px-0 px-4 max-h-screen min-h-[calc(100vh_-_160px)] overflow-y-auto"
   >
     <div
       class="sm:w-[500px] bg_white mx-auto sm:p-[50px] p-5 pb-8 rounded-[16px]"
@@ -14,7 +14,7 @@
         </p>
       </section>
       <form @submit.prevent="handleSubmit" class="space-y-6 text-sm">
-        <div class="space-y-2">
+        <!-- <div class="space-y-2">
           <label for="login">Login</label>
           <input v-model="useAuth.login.email" type="email" />
         </div>
@@ -22,20 +22,22 @@
           <label for="password">Parol</label>
           <div class="flex relative">
             <input v-model="useAuth.login.password" type="password" class="pr-10" />
-            <!-- <img
+            <img
                 class="absolute top-0 right-0 p-4 cursor-pointer"
                 src="@/assets/svg/icon/show.svg"
                 alt=""
-              /> -->
+              />
           </div>
           <router-link
             to="/reset-password"
             class="inline-block mt-2 orange hover:underline"
             >Parolni unutdingizmi?</router-link
           >
+        </div> -->
+        <div class="text-center mx-auto max-w-fit">
+          <button id="googleButton" class="w-full mx-auto"></button>
         </div>
-        <div id="googleButton"></div>
-        <div class="pt-2 space-y-6 grid">
+        <!-- <div class="pt-2 space-y-6 grid">
           <button class="login_btn mx-auto">Kirish</button>
           <button
           type="button"
@@ -51,7 +53,7 @@
             >
             ga roziligingizni bildirasiz.
           </p>
-        </div>
+        </div> -->
       </form>
     </div>
   </main>

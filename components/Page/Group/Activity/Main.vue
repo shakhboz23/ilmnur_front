@@ -1,7 +1,8 @@
 <template>
     <div>
-        <nav class="md:flex items-center justify-between gap-10 w-full mb-6">
-            <CategorySlider :category="useLessons.store.courses" class="w-full" />
+        <nav class="md:flex items-center justify-between space-y-5 gap-10 w-full mb-6">
+            <CategorySlider :category_id="useCourses.store.users?.user?.course_id" :all="false"
+                :category="useLessons.store.courses" class="w-full" />
             <div class="flex gap-3 min-w-fit">
                 <div class="flex items-center bg_bg h-[46px] w-[46px] rounded-[10px]">
                     <button class="flex items-center justify-center h-[46px] w-[46px] rounded-[10px]">
@@ -20,7 +21,7 @@
             <div class="relative overflow-x-auto">
                 <table class="w-full text-sm text-left rtl:text-right border-separate border-spacing-y-3">
                     <tbody class="!space-y-5">
-                        <tr v-for="i in useCourses.store.users" class="bg_bg">
+                        <tr v-for="i in useCourses.store.users?.users" class="bg_bg">
                             <th scope="row" class="p-3 rounded-l-xl">
                                 <div class="flex items-center gap-5">
                                     <img class="w-10 h-10 r_f object-cover"
@@ -36,7 +37,7 @@
                                     </ul>
                                 </div>
                             </th>
-                            <td class="px-6">
+                            <td class="md:inline hidden px-6">
                                 <ul>
                                     <li class="full_flex max-w-fit gap-2">
                                         <img src="@/assets/svg/members/date.svg" alt="">
@@ -50,15 +51,18 @@
                             </td>
                             <td class="px-6 rounded-r-xl">
                                 <a-dropdown placement="bottom">
-                                    <button class="bg-[#919191] text-white py-1 px-3 rounded-full capitalize">{{
-                                        i.subscriptionActivity?.status || 'None' }}</button>
+                                    <button class="text-white py-1 px-3 rounded-full capitalize"
+                                        :class="ball_options[i.subscriptionActivity?.status || 'none']">
+                                        {{ ball_options[i.subscriptionActivity?.status || 'none'][0] }}
+                                    </button>
                                     <template #overlay>
-                                        <a-menu @click="({ key }) => handleStatus(key, i.id)">
-                                            <a-menu-item key="bad" class="!p-1">
-                                                <button
-                                                    class="bg_red text-white py-1 px-5 rounded-full w-full">Yomon</button>
+                                        <a-menu v-if="useCourses.store.users?.user?.role == 'teacher'"
+                                            @click="({ key }) => handleStatus(key, i.id)">
+                                            <a-menu-item v-for="(value, key) in ball_options" :key="key" class="!p-1">
+                                                <button class="text-white py-1 px-5 rounded-full w-full"
+                                                    :class="value[1]">{{ value[0] }}</button>
                                             </a-menu-item>
-                                            <a-menu-item key="good" class="!p-1">
+                                            <!-- <a-menu-item key="good" class="!p-1">
                                                 <button
                                                     class="bg_yellow text-white py-1 px-5 rounded-full w-full">Yaxshi</button>
                                             </a-menu-item>
@@ -73,7 +77,7 @@
                                             <a-menu-item key="none" class="!p-1">
                                                 <button
                                                     class="bg-[#919191] text-white py-1 px-5 rounded-full w-full">None</button>
-                                            </a-menu-item>
+                                            </a-menu-item> -->
                                         </a-menu>
                                     </template>
                                 </a-dropdown>
@@ -133,6 +137,14 @@ const options = ref([
     { value: 'admin', label: 'Admin' },
 ]);
 
+const ball_options = {
+    bad: ["Yomon", "bg_red"],
+    good: ["Yaxshi", "bg_yellow"],
+    average: ["O'rta", "bg_green"],
+    excellent: ["A'lo", "bg_main"],
+    none: ["None", "bg-[#919191]"],
+}
+
 function handleModal(value) {
     if (value == "OK") {
         if (isLoading.modal.delete) {
@@ -181,6 +193,10 @@ const disabledDate = (current) => {
 };
 
 watch(() => useSubscription.store.currentDate, () => {
+    useCourses.getUsersByGroupId();
+})
+
+watch(() => isLoading.store.category_id, () => {
     useCourses.getUsersByGroupId();
 })
 </script>

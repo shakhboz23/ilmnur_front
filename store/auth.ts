@@ -48,7 +48,7 @@ export const useAuthStore = defineStore("auth", () => {
     console.log("user data");
 
     apiRequest
-      .get(`user/${1}`)
+      .get(`user/${isLoading.user.id}`)
       .then((res: any): void => {
         console.log(res, "user data");
         if (res.status == 200) {

@@ -10,9 +10,9 @@
                 <img class="rotate-90" src="@/assets/svg/icon/arrow.svg" alt="">
             </button>
             <ul class="tabs">
-                <button @click="setCategory(0)" class="duration-700 r_20 py-2 px-3 text-xs b_main"
+                <button v-if="all" @click="setCategory(0)" class="duration-700 r_20 py-2 px-3 text-xs b_main"
                     :class="isLoading.store.category_id == 0 ? 'bg_main c_white' : 'c_main'">All</button>
-                <button @click="setCategory(i)" v-for="i in category" class="duration-700 r_20 py-2 px-3 text-xs b_main"
+                <button v-show="category_id ? category_id == i.id: true" @click="setCategory(i)" v-for="i in category" class="duration-700 r_20 py-2 px-3 text-xs b_main"
                     :class="isLoading.store.category_id == i.id ? 'bg_main c_white' : 'c_main'">{{ i.category || i.title
                     }}</button>
             </ul>
@@ -31,6 +31,11 @@ defineProps({
         type: Array,
         default: [],
     },
+    category_id: Number,
+    all: {
+        type: Boolean,
+        default: true,
+    }
 });
 const isLoading = useLoadingStore();
 const useCategory = useCategoryStore();
@@ -130,6 +135,7 @@ onMounted(() => {
         tabList?.classList.remove("dragging");
     });
 })
+
 function smoothScroll(element, target, duration) {
     const start = element.scrollLeft;
     const change = target - start;

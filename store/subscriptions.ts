@@ -13,7 +13,7 @@ export const useSubscriptionStore = defineStore("subscription", () => {
   // const router = useRouter();
 
   const store: any = reactive({
-    course_id: 0,
+    course_id: null,
     subscription_id: 0,
     currentDate: dayjs(new Date()),
   });
@@ -43,7 +43,8 @@ export const useSubscriptionStore = defineStore("subscription", () => {
       "subscriptions/createSubscription",
       {
         ...useAuth.user,
-        course_id: 1,
+        role: useAuth.user?.role,
+        course_id: store.course_id,
       }
       // "subscriptions"
     );
@@ -59,6 +60,7 @@ export const useSubscriptionStore = defineStore("subscription", () => {
       {
         subscription_id: store.subscription_id,
         status,
+        course_id: isLoading.store.category_id,
         date: store.currentDate,
       }
     );

@@ -30,7 +30,9 @@ export const useLoadingStore = defineStore("loading", () => {
     drawer: false,
   });
 
-  const user = reactive({})
+  const user: any = reactive({
+    id: 0
+  })
 
   const modal = reactive({
     create: false,
