@@ -23,9 +23,10 @@
                 </div>
             </div>
             <ul class="flex flex-wrap gap-3">
-                <li @click="store.slideStep = index" v-for="(_, index) in useTests.test"
+                <li @click="useTests.store.slideStep = +index + 1" v-for="(_, index) in useTests.test"
                     class="w-10 h-10 r_f full_flex text-sm pcursor"
-                    :class="store.slideStep == index ? 'bg_main text-white' : 'bg_white'">{{ index }}</li>
+                    :class="useTests.store.slideStep == +index + 1 ? 'bg_main text-white' : 'bg_white'">{{ +index + 1 }}
+                </li>
             </ul>
         </nav>
         <section>
@@ -35,7 +36,7 @@
                     <swiper-slide :id="index" class="min-w-full" v-for="(i, index) in useTests.test">
                         <div class="px-2 py-6">
                             <ul class="flex items-center justify-between my-6">
-                                <li class="text-lg font-semibold">{{ index }}. Savol </li>
+                                <li class="text-lg font-semibold">{{ +index + 1 }}. Savol </li>
                                 <a-select class="min-w-[200px]" v-model:value="useTests.test[index].type"
                                     placeholder="Select a person" show-search :options="testType"></a-select>
                             </ul>
@@ -91,46 +92,128 @@
                     </li>
                 </ul>
             </nav>
-            <section class="bg-white mx-[100px] r_8 relative">
+            <section class="bg-white md:mx-[100px] r_8 relative">
                 <section class="flex gap-7 items-start max-w-fit mx-auto p-8 ">
                     <img @click="$router.back()" class="-ml-[52px] pcursor" src="@/assets/svg/icon/closex.svg" alt="">
                     <div>
                         <nav class="min-w-[50vw]">
                             <ul class="flex flex-wrap gap-3">
-                                <li @click="store.slideStep = index + 1" v-for="(_, index) in useTests.store.tests"
+                                <li @click="useTests.store.slideStep = +index + 1" v-for="(_, index) in useTests.test"
                                     class="w-6 h-6 r_f full_flex text-sm text-white pcursor"
-                                    :class="store.slideStep == index + 1 ? 'bg_main' : 'bg_cee'">{{ index + 1 }}</li>
+                                    :class="useTests.store.slideStep == +index + 1 ? 'bg_main' : 'bg_cee'">{{ +index + 1
+                                    }}</li>
+                                <li @click="useTests.store.slideStep = Object.keys(useTests.test)?.length + 1"
+                                    v-if="useTests.store.testResBall?.length"
+                                    class="w-6 h-6 r_f full_flex text-sm text-white pcursor">
+                                    <img v-if="useTests.store.testResBall[0] >= 70" class="w-full"
+                                        src="@/assets/svg/test/true.svg" alt="" />
+                                    <img v-else class="w-full" src="@/assets/svg/test/false.svg" alt="" />
+                                </li>
                             </ul>
                         </nav>
                         <swiper @slider-move="changeSlide" :watchSlidesProgress="true" :slidesPerView="1"
                             :spaceBetween="30" :pagination="{ clickable: true }" :modules="modules"
                             class="flex max-w-[50vw] overflow-hidden">
-                            <swiper-slide :id="index + 1" class="min-w-full" v-for="(i, index) in useTests.store.tests">
+                            <swiper-slide :id="+index + 1" class="min-w-full" v-for="(i, index) in useTests.test">
                                 <section
                                     class="max-h-[calc(100vh_-_300px)] min-h-[calc(100vh_-_300px)] overflow-y-auto mt-10 space-y-7 max-w-fit mx-auto">
                                     <h1 class="font-bold text-2xl break-words">
-                                        {{ index + 1 }}. {{ i.question }}
+                                        {{ +index + 1 }}. {{ i.question }}
                                     </h1>
                                     <hr />
                                     <ul class="space-y-4 pcursor">
-                                        <li @click="selectedAnswer(index + 1, variant)"
+                                        <li @click="selectedAnswer(+index, variant)"
                                             v-for="(variant, v_index) in i.variants"
                                             class="flex gap-8 items-center border duration-700 pl-3 pr-5 py-[10px] max-w-fit r_10"
-                                            :class="useTests.store.true_answers[index + 1] == variant
+                                            :class="useTests.store.true_answers[+index] == variant
                                                 ? 'orange border-[#FF852E]'
                                                 : 'border-[#E1E1E1]'
                                                 ">
-
                                             <p class="border duration-700 w-6 h-6 full_flex r_4 text-sm font-medium"
-                                                :class="useTests.store.true_answers[index + 1] == variant
+                                                :class="useTests.store.true_answers[+index] == variant
                                                     ? 'orange border-[#FF852E]'
                                                     : 'border-[#EDEDED]'
                                                     ">
                                                 A
                                             </p>
-                                            <p>{{ variant }}</p>
+                                            <p v-html="variant"></p>
                                         </li>
                                     </ul>
+                                </section>
+                            </swiper-slide>
+                            <!-- result -->
+                            <swiper-slide :id="Object.keys(useTests.test)?.length + 1" class="min-w-full">
+                                <section class="w-full min-w-full min-h-[calc(100vh_-_380px)]">
+                                    <div
+                                        class="flex items-center justify-center min-w-full min-h-[calc(100vh_-_380px)]">
+                                        <div class="p-5 sm:text-start text-center">
+                                            <img v-if="useTests.store.testResBall[0] >= 70" class="mx-auto mb-10 h-32"
+                                                src="@/assets/svg/test/true.svg" alt="" />
+                                            <img v-else class="mx-auto mb-10 h-32" src="@/assets/svg/test/false.svg"
+                                                alt="" />
+                                            <h1 v-if="useTests.store.testResBall[0] >= 70"
+                                                class="orange font-bold text-2xl">
+                                                Siz muvaffaqiyatli o‘tdingiz
+                                            </h1>
+                                            <h1 v-else class="orange font-bold text-center text-2xl">
+                                                Afsuski test mufaqqiyatsiz bo‘ldi
+                                            </h1>
+                                            <p v-if="useTests.store.testResBall[0] >= 70" class="_c66 mt-4 mb-10">
+                                                Sinov tugallandi
+                                            </p>
+                                            <p v-else class="_c66 mt-4 mb-10 md:w-[60%] mx-auto">
+                                                Yetarli bal to‘play olmadingiz. Hechqisi yo‘q qayta
+                                                topshirib ko‘ring
+                                            </p>
+                                            <ul class="grid grid-cols-2 gap-[60px]">
+                                                <li class="space-y-3 text-[#58CC02]">
+                                                    <div class="flex items-center gap-3 mx-auto">
+                                                        <img src="@/assets/svg/test/clarity.svg" alt="" />
+                                                        <p>Aniqlik</p>
+                                                    </div>
+                                                    <p class="font-semibold text-2xl text-start">
+                                                        {{ useTests.store.testResBall[0] }}%
+                                                    </p>
+                                                </li>
+                                                <li class="space-y-3 text-[#FF852E]">
+                                                    <div class="flex items-center gap-3">
+                                                        <img src="@/assets/svg/test/ball.svg" alt="" />
+                                                        <p>Ball</p>
+                                                    </div>
+                                                    <p class="font-semibold text-2xl text-start">
+                                                        {{ useTests.store.testResBall[1] }}
+                                                    </p>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="relative overflow-x-auto">
+                                        <table
+                                            class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                            <thead class="text-xs uppercase bg-gray-50 bg_orange text-white">
+                                                <tr>
+                                                    <th scope="col" class="px-6 py-3">
+                                                        Fan
+                                                    </th>
+                                                    <th scope="col" class="px-6 py-3">
+                                                        Ball
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="i in Object.keys(useTests.store.subject_ball)"
+                                                    class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                                    <th scope="row"
+                                                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                                        {{ i }}
+                                                    </th>
+                                                    <td class="px-6 py-4">
+                                                        {{ useTests.store.subject_ball[i] }}
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div> -->
                                 </section>
                             </swiper-slide>
                         </swiper>
@@ -144,27 +227,34 @@
                             <img src="@/assets/svg/test/help.svg" alt="">
                             <p class="font-medium text-sm max-w-[112px] c_c65">Muammo haqida xabar bering</p>
                         </li>
-                        <ul v-if="!isNaN(useTests.store.checked_answers[store.slideStep])">
-                            <li v-if="useTests.store.checked_answers[store.slideStep]" class="full_flex gap-3">
+                        <ul v-if="!isNaN(useTests.store.checked_answers[useTests.store.slideStep])">
+                            <li v-if="useTests.store.checked_answers[useTests.store.slideStep]" class="full_flex gap-3">
                                 <img src="@/assets/svg/test/true.svg" alt="">
                                 <p class="c_green font-bold">Javob to‘g‘ri!</p>
                             </li>
-                            <li v-else="!useTests.store.checked_answers[store.slideStep]" class="full_flex gap-3">
+                            <li v-else="!useTests.store.checked_answers[useTests.store.slideStep]"
+                                class="full_flex gap-3">
                                 <img src="@/assets/svg/test/false.svg" alt="">
                                 <p class="c_red font-bold">Javob noto‘g‘ri!</p>
                             </li>
                         </ul>
                         <!-- {{ Object.keys(useTests.store.checked_answers)?.length + ' ' + useTests.store.tests.test?.length }} -->
                         <li>
-                            <button
-                                v-if="Object.keys(useTests.store.checked_answers)?.length == useTests.store.tests?.length"
-                                @click="() => useTests.checkAllAnswers()"
-                                class="bg_main px-[54px] py-3 r_50 text-white">Yakunlash</button>
-                            <button v-else-if="isNaN(useTests.store.checked_answers[store.slideStep])"
-                                @click="() => { useTests.checkAnswer(useTests.store.tests[store.slideStep - 1]?.id, store.slideStep) }"
-                                class="bg_main px-[54px] py-3 r_50 text-white">Tekshirish</button>
-                            <button v-else @click="() => store.slideStep++"
-                                class="bg_main px-[54px] py-3 r_50 text-white">Keyingisi</button>
+                            <button @click="$router.push(`/lesson/${useTests.store.tests.lesson_id}`)"
+                                v-if="useTests.store.testResBall?.length"
+                                class="bg_main px-[54px] py-3 r_50 text-white">Davom etish
+                            </button>
+                            <div v-else>
+                                <button
+                                    v-if="Object.keys(useTests.store.checked_answers)?.length == useTests.store.tests?.length"
+                                    @click="() => useTests.checkAllAnswers()"
+                                    class="bg_main px-[54px] py-3 r_50 text-white">Yakunlash</button>
+                                <button v-else-if="isNaN(useTests.store.checked_answers[useTests.store.slideStep])"
+                                    @click="() => { useTests.checkAnswer(useTests.test[useTests.store.slideStep - 1]?.id, useTests.store.slideStep) }"
+                                    class="bg_main px-[54px] py-3 r_50 text-white">Tekshirish</button>
+                                <button v-else @click="() => useTests.store.slideStep++"
+                                    class="bg_main px-[54px] py-3 r_50 text-white">Keyingisi</button>
+                            </div>
                         </li>
                     </ul>
                 </footer>
@@ -352,7 +442,6 @@ useTests.getByLesson();
 useCategory.getCategory();
 
 const store = reactive({
-    slideStep: 1,
     convertedContent: [],
 })
 
@@ -423,18 +512,18 @@ function htmlTableToArray(htmlTable) {
         useTests.test_settings.sort_level[0][2] = useTests.test_settings.sort_level[0][2] || result.length;
     } catch (_) { }
 
-    useTests.test[1] = { question: null, variants: [], type: 'variant' }
+    useTests.test[0] = { question: null, variants: [], type: 'variant' }
     for (let i = 0; i < result.length; i++) {
         // Initialize `useTests.test[i + 1]` as an object if it hasn't been initialized yet
         // console.log(useTests.test[i + 1]);
-        if (!useTests.test[i + 1]) {
-            useTests.test[i + 1] = { question: null, variants: [], type: 'variant' };
+        if (!useTests.test[i]) {
+            useTests.test[i] = { question: null, variants: [], type: 'variant' };
         }
         // Set the question
-        useTests.test[i + 1].question = result[i][1];
+        useTests.test[i].question = result[i][1];
         // Initialize and populate variants
         for (let j = 2; j < result[i]?.length; j++) {
-            useTests.test[i + 1].variants[j - 2] = result[i][j];
+            useTests.test[i].variants[j - 2] = result[i][j];
         }
     }
     // return result;
@@ -474,37 +563,46 @@ function selectedAnswer(id, variant) {
 
 function changeSlide() {
     setTimeout(() => {
-        store.slideStep = +document.querySelector(".swiper-slide-visible")?.id;
-        console.log(store.slideStep);
+        useTests.store.slideStep = +document.querySelector(".swiper-slide-visible")?.id;
+        console.log(useTests.store.slideStep);
     }, 200);
 }
 
 function nextSlide() {
     console.log(Object.keys(useTests.test)?.length)
-    if (Object.keys(useTests.test)?.length == store.slideStep) {
-        useTests.test[+store.slideStep + 1] = { question: null, variants: [null, null, null], type: 'variant' };
+    if (Object.keys(useTests.test)?.length == useTests.store.slideStep) {
+        useTests.test[+useTests.store.slideStep + 1] = { question: null, variants: [null, null, null], type: 'variant' };
         setTimeout(() => {
-        store.slideStep = +store.slideStep + 1;
+            useTests.store.slideStep = +useTests.store.slideStep + 1;
         }, 500)
     } else {
-        store.slideStep = +store.slideStep + 1;
+        useTests.store.slideStep = +useTests.store.slideStep + 1;
     }
 }
 
 watch(
-    () => store.slideStep,
+    () => useTests.store.slideStep,
     () => {
         const swiper = document.querySelector(".swiper-pagination-clickable");
         const swiperCount = document.querySelectorAll(".swiper-wrapper>div");
         console.log(swiperCount.length);
-        if (swiper && swiper.children.length >= store.slideStep) {
-            const secondChild = swiper.children[store.slideStep - 1];
+        if (swiper && swiper.children.length >= useTests.store.slideStep) {
+            const secondChild = swiper.children[useTests.store.slideStep - 1];
             if (secondChild) {
                 secondChild.click();
             }
         }
     }
 );
+
+onBeforeUnmount(() => {
+    useTests.store.slideStep = 1;
+    useTests.store.testResBall = [];
+    useTests.store.true_answers = {};
+    useTests.store.checked_answers = {};
+    useTests.store.is_checked = false;
+    useTests.store.checked_answers = {};
+})
 </script>
 
 <style lang="scss" scoped></style>

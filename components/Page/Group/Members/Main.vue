@@ -116,14 +116,20 @@
                         <h1 class="font-bold">Category</h1>
                         <a-select class="w-full" v-model:value="useSubscription.store.course_id" show-search
                             placeholder="Select a person" :filter-option="filterOption">
-                            <a-select-option @click="handleCourseId(category)" :value="category"
+                            <a-select-option @click.stop="handleCourseId(category)" :value="category"
                                 v-for="category in useLessons.store.courses"
                                 :class="checkCourseId(category) ? 'bg_main' : ''">{{
                                     category.title
                                 }}</a-select-option>
                         </a-select>
                     </div>
-                    <!-- <CategorySlider :category="useSubscription.store.course_ids" :all="false" class="w-full" /> -->
+                    <ul v-if="useSubscription.store.course_ids?.length" class="tabs flex flex-wrap gap-3">
+                        <button v-show="category_id ? category_id == i.id : true" @click="handleCourseId(i)"
+                            v-for="i in useSubscription.store.course_ids"
+                            class="duration-700 r_20 py-2 px-3 text-xs b_main c_main">
+                            {{ i.category || i.title }}
+                        </button>
+                    </ul>
                     <!-- {{ useSubscription.store.course_ids }} -->
                     <div class="col-span-2 space-y-2">
                         <h1 class="font-bold">Role</h1>
@@ -189,10 +195,13 @@ function checkCourseId(course) {
 
 function handleCourseId(course) {
     useSubscription.store.course_id = null;
+    let t = 0;
     for (let i of useSubscription.store.course_ids) {
         if (i.id == course.id) {
+            useSubscription.store.course_ids?.splice(t, 1)
             return;
         }
+        t++;
     }
     useSubscription.store.course_ids.push(course);
 }

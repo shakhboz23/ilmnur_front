@@ -55,7 +55,9 @@ export const useCoursesStore = defineStore("courses", () => {
     );
     console.log(data, "users");
     store.users = data.data;
-    isLoading.store.category_id = data.data?.user?.course_id || isLoading.store.category_id;
+    if (router.currentRoute.value.query.page == 'activity') {
+      isLoading.store.category_id = data.data?.user?.course_id || isLoading.store.category_id;
+    }
   }
 
   async function subscribeCourse(id: any) {

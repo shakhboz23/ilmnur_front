@@ -12,20 +12,23 @@
                     </li>
                 </ul>
             </nav>
-            <section class="px-[0.5px]">
+            <section class="px-[0.5px] pt-5">
                 <!-- {{ useLessons.store.lessons.video }} -->
-                <div class="w-full h-[312px] bg-black r_8">
-                    <video capture v-if="useLessons.store.lessons?.video" class="w-full h-[312px] bg-black r_8"
-                        controls>
+                <div v-if="useLessons.store.lessons?.video" class="w-full md:h-[312px] h-[200px] bg-black r_8">
+                    <video capture class="w-full md:h-[312px] h-[200px] bg-black r_8" controls>
                         <source :src="useLessons.store.lessons?.video" type="video/mp4">
                         <source :src="useLessons.store.lessons?.video" type="video/ogg">
                         Your browser does not support the video tag.
                     </video>
                 </div>
+                <div @click="handleContentClick" v-else class="bg_cf9 r_8 p-5 pcursor max-h-[200px] w-full overflow-hidden aspect-video">
+                    <p class="line-clamp-6" v-html="useLessons.store.lessons?.content"></p>
+                </div>
                 <div class="flex items-center justify-between my-5">
                     <h1 class="text-xl font-semibold">{{ useLessons.store.lessons?.title }}</h1>
                     <div class="space-x-3">
-                        <button v-if="useLessons.store.lessons?.course?.user_id != isLoading.user?.id" class="b_main p-3 r_8">
+                        <button v-if="useLessons.store.lessons?.course?.user_id != isLoading.user?.id"
+                            class="b_main p-3 r_8">
                             <img class="stroke-[#FF852E]" src="@/assets/svg/course/markasread.svg" alt="">
                         </button>
                         <button v-if="useLessons.store.lessons?.course?.user_id == isLoading.user?.id"
@@ -49,7 +52,7 @@
                 </ul>
             </section>
         </nav>
-        <section class="bg-white z-10 relative">
+        <section class="bg-white z-10 relative" id="tabs">
             <PageLessonTabs class="lesson_tab" :lesson_lecture="useLessons.store.lessons?.content"
                 :lesson_course="useLessons.store.lessons?.course" />
         </section>
@@ -64,6 +67,15 @@ const useLessons = useLessonsStore();
 const store = reactive({
     active_id: 0,
 })
+
+function handleContentClick() {
+    const content = document.getElementById('tabs');
+    console.log(content)
+    content.scrollIntoView({
+        behavior: 'smooth', // Smooth scroll animatsiyasi
+        block: 'start', // Elementni yuqori qismga joylash
+    });
+}
 
 onBeforeMount(() => {
     useLessons.getById();

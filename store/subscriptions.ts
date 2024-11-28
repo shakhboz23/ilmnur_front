@@ -14,6 +14,7 @@ export const useSubscriptionStore = defineStore("subscription", () => {
 
   const store: any = reactive({
     course_id: null,
+    course_ids: [],
     subscription_id: 0,
     currentDate: dayjs(new Date()),
   });
@@ -39,12 +40,18 @@ export const useSubscriptionStore = defineStore("subscription", () => {
 
   async function createSubscribeUser(id: any) {
     console.log(id);
+    let course_ids: any = [];
+    for (let i of store.course_ids) {
+      course_ids.push(i.id);
+    }
+    console.log(course_ids);
     const data: any = await apiRequest.post(
       "subscriptions/createSubscription",
       {
         ...useAuth.user,
         role: useAuth.user?.role,
-        course_id: store.course_id,
+        course_ids,
+        // course_id: store.course_id,
       }
       // "subscriptions"
     );
@@ -53,7 +60,7 @@ export const useSubscriptionStore = defineStore("subscription", () => {
     console.log(data);
   }
 
-  
+
   async function changeSubscriptionStatus(status: string) {
     const data: any = await apiRequest.post(
       "subscription_activity/create",

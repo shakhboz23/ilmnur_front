@@ -16,10 +16,12 @@ export const useTestsStore = defineStore("tests", () => {
     is_checked: false,
     questions_count: 1,
     test_step: 1,
+    testResBall: [],
+    slideStep: 1,
   });
 
   const test: any = reactive({
-    1: {
+    0: {
       question: null,
       variants: [null, null, null],
       type: "variant"
@@ -53,9 +55,15 @@ export const useTestsStore = defineStore("tests", () => {
     // const dat: any =
     console.log(store.tests);
     console.log(id);
+    console.log(step);
+    console.log(Object.keys(test)?.length);
+    if (Object.keys(test)?.length == step - 1) {
+      return checkAllAnswers();
+    }
+    console.log(store.true_answers)
     const data: any = await apiRequest.post(
       `tests/check/${id}`,
-      { answer: store.true_answers[step] }
+      { answer: store.true_answers[step - 1] }
       // "getById"
     );
     store.checked_answers[step] = data.data[1];
@@ -65,15 +73,19 @@ export const useTestsStore = defineStore("tests", () => {
 
   async function checkAllAnswers() {
     const results = [];
-    for (let i = 0; i < store.tests?.length; i++) {
-      results.push([store.tests[i].id, store.true_answers[i]]);
+    for (let i = 0; i < Object.keys(test)?.length; i++) {
+      results.push([test[i].id, store.true_answers[i]]);
     }
     const data: any = await apiRequest.post(
       `tests/check_answers/${router.currentRoute.value.params.test_id}`,
       { answers: results }
     );
     console.log(data, "checked");
-    // store.tests = data.data;
+    store.testResBall = data?.data?.data?.ball;
+    setTimeout(() => {
+      store.slideStep = Object.keys(test)?.length + 1
+    }, 1000);
+    // test = data.data;
   }
 
   async function createTest() {
@@ -95,7 +107,7 @@ export const useTestsStore = defineStore("tests", () => {
     //   url = `/test?g=${group_id}`;
     // }
     let tests = []
-    for (let i = 1; i <= store.questions_count; i++) {
+    for (let i = 0; i < store.questions_count; i++) {
       try {
         const tempElement = document.createElement("div");
         tempElement.innerHTML = test[i].question;

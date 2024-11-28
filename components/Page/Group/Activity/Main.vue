@@ -124,6 +124,7 @@
 import { useLoadingStore, useSubscriptionStore, useLessonsStore, useCoursesStore } from '~/store';
 import dayjs from 'dayjs';
 
+const router = useRouter();
 const isLoading = useLoadingStore();
 const useSubscription = useSubscriptionStore();
 const useLessons = useLessonsStore();
@@ -198,6 +199,15 @@ watch(() => useSubscription.store.currentDate, () => {
 
 watch(() => isLoading.store.category_id, () => {
     useCourses.getUsersByGroupId();
+})
+
+// onMounted(() => {
+//     useCourses.getUsersByGroupId();
+// })
+watch(() => router.currentRoute.value.query.page, () => {
+    if (router.currentRoute.value.query.page == 'activity') {
+        useCourses.getUsersByGroupId();
+    }
 })
 </script>
 
