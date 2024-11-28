@@ -6,4 +6,5 @@ export interface LoadingType {
     pagination: Object;
     category_id: number,
     drawer: boolean,
+    logout: boolean,
 }

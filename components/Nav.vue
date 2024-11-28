@@ -15,12 +15,16 @@
       </li>
     </ul>
     <ul v-if="isLoading.store.isLogin" class="full_flex gap-5">
-      <li class="full_flex gap-2">
+      <li class="md:!flex !hidden full_flex gap-2">
         <button class="full_flex h-10 w-10 bg_cf9 rf"><img src="@/assets/svg/nav/daily.svg" alt=""></button>
         <span>0</span>
       </li>
       <li>
         <button class="full_flex h-10 w-10 bg_cf9 rf"><img src="@/assets/svg/nav/notification.svg" alt=""></button>
+      </li>
+      <li>
+        <button @click="logout" class="full_flex h-10 w-10 bg_cf9 rf"><img src="@/assets/svg/nav/logout.svg"
+            alt=""></button>
       </li>
     </ul>
     <div v-else class="full_flex gap-5">
@@ -31,14 +35,28 @@
         Hisob yaratish
       </router-link>
     </div>
+    <UIModal :isOpen="isLoading.store.logout" :loadingType="'category'" @update:isOpen="(value) => handleModal(value)">
+      <p class="py-5">Haqiqatdan ham hisobingizdan chiqmoqchimisiz?</p>
+    </UIModal>
   </nav>
 </template>
 
 <script setup>
 import { useLoadingStore } from '~/store';
 
-
 const isLoading = useLoadingStore();
+
+function logout() {
+  isLoading.store.logout = true;
+}
+
+function handleModal(value) {
+  isLoading.store.logout = false;
+  if (value == "OK") {
+    localStorage.removeItem('token');
+    isLoading.store.isLogin = false
+  }
+}
 </script>
 
 <style lang="scss" scoped></style>

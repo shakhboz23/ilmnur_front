@@ -14,7 +14,7 @@
                 </div>
                 <!-- {{ isLoading.user }} -->
                 <ul>
-                    <li class="font-bold">{{ isLoading.user?.name }} {{ isLoading.user?.surname }}</li>
+                    <li class="font-bold whitespace-nowrap">{{ isLoading.user?.name }} {{ isLoading.user?.surname }}</li>
                     <li class="flex gap-1 pcursor font-medium text-sm c_c66">
                         <span>id: {{ isLoading.user?.id }}</span>
                         <img src="@/assets/svg/icon/copy.svg" alt="" />

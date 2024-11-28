@@ -28,6 +28,7 @@ export const useLoadingStore = defineStore("loading", () => {
     },
     category_id: 0,
     drawer: false,
+    logout: false,
   });
 
   const user: any = reactive({
