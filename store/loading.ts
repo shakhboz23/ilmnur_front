@@ -4,13 +4,13 @@ import type { LoadingType } from "~/types/store";
 export const useLoadingStore = defineStore("loading", () => {
   const runtime = useRuntimeConfig();
   // const baseUrl: string = String(runtime.public.baseURL);
-  const localBaseURL: string = String(runtime.public.localBaseURL);
+  const baseURL: string = String(runtime.public.baseURL);
   //   const demoBaseUrl = runtime.public.demoBaseURL;
   const router = useRouter();
 
   const store: LoadingType = reactive({
     loadingTypes: [],
-    baseUrl: localBaseURL,
+    baseUrl: baseURL,
     isLogin: false,
     middleware: true,
     errorMessage: {},
@@ -113,7 +113,7 @@ export const useLoadingStore = defineStore("loading", () => {
     //     ? window?.location.protocol + "//" + window?.location?.host
     //     : "";
     // if (front_url.includes("localhost") || front_url.includes("demo")) {
-    //   store.baseUrl = localBaseURL;
+    //   store.baseUrl = baseURL;
     //   // store.baseUrl = baseUrl;
     // } else {
     //   store.baseUrl = baseUrl;
