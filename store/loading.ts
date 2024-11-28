@@ -5,6 +5,7 @@ export const useLoadingStore = defineStore("loading", () => {
   const runtime = useRuntimeConfig();
   // const baseUrl: string = String(runtime.public.baseURL);
   const baseURL: string = String(runtime.public.baseURL);
+  const localBaseURL: string = String(runtime.public.localBaseURL);
   //   const demoBaseUrl = runtime.public.demoBaseURL;
   const router = useRouter();
  
@@ -109,16 +110,15 @@ export const useLoadingStore = defineStore("loading", () => {
   //   }
 
   function checkCurrentUrl() {
-    // const front_url =
-    //   typeof window !== "undefined"
-    //     ? window?.location.protocol + "//" + window?.location?.host
-    //     : "";
-    // if (front_url.includes("localhost") || front_url.includes("demo")) {
-    //   store.baseUrl = baseURL;
-    //   // store.baseUrl = baseUrl;
-    // } else {
-    //   store.baseUrl = baseUrl;
-    // }
+    const front_url =
+      typeof window !== "undefined"
+        ? window?.location.protocol + "//" + window?.location?.host
+        : "";
+    if (front_url.includes("localhost") || front_url.includes("demo")) {
+      store.baseUrl = localBaseURL;
+    } else {
+      store.baseUrl = baseURL;
+    }
   }
 
   return {
