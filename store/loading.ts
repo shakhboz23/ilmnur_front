@@ -7,7 +7,7 @@ export const useLoadingStore = defineStore("loading", () => {
   const baseURL: string = String(runtime.public.baseURL);
   //   const demoBaseUrl = runtime.public.demoBaseURL;
   const router = useRouter();
-
+ 
   const store: LoadingType = reactive({
     loadingTypes: [],
     baseUrl: baseURL,
