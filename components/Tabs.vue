@@ -3,8 +3,6 @@
         <div>
             <a-tabs v-model:activeKey="activeKey" animated>
                 <a-tab-pane v-for="i in home_tabs" :key="i.id" :tab="i.name">
-                    <!-- <InfiniteScroll /> -->
-                    <!-- <PageHomeLesson /> -->
                     <component :is="getComponent(i.component)" />
                 </a-tab-pane>
             </a-tabs>

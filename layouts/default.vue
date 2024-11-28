@@ -8,7 +8,7 @@
       <Sidebar class="md:block hidden fixed top-[120px] max-w-[260px]" />
       <div class="md:flex md:gap-5 max-w-[100vw] md:mt-[120px] mt-[112px] min-h-[calc(100vh_-_140px)]">
         <div class="md:min-w-[260px]"></div>
-        <main class="md:max-w-[calc(100vw_-_340px)] w-full bg-white p-5 r_8">
+        <main class="md:max-w-[calc(100vw_-_340px)] w-full bg-white min-h-[calc(100vh_-_140px)] p-5 r_8">
           <slot v-if="isLoading.store.isLogin || $router.currentRoute.value.name == 'login'" />
           <div v-else class="full_flex h-full">
             <router-link to="/login">
@@ -21,7 +21,9 @@
     <a-drawer class="max-w-fit md:hidden block !p-0" :placement="'left'" :open="isLoading.store.drawer"
       @close="isLoading.store.drawer = false">
       <template #title>
-        <img class="min-w-fit" src="public/logo.svg" alt="">
+        <router-link to="/">
+          <img class="min-w-fit" src="public/logo.svg" alt="">
+        </router-link>
       </template>
       <Sidebar />
     </a-drawer>

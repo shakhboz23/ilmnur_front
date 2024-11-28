@@ -7,7 +7,7 @@
         </div>
         <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5" v-else>
             <PageCard :carddata="i" v-for="i in useGroups.store.groups?.groups" />
-            <div @click="isLoading.modal.create = true" class="addbox box-h">Guruh qo'shish</div>
+            <div @click="isLoading.modal.create = true" class="addbox addbox-h min-h-40">Guruh qo'shish</div>
         </div>
     </div>
     <UIModal :isOpen="isLoading.modal.create" :loadingType="'creategroup'"
@@ -27,9 +27,9 @@
             <a-textarea v-model:value="useGroups.create.description" placeholder="Description"
                 :auto-size="{ minRows: 2, maxRows: 10 }" />
             <a-select class="w-full" v-model:value="value" show-search placeholder="Select a person"
-                :filter-option="filterOption" @focus="handleFocus"
-                @blur="handleBlur" @change="handleChange">
-                <a-select-option v-for="i in useCategory.store.category" :value="i.id">{{ i.category }}</a-select-option>
+                :filter-option="filterOption" @focus="handleFocus" @blur="handleBlur" @change="handleChange">
+                <a-select-option v-for="i in useCategory.store.category" :value="i.id">{{ i.category
+                    }}</a-select-option>
             </a-select>
             <p class="c_red">{{ isLoading.store.errorMessage.message }}</p>
         </div>

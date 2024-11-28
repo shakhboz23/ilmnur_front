@@ -27,7 +27,7 @@
       <router-link class="b_cbb px-8 py-3 rounded-full" to="/register">
         Kirish
       </router-link>
-      <router-link class="bg_main text-white px-8 py-3 rounded-full" to="/login">
+      <router-link class="md:block hidden bg_main text-white px-8 py-3 rounded-full" to="/login">
         Hisob yaratish
       </router-link>
     </div>

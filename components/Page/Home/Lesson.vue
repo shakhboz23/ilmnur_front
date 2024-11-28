@@ -6,7 +6,7 @@
       v-else
       :carddata="i"
     /> -->
-    <section v-else class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+    <section v-else-if="useLesson.store.lessons?.length" class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
       <div v-for="i in useLesson.store.lessons" @click="$router.push(`/lesson/${i.id}`)"
         class="r_12 overflow-hidden bg_white pcursor">
         <!-- <img class="aspect-video w-full object-cover" :src="i.cover" alt="" /> -->
@@ -45,6 +45,9 @@
           </div>
         </div>
       </div>
+    </section>
+    <section v-else class="text-center py-40">
+      Ma'lumotlar yo'q
     </section>
   </div>
 </template>
