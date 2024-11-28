@@ -10,7 +10,7 @@
         <div class="md:min-w-[260px]"></div>
         <main class="md:max-w-[calc(100vw_-_340px)] w-full bg-white min-h-[calc(100vh_-_140px)] p-5 r_8">
           <slot v-if="isLoading.store.isLogin || $router.currentRoute.value.name == 'login'" />
-          <div v-else class="full_flex h-full">
+          <div v-else class="full_flex h-full py-20">
             <router-link to="/login">
               <button class="bg_main px-6 py-1 rounded-full">Login</button>
             </router-link>
