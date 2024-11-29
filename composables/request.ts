@@ -4,7 +4,7 @@ export const useApiRequest = () => {
   const isLoading: any = useLoadingStore();
   // isLoading.checkCurrentUrl();
   // const { start, finish } = useLoadingIndicator();
-  const endPoint: string = isLoading.store.baseUrl;
+  const endPoint: string = isLoading.checkCurrentUrl();
 
   function getToken() {
     return localStorage.getItem("token");

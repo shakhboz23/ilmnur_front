@@ -17,9 +17,16 @@
         <section>
             <div v-if="!isLoading.isLoadingType('getByCourse')">
                 <div class="flex justify-between items-center">
-                    <h1 class="font-semibold text-[28px]">{{ useCourses.store.courses?.course?.title }}</h1>
+                    <div class="flex items-center gap-5">
+                        <h1 class="font-semibold text-[24px] max-w-[70%]">{{ useCourses.store.courses?.course?.title }}
+                        </h1>
+                        <button v-if="useCourses.store.courses?.course?.is_subscribed"
+                            class="bg_main rounded-full text-white px-4 py-1 text-sm">Obuna</button>
+                        <button v-else @click="useCourses.subscribeCourse(useCourses.store.courses?.course?.id)"
+                            class="b_main c_main rounded-full px-4 py-1 text-sm">Obuna bo'lish</button>
+                    </div>
                     <a-dropdown>
-                        <div class="!bg-white r_8">
+                        <div class="!bg-white r_8 min-w-fit">
                             <img class="rotate-90 h-5" src="@/assets/svg/icon/threedot.svg" alt="">
                         </div>
                         <template #overlay>

@@ -118,7 +118,7 @@
                                 <section
                                     class="max-h-[calc(100vh_-_300px)] min-h-[calc(100vh_-_300px)] overflow-y-auto mt-10 space-y-7 max-w-fit mx-auto">
                                     <h1 class="font-bold text-2xl break-words">
-                                        {{ +index + 1 }}. {{ i.question }}
+                                        <span>{{ +index + 1 }}</span>. <span v-html="i.question"></span>
                                     </h1>
                                     <hr />
                                     <ul class="space-y-4 pcursor">

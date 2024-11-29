@@ -2,10 +2,12 @@ import { useApiRequest } from "~/composables";
 import type { CoursesType } from "~/types/store";
 import { useLoadingStore } from "./loading";
 import { useSubscriptionStore } from "./subscriptions";
+import { useLessonsStore } from "./lessons";
 
 export const useCoursesStore = defineStore("courses", () => {
   const apiRequest = useApiRequest();
   const router = useRouter();
+  const useLessons = useLessonsStore();
   const isLoading = useLoadingStore();
   const useSubscription = useSubscriptionStore();
 
@@ -35,13 +37,14 @@ export const useCoursesStore = defineStore("courses", () => {
   }
 
   async function getCourses() {
-    const data: any = await apiRequest.get("courses", "courses");
+    const data: any = await apiRequest.get(`course/${isLoading.store.category_id}`, "courses");
+    console.log(data, "course2303")
     store.courses = data.data;
   }
 
   async function getByCourse() {
     const data: any = await apiRequest.get(
-      "lesson/getByCourse/1",
+      `lesson/getByCourse/${router.currentRoute.value.params.course_id}`,
       "getByCourse"
     );
     console.log(data, "getByCourse");
@@ -69,10 +72,12 @@ export const useCoursesStore = defineStore("courses", () => {
       }
       // "subscriptions"
     );
+    getByCourse();
     console.log(data);
   }
 
   async function createCourse() {
+    create.group_id = router.currentRoute.value.params.group_id;
     const formData = new FormData();
     for (let i in create) {
       if (create[i]) {
@@ -88,6 +93,8 @@ export const useCoursesStore = defineStore("courses", () => {
       formData,
       "createCourse"
     );
+    useLessons.getByCourse();
+    // getByCourse();
     isLoading.modal.create = false;
     clearData();
     // getCourses();
@@ -96,6 +103,7 @@ export const useCoursesStore = defineStore("courses", () => {
   }
 
   async function updateCourse() {
+    create.group_id = router.currentRoute.value.params.group_id;
     const formData = new FormData();
     for (let i in create) {
       if (create[i]) {

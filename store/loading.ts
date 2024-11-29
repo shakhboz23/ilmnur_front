@@ -8,7 +8,7 @@ export const useLoadingStore = defineStore("loading", () => {
   const localBaseURL: string = String(runtime.public.localBaseURL);
   //   const demoBaseUrl = runtime.public.demoBaseURL;
   const router = useRouter();
- 
+
   const store: LoadingType = reactive({
     loadingTypes: [],
     baseUrl: baseURL,
@@ -114,11 +114,13 @@ export const useLoadingStore = defineStore("loading", () => {
       typeof window !== "undefined"
         ? window?.location.protocol + "//" + window?.location?.host
         : "";
+    console.log(front_url, 'front_url')
     if (front_url.includes("localhost") || front_url.includes("demo")) {
       store.baseUrl = localBaseURL;
     } else {
       store.baseUrl = baseURL;
     }
+    return store.baseUrl;
   }
 
   return {
@@ -128,5 +130,6 @@ export const useLoadingStore = defineStore("loading", () => {
     addLoading,
     removeLoading,
     isLoadingType,
+    checkCurrentUrl,
   };
 });

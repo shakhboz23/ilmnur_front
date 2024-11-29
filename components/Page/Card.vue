@@ -1,5 +1,5 @@
 <template>
-    <div @click="$router.push('/group/1')" class="r_12 overflow-hidden bg_white pcursor relative">
+    <div @click="$router.push(`/group/${carddata.id}`)" class="r_12 overflow-hidden bg_white pcursor relative">
         <a-dropdown>
             <div class="!bg-white r_8 absolute right-2 top-2 py-1">
                 <img class="rotate-90 h-5" src="@/assets/svg/icon/threedot.svg" alt="">

@@ -4,16 +4,17 @@
 </template>
 
 <script setup>
-import { useGroupsStore, useCategoryStore, useLessonsStore, useLoadingStore } from "@/store"
+import { useGroupsStore, useCategoryStore, useLessonsStore, useLoadingStore, useCoursesStore } from "@/store"
 const useGroups = useGroupsStore();
 const useCategory = useCategoryStore();
+const useCourses = useCoursesStore();
 const useLessons = useLessonsStore();
 const isLoading = useLoadingStore();
 
 function getData() {
     useGroups.getGroups();
     useLessons.getLessons();
-    useLessons.getByCourse();
+    useCourses.getCourses();
 }
 
 onBeforeMount(() => {

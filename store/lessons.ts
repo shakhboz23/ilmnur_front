@@ -43,7 +43,7 @@ export const useLessonsStore = defineStore("lessons", () => {
 
   async function getLessons() {
     const data: any = await apiRequest.get(`lesson/${isLoading.store.category_id}`, "lessons");
-    console.log(data);
+    console.log(data, 'lessons===========');
     store.lessons = data.data;
   }
 
@@ -56,12 +56,13 @@ export const useLessonsStore = defineStore("lessons", () => {
     console.log(data, "lessons getById");
     store.lessons = data.data;
   }
+  
   async function getByCourse() {
     const data: any = await apiRequest.get(
-      `course/getByCourse/1/${isLoading.store.category_id}`,
+      `course/getByCourse/${router.currentRoute.value.params.group_id}/${isLoading.store.category_id}`,
       "getByCourse"
     );
-    console.log(data, "coursebyid");
+    console.log(data, "coursebyid====");
     store.courses = data.data;
   }
 

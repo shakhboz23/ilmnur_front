@@ -1,11 +1,11 @@
 <template>
-  <main class="py-10 md:px-0 px-4 max-h-screen min-h-[calc(100vh_-_100px)] overflow-y-auto">
+  <main class="full_flex py-10 md:px-0 px-4 max-h-screen min-h-[calc(100vh_-_100px)] overflow-y-auto">
     <div class="sm:w-[500px] bg_white mx-auto sm:p-[50px] p-5 pb-8 rounded-[16px]">
       <h1 class="text-center md:text-[28px] mb-7 text-xl font-bold">
         Roʻyxatdan oʻtish
       </h1>
       <form @submit.prevent="useAuth.authRegister" class="space-y-6 text-sm">
-        <div class="space-y-2">
+        <!-- <div class="space-y-2">
           <label for="name">Ism</label>
           <input v-model="useAuth.register.name" id="name" type="text" />
         </div>
@@ -24,8 +24,10 @@
             <input v-model="useAuth.register.password" id="password" type="password" class="pr-10" />
             <img class="absolute top-0 right-0 p-4 cursor-pointer" src="@/assets/svg/icon/show.svg" alt="" />
           </div>
+        </div> -->
+        <div class="full_flex">
+          <div id="googleButton"></div>
         </div>
-        <div id="googleButton"></div>
         <div class="pt-8 space-y-6 grid">
           <button class="login_btn mx-auto">Keyingi</button>
           <router-link class="text-[#2E9AFF] max-w-fit mx-auto border-b border-[#2E9AFF] text-end font-medium"

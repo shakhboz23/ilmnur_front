@@ -74,6 +74,7 @@ export const useAuthStore = defineStore("auth", () => {
           //   }
         } else {
           isLoading.store.isLogin = false;
+          isLoading.store.middleware = false;
           //   isLoading.middleware.loading = false;
           //   const isRoute = [
           //     "login",
@@ -92,6 +93,8 @@ export const useAuthStore = defineStore("auth", () => {
         isLoading.removeLoading("getUserFullInfo");
       })
       .catch((err: any) => {
+        isLoading.store.middleware = false;
+        isLoading.store.isLogin = false;
         console.log(err);
       });
   }

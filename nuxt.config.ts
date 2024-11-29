@@ -60,7 +60,7 @@ export default defineNuxtConfig({
     },
   },
 
-  plugins: ["~/plugins/ant-design-vue.client.ts"],
+  plugins: ["~/plugins/ant-design-vue.client.ts", { src: '~/plugins/ckeditor.client.js', mode: 'client' }],
 
   // router: {
   //   extendRoutes(routes, resolve) {

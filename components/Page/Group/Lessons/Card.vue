@@ -1,5 +1,5 @@
 <template>
-    <div @click="$router.push('/course/1')" class="r_12 overflow-hidden bg_white pcursor">
+    <div @click="$router.push(`/course/${lessoncarddata.id}`)" class="r_12 overflow-hidden bg_white pcursor">
         <img class="aspect-video w-full object-cover"
             :src="lessoncarddata?.cover"
             alt="">
