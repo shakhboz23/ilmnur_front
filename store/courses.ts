@@ -13,7 +13,7 @@ export const useCoursesStore = defineStore("courses", () => {
 
   const store: CoursesType = reactive({
     courses: [],
-    users: [],
+    users: {},
     image: "",
     course_id: 0,
   });
@@ -58,7 +58,7 @@ export const useCoursesStore = defineStore("courses", () => {
     );
     console.log(data, "users");
     store.users = data.data;
-    if (router.currentRoute.value.query.page == 'activity') {
+    if (router.currentRoute.value.query.page == 'activity' && store.users?.user?.role == 'teacher') {
       isLoading.store.category_id = data.data?.user?.course_id || isLoading.store.category_id;
     }
   }

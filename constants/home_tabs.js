@@ -7,9 +7,9 @@ export const home_tabs = [
   // },
   {
     id: 1,
-    name: "Darslar",
+    name: "Guruhlar",
     url: "/",
-    component: "PageHomeLesson",
+    component: "InfiniteScroll",
     role: [],
   },
   {
@@ -21,9 +21,9 @@ export const home_tabs = [
   },
   {
     id: 3,
-    name: "Guruhlar",
+    name: "Darslar",
     url: "/",
-    component: "InfiniteScroll",
+    component: "PageHomeLesson",
     role: [],
   },
 ];

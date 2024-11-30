@@ -1,11 +1,11 @@
-import _class from "@/assets/svg/icon/useravatar.svg";
-import _myclass from "@/assets/svg/icon/useravatar.svg";
+import _class from "@/assets/svg/sidebar/shorts.svg";
+import _myclass from "@/assets/svg/sidebar/shorts.svg";
 import _shorts from "@/assets/svg/sidebar/shorts.svg";
-import _settings from "@/assets/svg/icon/useravatar.svg";
+import _settings from "@/assets/svg/sidebar/shorts.svg";
 import _lessons from "@/assets/svg/sidebar/lessons.svg";
 import _reyting from "@/assets/svg/sidebar/reyting.svg";
-import _news from "@/assets/svg/icon/useravatar.svg";
-import _children from "@/assets/svg/icon/useravatar.svg";
+import _news from "@/assets/svg/sidebar/shorts.svg";
+import _children from "@/assets/svg/sidebar/shorts.svg";
 
 export const sidebar = [
   {
@@ -84,7 +84,7 @@ export const sidebar = [
   {
     id: 1,
     name: "Sozlamalar",
-    url: "/",
+    url: "/settings",
     svg: _lessons,
     // svgActive: dashboardActive,
     role: [],
@@ -132,4 +132,48 @@ export const group_sidebar = [
     // svgActive: dashboardActive,
     role: [],
   },
+];
+
+
+export const settings_sidebar = [
+  {
+    id: 1,
+    name: "Profile",
+    url: "/settings",
+    svg: _lessons,
+    // svgActive: dashboardActive,
+    role: [],
+  },
+  {
+    id: 1,
+    name: "Account",
+    url: "/settings/account",
+    svg: _lessons,
+    // svgActive: dashboardActive,
+    role: [],
+  },
+  // {
+  //   id: 1,
+  //   name: "Password",
+  //   url: "/my_groups/password",
+  //   svg: _lessons,
+  //   // svgActive: dashboardActive,
+  //   role: [],
+  // },
+  // {
+  //   id: 1,
+  //   name: "Comments",
+  //   url: "/my_groups/notifications",
+  //   svg: _lessons,
+  //   // svgActive: dashboardActive,
+  //   role: [],
+  // },
+  // {
+  //   id: 1,
+  //   name: "Earn",
+  //   url: "/my_groups/chat",
+  //   svg: _lessons,
+  //   // svgActive: dashboardActive,
+  //   role: [],
+  // },
 ];

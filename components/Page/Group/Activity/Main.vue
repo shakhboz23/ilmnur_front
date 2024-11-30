@@ -1,8 +1,9 @@
 <template>
     <div>
-        <nav class="md:flex items-center justify-between space-y-5 gap-10 w-full mb-6">
-            <CategorySlider :category_id="useCourses.store.users?.user?.course_id" :all="false"
-                :category="useLessons.store.courses" class="w-full" />
+        <nav class="md:flex items-center justify-between gap-10 w-full mb-2 space-y-2">
+            <CategorySlider
+                :category_id="useCourses.store.users?.user?.role == 'teacher' ? useCourses.store.users?.user?.course_id : null"
+                :all="false" :category="useLessons.store.courses" class="w-full" />
             <div class="flex gap-3 min-w-fit">
                 <div class="flex items-center bg_bg h-[46px] w-[46px] rounded-[10px]">
                     <button class="flex items-center justify-center h-[46px] w-[46px] rounded-[10px]">
@@ -24,11 +25,13 @@
                         <tr v-for="i in useCourses.store.users?.users" class="bg_bg">
                             <th scope="row" class="p-3 rounded-l-xl">
                                 <div class="flex items-center gap-5">
-                                    <img class="w-10 h-10 r_f object-cover"
+                                    <!-- <img class="w-10 h-10 r_f object-cover"
                                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKtKkuCjVMZ09HHU7OxCs0h7421BzTwVWGjA&s"
-                                        alt="">
+                                        alt=""> -->
+                                    <UIAvatar class="w-10 h-10 max-w-[40px] max-h-[40px]" :src="i?.user?.image" />
+
                                     <ul>
-                                        <li class="text-lg font-semibold">{{ i?.user?.name }} {{ i?.user?.surname }}
+                                        <li class="md:text-lg font-semibold">{{ i?.user?.name }} {{ i?.user?.surname }}
                                         </li>
                                         <li class="font-normal space-x-2">
                                             <span>{{ i?.user?.current_role }}</span>
@@ -37,7 +40,7 @@
                                     </ul>
                                 </div>
                             </th>
-                            <td class="md:inline hidden px-6">
+                            <!-- <td class="md:inline hidden px-6">
                                 <ul>
                                     <li class="full_flex max-w-fit gap-2">
                                         <img src="@/assets/svg/members/date.svg" alt="">
@@ -48,7 +51,7 @@
                                         <p>Samarqand</p>
                                     </li>
                                 </ul>
-                            </td>
+                            </td> -->
                             <td class="px-6 rounded-r-xl">
                                 <a-dropdown placement="bottom">
                                     <button class="text-white py-1 px-3 rounded-full capitalize"

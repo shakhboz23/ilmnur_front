@@ -1,20 +1,25 @@
 <template>
     <aside class="min-w-[260px] h-[calc(100vh_-_140px)] overflow-y-auto noscroll md:p-4 bg-white r_8">
         <ul class="space-y-7">
-            <li v-if="isLoading.store.isLogin" class="flex items-center gap-1">
+            <router-link v-if="store.is_sidebar" to="/" class="flex items-center gap-2 font-semibold !-mb-4">
+                <img class="pcursor" src="@/assets/svg/icon/back_route.svg" alt="" />
+                <span>Orqaga</span>
+            </router-link>
+            <li v-if="isLoading.store.isLogin && !store.is_sidebar" class="flex items-center gap-1 w-full">
                 <div class="relative min-w-fit">
                     <div class="clip">
-                        <img class="min-h-[53px] min-w-[53px] max-h-[53px] max-w-[53px] rounded-full object-cover"
-                            src="https://natureconservancy-h.assetsadobe.com/is/image/content/dam/tnc/nature/en/photos/w/o/WOPA160517_D056-resized.jpg?crop=864%2C0%2C1728%2C2304&wid=600&hei=800&scl=2.88"
-                            alt="" />
-                        <!-- <ui-empty-avatar class="max-h-[53px] max-w-[53px] rounded-full object-cover" /> -->
+                        <div class="min-h-[53px] min-w-[53px] max-h-[53px] max-w-[53px]">
+                            <UIAvatar class="min-h-[53px] min-w-[53px] max-h-[53px] max-w-[53px]"
+                                :src="isLoading.user?.image" />
+                        </div>
                     </div>
                     <img class="absolute rotate-[180deg] -bottom-1 -right-[1px]" src="@/assets/svg/icon/online.svg"
                         alt="" />
                 </div>
-                <!-- {{ isLoading.user }} -->
-                <ul>
-                    <li class="font-bold whitespace-nowrap">{{ isLoading.user?.name }} {{ isLoading.user?.surname }}</li>
+                <ul class="max-w-[60%]">
+                    <li class="font-bold whitespace-nowrap truncate">
+                        <h1 class="truncate">{{ isLoading.user?.name }} {{ isLoading.user?.surname }}</h1>
+                    </li>
                     <li class="flex gap-1 pcursor font-medium text-sm c_c66">
                         <span>id: {{ isLoading.user?.id }}</span>
                         <img src="@/assets/svg/icon/copy.svg" alt="" />
@@ -23,8 +28,17 @@
                 </ul>
                 <img class="" src="@/assets/svg/icon/arrow.svg" alt="" />
             </li>
-            <li v-if="!$router.currentRoute.value.path.includes('my_groups')">
-                <router-link :to="i.url" v-for="i in sidebar" :key="i.id">
+            <li v-if="$router.currentRoute.value.path.includes('my_groups')">
+                <router-link :to="i.url" v-for="i in group_sidebar" :key="i.id">
+                    <div
+                        class="flex items-center hover:bg-[#FF852E] hover:bg-opacity-80 px-2 rounded-lg gap-2 h-12 cursor-pointer text-[#555555]">
+                        <img class="w-5 h-5" :src="i.svg" alt="" />
+                        <p>{{ i.name }}</p>
+                    </div>
+                </router-link>
+            </li>
+            <li v-else-if="$router.currentRoute.value.path.includes('settings')">
+                <router-link :to="i.url" v-for="i in settings_sidebar" :key="i.id">
                     <div
                         class="flex items-center hover:bg-[#FF852E] hover:bg-opacity-80 px-2 rounded-lg gap-2 h-12 cursor-pointer text-[#555555]">
                         <img class="w-5 h-5" :src="i.svg" alt="" />
@@ -33,7 +47,7 @@
                 </router-link>
             </li>
             <li v-else>
-                <router-link :to="i.url" v-for="i in group_sidebar" :key="i.id">
+                <router-link :to="i.url" v-for="i in sidebar" :key="i.id">
                     <div
                         class="flex items-center hover:bg-[#FF852E] hover:bg-opacity-80 px-2 rounded-lg gap-2 h-12 cursor-pointer text-[#555555]">
                         <img class="w-5 h-5" :src="i.svg" alt="" />
@@ -46,10 +60,31 @@
 </template>
 
 <script setup>
-import { sidebar, group_sidebar } from "@/constants";
+import { sidebar, group_sidebar, settings_sidebar } from "@/constants";
 import { useLoadingStore } from "~/store";
 
+const router = useRouter();
 const isLoading = useLoadingStore();
+
+const is_sidebar = ["my_groups", "settings"];
+const store = reactive({
+    is_sidebar: false,
+})
+store.is_sidebar = checkSidebarType()
+
+function checkSidebarType() {
+    console.log(router.currentRoute.value.path);
+    for (let i of is_sidebar) {
+        if (router.currentRoute.value.path.includes(i)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+watch(() => router.currentRoute.value, () => {
+    store.is_sidebar = checkSidebarType();
+})
 </script>
 
 <style lang="scss" scoped>

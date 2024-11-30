@@ -57,7 +57,7 @@
 </template>
 
 <script setup>
-import EmptyAvatar from '~/components/UI/EmptyAvatar.vue';
+import EmptyAvatar from '~/components/UI/Avatar.vue';
 import { useReytingStore } from '~/store';
 
 const useReyting = useReytingStore();

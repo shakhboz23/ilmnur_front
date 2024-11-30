@@ -2,7 +2,6 @@ import { defineStore } from "pinia";
 import { useLoadingStore } from "@/store";
 import { useApiRequest } from "~/composables";
 // import { io } from "socket.io-client";
-import axios from "axios";
 
 export const useAuthStore = defineStore("auth", () => {
   const apiRequest: any = useApiRequest();
@@ -35,9 +34,20 @@ export const useAuthStore = defineStore("auth", () => {
     activation_link: "",
   });
 
-  const user = reactive({
+  const user: any = reactive({
     name: "",
     surname: "",
+    email: "",
+    password: "",
+    role: "",
+  });
+
+  const profile: any = reactive({
+    name: "",
+    surname: "",
+    image: "",
+    imageFile: "",
+    bio: "",
     email: "",
     password: "",
     role: "",
@@ -56,6 +66,9 @@ export const useAuthStore = defineStore("auth", () => {
           isLoading.store.isLogin = true;
           // isLoading.middleware.passwordChecking = false;
           isLoading.user = res.data;
+          for (let i in res.data) {
+            profile[i] = res.data[i];
+          }
           //   isLoading.store.socket = io("http://localhost:4000", {
           //     reconnectionDelayMax: 10000000, // Maximum delay between reconnection attempts (milliseconds)
           //     reconnectionAttempts: 5,
@@ -185,44 +198,6 @@ export const useAuthStore = defineStore("auth", () => {
       });
   }
 
-  function getRegions() {
-    const apiKey1 = "4971bcda-6d54-4c71-b231-531f7377d66d";
-    const apiKey = "ff0a0a81-3e7e-4a6c-8e21-d7e25594a046";
-    const country = "Uzbekistan, Samarqand, Kattaqo'rg'on";
-
-    // const location = `${country}, ${region}, ${district}, ${village}`;
-    axios
-      .get(
-        `https://geocode-maps.yandex.ru/1.x/?apikey=${apiKey1}&format=json&geocode=${country}`
-      )
-      .then((response) => {
-        const data = response.data;
-        const coordinates =
-          data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(
-            " "
-          );
-        const latitude = coordinates[1];
-        const longitude = coordinates[0];
-        console.log("Latitude:", latitude, "Longitude:", longitude);
-        const countryCoordinates = latitude + "," + longitude;
-        axios
-          .get(
-            `https://search-maps.yandex.ru/v1/?apikey=${apiKey}&text=School&ll=${countryCoordinates}&format=json&lang=uz_UZ`
-          )
-          .then((response) => {
-            const data = response.data;
-            // Parse the response to extract the school numbers or other relevant information
-            console.log(data);
-          })
-          .catch((error) => {
-            console.error("Error fetching data:", error);
-          });
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
-  }
-
   async function verifyGoogleCredential(response: any) {
     const credential = response.credential;
     apiRequest
@@ -253,12 +228,39 @@ export const useAuthStore = defineStore("auth", () => {
       });
   }
 
+  function updateProfile() {
+    const formData = new FormData();
+    for (let i in profile) {
+      formData.append(i, profile[i])
+    }
+    formData.delete("imageFile");
+    formData.delete("image");
+    formData.append('image', profile.imageFile);
+    for (let [key, value] of formData.entries()) {
+      console.log(`${key}: ${value}`);
+    }
+    apiRequest
+      .put(
+        `user/profile`,
+        formData,
+      )
+      .then((res: any) => {
+        console.log(res);
+        getUserFullInfo()
+      })
+      .catch((err: any) => {
+        getUserFullInfo()
+        console.log(err);
+        // openNotification(err?.response?.data?.message);
+      });
+  }
+
   return {
     store,
     create,
     user,
+    profile,
     getUserFullInfo,
-    getRegions,
     reset_pass,
     register,
     login,
@@ -269,5 +271,6 @@ export const useAuthStore = defineStore("auth", () => {
     authResetPass,
     verifyGoogleCredential,
     createUser,
+    updateProfile,
   };
 });

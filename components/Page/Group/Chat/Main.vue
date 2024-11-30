@@ -22,7 +22,7 @@
                 </li>
             </ul>
         </aside>
-        <section class="w-full bg_cf5">
+        <section class="md:block hidden w-full bg_cf5">
             <nav class="flex items-center px-6 bg-white">
                 <ul class="flex items-center justify-between w-full">
                     <li>

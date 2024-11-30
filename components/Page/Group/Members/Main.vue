@@ -1,11 +1,6 @@
 <template>
     <div>
-        <nav class="md:flex flex-wrap items-center justify-between gap-5 w-full">
-            <!-- <ul class="flex items-center gap-10 text-xl font-medium opacity-40">
-                <li>General info</li>
-                <li>Billing details</li>
-                <li>Documents</li>
-            </ul> -->
+        <nav class="md:flex flex-wrap items-center justify-between gap-5 w-full space-y-2">
             <CategorySlider :category="useLessons.store.courses" class="md:w-fit w-full" />
             <div class="flex gap-3 min-w-fit">
                 <div class="flex items-center bg_bg h-[46px] w-[46px] rounded-[10px]">
@@ -26,11 +21,11 @@
                         <tr v-for="i in useCourses.store.users?.users" class="bg_bg">
                             <th scope="row" class="p-5 rounded-l-xl">
                                 <div class="flex items-center gap-5">
-                                    <img class="md:w-20 md:h-20 w-12 h-12 r_f object-cover"
-                                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKtKkuCjVMZ09HHU7OxCs0h7421BzTwVWGjA&s"
-                                        alt="">
+                                    <UIAvatar
+                                        class="md:w-20 md:h-20 w-12 h-12 md:max-w-[80px] md:max-h-[80px] max-w-[48px] max-h-[48px] min-w-fit"
+                                        :src="i?.user?.image" />
                                     <ul class="md:space-y-3">
-                                        <li class="md:text-xl text-lg font-semibold">{{ i?.user?.name }} {{
+                                        <li class="md:text-xl font-semibold">{{ i?.user?.name }} {{
                                             i?.user?.surname }}
                                         </li>
                                         <li class="font-normal space-x-2">
@@ -47,13 +42,13 @@
                             <td class="px-6 py-5">
                                 <button class="bg_main text-white py-1 px-3 rounded-full">{{ i.is_active }}</button>
                             </td>
-                            <td class="px-6 py-5">
+                            <!-- <td class="px-6 py-5">
                                 +12 34 567890
-                            </td>
+                            </td> -->
                             <td class="px-6 py-5">
                                 {{ i?.user?.email }}
                             </td>
-                            <td class="px-6 py-5">
+                            <!-- <td class="px-6 py-5">
                                 <ul>
                                     <li class="full_flex max-w-fit gap-2">
                                         <img src="@/assets/svg/members/date.svg" alt="">
@@ -74,7 +69,7 @@
                                         <p>Free</p>
                                     </li>
                                 </ul>
-                            </td>
+                            </td> -->
                             <td class="px-6 py-5 relative rounded-r-xl">
                                 <img class="absolute top-5 right-5" src="@/assets/svg/icon/threedot.svg" alt="">
                                 <img class="absolute bottom-5 right-5" src="@/assets/svg/members/message.svg" alt="">
