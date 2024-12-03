@@ -60,8 +60,7 @@
                                 <li v-for="(i, v_index) in useTests.test[index]?.variants">
                                     <div class="flex gap-4 bg_cf5 px-4 r_8"
                                         :class="checkCurrentType(useTests.test[index].type, true)">
-                                        <a-checkbox>
-                                        </a-checkbox>
+                                        <a-checkbox></a-checkbox>
                                         <ClientOnly>
                                             <CKEditor class="w-full b-none"
                                                 v-model:editorContent="useTests.test[index].variants[v_index]"
@@ -69,6 +68,11 @@
                                         </ClientOnly>
                                     </div>
                                     <hr class="w-full" />
+                                </li>
+                                <li @click="addVariant(index)">
+                                    <div class="full_flex bg_cf5 p-3 r_8 pcursor">
+                                        <img src="@/assets/svg/icon/plus.svg" alt="">
+                                    </div>
                                 </li>
                             </ul>
                         </div>
@@ -445,7 +449,6 @@ const store = reactive({
     convertedContent: [],
 })
 
-
 function handleModal(value) {
     if (value == "OK") {
         if (isLoading.modal.delete) {
@@ -460,6 +463,10 @@ function handleModal(value) {
         isLoading.modal.delete = false;
         // useCourses.clearData();
     }
+}
+
+function handleInput(e) {
+    console.log("Hiiiii")
 }
 
 function checkCurrentType(type, is_inline) {
@@ -574,10 +581,14 @@ function nextSlide() {
         useTests.test[+useTests.store.slideStep + 1] = { question: null, variants: [null, null, null], type: 'variant' };
         setTimeout(() => {
             useTests.store.slideStep = +useTests.store.slideStep + 1;
-        }, 500)
+        }, 100)
     } else {
         useTests.store.slideStep = +useTests.store.slideStep + 1;
     }
+}
+
+function addVariant(index) {
+    useTests.test[index]?.variants.push(null)
 }
 
 watch(
