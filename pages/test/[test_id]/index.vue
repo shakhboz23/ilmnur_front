@@ -578,7 +578,7 @@ function changeSlide() {
 function nextSlide() {
     console.log(Object.keys(useTests.test)?.length)
     if (Object.keys(useTests.test)?.length == useTests.store.slideStep) {
-        useTests.test[+useTests.store.slideStep + 1] = { question: null, variants: [null, null, null], type: 'variant' };
+        useTests.test[+useTests.store.slideStep] = { question: null, variants: [null, null, null], type: 'variant' };
         setTimeout(() => {
             useTests.store.slideStep = +useTests.store.slideStep + 1;
         }, 100)

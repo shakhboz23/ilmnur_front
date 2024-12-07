@@ -21,13 +21,18 @@
                     :placeholder="'Bio'" />
             </ClientOnly>
         </div>
-        <button type="submit" class="bg_main text-white px-5 py-1 rounded-full">Saqlash</button>
+        <button type="submit">
+            <a-button :loading="isLoading.isLoadingType('updateProfile')"
+                class="bg_main text-white px-5 py-1 rounded-full">Saqlash</a-button>
+
+        </button>
     </form>
 </template>
 
 <script setup>
-import { useAuthStore } from '~/store';
+import { useAuthStore, useLoadingStore } from '~/store';
 
+const isLoading = useLoadingStore();
 const useAuth = useAuthStore();
 
 function handleAvatar(e) {

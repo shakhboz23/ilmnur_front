@@ -2,9 +2,10 @@ import { defineStore } from "pinia";
 import { useLoadingStore } from "@/store";
 import { useApiRequest } from "~/composables";
 // import { io } from "socket.io-client";
-
+import { useNotification } from "~/composables";
 export const useAuthStore = defineStore("auth", () => {
   const apiRequest: any = useApiRequest();
+  const { openNotification } = useNotification();
   const store = reactive({});
   const isLoading = useLoadingStore();
   const router = useRouter();
@@ -243,8 +244,10 @@ export const useAuthStore = defineStore("auth", () => {
       .put(
         `user/profile`,
         formData,
+        'updateProfile'
       )
       .then((res: any) => {
+        openNotification('success', "Muvaffaqiyatli", "O'zgarishlar saqlandi")
         console.log(res);
         getUserFullInfo()
       })

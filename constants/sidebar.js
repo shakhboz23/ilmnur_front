@@ -134,7 +134,6 @@ export const group_sidebar = [
   },
 ];
 
-
 export const settings_sidebar = [
   {
     id: 1,
@@ -176,4 +175,24 @@ export const settings_sidebar = [
   //   // svgActive: dashboardActive,
   //   role: [],
   // },
+];
+
+
+export const group_settings_sidebar = [
+  {
+    id: 1,
+    name: "Dashboard",
+    url: "?tab=dashboard",
+    svg: _lessons,
+    // svgActive: dashboardActive,
+    role: [],
+  },
+  {
+    id: 1,
+    name: "To'lovlar",
+    url: "?tab=payments",
+    svg: _lessons,
+    // svgActive: dashboardActive,
+    role: [],
+  },
 ];
