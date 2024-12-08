@@ -128,11 +128,13 @@ export const useAuthStore = defineStore("auth", () => {
         console.log(res);
         isLoading.store.error = '';
         localStorage.setItem("token", res.data.token);
+        isLoading.store.isLogin = true;
         if (res.data.statusCode == 200) {
           router.push("/");
         }
       })
       .catch((err: any) => {
+        console.log(err)
         isLoading.store.error = err.response.data.message
         console.log(err);
       });
