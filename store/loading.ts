@@ -15,6 +15,7 @@ export const useLoadingStore = defineStore("loading", () => {
     isLogin: false,
     middleware: true,
     errorMessage: {},
+    error: "",
     // page_name: "",
     // pagination_type: 15,
     pagination: {

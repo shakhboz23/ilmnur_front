@@ -6,7 +6,7 @@ export const useNotification = () => {
     notification[type]({
       message,
       description,
-      placement: 'bottomRight',
+      placement: 'topRight',
     });
   };
 

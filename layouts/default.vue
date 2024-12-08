@@ -6,9 +6,11 @@
         <Nav class="md:w-[calc(100vw_-_60px)] w-[calc(100vw_-_40px)]" />
       </div>
       <Sidebar class="md:block hidden fixed top-[120px] max-w-[260px]" />
-      <div class="md:flex md:gap-5 max-w-[100vw] md:mt-[120px] mt-[112px] min-h-[calc(100vh_-_140px)]">
+      <div
+        class="md:flex md:gap-5 max-w-[100vw] md:mt-[120px] mt-[112px] sm:min-h-[calc(100vh_-_140px)] min-h-[calc(100vh_-_196px)] sm:pb-0 pb-20">
         <div class="md:min-w-[260px]"></div>
-        <main class="md:max-w-[calc(100vw_-_340px)] w-full bg-white min-h-[calc(100vh_-_140px)] p-5 r_8">
+        <main
+          class="md:max-w-[calc(100vw_-_340px)] w-full bg-white sm:min-h-[calc(100vh_-_140px)] min-h-[calc(100vh_-_196px)] p-5 r_8">
           <slot v-if="isLoading.store.isLogin || $router.currentRoute.value.name == 'login'" />
           <div v-else class="full_flex h-full py-20">
             <router-link to="/login">
@@ -16,6 +18,9 @@
             </router-link>
           </div>
         </main>
+      </div>
+      <div class="sm:hidden block">
+        <BottomBar />
       </div>
     </div>
     <a-drawer class="max-w-fit md:hidden block !p-0" :placement="'left'" :open="isLoading.store.drawer"

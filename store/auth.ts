@@ -6,7 +6,10 @@ import { useNotification } from "~/composables";
 export const useAuthStore = defineStore("auth", () => {
   const apiRequest: any = useApiRequest();
   const { openNotification } = useNotification();
-  const store = reactive({});
+  const store = reactive({
+    passType: "password",
+  });
+
   const isLoading = useLoadingStore();
   const router = useRouter();
 
@@ -54,10 +57,14 @@ export const useAuthStore = defineStore("auth", () => {
     role: "",
   });
 
+  function changePassType() {
+    store.passType = store.passType == 'password' ? 'text' : 'password';
+  }
+
   function getUserFullInfo() {
+    if (isLoading.user.name) return;
     isLoading.addLoading("getUserFullInfo");
     console.log("user data");
-
     apiRequest
       .get(`user/${isLoading.user.id}`)
       .then((res: any): void => {
@@ -116,15 +123,17 @@ export const useAuthStore = defineStore("auth", () => {
   function authLogin() {
     console.log(login);
     apiRequest
-      .post("user/login", login)
+      .post("user/login", login, 'auth')
       .then((res: any) => {
         console.log(res);
+        isLoading.store.error = '';
         localStorage.setItem("token", res.data.token);
         if (res.data.statusCode == 200) {
           router.push("/");
         }
       })
       .catch((err: any) => {
+        isLoading.store.error = err.response.data.message
         console.log(err);
       });
   }
@@ -145,7 +154,7 @@ export const useAuthStore = defineStore("auth", () => {
 
   function authRegister() {
     apiRequest
-      .post("user/register", register)
+      .post("user/register", register, 'auth')
       .then((res: any) => {
         console.log(res);
         if (res.data.message == "Verification code sended successfully") {
@@ -275,5 +284,6 @@ export const useAuthStore = defineStore("auth", () => {
     verifyGoogleCredential,
     createUser,
     updateProfile,
+    changePassType,
   };
 });

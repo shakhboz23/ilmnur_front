@@ -8,6 +8,7 @@ import { useCoursesStore } from "./courses"
 import { useGroupsStore } from "./groups"
 import { useCategoryStore } from "./category"
 import { useUploadStore } from "./upload"
+import { useChatStore } from './chat';
 export {
     useLoadingStore,
     useGroupsStore,
@@ -19,4 +20,5 @@ export {
     useReytingStore,
     useSubscriptionStore,
     useUploadStore,
+    useChatStore,
 }

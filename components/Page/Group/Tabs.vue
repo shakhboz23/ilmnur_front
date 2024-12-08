@@ -27,7 +27,6 @@ const PageGroupSettingsMain = resolveComponent('PageGroupSettingsMain');
 const PageGroupActivityMain = resolveComponent('PageGroupActivityMain');
 let t = 1;
 for (let i of group_tabs) {
-    console.log(i);
     if (i.url == router.currentRoute.value.query.page) {
         activeKey.value = t;
     }
@@ -46,15 +45,27 @@ const tabsComponents = {
     PageGroupActivityMain,
 }
 const getComponent = (component) => {
-    if (activeKey.value == component.id) {
-        router.push({
-            query: {
-                page: component.url || undefined,
-            }
-        })
-    }
+    // if (activeKey.value == component.id) {
+    //     router.push({
+    //         query: {
+    //             page: component.url || undefined,
+    //         }
+    //     })
+    // }
     return tabsComponents[component.component];
 }
+
+// URL queryni yangilash uchun watcher
+watch(activeKey, (newValue) => {
+    const selectedTab = group_tabs.find(tab => tab.id === newValue);
+    if (selectedTab) {
+        router.push({
+            query: {
+                page: selectedTab.url || undefined,
+            },
+        });
+    }
+});
 
 onMounted(() => {
     tabsDrag();

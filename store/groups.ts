@@ -30,7 +30,7 @@ export const useGroupsStore = defineStore("groups", () => {
   }
 
   async function getGroups() {
-    const data: any = await apiRequest.get(`group/${isLoading.store.category_id}`, "group");
+    const data: any = await apiRequest.get(`group/${isLoading.store.category_id}`, "groups");
     console.log(data, 'grcg=======================');
     store.groups = data.data;
   }
