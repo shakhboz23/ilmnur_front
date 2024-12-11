@@ -29,6 +29,7 @@ export const useAuthStore = defineStore("auth", () => {
 
   const login = reactive({
     email: "",
+    phone: "",
     password: "",
   });
 
@@ -122,8 +123,9 @@ export const useAuthStore = defineStore("auth", () => {
 
   function authLogin() {
     console.log(login);
+    const phone = '+998' + login.phone.split(' ').join('');
     apiRequest
-      .post("user/login", login, 'auth')
+      .post("user/login", {...login, phone}, 'auth')
       .then((res: any) => {
         console.log(res);
         isLoading.store.error = '';

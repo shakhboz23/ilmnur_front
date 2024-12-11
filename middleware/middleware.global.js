@@ -1,11 +1,18 @@
 import { defineNuxtRouteMiddleware } from "#app";
 import { useAuthStore, useLoadingStore } from "@/store";
 export default defineNuxtRouteMiddleware(async (to, from) => {
+  const router = useRouter();
   const useAuth = useAuthStore();
   const isLoading = useLoadingStore();
   try {
     if (process.client) {
-      const token = localStorage.getItem("token");
+      console.log(to.name, '2233')
+      const token = localStorage.getItem("token") || to.query.token;
+      console.log(to.query.token && to.query.token != undefined && to.name == 'login', '2300');
+      if (to.query.token && to.query.token != undefined && to.name == 'login') {
+        localStorage.setItem("token", to.query.token);
+        router.push('/');
+      }
       if (token) {
         const parts = token.split(".");
         const exp = parts[1];

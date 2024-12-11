@@ -94,6 +94,15 @@ img {
   animation: 1s loading_animation linear infinite;
 }
 
+.shadow_message {
+  box-shadow: 0px 1px 1px #00000026;
+}
+
+#googleButton>div>div>div{
+  width: 100% !important;
+}
+
+
 @keyframes loading_animation {
   to {
     background-position-x: -200%;

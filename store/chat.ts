@@ -34,7 +34,7 @@ export const useChatStore = defineStore("chat", () => {
     async function getMessages() {
         const chat_id: number = +(router.currentRoute.value.query.chat || 0)
         const data: any = await apiRequest.get(`chatgroup/getMessages/${chat_id}`, "chatMessages");
-        console.log(data, 'grcg=======================');
+        console.log(data, 'message=======================');
         store.messages[chat_id] = data.data;
     }
 
@@ -46,6 +46,7 @@ export const useChatStore = defineStore("chat", () => {
                 formData.append(i, message[i]);
             }
         }
+        message.text = '';
         const data: any = await apiRequest.post(
             "chat/create",
             formData,
