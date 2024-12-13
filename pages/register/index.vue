@@ -29,11 +29,11 @@
           <div id="googleButton"></div>
         </div> -->
         <div class="space-y-2 text-center mx-auto">
-          <a href="https://t.me/ilmnuronlinebot" target="_blank" @click="isTelegram = true" v-if="!isTelegram" type="button"
+          <!-- <a href="https://t.me/ilmnuronlinebot" target="_blank" @click="isTelegram = true" v-if="!isTelegram" type="button"
             class="full_flex gap-2 w-full mx-auto b_ce2 r_4 py-2">
             <img class="h-5 w-5" src="@/assets/svg/register/telegram.png" alt="">
             <p>Telegram orqali</p>
-          </a>
+          </a> -->
           <button type="button" id="googleButton" class="!w-full">
             <div class="full_flex gap-2 mx-auto b_ce2 r_4 py-2">
               <img class="h-5 w-5" src="@/assets/svg/register/google.svg" alt="">
