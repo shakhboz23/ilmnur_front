@@ -28,10 +28,10 @@
       </li>
     </ul>
     <div v-else class="full_flex gap-5">
-      <router-link class="b_cbb px-8 py-3 rounded-full" to="/register">
+      <router-link class="b_cbb px-8 py-3 rounded-full" to="/login">
         Kirish
       </router-link>
-      <router-link class="md:block hidden bg_main text-white px-8 py-3 rounded-full" to="/login">
+      <router-link class="md:block hidden bg_main text-white px-8 py-3 rounded-full" to="/register">
         Hisob yaratish
       </router-link>
     </div>

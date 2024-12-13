@@ -62,8 +62,10 @@ export const useAuthStore = defineStore("auth", () => {
     store.passType = store.passType == 'password' ? 'text' : 'password';
   }
 
-  function getUserFullInfo() {
-    if (isLoading.user.name) return;
+  function getUserFullInfo(is_check?: string) {
+    if (is_check == 'login') {
+      if (isLoading.user.name) return;
+    }
     isLoading.addLoading("getUserFullInfo");
     console.log("user data");
     apiRequest
@@ -123,13 +125,13 @@ export const useAuthStore = defineStore("auth", () => {
 
   function authLogin() {
     console.log(login);
-    const phone = '+998' + login.phone.split(' ').join('');
     apiRequest
-      .post("user/login", {...login, phone}, 'auth')
+      .post("user/login", login, 'auth')
       .then((res: any) => {
         console.log(res);
         isLoading.store.error = '';
         localStorage.setItem("token", res.data.token);
+        getUserFullInfo('login');
         isLoading.store.isLogin = true;
         if (res.data.statusCode == 200) {
           router.push("/");
@@ -164,6 +166,7 @@ export const useAuthStore = defineStore("auth", () => {
         if (res.data.message == "Verification code sended successfully") {
           localStorage.setItem("token", res.data.token);
           router.push("/verify-email");
+          getUserFullInfo('login');
         }
       })
       .catch((err: any) => {
