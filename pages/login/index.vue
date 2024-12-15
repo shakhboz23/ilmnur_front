@@ -13,7 +13,7 @@
         <form @submit.prevent="handleSubmit" class="space-y-6 text-sm">
           <div class="space-y-6">
             <div class="space-y-2">
-              <label for="login">Telefon raqam</label>
+              <label for="login">Login</label>
               <div class="flex items-center relative">
                 <input v-model="useAuth.login.email" type="email" />
               </div>
