@@ -12,7 +12,8 @@
             <ul class="tabs">
                 <button v-if="all" @click="setCategory(0)" class="duration-700 r_20 py-2 px-3 text-xs b_main"
                     :class="isLoading.store.category_id == 0 ? 'bg_main c_white' : 'c_main'">All</button>
-                <button v-show="category_id ? category_id == i.id: true" @click="setCategory(i)" v-for="i in category" class="duration-700 r_20 py-2 px-3 text-xs b_main"
+                <button v-show="category_id ? category_id == i.id : true" @click="setCategory(i)" v-for="i in category"
+                    class="duration-700 r_20 py-2 px-3 text-xs b_main"
                     :class="isLoading.store.category_id == i.id ? 'bg_main c_white' : 'c_main'">{{ i.category || i.title
                     }}</button>
             </ul>
@@ -43,11 +44,21 @@ const router = useRouter();
 
 function setCategory(category) {
     isLoading.store.category_id = category.id || 0
+    const query = router.currentRoute.value.query
+    console.log({
+        ...query,
+        category: category.category,
+    });
     category == 0 ? router.push({
         query: {
             category: undefined
         }
-    }) : router.push(`?category=${category.category}`);
+    }) : router.push({
+        query: {
+            ...query,
+            category: category.category || category.title,
+        }
+    });
 }
 
 onMounted(() => {

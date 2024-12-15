@@ -43,6 +43,14 @@ const router = useRouter();
 watch(() => router.currentRoute.value, () => {
   isLoading.store.drawer = false;
 })
+
+watch(() => router.currentRoute.value.name, () => {
+  isLoading.store.category_id = 0
+})
+
+watch(() => router.currentRoute.value.query.page, () => {
+  isLoading.store.category_id = 0;
+})
 </script>
 
 <style lang="scss" scoped></style>
