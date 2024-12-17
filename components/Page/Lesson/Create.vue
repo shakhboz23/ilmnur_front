@@ -98,6 +98,8 @@
                     <p class="w-1/2 mx-auto">Minimal o'lcham - 808 x 632 piksel. GIF tasvirlari jonlantirilmaydi.</p>
                 </div>
             </label>
+            <FloatingInput :id="'youtube'" :maxValue="200" class="w-full" type="link"
+                v-model="useLessons.create.youtube" :label="'Youtube link'" required />
         </div>
         <div v-else-if="store.file_type == 'text'">
             <ClientOnly>
@@ -106,12 +108,13 @@
             </ClientOnly>
         </div>
         <div v-else>
-            <FloatingInput :id="'title'" :maxValue="50" class="w-full" :type="'text'"
+            <FloatingInput :id="'title'" :maxValue="50" class="w-full" type="text"
                 v-model="useLessons.store.create.title" :label="'Title'" required />
         </div>
         <div class="file_input">
             <input @change="handleVideo" id="file_input" class="file_input" type="file">
         </div>
+
     </UIModal>
 </template>
 

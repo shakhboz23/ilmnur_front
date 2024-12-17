@@ -69,7 +69,7 @@
                         :style="store.active_id == i.id ? { height: `${40 * (i.lessons?.length ? i.lessons?.length + 1 : 1)}px` } : { height: '40px' }"
                         :class="store.active_id == i.id ? `bg_bg r_8` : ''">
                         <div @click="(e) => handleClick(e, i)"
-                            class="full_flex pcursor gap-5 border-b border-[#EDEDED] h-10 px-4">
+                            class="flex pcursor gap-5 border-b border-[#EDEDED] h-10 px-4">
                             <h1 class="w-full">{{ i.title }}</h1>
                             <p class="min-w-fit">18 daqiqa</p>
                             <div class="min-w-fit">
@@ -103,8 +103,8 @@
                             <draggable :list="useCourses.store.courses.lessons[index].lessons" class="drag-area"
                                 group="lessons" :animation="200">
                                 <li @click="handleClick(lesson)" v-for="lesson in i.lessons"
-                                    class="full_flex pcursor gap-5 border-b border-[#EDEDED] h-10 px-4">
-                                    <h1 class="w-full">{{ lesson.title }}</h1>
+                                    class="flex pcursor gap-5 border-b border-[#EDEDED] h-10 px-4">
+                                    <h1 class="w-full whitespace-nowrap">{{ lesson.title }}</h1>
                                     <p class="min-w-fit">18 daqiqa</p>
                                     <div class="min-w-fit">
                                         <img v-if="lesson.is_finished" src="@/assets/svg/course/finished.svg" alt="">

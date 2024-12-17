@@ -14,14 +14,13 @@
             </nav>
             <section class="px-[0.5px] pt-5">
                 <!-- {{ useLessons.store.lessons.video }} -->
-                <div v-if="useLessons.store.lessons?.video" class="w-full md:h-[312px] h-[200px] bg-black r_8">
-                    <video capture class="w-full md:h-[312px] h-[200px] bg-black r_8" controls>
-                        <source :src="useLessons.store.lessons?.video" type="video/mp4">
-                        <source :src="useLessons.store.lessons?.video" type="video/ogg">
-                        Your browser does not support the video tag.
-                    </video>
+                <div v-if="useLessons.store.lessons?.video" class="w-full md:h-[312px] h-[200px] bg-black r_8 rounded-lg overflow-hidden">
+                    <ClientOnly>
+                        <VideoReader :url="useLessons.store.lessons?.video" />
+                    </ClientOnly>
                 </div>
-                <div @click="handleContentClick" v-else class="bg_cf9 r_8 p-5 pcursor max-h-[200px] w-full overflow-hidden aspect-video">
+                <div @click="handleContentClick" v-else
+                    class="bg_cf9 r_8 p-5 pcursor max-h-[200px] w-full overflow-hidden aspect-video">
                     <p class="line-clamp-6" v-html="useLessons.store.lessons?.content"></p>
                 </div>
                 <div class="flex items-center justify-between my-5">
@@ -79,6 +78,10 @@ function handleContentClick() {
 
 onBeforeMount(() => {
     useLessons.getById();
+})
+
+onUnmounted(() => {
+    useLessons.store.lessons.video = ""
 })
 </script>
 

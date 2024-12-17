@@ -13,6 +13,7 @@ body {
   margin: 0;
   padding: 0;
   background: color(bg);
+
   &::-webkit-scrollbar {
     width: 10px;
     background-color: #ffffff;
@@ -44,6 +45,7 @@ select,
 }
 
 .ck-editor {
+
   .ck-sticky-panel__content,
   .ck-content,
   .ck-toolbar {
@@ -51,6 +53,7 @@ select,
     border-radius: 8px !important;
   }
 }
+
 .ck-editor {
   border-radius: 8px;
   border: 1px solid #EDEDED !important;
@@ -98,7 +101,7 @@ img {
   box-shadow: 0px 1px 1px #00000026;
 }
 
-#googleButton>div>div>div{
+#googleButton>div>div>div {
   width: 100% !important;
 }
 
@@ -159,39 +162,30 @@ img {
   border-radius: 8px;
 
   // Animated
-  background-image: repeating-linear-gradient(
-      0deg,
+  background-image: repeating-linear-gradient(0deg,
       var(--#FF852E),
       var(--#FF852E) 10px,
       transparent 10px,
-      transparent 20px
-    ),
+      transparent 20px),
     // left
-    repeating-linear-gradient(
-        90deg,
-        var(--#FF852E),
-        var(--#FF852E) 10px,
-        transparent 10px,
-        transparent 20px
-      ),
+    repeating-linear-gradient(90deg,
+      var(--#FF852E),
+      var(--#FF852E) 10px,
+      transparent 10px,
+      transparent 20px),
     // top
-    repeating-linear-gradient(
-        180deg,
-        var(--#FF852E),
-        var(--#FF852E) 10px,
-        transparent 10px,
-        transparent 20px
-      ),
+    repeating-linear-gradient(180deg,
+      var(--#FF852E),
+      var(--#FF852E) 10px,
+      transparent 10px,
+      transparent 20px),
     // right
-    repeating-linear-gradient(
-        270deg,
-        var(--#FF852E),
-        var(--#FF852E) 10px,
-        transparent 10px,
-        transparent 20px
-      )
-      // bottom
-;
+    repeating-linear-gradient(270deg,
+      var(--#FF852E),
+      var(--#FF852E) 10px,
+      transparent 10px,
+      transparent 20px) // bottom
+  ;
   background-size: 2px calc(100% + 20px), calc(100% + 20px) 3px,
     3px calc(100% + 20px), calc(100% + 20px) 3px;
   animation: boxBorderAnimation 4s infinite linear;
@@ -205,4 +199,35 @@ img {
       background-position: 0 -20px, 0 0, 100% 0, -20px 100%;
     }
   }
+}
+
+// plyr
+.plyr {
+  border-radius: 12px !important;
+}
+.plyr--full-ui.plyr--video .plyr__control--overlaid {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  object-fit: contain !important;
+}
+
+
+.plyr__video-wrapper {
+  padding-bottom: 23.5% !important;
+  object-fit: contain !important;
+}
+
+.plyr--video .plyr__control.plyr__tab-focus,
+.plyr--video .plyr__control:hover,
+.plyr--video .plyr__control[aria-expanded=true], .plyr__control--overlaid {
+  background: #FF852E !important;
+}
+
+.plyr input {
+  padding: 0px !important;
+}
+
+.plyr--full-ui input[type=range] {
+  color: #FF852E !important;
 }

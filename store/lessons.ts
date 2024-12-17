@@ -31,6 +31,7 @@ export const useLessonsStore = defineStore("lessons", () => {
     type: "module",
     video: "",
     content: "",
+    youtube: "",
   });
 
   function clearData() {
