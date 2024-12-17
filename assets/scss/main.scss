@@ -218,6 +218,10 @@ img {
   object-fit: contain !important;
 }
 
+.plyr__video-embed, .plyr__video-wrapper--fixed-ratio {
+  height: 100% !important;
+}
+
 .plyr--video .plyr__control.plyr__tab-focus,
 .plyr--video .plyr__control:hover,
 .plyr--video .plyr__control[aria-expanded=true], .plyr__control--overlaid {

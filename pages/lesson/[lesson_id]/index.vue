@@ -14,7 +14,7 @@
             </nav>
             <section class="px-[0.5px] pt-5">
                 <!-- {{ useLessons.store.lessons.video }} -->
-                <div v-if="useLessons.store.lessons?.video" class="w-full md:h-[312px] h-[200px] bg-black r_8 rounded-lg overflow-hidden">
+                <div v-if="useLessons.store.lessons?.video" class="w-full md:h-[312px] h-[200px] r_8 rounded-lg overflow-hidden">
                     <ClientOnly>
                         <VideoReader :url="useLessons.store.lessons?.video" />
                     </ClientOnly>
