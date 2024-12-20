@@ -34,17 +34,24 @@
                 </li>
             </ul>
             <div class="flex gap-2">
-                <button class="text-sm font-medium py-1 px-2 bg_cf2 r_8" v-for="i in 3">
-                    3 courses
+                <!-- {{ carddata }} -->
+                <button class="text-sm font-medium py-1 px-2 bg_cf2 r_8">
+                    {{carddata.users_count}} Azolar
+                </button>
+                <button class="text-sm font-medium py-1 px-2 bg_cf2 r_8">
+                   Public
+                </button>
+                <button class="text-sm font-medium py-1 px-2 bg_cf2 r_8">
+                    {{carddata.courses_count}} Kurslar
                 </button>
             </div>
-            <div class="flex items-center text-sm pt-2 pcursor">
+            <!-- <div class="flex items-center text-sm pt-2 pcursor">
                 <div class="flex items-center -space-x-2 w-[70%] overflow-hidden overflow-x-auto removeScroll">
                     <img v-for="i in 16" class="h-7 w-7 min-w-[28px] r_f object-cover"
                         src="https://world-schools.com/wp-content/uploads/2023/01/IMG-Academy-cover-WS.webp" alt="">
                 </div>
                 <button class="c_ca1 pl-2 whitespace-nowrap">225 members</button>
-            </div>
+            </div> -->
         </div>
     </div>
 </template>
