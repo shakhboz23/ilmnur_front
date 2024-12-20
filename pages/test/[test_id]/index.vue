@@ -100,8 +100,8 @@
                 </ul>
             </nav>
             <section class="bg-white md:mx-[100px] r_8 relative">
-                <section class="flex gap-7 items-start max-w-fit mx-auto p-8 ">
-                    <img @click="$router.back()" class="-ml-[52px] pcursor" src="@/assets/svg/icon/closex.svg" alt="">
+                <section class="md:flex gap-7 items-start max-w-fit mx-auto md:p-8">
+                    <img @click="$router.back()" class="md:-ml-[52px] md:mb-0 mb-4 pcursor" src="@/assets/svg/icon/closex.svg" alt="">
                     <div>
                         <nav class="min-w-[50vw]">
                             <ul class="flex flex-wrap gap-3">
@@ -120,7 +120,7 @@
                         </nav>
                         <swiper @slider-move="changeSlide" :watchSlidesProgress="true" :slidesPerView="1"
                             :spaceBetween="30" :pagination="{ clickable: true }" :modules="modules"
-                            class="flex max-w-[50vw] overflow-hidden">
+                            class="flex md:max-w-[50vw] max-w-[75vw] overflow-hidden">
                             <swiper-slide :id="+index + 1" class="min-w-full" v-for="(i, index) in useTests.test">
                                 <section
                                     class="max-h-[calc(100vh_-_300px)] min-h-[calc(100vh_-_300px)] overflow-y-auto mt-10 space-y-7 max-w-fit mx-auto">
