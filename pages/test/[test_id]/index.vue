@@ -1,5 +1,8 @@
 <template>
-    <div v-if="useTests.store.tests?.user_id == isLoading.user?.id">
+    <div v-if="isLoading.isLoadingType('getById')" class="space-y-4">
+        <LoadingDiv v-for="i in 10" class="w-full h-10" />
+    </div>
+    <div v-else-if="useTests.store.tests?.user_id == isLoading.user?.id">
         <div class="pb-8 pt-3 font-semibold text-xl">
             <h1>Test yaratishni boshlang:</h1>
         </div>
@@ -147,7 +150,12 @@
                             </swiper-slide>
                             <!-- result -->
                             <swiper-slide :id="Object.keys(useTests.test)?.length + 1" class="min-w-full">
-                                <section class="w-full min-w-full min-h-[calc(100vh_-_380px)]">
+                                <section v-if="!useTests.store.testResBall.length" class="full_flex w-full min-w-full min-h-[calc(100vh_-_380px)]">
+                                    <a-button :loading="isLoading.isLoadingType('checkAnswer')"
+                                        @click="() => { useTests.checkAnswer(useTests.test[useTests.store.slideStep - 1]?.id, useTests.store.slideStep) }"
+                                        class="bg_main px-[54px] min-h-fit py-3 r_50 text-white">Natijani ko'rish</a-button>
+                                </section>
+                                <section v-else class="w-full min-w-full min-h-[calc(100vh_-_380px)]">
                                     <div
                                         class="flex items-center justify-center min-w-full min-h-[calc(100vh_-_380px)]">
                                         <div class="p-5 sm:text-start text-center">
@@ -253,9 +261,9 @@
                                     v-if="Object.keys(useTests.store.checked_answers)?.length == useTests.store.tests?.length"
                                     @click="() => useTests.checkAllAnswers()"
                                     class="bg_main px-[54px] py-3 r_50 text-white">Yakunlash</button>
-                                <button v-else-if="isNaN(useTests.store.checked_answers[useTests.store.slideStep])"
+                                <a-button :loading="isLoading.isLoadingType('checkAnswer')" v-else-if="isNaN(useTests.store.checked_answers[useTests.store.slideStep])"
                                     @click="() => { useTests.checkAnswer(useTests.test[useTests.store.slideStep - 1]?.id, useTests.store.slideStep) }"
-                                    class="bg_main px-[54px] py-3 r_50 text-white">Tekshirish</button>
+                                    class="bg_main px-[54px] py-3 min-h-fit r_50 text-white">Tekshirish</a-button>
                                 <button v-else @click="() => useTests.store.slideStep++"
                                     class="bg_main px-[54px] py-3 r_50 text-white">Keyingisi</button>
                             </div>

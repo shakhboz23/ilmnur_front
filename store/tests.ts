@@ -63,8 +63,8 @@ export const useTestsStore = defineStore("tests", () => {
     console.log(store.true_answers)
     const data: any = await apiRequest.post(
       `tests/check/${id}`,
-      { answer: store.true_answers[step - 1] }
-      // "getById"
+      { answer: store.true_answers[step - 1] },
+      "checkAnswer"
     );
     store.checked_answers[step] = data.data[1];
     console.log(data.data, "skslaskl");
