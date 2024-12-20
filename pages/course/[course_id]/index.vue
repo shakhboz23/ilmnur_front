@@ -64,13 +64,13 @@
             </div>
             <!-- lessons -->
             <ul v-if="!isLoading.isLoadingType('getByCourse')" class="mt-5">
-                <draggable :list="useCourses.store.courses.lessons" class="drag-area" group="lessons" :animation="200">
+                <draggable :list="useCourses.store.courses.lessons" class="drag-area space-y-5" group="lessons" :animation="200">
                     <li v-for="(i, index) in useCourses.store.courses.lessons" class="duration-700 overflow-hidden"
                         :style="store.active_id == i.id ? { height: `${40 * (i.lessons?.length ? i.lessons?.length + 1 : 1)}px` } : { height: '40px' }"
                         :class="store.active_id == i.id ? `bg_bg r_8` : ''">
                         <div @click="(e) => handleClick(e, i)"
                             class="flex pcursor gap-5 border-b border-[#EDEDED] h-10 px-4">
-                            <h1 class="w-full">{{ i.title }}</h1>
+                            <h1 class="w-full truncate">{{ i.title }}</h1>
                             <p class="min-w-fit">18 daqiqa</p>
                             <div class="min-w-fit">
                                 <img v-if="checkIsFinished(i)" src="@/assets/svg/course/finished.svg" alt="">

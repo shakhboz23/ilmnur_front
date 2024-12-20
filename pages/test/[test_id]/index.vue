@@ -563,9 +563,9 @@ function convertFileToHtml(file) {
 }
 
 function selectedAnswer(id, variant) {
-    //   if (!useTests.store.isTestEnd) {
-    useTests.store.true_answers[id] = variant;
-    //   }
+    if (isNaN(useTests.store.checked_answers[useTests.store.slideStep])) {
+        useTests.store.true_answers[id] = variant;
+    }
 }
 
 function changeSlide() {
