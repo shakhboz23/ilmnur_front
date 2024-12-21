@@ -22,8 +22,9 @@
                         </h1>
                         <button v-if="useCourses.store.courses?.course?.is_subscribed"
                             class="bg_main rounded-full text-white px-4 py-1 text-sm">Obuna</button>
-                        <button v-else @click="useCourses.subscribeCourse(useCourses.store.courses?.course?.id)"
-                            class="b_main c_main rounded-full px-4 py-1 text-sm">Obuna bo'lish</button>
+                        <a-button v-else :loading="isLoading.isLoadingType('subscribe')"
+                            @click="useCourses.subscribeCourse(useCourses.store.courses?.course?.id)"
+                            class="b_main c_main rounded-full px-4 py-1 text-sm">Obuna bo'lish</a-button>
                     </div>
                     <a-dropdown>
                         <div class="!bg-white r_8 min-w-fit">
@@ -64,7 +65,8 @@
             </div>
             <!-- lessons -->
             <ul v-if="!isLoading.isLoadingType('getByCourse')" class="mt-5">
-                <draggable :list="useCourses.store.courses.lessons" class="drag-area space-y-5" group="lessons" :animation="200">
+                <draggable :list="useCourses.store.courses.lessons" class="drag-area space-y-5" group="lessons"
+                    :animation="200">
                     <li v-for="(i, index) in useCourses.store.courses.lessons" class="duration-700 overflow-hidden"
                         :style="store.active_id == i.id ? { height: `${40 * (i.lessons?.length ? i.lessons?.length + 1 : 1)}px` } : { height: '40px' }"
                         :class="store.active_id == i.id ? `bg_bg r_8` : ''">

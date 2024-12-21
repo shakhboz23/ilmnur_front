@@ -54,13 +54,13 @@
                             </td> -->
                             <td class="px-6 rounded-r-xl">
                                 <a-dropdown placement="bottom">
-                                    <button class="text-white py-1 px-3 rounded-full capitalize"
+                                    <button @mousemove="checkCurrentRole"
+                                        class="text-white py-1 px-3 rounded-full capitalize"
                                         :class="ball_options[i.subscriptionActivity?.status || 'none']">
                                         {{ ball_options[i.subscriptionActivity?.status || 'none'][0] }}
                                     </button>
                                     <template #overlay>
-                                        <a-menu v-if="useCourses.store.users?.user?.role == 'teacher'"
-                                            @click="({ key }) => handleStatus(key, i.id)">
+                                        <a-menu v-if="store.is_show" @click="({ key }) => handleStatus(key, i.id)">
                                             <a-menu-item v-for="(value, key) in ball_options" :key="key" class="!p-1">
                                                 <button class="text-white py-1 px-5 rounded-full w-full"
                                                     :class="value[1]">{{ value[0] }}</button>
@@ -133,7 +133,9 @@ const useSubscription = useSubscriptionStore();
 const useLessons = useLessonsStore();
 const useCourses = useCoursesStore();
 useCourses.getUsersByGroupId();
-const store = reactive({})
+const store = reactive({
+    is_show: false,
+})
 
 const options = ref([
     { value: 'student', label: 'Student' },
@@ -162,6 +164,17 @@ function handleModal(value) {
         isLoading.modal.delete = false;
         // useSubscription.clearData();
     }
+}
+
+function checkCurrentRole() {
+    store.is_show = false;
+    for (let user of useCourses.store.users?.user) {
+        if (isLoading.store.category_id == user?.subscriptions[0]?.course_id && user?.subscriptions[0]?.role == 'teacher') {
+            store.is_show = true;
+            return true;
+        }
+    }
+    return false;
 }
 
 function activeChartLine(type) {

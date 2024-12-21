@@ -28,20 +28,25 @@
                                         <li class="md:text-xl font-semibold">{{ i?.user?.name }} {{
                                             i?.user?.surname }}
                                         </li>
-                                        <li class="font-normal space-x-2">
+                                        <!-- <li class="font-normal space-x-2">
                                             <span>{{ i?.role }}</span>
                                             <span class="c_blue font-medium">5.0</span>
-                                        </li>
+                                        </li> -->
                                     </ul>
                                 </div>
                             </th>
                             <td class="px-6 py-5">
-                                <button class="bg-[#13C1B7] text-white py-1 px-5 rounded-full">{{ i.course?.title
-                                    }}</button>
+                                <div class="flex flex-col gap-1 w-fit">
+                                    <button v-for="course in i.courses"
+                                        class="bg-[#13C1B7] text-white px-4 rounded-full">
+                                        {{
+                                            course.course?.title
+                                        }}</button>
+                                </div>
                             </td>
-                            <td class="px-6 py-5">
+                            <!-- <td class="px-6 py-5">
                                 <button class="bg_main text-white py-1 px-3 rounded-full">{{ i.is_active }}</button>
-                            </td>
+                            </td> -->
                             <!-- <td class="px-6 py-5">
                                 +12 34 567890
                             </td> -->

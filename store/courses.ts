@@ -53,14 +53,14 @@ export const useCoursesStore = defineStore("courses", () => {
 
   async function getUsersByGroupId() {
     const data: any = await apiRequest.get(
-      `course/getUsersByGroupId/${router.currentRoute.value.params.group_id}?date=${useSubscription.store.currentDate}&course_id=${isLoading.store.category_id}`,
+      `course/getUsersByGroupId/${router.currentRoute.value.params.group_id}?date=${useSubscription.store.currentDate}&course_id=${isLoading.store.category_id}&page=${router.currentRoute.value.query.page}`,
       "course"
     );
     console.log(data, "users");
     store.users = data.data;
-    if (router.currentRoute.value.query.page == 'activity' && store.users?.user?.role == 'teacher') {
-      isLoading.store.category_id = data.data?.user?.course_id || isLoading.store.category_id;
-    }
+    // if (router.currentRoute.value.query.page == 'activity' && store.users?.user[0]?.subscriptions[0]?.role == 'teacher') {
+    //   isLoading.store.category_id = data.data?.user[0]?.subscriptions[0]?.course_id || isLoading.store.category_id;
+    // }
   }
 
   async function subscribeCourse(id: any) {
@@ -69,8 +69,8 @@ export const useCoursesStore = defineStore("courses", () => {
       "subscriptions/create",
       {
         course_id: id,
-      }
-      // "subscriptions"
+      },
+      "subscribe"
     );
     getByCourse();
     console.log(data);
