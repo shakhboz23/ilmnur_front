@@ -144,11 +144,11 @@ const options = ref([
 ]);
 
 const ball_options = {
-    bad: ["Yomon", "bg_red"],
-    good: ["Yaxshi", "bg_yellow"],
-    average: ["O'rta", "bg_green"],
+    bad: ["Qoniqarsiz", "bg_red"],
+    good: ["Qoniqarli", "bg_yellow"],
+    average: ["Yaxshi", "bg_green"],
     excellent: ["A'lo", "bg_main"],
-    none: ["None", "bg-[#919191]"],
+    none: ["Yo'q", "bg-[#919191]"],
 }
 
 function handleModal(value) {
