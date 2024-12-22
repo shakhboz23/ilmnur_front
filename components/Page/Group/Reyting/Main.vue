@@ -7,7 +7,7 @@
                 yangi o'rinni egallashga harakat qiling</p>
         </section>
         <section class="mt-10">
-            <CategorySlider class="mb-5" />
+            <CategorySlider class="mb-5 pr-6" />
             <hr />
             <!-- <ul>
                 <li class="">

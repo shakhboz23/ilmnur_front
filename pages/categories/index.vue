@@ -6,7 +6,7 @@
                 <li>Billing details</li>
                 <li>Documents</li>
             </ul> -->
-            <CategorySlider class="w-full" />
+            <CategorySlider class="w-full pr-6" />
             <div class="flex gap-3 min-w-fit">
                 <div class="flex items-center bg_bg h-[46px] w-[46px] rounded-[10px]">
                     <button class="flex items-center justify-center h-[46px] w-[46px] rounded-[10px]">
