@@ -1,16 +1,20 @@
-import _class from "@/assets/svg/sidebar/shorts.svg";
-import _myclass from "@/assets/svg/sidebar/shorts.svg";
 import _shorts from "@/assets/svg/sidebar/shorts.svg";
-import _settings from "@/assets/svg/sidebar/shorts.svg";
+import _subscription from "@/assets/svg/sidebar/subscription.svg";
+import _category from "@/assets/svg/sidebar/category.svg";
+import _history from "@/assets/svg/sidebar/history.svg";
+import _group from "@/assets/svg/sidebar/group.svg";
+import _settings from "@/assets/svg/sidebar/settings.svg";
 import _lessons from "@/assets/svg/sidebar/lessons.svg";
-import _reyting from "@/assets/svg/sidebar/reyting.svg";
-import _news from "@/assets/svg/sidebar/shorts.svg";
-import _children from "@/assets/svg/sidebar/shorts.svg";
+// import _myclass from "@/assets/svg/sidebar/shorts.svg";
+// import _class from "@/assets/svg/sidebar/shorts.svg";
+// import _reyting from "@/assets/svg/sidebar/reyting.svg";
+// import _news from "@/assets/svg/sidebar/shorts.svg";
+// import _children from "@/assets/svg/sidebar/shorts.svg";
 
 export const sidebar = [
   {
     id: 1,
-    name: "Home",
+    name: "Asosiy",
     url: "/",
     svg: _lessons,
     // svgActive: dashboardActive,
@@ -18,7 +22,7 @@ export const sidebar = [
   },
   {
     id: 1,
-    name: "Shorts",
+    name: "Lavhalar",
     url: "/shorts",
     svg: _shorts,
     // svgActive: dashboardActive,
@@ -27,41 +31,41 @@ export const sidebar = [
   },
   {
     id: 1,
-    name: "Subscriptions",
+    name: "Obunalar",
     url: "/subscriptions",
-    svg: _lessons,
+    svg: _subscription,
     // svgActive: dashboardActive,
     role: ["admin"],
   },
   {
     id: 1,
-    name: "Categories",
+    name: "Kategoriyalar",
     url: "/categories",
-    svg: _lessons,
+    svg: _category,
     // svgActive: dashboardActive,
     role: [],
   },
   {
     id: 1,
-    name: "History",
+    name: "Tarix",
     url: "/history",
-    svg: _lessons,
+    svg: _history,
     // svgActive: dashboardActive,
     role: ["admin"],
   },
+  // {
+  //   id: 1,
+  //   name: "Playlists",
+  //   url: "/playlists",
+  //   svg: _lessons,
+  //   // svgActive: dashboardActive,
+  //   role: [],
+  // },
   {
     id: 1,
-    name: "Playlists",
-    url: "/playlists",
-    svg: _lessons,
-    // svgActive: dashboardActive,
-    role: [],
-  },
-  {
-    id: 1,
-    name: "Your groups",
+    name: "Guruhlaringiz",
     url: "/my_groups",
-    svg: _reyting,
+    svg: _group,
     // svgActive: dashboardActive,
     role: [],
   },
@@ -85,7 +89,7 @@ export const sidebar = [
     id: 1,
     name: "Sozlamalar",
     url: "/settings",
-    svg: _lessons,
+    svg: _settings,
     // svgActive: dashboardActive,
     role: [],
   },
