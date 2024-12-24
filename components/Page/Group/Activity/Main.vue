@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <nav class="md:flex items-center justify-between gap-10 w-full mb-2 space-y-2">
+    <div class="w-full">
+        <nav class="w-full mb-2 space-y-2">
             <CategorySlider
                 :category_id="useCourses.store.users?.user?.role == 'teacher' ? useCourses.store.users?.user?.course_id : null"
                 :all="false" :category="useLessons.store.courses" class="w-full pr-6" />

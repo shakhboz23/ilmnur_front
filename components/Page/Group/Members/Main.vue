@@ -1,7 +1,7 @@
 <template>
-    <div>
-        <nav class="md:flex flex-wrap items-center justify-between gap-5 w-full space-y-2">
-            <CategorySlider :category="useLessons.store.courses" class="md:w-fit w-full pr-6" />
+    <div class="w-full">
+        <nav class="w-full space-y-2">
+            <CategorySlider :category="useLessons.store.courses" class="pr-6 w-full" />
             <div class="flex gap-3 min-w-fit">
                 <div class="flex items-center bg_bg h-[46px] w-[46px] rounded-[10px]">
                     <button class="flex items-center justify-center h-[46px] w-[46px] rounded-[10px]">
@@ -22,7 +22,7 @@
                             <th scope="row" class="p-5 rounded-l-xl">
                                 <div class="flex items-center gap-5">
                                     <UIAvatar
-                                        class="md:w-20 md:h-20 w-12 h-12 md:max-w-[80px] md:max-h-[80px] max-w-[48px] max-h-[48px] min-w-fit"
+                                        class="md:w-20 md:h-20 w-12 h-12 md:max-w-[80px] md:max-h-[80px] max-w-[48px] max-h-[48px]"
                                         :src="i?.user?.image" />
                                     <ul class="md:space-y-3">
                                         <li class="md:text-xl font-semibold">{{ i?.user?.name }} {{
