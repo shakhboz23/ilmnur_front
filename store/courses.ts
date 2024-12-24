@@ -73,7 +73,7 @@ export const useCoursesStore = defineStore("courses", () => {
       "subscribe"
     );
     getByCourse();
-    console.log(data);
+    console.log(data, 'data===');
   }
 
   async function createCourse() {

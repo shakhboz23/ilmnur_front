@@ -7,26 +7,21 @@
                 yangi o'rinni egallashga harakat qiling</p>
         </section>
         <section class="mt-10">
-            <CategorySlider class="mb-5 pr-6" />
+            <CategorySlider :category="useLessons.store.courses" class="mb-5 pr-6" />
             <hr />
-            <!-- <ul>
-                <li class="">
-
-                </li>
-            </ul> -->
-            <!-- {{useReyting.store.reytings}} -->
             <table class="c_c1f mx-auto w-[80%]">
-                <!-- <tr>
-                    <th>Company</th>
-                    <th>Contact</th>
-                    <th>Country</th>
-                </tr> -->
-                <tr v-for="(i, index) in useReyting.store.reytings">
-                    <td class="w-6">{{ index + 1 }}</td>
-                    <td class="flex items-center gap-4 px-4 py-[10px]">
-                        <EmptyAvatar class="!h-10 !w-10" /> <span class="truncate w-[90%]">{{i.name}} {{i.surname}}</span>
+                <tr v-for="(i, index) in useReyting.store.reytings?.slice(0, 10)">
+                    <td class="w-6">
+                        <div class="full_flex">
+                            <img v-if="index < 3" :src="reyting_steps[index]" alt="">
+                            <p v-else>{{ index + 1 }}</p>
+                        </div>
                     </td>
-                    <td class="c_c75 text-sm whitespace-nowrap">{{i.totalReyting}} ball</td>
+                    <td class="flex items-center gap-4 px-4 py-[10px]">
+                        <EmptyAvatar class="!h-10 !w-10" /> <span class="truncate w-[90%]">{{ i.name }}
+                            {{ i.surname }}</span>
+                    </td>
+                    <td class="c_c75 text-sm whitespace-nowrap">{{ i.totalReyting }} ball</td>
                 </tr>
             </table>
             <ul class="full_flex w-full gap-5 whitespace-nowrap c_main">
@@ -39,17 +34,17 @@
                 </li>
             </ul>
             <table class="c_c1f mx-auto w-[80%]">
-                <!-- <tr>
-                    <th>Company</th>
-                    <th>Contact</th>
-                    <th>Country</th>
-                </tr> -->
-                <tr v-for="i in 10">
-                    <td class="w-6">{{ i + 10 }}</td>
-                    <td class="flex items-center gap-4 px-4 py-[10px]">
-                        <EmptyAvatar class="!h-10 !w-10" /> <span class="truncate w-[90%]">Maria Anders</span>
+                <tr v-for="(i, index) in useReyting.store.reytings?.slice(10)">
+                    <td class="w-6">
+                        <div class="full_flex">
+                            <p>{{ index + 11 }}</p>
+                        </div>
                     </td>
-                    <td class="c_c75 text-sm whitespace-nowrap">432 ball</td>
+                    <td class="flex items-center gap-4 px-4 py-[10px]">
+                        <EmptyAvatar class="!h-10 !w-10" /> <span class="truncate w-[90%]">{{ i.name }}
+                            {{ i.surname }}</span>
+                    </td>
+                    <td class="c_c75 text-sm whitespace-nowrap">{{ i.totalReyting }} ball</td>
                 </tr>
             </table>
         </section>
@@ -58,10 +53,17 @@
 
 <script setup>
 import EmptyAvatar from '~/components/UI/Avatar.vue';
-import { useReytingStore } from '~/store';
+import { useLessonsStore, useReytingStore } from '~/store';
+import first from "@/assets/svg/reyting/first.svg"
+import second from "@/assets/svg/reyting/second.svg"
+import third from "@/assets/svg/reyting/third.svg"
+
+const reyting_steps = [first, second, third];
 
 const useReyting = useReytingStore();
+const useLessons = useLessonsStore();
 
+useLessons.getByCourse();
 useReyting.getReyting();
 
 </script>

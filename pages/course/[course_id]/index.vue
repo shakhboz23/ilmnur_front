@@ -20,8 +20,16 @@
                     <div class="flex items-center gap-5">
                         <h1 class="font-semibold text-[24px] max-w-[70%]">{{ useCourses.store.courses?.course?.title }}
                         </h1>
-                        <button v-if="useCourses.store.courses?.course?.is_subscribed"
-                            class="bg_main rounded-full text-white px-4 py-1 text-sm">Obuna</button>
+                        <div v-if="useCourses.store.courses?.course?.is_subscribed">
+                            <a-dropdown>
+                                <button class="bg_main rounded-full text-white px-4 py-1 text-sm">Obuna</button>
+                                <template #overlay>
+                                    <a-menu>
+                                        <a-menu-item @click="useCourses.subscribeCourse(useCourses.store.courses?.course?.id)">Obunani bekor qilish</a-menu-item>
+                                    </a-menu>
+                                </template>
+                            </a-dropdown>
+                        </div>
                         <a-button v-else :loading="isLoading.isLoadingType('subscribe')"
                             @click="useCourses.subscribeCourse(useCourses.store.courses?.course?.id)"
                             class="b_main c_main rounded-full px-4 py-1 text-sm">Obuna bo'lish</a-button>
@@ -44,9 +52,6 @@
                                 </a-menu-item>
                                 <a-menu-item @click="isLoading.modal.create = true">
                                     <a href="javascript:;">Add module</a>
-                                </a-menu-item>
-                                <a-menu-item>
-                                    <a href="javascript:;">3rd menu item</a>
                                 </a-menu-item>
                             </a-menu>
                         </template>
