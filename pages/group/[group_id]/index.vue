@@ -12,6 +12,10 @@ const useLessons = useLessonsStore();
 
 useCategory.getCategory();
 useLessons.getByCourse();
+
+watch(() => {
+    isLoading
+})
 </script>
 
 <style lang="scss" scoped></style>

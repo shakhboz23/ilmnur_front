@@ -60,7 +60,7 @@ export const useLessonsStore = defineStore("lessons", () => {
   
   async function getByCourse() {
     const data: any = await apiRequest.get(
-      `course/getByCourse/${router.currentRoute.value.params.group_id}/${isLoading.store.category_id}`,
+      `course/getByCourse/${router.currentRoute.value.params.group_id}/${isLoading.store.category_id}/`,
       "getByCourse"
     );
     console.log(data, "coursebyid====");

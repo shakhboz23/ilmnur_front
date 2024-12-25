@@ -1,9 +1,11 @@
 import type { Router } from "vue-router";
 import { useApiRequest } from "~/composables";
+import { useLoadingStore } from "./loading";
 // import type { TestsType } from "~/types/store";
 
 export const useReytingStore = defineStore("reyting", () => {
   const apiRequest = useApiRequest();
+  const isLoading = useLoadingStore();
   const router: Router = useRouter();
   // const router = useRouter();
 
@@ -13,8 +15,8 @@ export const useReytingStore = defineStore("reyting", () => {
 
   async function getReyting() {
     const data: any = await apiRequest.get(
-      `user/reyting/${router.currentRoute.value.params.group_id}`,
-      "getById"
+      `user/reyting/${router.currentRoute.value.params.group_id}/${isLoading.store.category_id}`,
+      "getReyting"
     );
     console.log(data, "skslaskl");
     store.reytings = data.data;

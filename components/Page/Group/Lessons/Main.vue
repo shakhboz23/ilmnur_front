@@ -1,8 +1,8 @@
 <template>
     <div>
-        <CategorySlider class="mb-5 pr-6" />
+        <CategorySlider :category="useCategory.store.category" class="mb-5 pr-6" />
         <section>
-            <div v-if="isLoading.isLoadingType('lessons')"
+            <div v-if="isLoading.isLoadingType('getByCourse')"
                 class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
                 <LoadingDiv v-for="i in 12" class="w-full h-full min-h-[360px] r_12 !overflow-hidden" />
             </div>
@@ -14,7 +14,7 @@
         </section>
         <!-- modal -->
         <UIModal v-if="!$router.currentRoute.value.query.page" :isOpen="isLoading.modal.create"
-        :loadingType="'createCourse'" @update:isOpen="(value) => handleModal(value)">
+            :loadingType="'createCourse'" @update:isOpen="(value) => handleModal(value)">
             <div class="space-y-6">
                 <label for="file_input" class="block pcursor">
                     <img class="aspect-video w-full object-cover r_8" v-if="useCourses.store.image"
@@ -29,8 +29,9 @@
                     v-model="useCourses.create.title" :label="'Title'" required />
                 <a-textarea v-model:value="useCourses.create.description" placeholder="Description"
                     :auto-size="{ minRows: 2, maxRows: 10 }" />
-                <a-select class="w-full" v-model:value="useCourses.create.category_id" show-search placeholder="Select a person"
-                    :filter-option="filterOption" @focus="handleFocus" @blur="handleBlur" @change="handleChange">
+                <a-select class="w-full" v-model:value="useCourses.create.category_id" show-search
+                    placeholder="Select a person" :filter-option="filterOption" @focus="handleFocus" @blur="handleBlur"
+                    @change="handleChange">
                     <a-select-option v-for="i in useCategory.store.category" :value="i.id">
                         {{ i.category }}
                     </a-select-option>
@@ -59,6 +60,7 @@ const isLoading = useLoadingStore();
 const useLessons = useLessonsStore();
 const useCategory = useCategoryStore();
 const useCourses = useCoursesStore();
+const router = useRouter();
 
 function handleModal(value) {
     if (value == "OK") {
@@ -84,6 +86,12 @@ function handleImage(e) {
 
 onBeforeMount(() => {
     useLessons.getByCourse();
+})
+
+watch(() => router.currentRoute.value.query.category, () => {
+    if (!router.currentRoute.value.query.page) {
+        useLessons.getByCourse();
+    }
 })
 </script>
 

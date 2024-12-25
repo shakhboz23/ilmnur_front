@@ -51,6 +51,7 @@ function setCategory(category) {
     });
     category == 0 ? router.push({
         query: {
+            ...query,
             category: undefined
         }
     }) : router.push({

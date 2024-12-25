@@ -9,51 +9,61 @@
         <section class="mt-10">
             <CategorySlider :category="useLessons.store.courses" class="mb-5 pr-6" />
             <hr />
-            <table class="c_c1f mx-auto w-[80%]">
-                <tr v-for="(i, index) in useReyting.store.reytings?.slice(0, 10)">
-                    <td class="w-6">
-                        <div class="full_flex">
-                            <img v-if="index < 3" :src="reyting_steps[index]" alt="">
-                            <p v-else>{{ index + 1 }}</p>
-                        </div>
-                    </td>
-                    <td class="flex items-center gap-4 px-4 py-[10px]">
-                        <EmptyAvatar class="!h-10 !w-10" /> <span class="truncate w-[90%]">{{ i.name }}
-                            {{ i.surname }}</span>
-                    </td>
-                    <td class="c_c75 text-sm whitespace-nowrap">{{ i.totalReyting }} ball</td>
-                </tr>
-            </table>
-            <ul class="full_flex w-full gap-5 whitespace-nowrap c_main">
-                <li class="min-w-fit">
-                    <img src="@/assets/svg/reyting/top_arrow.svg" alt="">
-                </li>
-                <li>Yuqori o'rinlar</li>
-                <li class="min-w-fit">
-                    <img src="@/assets/svg/reyting/top_arrow.svg" alt="">
-                </li>
-            </ul>
-            <table class="c_c1f mx-auto w-[80%]">
-                <tr v-for="(i, index) in useReyting.store.reytings?.slice(10)">
-                    <td class="w-6">
-                        <div class="full_flex">
-                            <p>{{ index + 11 }}</p>
-                        </div>
-                    </td>
-                    <td class="flex items-center gap-4 px-4 py-[10px]">
-                        <EmptyAvatar class="!h-10 !w-10" /> <span class="truncate w-[90%]">{{ i.name }}
-                            {{ i.surname }}</span>
-                    </td>
-                    <td class="c_c75 text-sm whitespace-nowrap">{{ i.totalReyting }} ball</td>
-                </tr>
-            </table>
+            <div v-if="isLoading.isLoadingType('getReyting')">
+                <LoadingDiv v-for="i in 10" class="h-16 w-full my-2" />
+            </div>
+            <div v-else-if="useReyting.store.reytings?.length">
+                <table class="c_c1f mx-auto w-[80%]">
+                    <tr v-for="(i, index) in useReyting.store.reytings?.slice(0, 10)">
+                        <td class="w-6">
+                            <div class="full_flex">
+                                <img v-if="index < 3" :src="reyting_steps[index]" alt="">
+                                <p v-else>{{ index + 1 }}</p>
+                            </div>
+                        </td>
+                        <td class="flex items-center gap-4 px-4 py-[10px]">
+                            <UIAvatar class="min-h-[40px] min-w-[40px] max-h-[40px] max-w-[40px]" :src="i.image" />
+                            <span class="truncate w-[90%]">{{ i.name }}
+                                {{ i.surname }}</span>
+                        </td>
+                        <td class="c_c75 text-sm whitespace-nowrap">{{ i.totalReyting }} ball</td>
+                    </tr>
+                </table>
+                <ul v-if="useReyting.store.reytings?.length > 10"
+                    class="full_flex w-full gap-5 whitespace-nowrap c_main">
+                    <li class="min-w-fit">
+                        <img src="@/assets/svg/reyting/top_arrow.svg" alt="">
+                    </li>
+                    <li>Yuqori o'rinlar</li>
+                    <li class="min-w-fit">
+                        <img src="@/assets/svg/reyting/top_arrow.svg" alt="">
+                    </li>
+                </ul>
+                <table class="c_c1f mx-auto w-[80%]">
+                    <tr v-for="(i, index) in useReyting.store.reytings?.slice(10)">
+                        <td class="w-6">
+                            <div class="full_flex">
+                                <p>{{ index + 11 }}</p>
+                            </div>
+                        </td>
+                        <td class="flex items-center gap-4 px-4 py-[10px]">
+                            <EmptyAvatar class="!h-10 !w-10" /> <span class="truncate w-[90%]">{{ i.name }}
+                                {{ i.surname }}</span>
+                        </td>
+                        <td class="c_c75 text-sm whitespace-nowrap">{{ i.totalReyting }} ball</td>
+                    </tr>
+                </table>
+            </div>
+            <div v-else class="full_flex py-20">
+                Ma'lumotlar topilmadi
+            </div>
         </section>
     </div>
 </template>
 
 <script setup>
 import EmptyAvatar from '~/components/UI/Avatar.vue';
-import { useLessonsStore, useReytingStore } from '~/store';
+import { useLessonsStore, useReytingStore, useLoadingStore } from '~/store';
 import first from "@/assets/svg/reyting/first.svg"
 import second from "@/assets/svg/reyting/second.svg"
 import third from "@/assets/svg/reyting/third.svg"
@@ -62,10 +72,17 @@ const reyting_steps = [first, second, third];
 
 const useReyting = useReytingStore();
 const useLessons = useLessonsStore();
+const isLoading = useLoadingStore();
+const router = useRouter();
 
 useLessons.getByCourse();
 useReyting.getReyting();
 
+watch(() => router.currentRoute.value.query.category, () => {
+    if (router.currentRoute.value.query.page == 'reyting') {
+        useReyting.getReyting();
+    }
+})
 </script>
 
 <style lang="scss" scoped></style>
