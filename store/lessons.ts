@@ -39,12 +39,10 @@ export const useLessonsStore = defineStore("lessons", () => {
       create[key] = create[key];
     });
     store.lesson_id = 0;
-    // store.image = "";
   }
 
   async function getLessons() {
     const data: any = await apiRequest.get(`lesson/${isLoading.store.category_id}`, "lessons");
-    console.log(data, 'lessons===========');
     store.lessons = data.data;
   }
 
@@ -54,7 +52,6 @@ export const useLessonsStore = defineStore("lessons", () => {
       `lesson/getById/${lesson_id}`,
       "getById"
     );
-    console.log(data, "lessons getById");
     store.lessons = data.data;
   }
   
@@ -63,12 +60,10 @@ export const useLessonsStore = defineStore("lessons", () => {
       `course/getByCourse/${router.currentRoute.value.params.group_id}/${isLoading.store.category_id}/`,
       "getByCourse"
     );
-    console.log(data, "coursebyid====");
     store.courses = data.data;
   }
 
   async function createLesson(is_create: string) {
-    console.log(is_create);
     create.lesson_id = router.currentRoute.value.query.lesson_id;
     if (is_create == "create") {
       create.course_id = router.currentRoute.value.params.lesson_id;
@@ -77,18 +72,11 @@ export const useLessonsStore = defineStore("lessons", () => {
       create.course_id = router.currentRoute.value.params.course_id;
     }
     const formData = new FormData();
-    console.log(create);
     for (let i in create) {
       if (create[i]) {
         formData.append(i, create[i]);
       }
     }
-    for (let [key, value] of formData.entries()) {
-      console.log(`${key}: ${value}`);
-    }
-
-    // console.log(create.type);
-    // return;
     const data: any = await apiRequest.post(
       "lesson/create",
       formData,
@@ -96,18 +84,16 @@ export const useLessonsStore = defineStore("lessons", () => {
     );
     isLoading.modal.create = false;
     clearData();
-    console.log(data);
     router.push(`/lesson/${data.data.id}`);
   }
 
   async function updateLesson() {
     create.course_id = router.currentRoute.value.params.course_id;
-    console.log(create);
     const formData = new FormData();
     for (let i in create) {
       formData.append(i, create[i]);
     }
-    const data: any = await apiRequest.put(
+    await apiRequest.put(
       `lesson/${store.lesson_id}`,
       formData,
       "createCourse"
@@ -116,19 +102,15 @@ export const useLessonsStore = defineStore("lessons", () => {
     isLoading.modal.edit = false;
     clearData();
     useCourses.getByCourse();
-    // getCourses();
-    console.log(data);
   }
 
   async function deleteLesson() {
-    const data: any = await apiRequest.delete_req(
+    await apiRequest.delete_req(
       `lesson/${store.lesson_id}`,
       "deletegroup"
     );
     isLoading.modal.delete = false;
     useCourses.getByCourse();
-    // getCourses();
-    console.log(data);
   }
 
   return {

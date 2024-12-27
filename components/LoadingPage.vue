@@ -1,7 +1,6 @@
 <template>
   <div class="min-h-screen min-w-screen full_flex">
-    <img src="/logo.svg" alt="" />
-    <SeasonWinter />
+    <img loading="lazy"  src="/logo.svg" alt="" />
   </div>
 </template>
 

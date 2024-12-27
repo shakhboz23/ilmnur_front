@@ -6,12 +6,12 @@
                     <li class="text-lg font-semibold truncate">Machine Learning Learning Learning LearningLearning Learning Learning Learning LearningLearning Learning</li>
                     <li class="flex gap-1">
                         <span>4.5</span>
-                        <img src="@/assets/svg/icon/a_star.svg" alt="">
+                        <img loading="lazy"  src="@/assets/svg/icon/a_star.svg" alt="">
                     </li>
                     <li>10.5k Learners</li>
                 </ul>
                 <div class="full_flex max-w-[40%] r_8">
-                    <img class="max-h-[140px] aspect-auto r_8"
+                    <img loading="lazy"  class="max-h-[140px] aspect-auto r_8"
                         src="https://world-schools.com/wp-content/uploads/2023/01/IMG-Academy-cover-WS.webp" alt="">
                 </div>
             </li>

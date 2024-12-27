@@ -10,7 +10,7 @@
             <div class="flex gap-3 min-w-fit">
                 <div class="flex items-center bg_bg h-[46px] w-[46px] rounded-[10px]">
                     <button class="flex items-center justify-center h-[46px] w-[46px] rounded-[10px]">
-                        <img src="@/assets/svg/members/filter.svg" alt="">
+                        <img loading="lazy"  src="@/assets/svg/members/filter.svg" alt="">
                     </button>
                 </div>
                 <button @click="isLoading.modal.create = true"
@@ -36,7 +36,7 @@
                             <td class="px-6 py-3 relative rounded-r-xl">
                                 <a-dropdown class="absolute top-3 right-6">
                                     <div>
-                                        <img class="threedot" src="@/assets/svg/icon/threedot.svg" alt="">
+                                        <img loading="lazy"  class="threedot" src="@/assets/svg/icon/threedot.svg" alt="">
                                     </div>
                                     <template #overlay>
                                         <a-menu>
@@ -62,7 +62,7 @@
             @update:isOpen="(value) => handleModal(value)">
             <div class="space-y-6">
                 <!-- <label for="file_input" class="block pcursor">
-                    <img class="aspect-video w-full object-cover r_8" v-if="useCategory.store.image"
+                    <img loading="lazy"  class="aspect-video w-full object-cover r_8" v-if="useCategory.store.image"
                         :src="useCategory.store.image" alt="">
                     <div v-else
                         class="aspect-video w-full full_flex flex-col text-center space-y-10 r_8 py-10 border border-dashed border-[#CCCCCC]">

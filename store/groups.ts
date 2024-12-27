@@ -6,7 +6,6 @@ import { groupCreate } from "~/types/default";
 export const useGroupsStore = defineStore("groups", () => {
   const apiRequest = useApiRequest();
   const isLoading = useLoadingStore();
-  // const router = useRouter();
 
   const store: GroupsType = reactive({
     groups: [],
@@ -31,7 +30,6 @@ export const useGroupsStore = defineStore("groups", () => {
 
   async function getGroups() {
     const data: any = await apiRequest.get(`group/${isLoading.store.category_id}`, "groups");
-    console.log(data, 'grcg=======================');
     store.groups = data.data;
   }
 
@@ -42,7 +40,7 @@ export const useGroupsStore = defineStore("groups", () => {
         formData.append(i, create[i as keyof GroupsCreate]);
       }
     }
-    const data: any = await apiRequest.post(
+    await apiRequest.post(
       "group/create",
       formData,
       "creategroup"
@@ -50,8 +48,6 @@ export const useGroupsStore = defineStore("groups", () => {
     isLoading.modal.create = false;
     clearData();
     getGroups();
-    console.log(data);
-    // store.groups = data.data;
   }
 
   async function updateGroup() {
@@ -61,7 +57,7 @@ export const useGroupsStore = defineStore("groups", () => {
         formData.append(i, create[i as keyof GroupsCreate]);
       }
     }
-    const data: any = await apiRequest.put(
+    await apiRequest.put(
       `group/${store.group_id}`,
       formData,
       "creategroup"
@@ -70,17 +66,15 @@ export const useGroupsStore = defineStore("groups", () => {
     isLoading.modal.edit = false;
     clearData();
     getGroups();
-    console.log(data);
   }
 
   async function deleteGroup() {
-    const data: any = await apiRequest.delete_req(
+    await apiRequest.delete_req(
       `group/${store.group_id}`,
       "deletegroup"
     );
     isLoading.modal.delete = false;
     getGroups();
-    console.log(data);
   }
 
   return {

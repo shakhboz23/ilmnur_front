@@ -3,10 +3,8 @@ import type { LoadingType } from "~/types/store";
 
 export const useLoadingStore = defineStore("loading", () => {
   const runtime = useRuntimeConfig();
-  // const baseUrl: string = String(runtime.public.baseURL);
   const baseURL: string = String(runtime.public.baseURL);
   const localBaseURL: string = String(runtime.public.localBaseURL);
-  //   const demoBaseUrl = runtime.public.demoBaseURL;
   const router = useRouter();
 
   const store: LoadingType = reactive({
@@ -16,8 +14,6 @@ export const useLoadingStore = defineStore("loading", () => {
     middleware: true,
     errorMessage: {},
     error: "",
-    // page_name: "",
-    // pagination_type: 15,
     pagination: {
       current_page: router.currentRoute.value.query.page
         ? router.currentRoute.value.query.page
@@ -115,7 +111,6 @@ export const useLoadingStore = defineStore("loading", () => {
       typeof window !== "undefined"
         ? window?.location.protocol + "//" + window?.location?.host
         : "";
-    console.log(front_url, 'front_url')
     if (front_url.includes("localhost") || front_url.includes("demo")) {
       store.baseUrl = localBaseURL;
       store.baseUrl = baseURL;

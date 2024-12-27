@@ -7,7 +7,7 @@
             <div class="flex gap-3 min-w-fit">
                 <div class="flex items-center bg_bg h-[46px] w-[46px] rounded-[10px]">
                     <button class="flex items-center justify-center h-[46px] w-[46px] rounded-[10px]">
-                        <img src="@/assets/svg/members/filter.svg" alt="">
+                        <img loading="lazy"  src="@/assets/svg/members/filter.svg" alt="">
                     </button>
                 </div>
                 <button @click="isLoading.modal.create = true"
@@ -25,7 +25,7 @@
                         <tr v-for="i in useCourses.store.users?.users" class="bg_bg">
                             <th scope="row" class="p-3 rounded-l-xl">
                                 <div class="flex items-center gap-5">
-                                    <!-- <img class="w-10 h-10 r_f object-cover"
+                                    <!-- <img loading="lazy"  class="w-10 h-10 r_f object-cover"
                                         src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKtKkuCjVMZ09HHU7OxCs0h7421BzTwVWGjA&s"
                                         alt=""> -->
                                     <UIAvatar class="w-10 h-10 max-w-[40px] max-h-[40px]" :src="i?.user?.image" />
@@ -43,11 +43,11 @@
                             <!-- <td class="md:inline hidden px-6">
                                 <ul>
                                     <li class="full_flex max-w-fit gap-2">
-                                        <img src="@/assets/svg/members/date.svg" alt="">
+                                        <img loading="lazy"  src="@/assets/svg/members/date.svg" alt="">
                                         <p>{{ i.createdAt }}</p>
                                     </li>
                                     <li class="full_flex max-w-fit gap-2">
-                                        <img src="@/assets/svg/members/location.svg" alt="">
+                                        <img loading="lazy"  src="@/assets/svg/members/location.svg" alt="">
                                         <p>Samarqand</p>
                                     </li>
                                 </ul>

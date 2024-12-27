@@ -7,7 +7,7 @@
         </div>
         <div v-else class="tab-bar whitespace-nowrap">
             <button class="left-arrow">
-                <img class="rotate-90" src="@/assets/svg/icon/arrow.svg" alt="">
+                <img loading="lazy"  class="rotate-90" src="@/assets/svg/icon/arrow.svg" alt="">
             </button>
             <ul class="tabs">
                 <button v-if="all" @click="setCategory(0)" class="duration-700 r_20 py-2 px-3 text-xs b_main"
@@ -18,7 +18,7 @@
                     }}</button>
             </ul>
             <button class="right-arrow active">
-                <img class="-rotate-90" src="@/assets/svg/icon/arrow.svg" alt="">
+                <img loading="lazy"  class="-rotate-90" src="@/assets/svg/icon/arrow.svg" alt="">
             </button>
         </div>
     </div>

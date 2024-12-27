@@ -14,7 +14,7 @@
         @update:isOpen="(value) => handleModal(value)">
         <div class="space-y-6">
             <label for="file_input" class="block pcursor">
-                <img class="aspect-video w-full object-cover r_8" v-if="useGroups.store.image"
+                <img loading="lazy"  class="aspect-video w-full object-cover r_8" v-if="useGroups.store.image"
                     :src="useGroups.store.image" alt="">
                 <div v-else
                     class="aspect-video w-full full_flex flex-col text-center space-y-10 r_8 py-10 border border-dashed border-[#CCCCCC]">

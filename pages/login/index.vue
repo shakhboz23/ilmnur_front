@@ -22,9 +22,9 @@
               <label for="password">Parol</label>
               <div class="flex relative">
                 <input v-model="useAuth.login.password" :type="useAuth.store.passType" class="pr-10" />
-                <img v-if="useAuth.store.passType == 'password'" @click="useAuth.changePassType"
+                <img loading="lazy"  v-if="useAuth.store.passType == 'password'" @click="useAuth.changePassType"
                   class="absolute top-0 right-0 p-4 cursor-pointer" src="@/assets/svg/icon/show.svg" alt="" />
-                <img v-else @click="useAuth.changePassType" class="absolute top-0 right-0 p-4 cursor-pointer"
+                <img loading="lazy"  v-else @click="useAuth.changePassType" class="absolute top-0 right-0 p-4 cursor-pointer"
                   src="@/assets/svg/icon/hide.svg" alt="" />
               </div>
             </div>
@@ -34,7 +34,7 @@
           <div class="space-y-2 text-center mx-auto">
             <button type="button" id="googleButton" class="!w-full">
               <div class="full_flex gap-2 mx-auto b_ce2 r_4 py-2">
-                <img class="h-5 w-5" src="@/assets/svg/register/google.svg" alt="">
+                <img loading="lazy"  class="h-5 w-5" src="@/assets/svg/register/google.svg" alt="">
                 <p>Google orqali</p>
               </div>
             </button>

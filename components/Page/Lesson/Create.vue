@@ -21,25 +21,25 @@
                     <ul class="flex gap-10 text-center font-medium">
                         <li @click="openModal('video')" class="space-y-4 pcursor">
                             <div class="bg_cf3 w-20 h-20 full_flex r_f">
-                                <img src="@/assets/svg/group/video.svg" alt="">
+                                <img loading="lazy"  src="@/assets/svg/group/video.svg" alt="">
                             </div>
                             <p>Video</p>
                         </li>
                         <li @click="openModal('title')" class="space-y-4 pcursor">
                             <div class="bg_cf3 w-20 h-20 full_flex r_f">
-                                <img src="@/assets/svg/group/text.svg" alt="">
+                                <img loading="lazy"  src="@/assets/svg/group/text.svg" alt="">
                             </div>
                             <p>Title</p>
                         </li>
                         <li @click="openModal('text')" class="space-y-4 pcursor">
                             <div class="bg_cf3 w-20 h-20 full_flex r_f">
-                                <img src="@/assets/svg/group/text.svg" alt="">
+                                <img loading="lazy"  src="@/assets/svg/group/text.svg" alt="">
                             </div>
                             <p>Tekst</p>
                         </li>
                         <li @click="openModal('image')" class="space-y-4 pcursor">
                             <div class="bg_cf3 w-20 h-20 full_flex r_f">
-                                <img src="@/assets/svg/group/image.svg" alt="">
+                                <img loading="lazy"  src="@/assets/svg/group/image.svg" alt="">
                             </div>
                             <p>Rasm</p>
                         </li>
@@ -53,30 +53,30 @@
             <div class="max-h-[calc(100vh_-_225px)] overflow-y-auto overflow-hidden">
                 <ul class="grid grid-cols-2 text-center font-medium">
                     <li @click="openModal('video')" class="full_flex flex-col h-[120px] b_ced space-y-2 pcursor">
-                        <img src="@/assets/svg/group/video.svg" alt="">
+                        <img loading="lazy"  src="@/assets/svg/group/video.svg" alt="">
                         <p>Video</p>
                     </li>
                     <li @click="openModal('title')" class="full_flex flex-col h-[120px] b_ced space-y-2 pcursor">
-                        <img src="@/assets/svg/group/text.svg" alt="">
+                        <img loading="lazy"  src="@/assets/svg/group/text.svg" alt="">
                         <p>Title</p>
                     </li>
                     <li @click="openModal('text')" class="full_flex flex-col h-[120px] b_ced space-y-2 pcursor">
-                        <img src="@/assets/svg/group/text.svg" alt="">
+                        <img loading="lazy"  src="@/assets/svg/group/text.svg" alt="">
                         <p>Tekst</p>
                     </li>
                     <li @click="openModal('image')" class="full_flex flex-col h-[120px] b_ced space-y-2 pcursor">
-                        <img src="@/assets/svg/group/image.svg" alt="">
+                        <img loading="lazy"  src="@/assets/svg/group/image.svg" alt="">
                         <p>Rasm</p>
                     </li>
                     <li class="full_flex flex-col h-[120px] b_ced space-y-2 pcursor">
-                        <img src="@/assets/svg/group/settings.svg" alt="">
+                        <img loading="lazy"  src="@/assets/svg/group/settings.svg" alt="">
                         <p>Sozlamalar</p>
                     </li>
                 </ul>
                 <div class="b_ced !border-x-0 -mt-[1px] space-y-6 py-8">
                     <p class="font-medium">Resurslarni biriktiring</p>
                     <button class="full_flex gap-3 b_ced py-[10px] rounded-full w-full">
-                        <img src="@/assets/svg/group/upload.svg" alt="">
+                        <img loading="lazy"  src="@/assets/svg/group/upload.svg" alt="">
                         <span>Fayl biriktirish</span>
                     </button>
                 </div>
@@ -153,7 +153,7 @@ function handleVideo(e) {
         useLessons.store.create.video = imageUrl;
         useLessons.create.video = file;
     } else if (store.file_type == 'image') {
-        useLessons.create.content += ` <img src="${imageUrl}" alt="">`;
+        useLessons.create.content += ` <img loading="lazy"  src="${imageUrl}" alt="">`;
     }
     useLessons.store.modal.create = false;
 }

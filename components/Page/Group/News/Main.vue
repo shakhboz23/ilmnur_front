@@ -9,16 +9,16 @@
                 </li>
                 <li class="flex gap-5 c_c66">
                     <div class="full_flex gap-2">
-                        <img src="@/assets/svg/news/time.svg" alt="">
+                        <img loading="lazy"  src="@/assets/svg/news/time.svg" alt="">
                         <span>9 min</span>
                     </div>
                     <div class="full_flex gap-2">
-                        <img src="@/assets/svg/news/show.svg" alt="">
+                        <img loading="lazy"  src="@/assets/svg/news/show.svg" alt="">
                         <span>26</span>
                     </div>
                 </li>
                 <li>
-                    <img class="aspect-video w-full object-cover r_4"
+                    <img loading="lazy"  class="aspect-video w-full object-cover r_4"
                         src="https://world-schools.com/wp-content/uploads/2023/01/IMG-Academy-cover-WS.webp" alt="">
                 </li>
                 <a-typography-paragraph

@@ -27,14 +27,12 @@ export const useChatStore = defineStore("chat", () => {
 
     async function getChatGroups() {
         const data: any = await apiRequest.get(`chatgroup/getByGroupId/${router.currentRoute.value.params.group_id}`, "group");
-        console.log(data, 'grcg=======================');
         store.chatgroups = data.data;
     }
 
     async function getMessages() {
         const chat_id: number = +(router.currentRoute.value.query.chat || 0)
         const data: any = await apiRequest.get(`chatgroup/getMessages/${chat_id}`, "chatMessages");
-        console.log(data, 'message=======================');
         store.messages[chat_id] = data.data;
     }
 
@@ -52,11 +50,8 @@ export const useChatStore = defineStore("chat", () => {
             formData,
             "sendMessage"
         );
-        console.log(store.messages[message.chatgroup_id]?.chats);
         store.messages[message.chatgroup_id]?.chats.push(data.data)
-        console.log(store.messages[message.chatgroup_id]?.chats);
         clearData();
-        console.log(data);
     }
 
     async function updateGroup() {
@@ -66,7 +61,7 @@ export const useChatStore = defineStore("chat", () => {
                 formData.append(i, message[i]);
             }
         }
-        const data: any = await apiRequest.put(
+        await apiRequest.put(
             `group/${store.group_id}`,
             formData,
             "creategroup"
@@ -74,18 +69,14 @@ export const useChatStore = defineStore("chat", () => {
         isLoading.modal.create = false;
         isLoading.modal.edit = false;
         clearData();
-        // getGroups();
-        console.log(data);
     }
 
     async function deleteGroup() {
-        const data: any = await apiRequest.delete_req(
+        await apiRequest.delete_req(
             `group/${store.group_id}`,
             "deletegroup"
         );
         isLoading.modal.delete = false;
-        // getGroups();
-        console.log(data);
     }
 
     return {

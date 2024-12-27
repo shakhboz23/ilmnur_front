@@ -1,13 +1,11 @@
 import type { Router } from "vue-router";
 import { useApiRequest } from "~/composables";
 import { useUploadStore } from "./upload";
-// import type { TestsType } from "~/types/store";
 
 export const useTestsStore = defineStore("tests", () => {
   const apiRequest = useApiRequest();
   const router: Router = useRouter();
   const useUpload = useUploadStore()
-  // const router = useRouter();
 
   const store: any = reactive({
     tests: [],
@@ -43,32 +41,22 @@ export const useTestsStore = defineStore("tests", () => {
       "getById"
     );
     test_settings.sort_level[0] = [data.data?.category_id]
-    console.log(data, "sslasl");
     store.tests = data.data;
-    // test = data.data?.test;
     for (let i = 0; i < data.data?.test?.length; i++) {
       test[i] = data.data?.test[i]
     }
   }
 
   async function checkAnswer(id: number, step: number) {
-    // const dat: any =
-    console.log(store.tests);
-    console.log(id);
-    console.log(step);
-    console.log(Object.keys(test)?.length);
     if (Object.keys(test)?.length == step - 1) {
       return checkAllAnswers();
     }
-    console.log(store.true_answers)
     const data: any = await apiRequest.post(
       `tests/check/${id}`,
       { answer: store.true_answers[step - 1] },
       "checkAnswer"
     );
     store.checked_answers[step] = data.data[1];
-    console.log(data.data, "skslaskl");
-    // store.tests = data.data;
   }
 
   async function checkAllAnswers() {
@@ -80,12 +68,10 @@ export const useTestsStore = defineStore("tests", () => {
       `tests/check_answers/${router.currentRoute.value.params.test_id}`,
       { answers: results }
     );
-    console.log(data, "checked");
     store.testResBall = data?.data?.data?.ball;
     setTimeout(() => {
       store.slideStep = Object.keys(test)?.length + 1
     }, 1000);
-    // test = data.data;
   }
 
   async function createTest() {
@@ -96,16 +82,7 @@ export const useTestsStore = defineStore("tests", () => {
         test_settings.sort_level.splice(i, 1);
       }
     }
-    console.log(test);
-    console.log(store.questions_count);
     let lesson_id = +router.currentRoute.value.params.test_id;
-    // if (router.currentRoute.value.query.lesson_id) {
-    //   lesson_id = +router.currentRoute.value.query.lesson_id;
-    //   url = `/test?t=${lesson_id}`;
-    // } else {
-    //   group_id = +(router.currentRoute.value.query.group_id || 0);
-    //   url = `/test?g=${group_id}`;
-    // }
     let tests = []
     for (let i = 0; i < store.questions_count; i++) {
       try {
@@ -148,40 +125,18 @@ export const useTestsStore = defineStore("tests", () => {
         console.log(err);
       }
     }
-    console.log(tests);
     await apiRequest
       .post(`tests/create`, {
         ...test_settings,
         lesson_id,
         test: tests,
-        // variantss: Object.values(test[i].variants),
-        // question: test[i].question[0],
       })
       .then((res) => {
         console.log(res);
-        // showMessage("Uploaded successfully");
       })
       .catch((err) => {
         console.log(err);
-        // showMessage(err?.response?.data?.message);
       });
-    // isLoading.removeLoading("createTest");
-
-
-    // let test_settings2 = {
-    //   start_date: "",
-    //   end_date: "",
-    //   sort_level: [],
-    //   test_count: "",
-    // };
-
-    // for (let i in test_settings2) {
-    //   test_settings[i] = test_settings2[i];
-    // }
-    // if (router.currentRoute.value.query.group_id) {
-    //   useGroup.addGroupstep(router.currentRoute.value.query.group_id);
-    // }
-    // router.push(url);
   }
 
 

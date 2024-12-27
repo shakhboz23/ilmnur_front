@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { useLoadingStore } from "@/store";
 import { useApiRequest } from "~/composables";
-// import { io } from "socket.io-client";
+
 import { useNotification } from "~/composables";
 export const useAuthStore = defineStore("auth", () => {
   const apiRequest: any = useApiRequest();
@@ -67,15 +67,12 @@ export const useAuthStore = defineStore("auth", () => {
       if (isLoading.user.name) return;
     }
     isLoading.addLoading("getUserFullInfo");
-    console.log("user data");
     apiRequest
       .get(`user/${isLoading.user.id}`)
       .then((res: any): void => {
-        console.log(res, "user data");
         if (res.status == 200) {
           isLoading.store.middleware = false;
           isLoading.store.isLogin = true;
-          // isLoading.middleware.passwordChecking = false;
           isLoading.user = res.data;
           for (let i in res.data) {
             profile[i] = res.data[i];
@@ -99,20 +96,6 @@ export const useAuthStore = defineStore("auth", () => {
         } else {
           isLoading.store.isLogin = false;
           isLoading.store.middleware = false;
-          //   isLoading.middleware.loading = false;
-          //   const isRoute = [
-          //     "login",
-          //     "register",
-          //     "forgot_password",
-          //     "verify_otp",
-          //     "new_password",
-          //     "error",
-          //     "index",
-          //   ]?.includes(router.currentRoute.value.name);
-          //   if (!isRoute) {
-          //     console.log("object");
-          //     return navigateTo("/");
-          //   } // showMessage("Xato", "Nimadir xato ketdi");
         }
         isLoading.removeLoading("getUserFullInfo");
       })
@@ -124,11 +107,9 @@ export const useAuthStore = defineStore("auth", () => {
   }
 
   function authLogin() {
-    console.log(login);
     apiRequest
       .post("user/login", login, 'auth')
       .then((res: any) => {
-        console.log(res);
         isLoading.store.error = '';
         localStorage.setItem("token", res.data.token);
         getUserFullInfo('login');
@@ -138,7 +119,6 @@ export const useAuthStore = defineStore("auth", () => {
         }
       })
       .catch((err: any) => {
-        console.log(err)
         isLoading.store.error = err.response.data.message
         console.log(err);
       });
@@ -148,7 +128,6 @@ export const useAuthStore = defineStore("auth", () => {
     apiRequest
       .post("resetpassword/create", { email: login.email })
       .then((res: any) => {
-        console.log(res);
         if (res.status == 201) {
           router.push("/verify-email");
         }
@@ -162,7 +141,6 @@ export const useAuthStore = defineStore("auth", () => {
     apiRequest
       .post("user/register", register, 'auth')
       .then((res: any) => {
-        console.log(res);
         if (res.data.message == "Verification code sended successfully") {
           localStorage.setItem("token", res.data.token);
           router.push("/verify-email");
@@ -182,13 +160,11 @@ export const useAuthStore = defineStore("auth", () => {
     apiRequest
       .get(`user/activation_link/${activation_link}`)
       .then((res: any) => {
-        console.log(res);
         if (res.data.message == "User activated successfully") {
           router.push("/verify-email");
         }
       })
       .catch((err: any) => {
-        console.log(err);
         if (err.response?.data?.message == "User already activated") {
           //   showMessage("Email", "Allaqachon ro'yhatdan o'tilgan");
         }
@@ -202,7 +178,6 @@ export const useAuthStore = defineStore("auth", () => {
     apiRequest
       .put(`user/newPassword`, reset_pass)
       .then((res: any) => {
-        console.log(res);
         if (res.status == 200) {
           router.push("/login");
         }
@@ -220,7 +195,6 @@ export const useAuthStore = defineStore("auth", () => {
     apiRequest
       .post("user/auth/google", { credential })
       .then((res: any) => {
-        console.log(res);
         localStorage.setItem("token", res.data.token);
         if (res.data.statusCode == 200) {
           router.push("/settings");
@@ -235,7 +209,6 @@ export const useAuthStore = defineStore("auth", () => {
     apiRequest
       .post("user/register", user)
       .then((res: any) => {
-        console.log(res);
         localStorage.setItem("token", res.data.token);
         if (res.data.statusCode == 200) {
         }
@@ -253,9 +226,6 @@ export const useAuthStore = defineStore("auth", () => {
     formData.delete("imageFile");
     formData.delete("image");
     formData.append('image', profile.imageFile);
-    for (let [key, value] of formData.entries()) {
-      console.log(`${key}: ${value}`);
-    }
     apiRequest
       .put(
         `user/profile`,
@@ -264,7 +234,6 @@ export const useAuthStore = defineStore("auth", () => {
       )
       .then((res: any) => {
         openNotification('success', "Muvaffaqiyatli", "O'zgarishlar saqlandi")
-        console.log(res);
         getUserFullInfo()
       })
       .catch((err: any) => {

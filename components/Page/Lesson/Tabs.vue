@@ -21,7 +21,7 @@
                 </li>
                 <li v-else-if="activeKey == 2" class="flex gap-4">
                     <button class="full_flex gap-2 b_main c_main px-5 py-2 r_8 w-full text-white truncate">
-                        <img src="@/assets/svg/icon/star.svg" alt="">
+                        <img loading="lazy"  src="@/assets/svg/icon/star.svg" alt="">
                         <span class="max-w-full truncate">Like</span>
                     </button>
                     <button v-if="lesson_course?.is_subscribed"
@@ -30,11 +30,11 @@
                         class="bg_main px-5 py-2 r_8 w-full text-white truncate">Subscribe</button>
                 </li>
                 <li v-else-if="activeKey == 3" class="flex items-center gap-4 ">
-                    <img src="@/assets/svg/chat/upload.svg" alt="">
+                    <img loading="lazy"  src="@/assets/svg/chat/upload.svg" alt="">
                     <input type="text" class="w-full !px-0" placeholder="Your comment">
-                    <img src="@/assets/svg/chat/smile.svg" alt="">
-                    <img src="@/assets/svg/chat/record.svg" alt="">
-                    <img src="@/assets/svg/chat/send.svg" alt="">
+                    <img loading="lazy"  src="@/assets/svg/chat/smile.svg" alt="">
+                    <img loading="lazy"  src="@/assets/svg/chat/record.svg" alt="">
+                    <img loading="lazy"  src="@/assets/svg/chat/send.svg" alt="">
                 </li>
                 <li v-else-if="activeKey == 4">
                     <router-link to="/test/1" class="full_flex bg-white">

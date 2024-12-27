@@ -4,11 +4,11 @@
             <nav>
                 <ul class="flex items-center justify-between border-b border-[#EDEDED] pb-4">
                     <li @click="$router.back()" class="full_flex gap-4 pcursor">
-                        <img src="@/assets/svg/icon/back_route.svg" alt="">
+                        <img loading="lazy"  src="@/assets/svg/icon/back_route.svg" alt="">
                         <span class="text-lg font-semibold c_c92">Orqaga</span>
                     </li>
                     <li>
-                        <img src="@/assets/svg/course/exit.svg" alt="">
+                        <img loading="lazy"  src="@/assets/svg/course/exit.svg" alt="">
                     </li>
                 </ul>
             </nav>
@@ -28,24 +28,24 @@
                     <div class="space-x-3">
                         <button v-if="useLessons.store.lessons?.course?.user_id != isLoading.user?.id"
                             class="b_main p-3 r_8">
-                            <img class="stroke-[#FF852E]" src="@/assets/svg/course/markasread.svg" alt="">
+                            <img loading="lazy"  class="stroke-[#FF852E]" src="@/assets/svg/course/markasread.svg" alt="">
                         </button>
                         <button v-if="useLessons.store.lessons?.course?.user_id == isLoading.user?.id"
                             class="b_main p-3 r_8">
-                            <img src="@/assets/svg/course/editpen.svg" alt="">
+                            <img loading="lazy"  src="@/assets/svg/course/editpen.svg" alt="">
                         </button>
                     </div>
                 </div>
                 <ul class="flex items-center justify-between">
                     <li class="flex items-center gap-2">
-                        <img class="object-cover r_f w-10 h-10" :src="useLessons.store.lessons?.course?.cover" alt="">
+                        <img loading="lazy"  class="object-cover r_f w-10 h-10" :src="useLessons.store.lessons?.course?.cover" alt="">
                         <ul>
                             <li class="text-sm font-bold">{{ useLessons.store.lessons?.course?.title }}</li>
                             <li class="text-xs">850K subscribers</li>
                         </ul>
                     </li>
                     <li class="flex gap-2">
-                        <img src="@/assets/svg/icon/a_star.svg" alt="">
+                        <img loading="lazy"  src="@/assets/svg/icon/a_star.svg" alt="">
                         <span>2.3K</span>
                     </li>
                 </ul>

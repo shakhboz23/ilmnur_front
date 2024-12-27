@@ -13,7 +13,7 @@
                     <div>
                         <label for="import_file"
                             class="full_flex gap-2 bg-white p-1.5 rounded-md border_ced cursor-pointer">
-                            <img class="h-7 w-7" src="@/assets/svg/image/word.png" alt="" />
+                            <img loading="lazy"  class="h-7 w-7" src="@/assets/svg/image/word.png" alt="" />
                             <p>WORD</p>
                         </label>
                         <div class="file_input">
@@ -21,7 +21,7 @@
                         </div>
                     </div>
                     <button @click="isLoading.modal.create = true" class="bg-white rounded-md p-1.5 w-10">
-                        <img class="mx-auto" src="@/assets/svg/icon/settings.svg" alt="" />
+                        <img loading="lazy"  class="mx-auto" src="@/assets/svg/icon/settings.svg" alt="" />
                     </button>
                 </div>
             </div>
@@ -51,7 +51,7 @@
                             </div>
                             <h2 class="font-medium mt-6 mb-4">Resurslarni biriktiring</h2>
                             <button class="full_flex gap-3 b_ced py-2 px-8 rounded-full">
-                                <img src="@/assets/svg/group/upload.svg" alt="">
+                                <img loading="lazy"  src="@/assets/svg/group/upload.svg" alt="">
                                 <span>Fayl biriktirish</span>
                             </button>
                         </div>
@@ -74,7 +74,7 @@
                                 </li>
                                 <li @click="addVariant(index)">
                                     <div class="full_flex bg_cf5 p-3 r_8 pcursor">
-                                        <img src="@/assets/svg/icon/plus.svg" alt="">
+                                        <img loading="lazy"  src="@/assets/svg/icon/plus.svg" alt="">
                                     </div>
                                 </li>
                             </ul>
@@ -95,13 +95,13 @@
             <nav class="py-5">
                 <ul class="full_flex gap-3">
                     <li v-for="i in testBar" class="full_flex r_4 bg_ce2 h-8 w-8">
-                        <img :src="i" alt="">
+                        <img loading="lazy"  :src="i" alt="">
                     </li>
                 </ul>
             </nav>
             <section class="bg-white md:mx-[100px] r_8 relative">
                 <section class="md:flex gap-7 items-start max-w-fit mx-auto md:p-8">
-                    <img @click="$router.back()" class="md:-ml-[52px] md:mb-0 mb-4 pcursor" src="@/assets/svg/icon/closex.svg" alt="">
+                    <img loading="lazy"  @click="$router.back()" class="md:-ml-[52px] md:mb-0 mb-4 pcursor" src="@/assets/svg/icon/closex.svg" alt="">
                     <div>
                         <nav class="min-w-[50vw]">
                             <ul class="flex flex-wrap gap-3">
@@ -112,9 +112,9 @@
                                 <li @click="useTests.store.slideStep = Object.keys(useTests.test)?.length + 1"
                                     v-if="useTests.store.testResBall?.length"
                                     class="w-6 h-6 r_f full_flex text-sm text-white pcursor">
-                                    <img v-if="useTests.store.testResBall[0] >= 70" class="w-full"
+                                    <img loading="lazy"  v-if="useTests.store.testResBall[0] >= 70" class="w-full"
                                         src="@/assets/svg/test/true.svg" alt="" />
-                                    <img v-else class="w-full" src="@/assets/svg/test/false.svg" alt="" />
+                                    <img loading="lazy"  v-else class="w-full" src="@/assets/svg/test/false.svg" alt="" />
                                 </li>
                             </ul>
                         </nav>
@@ -159,9 +159,9 @@
                                     <div
                                         class="flex items-center justify-center min-w-full min-h-[calc(100vh_-_380px)]">
                                         <div class="p-5 sm:text-start text-center">
-                                            <img v-if="useTests.store.testResBall[0] >= 70" class="mx-auto mb-10 h-32"
+                                            <img loading="lazy"  v-if="useTests.store.testResBall[0] >= 70" class="mx-auto mb-10 h-32"
                                                 src="@/assets/svg/test/true.svg" alt="" />
-                                            <img v-else class="mx-auto mb-10 h-32" src="@/assets/svg/test/false.svg"
+                                            <img loading="lazy"  v-else class="mx-auto mb-10 h-32" src="@/assets/svg/test/false.svg"
                                                 alt="" />
                                             <h1 v-if="useTests.store.testResBall[0] >= 70"
                                                 class="orange font-bold text-2xl">
@@ -180,7 +180,7 @@
                                             <ul class="grid grid-cols-2 gap-[60px]">
                                                 <li class="space-y-3 text-[#58CC02]">
                                                     <div class="flex items-center gap-3 mx-auto">
-                                                        <img src="@/assets/svg/test/clarity.svg" alt="" />
+                                                        <img loading="lazy"  src="@/assets/svg/test/clarity.svg" alt="" />
                                                         <p>Aniqlik</p>
                                                     </div>
                                                     <p class="font-semibold text-2xl text-start">
@@ -189,7 +189,7 @@
                                                 </li>
                                                 <li class="space-y-3 text-[#FF852E]">
                                                     <div class="flex items-center gap-3">
-                                                        <img src="@/assets/svg/test/ball.svg" alt="" />
+                                                        <img loading="lazy"  src="@/assets/svg/test/ball.svg" alt="" />
                                                         <p>Ball</p>
                                                     </div>
                                                     <p class="font-semibold text-2xl text-start">
@@ -236,17 +236,17 @@
                     <hr />
                     <ul class="flex items-center justify-around py-5">
                         <li class="full_flex gap-3">
-                            <img src="@/assets/svg/test/help.svg" alt="">
+                            <img loading="lazy"  src="@/assets/svg/test/help.svg" alt="">
                             <p class="font-medium text-sm max-w-[112px] c_c65">Muammo haqida xabar bering</p>
                         </li>
                         <ul v-if="!isNaN(useTests.store.checked_answers[useTests.store.slideStep])">
                             <li v-if="useTests.store.checked_answers[useTests.store.slideStep]" class="full_flex gap-3">
-                                <img src="@/assets/svg/test/true.svg" alt="">
+                                <img loading="lazy"  src="@/assets/svg/test/true.svg" alt="">
                                 <p class="c_green font-bold">Javob to‘g‘ri!</p>
                             </li>
                             <li v-else="!useTests.store.checked_answers[useTests.store.slideStep]"
                                 class="full_flex gap-3">
-                                <img src="@/assets/svg/test/false.svg" alt="">
+                                <img loading="lazy"  src="@/assets/svg/test/false.svg" alt="">
                                 <p class="c_red font-bold">Javob noto‘g‘ri!</p>
                             </li>
                         </ul>
@@ -274,12 +274,12 @@
         </div>
         <section v-else class="bg-white">
             <section class="flex gap-7 items-start max-w-fit mx-auto p-8">
-                <img class="-ml-[52px] pcursor" src="@/assets/svg/icon/closex.svg" alt="">
+                <img loading="lazy"  class="-ml-[52px] pcursor" src="@/assets/svg/icon/closex.svg" alt="">
                 <section
                     class="text-center max-h-[calc(100vh_-_195px)] min-h-[calc(100vh_-_195px)] overflow-y-auto mt-10 px-40 space-y-7">
                     <div class="full_flex min-w-[200px] min-h-[160px]">
-                        <img v-if="true" src="@/assets/svg/test/true.svg" alt="">
-                        <img v-else src="@/assets/svg/test/false.svg" alt="">
+                        <img loading="lazy"  v-if="true" src="@/assets/svg/test/true.svg" alt="">
+                        <img loading="lazy"  v-else src="@/assets/svg/test/false.svg" alt="">
                     </div>
                     <h1 v-if="true" class="c_main font-bold text-2xl">Siz muvaffaqiyatli o‘tdingiz</h1>
                     <h1 v-else class="c_red font-bold text-2xl">Afsuski test mufaqqiyatsiz bo‘ldi</h1>
@@ -288,21 +288,21 @@
                     <ul class="flex items-center justify-between gap-[60px]">
                         <li class="c_yellow space-y-3">
                             <div class="full_flex gap-3">
-                                <img src="@/assets/svg/test/overalltime.svg" alt="">
+                                <img loading="lazy"  src="@/assets/svg/test/overalltime.svg" alt="">
                                 <p>Vaqt</p>
                             </div>
                             <p class="font-semibold text-2xl">3:52</p>
                         </li>
                         <li class="c_green space-y-3">
                             <div class="full_flex gap-3">
-                                <img src="@/assets/svg/test/accuracy.svg" alt="">
+                                <img loading="lazy"  src="@/assets/svg/test/accuracy.svg" alt="">
                                 <p>Aniqlik</p>
                             </div>
                             <p class="font-semibold text-2xl">88%</p>
                         </li>
                         <li class="c_main space-y-3">
                             <div class="full_flex gap-3">
-                                <img src="@/assets/svg/test/ball.svg" alt="">
+                                <img loading="lazy"  src="@/assets/svg/test/ball.svg" alt="">
                                 <p>Ball</p>
                             </div>
                             <p class="font-semibold text-2xl">15</p>
@@ -316,7 +316,7 @@
                 <ul class="flex items-center justify-around py-5">
                     <li>
                         <button class="full_flex gap-3 px-[54px] py-3 r_50 c_c24 border border-[#BBBBBB]">
-                            <img src="@/assets/svg/test/again.svg" alt="">
+                            <img loading="lazy"  src="@/assets/svg/test/again.svg" alt="">
                             <span>Qayta topshirish</span>
                         </button>
                     </li>
@@ -373,11 +373,11 @@
                 <div class="space-y-4">
                     <!-- <p @click="addTestStep('add')" v-if="useTests.store.test_step == index + 1"
                         class="full_flex min-w-[50px] h-[50px] rounded-full border border-[#CCCCCC] cursor-pointer">
-                        <img src="@/assets/svg/icon/plus.svg" alt="" />
+                        <img loading="lazy"  src="@/assets/svg/icon/plus.svg" alt="" />
                     </p>
                     <p v-else @click="addTestStep('remove', index)"
                         class="full_flex min-w-[50px] h-[50px] rounded-full border border-[#CCCCCC] cursor-pointer">
-                        <img src="@/assets/svg/icon/minus.svg" alt="" />
+                        <img loading="lazy"  src="@/assets/svg/icon/minus.svg" alt="" />
                     </p> -->
                     <div class="flex items-center gap-4" v-for="(i, index) in useTests.store.test_step">
                         {{ index + 1 }}.
@@ -398,11 +398,11 @@
                         </a-select>
                         <p v-if="useTests.test_settings.sort_level?.length != 1" @click="addTestStep('remove', index)"
                             class="full_flex min-w-[50px] h-[50px] rounded-full border border-[#CCCCCC] cursor-pointer">
-                            <img src="@/assets/svg/icon/minus.svg" alt="" />
+                            <img loading="lazy"  src="@/assets/svg/icon/minus.svg" alt="" />
                         </p>
                         <p @click="addTestStep('add', index)" v-if="useTests.store.test_step == index + 1"
                             class="full_flex min-w-[50px] h-[50px] rounded-full border border-[#CCCCCC] cursor-pointer">
-                            <img src="@/assets/svg/icon/plus.svg" alt="" />
+                            <img loading="lazy"  src="@/assets/svg/icon/plus.svg" alt="" />
                         </p>
                     </div>
                 </div>

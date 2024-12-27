@@ -5,13 +5,13 @@
             <!-- <input type="text"> -->
             <li class="bg_cf5 relative r_8 mr-2">
                 <input type="text" class="h-10" placeholder="Qidirish...">
-                <img class="absolute top-0 bottom-0 my-auto right-5" src="@/assets/svg/nav/search.svg" alt="">
+                <img loading="lazy"  class="absolute top-0 bottom-0 my-auto right-5" src="@/assets/svg/nav/search.svg" alt="">
             </li>
             <ul class="mt-1 md:max-h-[calc(100vh_-_250px)] max-h-[calc(100vh_-_320px)] overflow-y-auto">
                 <li @click="routeToChat(i)" v-for="i in useChat.store.chatgroups"
                     class="flex items-center gap-2 pcursor py-[10px] hover:bg-[#f5f5f5] px-3"
                     :class="$router.currentRoute.value.query.chat == i.id ? 'bg_cf5' : ''">
-                    <img class="bg-cover r_f w-12 h-12 min-w-[48px]" v-if="i.course?.cover" :src="i.course?.cover"
+                    <img loading="lazy"  class="bg-cover r_f w-12 h-12 min-w-[48px]" v-if="i.course?.cover" :src="i.course?.cover"
                         alt="">
                     <p v-else
                         class="full_flex font-medium text-2xl text-white r_f w-12 h-12 min-w-[48px] bg_main uppercase">
@@ -34,14 +34,14 @@
             <nav class="flex items-center px-6 py-1.5 bg-white">
                 <div class="flex items-center justify-between w-full">
                     <div class="flex items-center gap-3">
-                        <img @click="routeToChat(undefined)" class="md:hidden block pcursor h-6" src="@/assets/svg/icon/back_route.svg"
+                        <img loading="lazy"  @click="routeToChat(undefined)" class="md:hidden block pcursor h-6" src="@/assets/svg/icon/back_route.svg"
                             alt="">
                         <p>
                         <h1 class="c_c24">Barno Halilova</h1>
                         <time class="text-sm c_c66">15 min ago</time>
                         </p>
                     </div>
-                    <img class="h-6 rotate-90" src="@/assets/svg/icon/threedot.svg" alt="">
+                    <img loading="lazy"  class="h-6 rotate-90" src="@/assets/svg/icon/threedot.svg" alt="">
                 </div>
             </nav>
             <div class="md:max-h-[calc(100vh_-_250px)] max-h-[calc(100vh_-_320px)] md:min-h-[calc(100vh_-_250px)] overflow-y-auto relative">
@@ -56,18 +56,18 @@
                     </li>
                 </ul>
                 <nav class="flex items-center min-h-[60px] w-full bg-white sticky bottom-0 px-5">
-                    <img src="@/assets/svg/chat/upload.svg" alt="">
+                    <img loading="lazy"  src="@/assets/svg/chat/upload.svg" alt="">
                     <input v-model="useChat.message.text" type="text" placeholder="Xabar yuboring..."
                         class="placeholder-[#686767]" />
                     <ul class="flex gap-4 min-w-fit">
                         <li>
-                            <img src="@/assets/svg/chat/smile.svg" alt="">
+                            <img loading="lazy"  src="@/assets/svg/chat/smile.svg" alt="">
                         </li>
                         <li>
-                            <img src="@/assets/svg/chat/record.svg" alt="">
+                            <img loading="lazy"  src="@/assets/svg/chat/record.svg" alt="">
                         </li>
                         <li @click="useChat.sendMessage">
-                            <img src="@/assets/svg/chat/send.svg" alt="">
+                            <img loading="lazy"  src="@/assets/svg/chat/send.svg" alt="">
                         </li>
                     </ul>
                 </nav>

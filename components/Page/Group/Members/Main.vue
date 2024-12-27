@@ -5,7 +5,7 @@
             <div class="flex gap-3 min-w-fit">
                 <div class="flex items-center bg_bg h-[46px] w-[46px] rounded-[10px]">
                     <button class="flex items-center justify-center h-[46px] w-[46px] rounded-[10px]">
-                        <img src="@/assets/svg/members/filter.svg" alt="">
+                        <img loading="lazy"  src="@/assets/svg/members/filter.svg" alt="">
                     </button>
                 </div>
                 <button @click="isLoading.modal.create = true"
@@ -56,28 +56,28 @@
                             <!-- <td class="px-6 py-5">
                                 <ul>
                                     <li class="full_flex max-w-fit gap-2">
-                                        <img src="@/assets/svg/members/date.svg" alt="">
+                                        <img loading="lazy"  src="@/assets/svg/members/date.svg" alt="">
                                         <p>{{ i.createdAt }}</p>
                                     </li>
                                     <li class="full_flex max-w-fit gap-2">
-                                        <img src="@/assets/svg/members/location.svg" alt="">
+                                        <img loading="lazy"  src="@/assets/svg/members/location.svg" alt="">
                                         <p>Samarqand</p>
                                     </li>
                                     <li class="full_flex max-w-fit gap-2">
-                                        <img src="@/assets/svg/members/access.svg" alt="">
+                                        <img loading="lazy"  src="@/assets/svg/members/access.svg" alt="">
                                         <p>
                                             Lifetime access
                                         </p>
                                     </li>
                                     <li class="full_flex max-w-fit gap-2">
-                                        <img src="@/assets/svg/members/free.svg" alt="">
+                                        <img loading="lazy"  src="@/assets/svg/members/free.svg" alt="">
                                         <p>Free</p>
                                     </li>
                                 </ul>
                             </td> -->
                             <td class="px-6 py-5 relative rounded-r-xl">
-                                <img class="absolute top-5 right-5" src="@/assets/svg/icon/threedot.svg" alt="">
-                                <img class="absolute bottom-5 right-5" src="@/assets/svg/members/message.svg" alt="">
+                                <img loading="lazy"  class="absolute top-5 right-5" src="@/assets/svg/icon/threedot.svg" alt="">
+                                <img loading="lazy"  class="absolute bottom-5 right-5" src="@/assets/svg/members/message.svg" alt="">
                             </td>
                         </tr>
                     </tbody>
@@ -90,7 +90,7 @@
             :loadingType="'creategroup'" @update:isOpen="(value) => handleModal(value)">
             <div class="space-y-6">
                 <!-- <label for="file_input" class="block pcursor">
-                    <img class="aspect-video w-full object-cover r_8" v-if="useCourses.store.image"
+                    <img loading="lazy"  class="aspect-video w-full object-cover r_8" v-if="useCourses.store.image"
                         :src="useCourses.store.image" alt="">
                     <div v-else
                         class="aspect-video w-full full_flex flex-col text-center space-y-10 r_8 py-10 border border-dashed border-[#CCCCCC]">

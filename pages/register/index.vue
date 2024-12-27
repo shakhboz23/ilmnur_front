@@ -22,7 +22,7 @@
           <label for="password">Parol</label>
           <div class="flex relative">
             <input v-model="useAuth.register.password" id="password" type="password" class="pr-10" />
-            <img class="absolute top-0 right-0 p-4 cursor-pointer" src="@/assets/svg/icon/show.svg" alt="" />
+            <img loading="lazy"  class="absolute top-0 right-0 p-4 cursor-pointer" src="@/assets/svg/icon/show.svg" alt="" />
           </div>
         </div> -->
         <!-- <div class="full_flex">
@@ -31,12 +31,12 @@
         <div class="space-y-2 text-center mx-auto">
           <!-- <a href="https://t.me/ilmnuronlinebot" target="_blank" @click="isTelegram = true" v-if="!isTelegram" type="button"
             class="full_flex gap-2 w-full mx-auto b_ce2 r_4 py-2">
-            <img class="h-5 w-5" src="@/assets/svg/register/telegram.png" alt="">
+            <img loading="lazy"  class="h-5 w-5" src="@/assets/svg/register/telegram.png" alt="">
             <p>Telegram orqali</p>
           </a> -->
           <button type="button" id="googleButton" class="!w-full">
             <div class="full_flex gap-2 mx-auto b_ce2 r_4 py-2">
-              <img class="h-5 w-5" src="@/assets/svg/register/google.svg" alt="">
+              <img loading="lazy"  class="h-5 w-5" src="@/assets/svg/register/google.svg" alt="">
               <p>Google orqali</p>
             </div>
           </button>

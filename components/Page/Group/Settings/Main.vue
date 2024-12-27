@@ -4,7 +4,7 @@
             <button class="block w-full" @click="goToPage(i.url)" v-for="i in group_settings_sidebar" :key="i.id">
                 <div
                 class="flex items-center hover:bg-[#FF852E] hover:bg-opacity-80 px-2 rounded-lg gap-2 h-12 cursor-pointer text-[#555555]">
-                    <img class="w-5 h-5" :src="i.svg" alt="" />
+                    <img loading="lazy"  class="w-5 h-5" :src="i.svg" alt="" />
                     <p>{{ i.name }}</p>
                 </div>
             </button>

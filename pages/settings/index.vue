@@ -3,7 +3,7 @@
         <h1>Profile</h1>
         <label for="avatar" class="relative pcursor max-w-fit block">
             <UIAvatar :src="useAuth.profile.image" />
-            <img class="w-7 h-7 absolute bottom-0 right-0" src="@/assets/svg/profile/upload.svg" alt="">
+            <img loading="lazy"  class="w-7 h-7 absolute bottom-0 right-0" src="@/assets/svg/profile/upload.svg" alt="">
         </label>
         <div class="file_input">
             <input type="file" @change="handleAvatar" id="avatar" accept="image/*" />

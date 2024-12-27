@@ -6,7 +6,7 @@
             @click="decMonth"
             class="flex items-center justify-center cursor-pointer rounded-[4px] h-6 w-6 bg-[#EEEDF2] relative"
           >
-            <img class="rotate-90" src="@/assets/svg/icon/arrow.svg" alt="" />
+            <img loading="lazy"  class="rotate-90" src="@/assets/svg/icon/arrow.svg" alt="" />
           </div>
           <p class="font-medium text-center text-2xl leading-7 w-[270px]">
             {{ months[store.month] }} {{ store.year }}
@@ -15,7 +15,7 @@
             @click="incMonth"
             class="flex items-center justify-center cursor-pointer rounded-[4px] h-6 w-6 bg-[#EEEDF2]"
           >
-            <img class="-rotate-90" src="@/assets/svg/icon/arrow.svg" alt="" />
+            <img loading="lazy"  class="-rotate-90" src="@/assets/svg/icon/arrow.svg" alt="" />
           </div>
         </div>
         <div class="flex gap-3">
@@ -105,7 +105,7 @@
                     raw-content
                     placement="top"
                   >
-                    <img src="@/assets/svg/calendar/case.svg" alt="" />
+                    <img loading="lazy"  src="@/assets/svg/calendar/case.svg" alt="" />
                   </el-tooltip>
                 </div>
               </div>
@@ -122,7 +122,7 @@
               <div
                 class="flex justify-center items-center bg-[#FDF8E9] h-6 w-6 rounded-full"
               >
-                <img
+                <img loading="lazy" 
                   class="h-4 w-4"
                   src="@/assets/svg/calendar/event.svg"
                   alt=""
@@ -134,7 +134,7 @@
               <div
                 class="flex justify-center items-center bg-[#027DFC1A] h-6 w-6 rounded-full"
               >
-                <img src="@/assets/svg/calendar/birthday.svg" alt="" />
+                <img loading="lazy"  src="@/assets/svg/calendar/birthday.svg" alt="" />
               </div>
               <p class="text-sm leading-[15px] font-medium">Event</p>
             </div>
@@ -142,7 +142,7 @@
               <div
                 class="flex justify-center items-center bg-[#FF4D4D1A] h-6 w-6 rounded-full"
               >
-                <img src="@/assets/svg/calendar/case.svg" alt="" />
+                <img loading="lazy"  src="@/assets/svg/calendar/case.svg" alt="" />
               </div>
               <p class="text-sm leading-[15px] font-medium">Case deadline</p>
             </div>
@@ -150,7 +150,7 @@
               <div
                 class="flex justify-center items-center bg-[#13C1B71A] h-6 w-6 rounded-full"
               >
-                <img src="@/assets/svg/calendar/birthday.svg" alt="" />
+                <img loading="lazy"  src="@/assets/svg/calendar/birthday.svg" alt="" />
               </div>
               <p class="text-sm leading-[15px] font-medium">Birthday</p>
             </div>
@@ -221,7 +221,7 @@
                 <div
                   class="flex justify-center items-center bg-[#FDF8E9] h-6 w-6 rounded-full"
                 >
-                  <img
+                  <img loading="lazy" 
                     class="h-4 w-4"
                     src="@/assets/svg/calendar/event.svg"
                     alt=""
@@ -233,7 +233,7 @@
                 <div
                   class="flex justify-center items-center bg-[#027DFC1A] h-6 w-6 rounded-full"
                 >
-                  <img src="@/assets/svg/calendar/birthday.svg" alt="" />
+                  <img loading="lazy"  src="@/assets/svg/calendar/birthday.svg" alt="" />
                 </div>
                 <p class="text-sm leading-[15px] font-medium">Event</p>
               </div>
@@ -241,7 +241,7 @@
                 <div
                   class="flex justify-center items-center bg-[#FF4D4D1A] h-6 w-6 rounded-full"
                 >
-                  <img src="@/assets/svg/calendar/birthday.svg" alt="" />
+                  <img loading="lazy"  src="@/assets/svg/calendar/birthday.svg" alt="" />
                 </div>
                 <p class="text-sm leading-[15px] font-medium">Case deadline</p>
               </div>
@@ -249,7 +249,7 @@
                 <div
                   class="flex justify-center items-center bg-[#13C1B71A] h-6 w-6 rounded-full"
                 >
-                  <img src="@/assets/svg/calendar/case.svg" alt="" />
+                  <img loading="lazy"  src="@/assets/svg/calendar/case.svg" alt="" />
                 </div>
                 <p class="text-sm leading-[15px] font-medium">Birthday</p>
               </div>
@@ -277,7 +277,7 @@
                 <div class="flex gap-3 py-[6px] bg-[#DEEEF2] h-[75px]">
                   <p class="min-w-[5px] bg-[#13C1B7] -my-[6px] min-h-full"></p>
                   <div>
-                    <img src="@/assets/svg/calendar/birthday.svg" alt="" />
+                    <img loading="lazy"  src="@/assets/svg/calendar/birthday.svg" alt="" />
                     <p
                       class="text-xs mt-2 leading-[14px] whitespace-nowrap truncate w-[85%] font-medium"
                     >
@@ -288,7 +288,7 @@
                 <div class="flex gap-3 py-[6px] bg-[#F5DBE0] h-[75px]">
                   <p class="min-w-[5px] bg-[#FF4C4C] -my-[6px] min-h-full"></p>
                   <div>
-                    <img src="@/assets/svg/calendar/case.svg" alt="" />
+                    <img loading="lazy"  src="@/assets/svg/calendar/case.svg" alt="" />
                     <p
                       class="text-xs mt-2 leading-[14px] whitespace-nowrap truncate w-[85%] font-medium"
                     >
@@ -319,7 +319,7 @@
           class="flex sticky top-0 h-[34px] z-10 items-center pt-[53px] justify-between bg-white"
         >
           <h1 class="font-medium text-2xl leading-7">March 8, Wed</h1>
-          <img
+          <img loading="lazy" 
             @click="store.calendarInfo = false"
             class="h-6 w-6 hover:bg-gray-200 rounded-md cursor-pointer"
             src="../../assets/svg/x.svg"
@@ -339,7 +339,7 @@
                 <div
                   class="flex justify-center items-center bg-[#13C1B71A] h-6 w-6 rounded-full"
                 >
-                  <img src="@/assets/tasks/birthday.svg" alt="" />
+                  <img loading="lazy"  src="@/assets/tasks/birthday.svg" alt="" />
                 </div>
                 <p class="text-sm leading-4 font-medium">Jack Johnson birthday</p>
               </div>
@@ -355,7 +355,7 @@
                 <div
                   class="flex justify-center items-center bg-[#FF4D4D1A] h-6 w-6 rounded-full"
                 >
-                  <img src="@/assets/notifications/redClock.svg" alt="" />
+                  <img loading="lazy"  src="@/assets/notifications/redClock.svg" alt="" />
                 </div>
                 <p class="text-sm leading-4 font-medium">Case name</p>
               </div>
@@ -374,7 +374,7 @@
                 <div
                   class="flex justify-center items-center bg-[#FF4D4D1A] h-6 w-6 rounded-full"
                 >
-                  <img src="@/assets/notifications/redClock.svg" alt="" />
+                  <img loading="lazy"  src="@/assets/notifications/redClock.svg" alt="" />
                 </div>
                 <p class="text-sm leading-4 font-medium">
                   This is a name of the case
@@ -401,7 +401,7 @@
                   class="dropdown"
                   trigger="click"
                 >
-                  <img
+                  <img loading="lazy" 
                     class="cursor-pointer ml-10"
                     src="../../assets/svg/threedot.svg"
                     alt=""
@@ -411,21 +411,21 @@
                       <el-dropdown-item
                         @click="$router.push('/agenda/event/000253')"
                       >
-                        <img
+                        <img loading="lazy" 
                           class="object-contain"
                           src="../../assets/svg/docs.svg"
                           alt=""
                         />Details
                       </el-dropdown-item>
                       <el-dropdown-item @click="$router.push('/agenda/000253')">
-                        <img
+                        <img loading="lazy" 
                           class="object-contain"
                           src="../../assets/modalIcons/edit.svg"
                           alt=""
                         />Edit info
                       </el-dropdown-item>
                       <el-dropdown-item @click="store.deleteEventModal = true">
-                        <img
+                        <img loading="lazy" 
                           class="object-contain"
                           src="../../assets/modalIcons/delete.svg"
                           alt=""
@@ -439,7 +439,7 @@
                 <div
                   class="flex justify-center items-center bg-[#027DFC1A] h-6 w-6 rounded-full"
                 >
-                  <img src="@/assets/svg/blueDate.svg" alt="" />
+                  <img loading="lazy"  src="@/assets/svg/blueDate.svg" alt="" />
                 </div>
                 <p class="text-sm leading-4 font-medium">Summer Teambuilding</p>
               </div>
@@ -477,14 +477,14 @@
           <h1
             class="flex gap-[14px] items-center font-medium text-2xl leading-[29px]"
           >
-            <img
+            <img loading="lazy" 
               class="w-6 h-6 !fill-blue-600"
               src="@/assets/svg/delete.svg"
               alt=""
             />
             Delete event
           </h1>
-          <img
+          <img loading="lazy" 
             @click="store.deleteEventModal = false"
             class="h-6 w-6 hover:bg-gray-200 rounded-md cursor-pointer"
             src="@/assets/svg/x.svg"

@@ -10,6 +10,7 @@ import { useCategoryStore, useLessonsStore, useLoadingStore } from '~/store';
 const useCategory = useCategoryStore();
 const useLessons = useLessonsStore();
 const isLoading = useLoadingStore()
+const router = useRouter();
 
 useCategory.getCategory();
 useLessons.getByCourse();

@@ -2,7 +2,7 @@
     <aside class="min-w-[260px] h-[calc(100vh_-_140px)] overflow-y-auto noscroll md:p-4 bg-white r_8">
         <ul class="space-y-7">
             <router-link v-if="store.is_sidebar" to="/" class="flex items-center gap-2 font-semibold !-mb-4">
-                <img class="pcursor" src="@/assets/svg/icon/back_route.svg" alt="" />
+                <img loading="lazy"  class="pcursor" src="@/assets/svg/icon/back_route.svg" alt="" />
                 <span>Orqaga</span>
             </router-link>
             <li v-if="isLoading.store.isLogin && !store.is_sidebar" class="flex items-center gap-1 w-full">
@@ -13,7 +13,7 @@
                                 :src="isLoading.user?.image" />
                         </div>
                     </div>
-                    <img class="absolute rotate-[180deg] -bottom-1 -right-[1px]" src="@/assets/svg/icon/online.svg"
+                    <img loading="lazy"  class="absolute rotate-[180deg] -bottom-1 -right-[1px]" src="@/assets/svg/icon/online.svg"
                         alt="" />
                 </div>
                 <ul class="max-w-[60%]">
@@ -22,17 +22,17 @@
                     </li>
                     <li class="flex gap-1 pcursor font-medium text-sm c_c66">
                         <span>id: {{ isLoading.user?.id }}</span>
-                        <img src="@/assets/svg/icon/copy.svg" alt="" />
+                        <img loading="lazy"  src="@/assets/svg/icon/copy.svg" alt="" />
 
                     </li>
                 </ul>
-                <img class="" src="@/assets/svg/icon/arrow.svg" alt="" />
+                <img loading="lazy"  class="" src="@/assets/svg/icon/arrow.svg" alt="" />
             </li>
             <li v-if="$router.currentRoute.value.path.includes('my_groups')">
                 <router-link :to="i.url" v-for="i in group_sidebar" :key="i.id">
                     <div
                         class="flex items-center hover:bg-[#FF852E] hover:bg-opacity-80 px-2 rounded-lg gap-2 h-12 cursor-pointer text-[#555555]">
-                        <img class="w-5 h-5" :src="i.svg" alt="" />
+                        <img loading="lazy"  class="w-5 h-5" :src="i.svg" alt="" />
                         <p>{{ i.name }}</p>
                     </div>
                 </router-link>
@@ -41,7 +41,7 @@
                 <router-link :to="i.url" v-for="i in settings_sidebar" :key="i.id">
                     <div
                         class="flex items-center hover:bg-[#FF852E] hover:bg-opacity-80 px-2 rounded-lg gap-2 h-12 cursor-pointer text-[#555555]">
-                        <img class="w-5 h-5" :src="i.svg" alt="" />
+                        <img loading="lazy"  class="w-5 h-5" :src="i.svg" alt="" />
                         <p>{{ i.name }}</p>
                     </div>
                 </router-link>
@@ -50,7 +50,7 @@
                 <router-link :to="i.url" v-for="i in sidebar" :key="i.id">
                     <div
                         class="flex items-center hover:bg-[#FF852E] hover:bg-opacity-80 px-2 rounded-lg gap-2 h-12 cursor-pointer text-[#555555]">
-                        <img class="w-5 h-5" :src="i.svg" alt="" />
+                        <img loading="lazy"  class="w-5 h-5" :src="i.svg" alt="" />
                         <p>{{ i.name }}</p>
                     </div>
                 </router-link>

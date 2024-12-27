@@ -6,7 +6,7 @@
     <div
       class="flex flex-col items-center justify-center sm:p-[50px] p-5 pb-8"
     >
-      <!-- <img src="@/assets/svg/register/verify-email.png" alt="" /> -->
+      <!-- <img loading="lazy"  src="@/assets/svg/register/verify-email.png" alt="" /> -->
       <section class="mb-10">
         <h1 class="text-center md:text-[40px] text-xl font-bold">
           Assalomu alaykum! David
@@ -23,7 +23,7 @@
     <div
       class="flex flex-col items-center justify-center sm:p-[50px] p-5 pb-8"
     >
-      <!-- <img src="@/assets/svg/register/verify-email.png" alt="" /> -->
+      <!-- <img loading="lazy"  src="@/assets/svg/register/verify-email.png" alt="" /> -->
       <section class="mb-10">
         <h1 class="text-center md:text-[40px] text-xl font-bold">
           Assalomu alaykum! David

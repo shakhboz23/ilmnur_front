@@ -3,7 +3,7 @@
         <nav>
             <ul class="flex items-center justify-between">
                 <li @click="$router.back()" class="full_flex gap-4 pcursor">
-                    <img src="@/assets/svg/icon/back_route.svg" alt="">
+                    <img loading="lazy"  src="@/assets/svg/icon/back_route.svg" alt="">
                     <span class="text-lg font-semibold c_c92">Orqaga</span>
                 </li>
                 <li>
@@ -36,7 +36,7 @@
                     </div>
                     <a-dropdown>
                         <div class="!bg-white r_8 min-w-fit">
-                            <img class="rotate-90 h-5" src="@/assets/svg/icon/threedot.svg" alt="">
+                            <img loading="lazy"  class="rotate-90 h-5" src="@/assets/svg/icon/threedot.svg" alt="">
                         </div>
                         <template #overlay>
                             <a-menu>
@@ -80,12 +80,12 @@
                             <h1 class="w-full truncate">{{ i.title }}</h1>
                             <p class="min-w-fit">18 daqiqa</p>
                             <div class="min-w-fit">
-                                <img v-if="checkIsFinished(i)" src="@/assets/svg/course/finished.svg" alt="">
-                                <img v-else src="@/assets/svg/course/lock.svg" alt="">
+                                <img loading="lazy"  v-if="checkIsFinished(i)" src="@/assets/svg/course/finished.svg" alt="">
+                                <img loading="lazy"  v-else src="@/assets/svg/course/lock.svg" alt="">
                             </div>
                             <a-dropdown>
                                 <div>
-                                    <img class="threedot" src="@/assets/svg/icon/threedot.svg" alt="">
+                                    <img loading="lazy"  class="threedot" src="@/assets/svg/icon/threedot.svg" alt="">
                                 </div>
                                 <template #overlay>
                                     <a-menu>
@@ -102,7 +102,7 @@
                                     </a-menu>
                                 </template>
                             </a-dropdown>
-                            <img v-if="i.type == 'module'" class="w-5 h-5 duration-700"
+                            <img loading="lazy"  v-if="i.type == 'module'" class="w-5 h-5 duration-700"
                                 :class="store.active_id == i.id ? 'rotate-180' : 'rotate-0'"
                                 src="@/assets/svg/icon/arrow.svg" alt="">
                         </div>
@@ -114,12 +114,12 @@
                                     <h1 class="w-full whitespace-nowrap">{{ lesson.title }}</h1>
                                     <p class="min-w-fit">18 daqiqa</p>
                                     <div class="min-w-fit">
-                                        <img v-if="lesson.is_finished" src="@/assets/svg/course/finished.svg" alt="">
-                                        <img v-else src="@/assets/svg/course/lock.svg" alt="">
+                                        <img loading="lazy"  v-if="lesson.is_finished" src="@/assets/svg/course/finished.svg" alt="">
+                                        <img loading="lazy"  v-else src="@/assets/svg/course/lock.svg" alt="">
                                     </div>
                                     <a-dropdown>
                                         <div>
-                                            <img class="threedot" src="@/assets/svg/icon/threedot.svg" alt="">
+                                            <img loading="lazy"  class="threedot" src="@/assets/svg/icon/threedot.svg" alt="">
                                         </div>
                                         <template #overlay>
                                             <a-menu>

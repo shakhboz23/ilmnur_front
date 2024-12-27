@@ -1,13 +1,11 @@
 import type { Router } from "vue-router";
 import { useApiRequest } from "~/composables";
 import { useLoadingStore } from "./loading";
-// import type { TestsType } from "~/types/store";
 
 export const useReytingStore = defineStore("reyting", () => {
   const apiRequest = useApiRequest();
   const isLoading = useLoadingStore();
   const router: Router = useRouter();
-  // const router = useRouter();
 
   const store: any = reactive({
     reytings: [],
@@ -21,33 +19,6 @@ export const useReytingStore = defineStore("reyting", () => {
     console.log(data, "skslaskl");
     store.reytings = data.data;
   }
-
-//   async function checkAnswer(id: number, step: number) {
-//     // const dat: any =
-//     console.log(store.tests);
-//     console.log(id);
-//     const data: any = await apiRequest.post(
-//       `tests/check/${id}`,
-//       { answer: store.true_answers[step] }
-//       // "getById"
-//     );
-//     store.checked_answers[step] = data.data[1];
-//     console.log(data.data, "skslaskl");
-//     // store.tests = data.data;
-//   }
-
-//   async function checkAllAnswers() {
-//     const results = [];
-//     for (let i = 0; i < store.tests?.length; i++) {
-//       results.push([store.tests[i].id, store.true_answers[i]]);
-//     }
-//     const data: any = await apiRequest.post(
-//       `tests/check_answers/${router.currentRoute.value.params.test_id}`,
-//       { answers: results }
-//     );
-//     console.log(data, "checked");
-//     // store.tests = data.data;
-//   }
 
   return {
     store,
