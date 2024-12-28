@@ -16,7 +16,7 @@
                 <!-- {{ useLessons.store.lessons.video }} -->
                 <div v-if="useLessons.store.lessons?.video" class="w-full md:h-[312px] h-[200px] r_8 rounded-lg overflow-hidden">
                     <ClientOnly>
-                        <VideoReader :url="useLessons.store.lessons?.video" />
+                        <VideoReader :urfl="useLessons.store.lessons?.video" />
                     </ClientOnly>
                 </div>
                 <div @click="handleContentClick" v-else

@@ -28,10 +28,10 @@ export default defineNuxtConfig({
           rel: "stylesheet",
           href: "https://unpkg.com/cloudinary-video-player@1.5.9/dist/cld-video-player.min.css",
         },
-        {
-          rel: "stylesheet",
-          href: "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css",
-        },
+        // {
+        //   rel: "stylesheet",
+        //   href: "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css",
+        // },
         {
           rel: "stylesheet",
           href: "https://cdn.jsdelivr.net/npm/plyr@3.7.8/dist/plyr.css",
@@ -59,7 +59,7 @@ export default defineNuxtConfig({
 
   css: [
     "~/assets/scss/main.scss",
-    "vue-plyr/dist/vue-plyr.css",
+    // "vue-plyr/dist/vue-plyr.css",
   ],
   modules: ["@pinia/nuxt", "@nuxtjs/tailwindcss", "nuxt-swiper"],
 

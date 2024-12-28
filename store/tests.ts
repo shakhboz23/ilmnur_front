@@ -40,6 +40,7 @@ export const useTestsStore = defineStore("tests", () => {
       `tests/${router.currentRoute.value.params.test_id}`,
       "getById"
     );
+    console.log(data);
     test_settings.sort_level[0] = [data.data?.category_id]
     store.tests = data.data;
     for (let i = 0; i < data.data?.test?.length; i++) {
@@ -125,9 +126,10 @@ export const useTestsStore = defineStore("tests", () => {
         console.log(err);
       }
     }
+    console.log(tests);
     await apiRequest
       .post(`tests/create`, {
-        ...test_settings,
+        // ...test_settings,
         lesson_id,
         test: tests,
       })

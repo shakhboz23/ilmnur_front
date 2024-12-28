@@ -14,14 +14,17 @@
             :class="store.scrollY ? 'bottom-0' : '-bottom-40'">
             <ul>
                 <li v-if="activeKey == 1">
-                    <router-link :to="`/test/${$router.currentRoute.value.params.lesson_id}`"
-                        class="full_flex bg-white">
-                        <button class="bg_main px-5 py-2 r_8 w-full text-white">Start test</button>
+                    <router-link v-if="useLessons.store.lessons?.course?.test_count"
+                        :to="`/test/${$router.currentRoute.value.params.lesson_id}`" class="full_flex bg-white">
+                        <button class="bg_main px-5 py-2 r_8 w-full text-white">Testni boshlash</button>
                     </router-link>
+                    <div v-else class="full_flex bg-white">
+                        <button class="bg_main px-5 py-2 r_8 w-full text-white">Test mavjud emas</button>
+                    </div>
                 </li>
                 <li v-else-if="activeKey == 2" class="flex gap-4">
                     <button class="full_flex gap-2 b_main c_main px-5 py-2 r_8 w-full text-white truncate">
-                        <img loading="lazy"  src="@/assets/svg/icon/star.svg" alt="">
+                        <img loading="lazy" src="@/assets/svg/icon/star.svg" alt="">
                         <span class="max-w-full truncate">Like</span>
                     </button>
                     <button v-if="lesson_course?.is_subscribed"
@@ -30,11 +33,11 @@
                         class="bg_main px-5 py-2 r_8 w-full text-white truncate">Subscribe</button>
                 </li>
                 <li v-else-if="activeKey == 3" class="flex items-center gap-4 ">
-                    <img loading="lazy"  src="@/assets/svg/chat/upload.svg" alt="">
+                    <img loading="lazy" src="@/assets/svg/chat/upload.svg" alt="">
                     <input type="text" class="w-full !px-0" placeholder="Your comment">
-                    <img loading="lazy"  src="@/assets/svg/chat/smile.svg" alt="">
-                    <img loading="lazy"  src="@/assets/svg/chat/record.svg" alt="">
-                    <img loading="lazy"  src="@/assets/svg/chat/send.svg" alt="">
+                    <img loading="lazy" src="@/assets/svg/chat/smile.svg" alt="">
+                    <img loading="lazy" src="@/assets/svg/chat/record.svg" alt="">
+                    <img loading="lazy" src="@/assets/svg/chat/send.svg" alt="">
                 </li>
                 <li v-else-if="activeKey == 4">
                     <router-link to="/test/1" class="full_flex bg-white">
@@ -53,12 +56,13 @@ defineProps({
 })
 import { lesson_tabs } from "@/constants"
 import { useTabs } from "~/composables";
-import { useCoursesStore } from "~/store";
+import { useCoursesStore, useLessonsStore } from "~/store";
 const router = useRouter();
 const { tabsDrag } = useTabs()
 const activeKey = ref(1);
 
 const useCourses = useCoursesStore();
+const useLessons = useLessonsStore();
 
 const PageLessonLectures = resolveComponent('PageLessonLectures');
 const PageLessonOverview = resolveComponent('PageLessonOverview');
