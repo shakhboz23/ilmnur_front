@@ -1,3 +1,4 @@
+import { io } from "socket.io-client";
 import { useApiRequest } from "~/composables";
 import { useLoadingStore } from "./loading";
 
@@ -5,6 +6,18 @@ export const useChatStore = defineStore("chat", () => {
     const apiRequest = useApiRequest();
     const isLoading = useLoadingStore();
     const router = useRouter();
+    const endPoint: string = isLoading.checkCurrentUrl();
+
+    let socket: any;
+    if (process.client) {
+        socket = io(endPoint, {
+            reconnectionDelayMax: 10000000, // Maximum delay between reconnection attempts (milliseconds)
+            reconnectionAttempts: 5,
+            query: {
+                id: isLoading.user.id,
+            },
+        });
+    }
 
     const store: any = reactive({
         chatgroups: [],
@@ -27,6 +40,7 @@ export const useChatStore = defineStore("chat", () => {
 
     async function getChatGroups() {
         const data: any = await apiRequest.get(`chatgroup/getByGroupId/${router.currentRoute.value.params.group_id}`, "group");
+        console.log(data, 'last=========')
         store.chatgroups = data.data;
     }
 
@@ -52,6 +66,11 @@ export const useChatStore = defineStore("chat", () => {
         );
         store.messages[message.chatgroup_id]?.chats.push(data.data)
         clearData();
+        console.log(data);
+        socket.emit("getAll/created", {
+            chatgroup_id: data.data.chatgroup_id,
+            page: 1,
+        });
     }
 
     async function updateGroup() {
@@ -77,6 +96,42 @@ export const useChatStore = defineStore("chat", () => {
             "deletegroup"
         );
         isLoading.modal.delete = false;
+    }
+
+    if (process.client) {
+        socket.on("created", (res: any) => {
+            console.log(res);
+            // socket.emit(`getAll/created`, {
+            //     chatgroup_id: res.data.chatgroup_id,
+            //     page: 1,
+            // });
+            console.log(res, "=============================");
+        });
+
+        socket.on("chats", (res: any) => {
+            const chat_id: number = +(router.currentRoute.value.query.chat || 0)
+
+            console.log(res);
+            // store.messages = res.data.records;
+            store.messages[chat_id].chats = res.data.records
+            // let i: any
+            // for (i of res.data.records) {
+            //     console.log(i);
+            // }
+        });
+
+        // socket.on("notifications", (res: any) => {
+        //     console.log(res);
+        //     //   isLoading.store.notifications = res.data;
+        // });
+
+        socket.on("connected", (res: any) => {
+            console.log(res, "connected ====================");
+            isLoading.user.current_role_data.is_online = res.data?.is_online;
+        });
+        socket.on("disconnected", (res: any) => {
+            console.log(res, "disconnected ====================");
+        });
     }
 
     return {

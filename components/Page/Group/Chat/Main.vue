@@ -22,7 +22,7 @@
                             <time class="text-sm c_c66">15:33</time>
                         </li>
                         <li class="flex justify-between text-sm c_c91">
-                            <h1 class="c_c24">Assalomu alaykum</h1>
+                            <h1 class="c_c24">{{i.chats[0]?.text}}</h1>
                             <p class="bg_green full_flex text-white r_f font-semibold text-xs w-5 h-5">1</p>
                         </li>
                     </ul>
