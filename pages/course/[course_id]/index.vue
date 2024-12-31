@@ -3,7 +3,7 @@
         <nav>
             <ul class="flex items-center justify-between">
                 <li @click="$router.back()" class="full_flex gap-4 pcursor">
-                    <img loading="lazy"  src="@/assets/svg/icon/back_route.svg" alt="">
+                    <img loading="lazy" src="@/assets/svg/icon/back_route.svg" alt="">
                     <span class="text-lg font-semibold c_c92">Orqaga</span>
                 </li>
                 <li>
@@ -20,23 +20,27 @@
                     <div class="flex items-center gap-5">
                         <h1 class="font-semibold text-[24px] max-w-[70%]">{{ useCourses.store.courses?.course?.title }}
                         </h1>
-                        <div v-if="useCourses.store.courses?.course?.is_subscribed">
-                            <a-dropdown>
-                                <button class="bg_main rounded-full text-white px-4 py-1 text-sm">Obuna</button>
-                                <template #overlay>
-                                    <a-menu>
-                                        <a-menu-item @click="useCourses.subscribeCourse(useCourses.store.courses?.course?.id)">Obunani bekor qilish</a-menu-item>
-                                    </a-menu>
-                                </template>
-                            </a-dropdown>
+                        <div v-if="isOwner()">
+                            <div v-if="useCourses.store.courses?.course?.is_subscribed">
+                                <a-dropdown>
+                                    <button class="bg_main rounded-full text-white px-4 py-1 text-sm">Obuna</button>
+                                    <template #overlay>
+                                        <a-menu>
+                                            <a-menu-item
+                                                @click="useCourses.subscribeCourse(useCourses.store.courses?.course?.id)">Obunani
+                                                bekor qilish</a-menu-item>
+                                        </a-menu>
+                                    </template>
+                                </a-dropdown>
+                            </div>
+                            <a-button v-else :loading="isLoading.isLoadingType('subscribe')"
+                                @click="useCourses.subscribeCourse(useCourses.store.courses?.course?.id)"
+                                class="b_main c_main rounded-full px-4 py-1 text-sm">Obuna bo'lish</a-button>
                         </div>
-                        <a-button v-else :loading="isLoading.isLoadingType('subscribe')"
-                            @click="useCourses.subscribeCourse(useCourses.store.courses?.course?.id)"
-                            class="b_main c_main rounded-full px-4 py-1 text-sm">Obuna bo'lish</a-button>
                     </div>
                     <a-dropdown>
-                        <div class="!bg-white r_8 min-w-fit">
-                            <img loading="lazy"  class="rotate-90 h-5" src="@/assets/svg/icon/threedot.svg" alt="">
+                        <div v-if="isOwner()" class="!bg-white r_8 min-w-fit">
+                            <img loading="lazy" class="rotate-90 h-5" src="@/assets/svg/icon/threedot.svg" alt="">
                         </div>
                         <template #overlay>
                             <a-menu>
@@ -70,22 +74,23 @@
             </div>
             <!-- lessons -->
             <ul v-if="!isLoading.isLoadingType('getByCourse')" class="mt-5">
-                <draggable :list="useCourses.store.courses.lessons" class="drag-area space-y-5" group="lessons"
+                <draggable :list="useCourses.store.courses.lessons" class="drag-area" group="lessons"
                     :animation="200">
                     <li v-for="(i, index) in useCourses.store.courses.lessons" class="duration-700 overflow-hidden"
-                        :style="store.active_id == i.id ? { height: `${40 * (i.lessons?.length ? i.lessons?.length + 1 : 1)}px` } : { height: '40px' }"
+                        :style="store.active_id == i.id ? { height: `${52 * (i.lessons?.length ? i.lessons?.length + 1 : 1)}px` } : { height: '52px' }"
                         :class="store.active_id == i.id ? `bg_bg r_8` : ''">
                         <div @click="(e) => handleClick(e, i)"
-                            class="flex pcursor gap-5 border-b border-[#EDEDED] h-10 px-4">
+                            class="flex items-center pcursor gap-5 border-b border-[#EDEDED] py-3 px-4">
                             <h1 class="w-full truncate">{{ i.title }}</h1>
                             <p class="min-w-fit">18 daqiqa</p>
                             <div class="min-w-fit">
-                                <img loading="lazy"  v-if="checkIsFinished(i)" src="@/assets/svg/course/finished.svg" alt="">
-                                <img loading="lazy"  v-else src="@/assets/svg/course/lock.svg" alt="">
+                                <img loading="lazy" v-if="checkIsFinished(i)" src="@/assets/svg/course/finished.svg"
+                                    alt="">
+                                <img loading="lazy" v-else src="@/assets/svg/course/lock.svg" alt="">
                             </div>
-                            <a-dropdown>
+                            <a-dropdown v-if="isOwner()">
                                 <div>
-                                    <img loading="lazy"  class="threedot" src="@/assets/svg/icon/threedot.svg" alt="">
+                                    <img loading="lazy" class="threedot" src="@/assets/svg/icon/threedot.svg" alt="">
                                 </div>
                                 <template #overlay>
                                     <a-menu>
@@ -102,7 +107,7 @@
                                     </a-menu>
                                 </template>
                             </a-dropdown>
-                            <img loading="lazy"  v-if="i.type == 'module'" class="w-5 h-5 duration-700"
+                            <img loading="lazy" v-if="i.type == 'module'" class="w-5 h-5 duration-700"
                                 :class="store.active_id == i.id ? 'rotate-180' : 'rotate-0'"
                                 src="@/assets/svg/icon/arrow.svg" alt="">
                         </div>
@@ -110,16 +115,18 @@
                             <draggable :list="useCourses.store.courses.lessons[index].lessons" class="drag-area"
                                 group="lessons" :animation="200">
                                 <li @click="handleClick(lesson)" v-for="lesson in i.lessons"
-                                    class="flex pcursor gap-5 border-b border-[#EDEDED] h-10 px-4">
+                                    class="flex pcursor gap-5 border-b border-[#EDEDED] py-3 h-[52px] px-4">
                                     <h1 class="w-full whitespace-nowrap">{{ lesson.title }}</h1>
                                     <p class="min-w-fit">18 daqiqa</p>
                                     <div class="min-w-fit">
-                                        <img loading="lazy"  v-if="lesson.is_finished" src="@/assets/svg/course/finished.svg" alt="">
-                                        <img loading="lazy"  v-else src="@/assets/svg/course/lock.svg" alt="">
+                                        <img loading="lazy" v-if="lesson.is_finished"
+                                            src="@/assets/svg/course/finished.svg" alt="">
+                                        <img loading="lazy" v-else src="@/assets/svg/course/lock.svg" alt="">
                                     </div>
                                     <a-dropdown>
                                         <div>
-                                            <img loading="lazy"  class="threedot" src="@/assets/svg/icon/threedot.svg" alt="">
+                                            <img loading="lazy" class="threedot" src="@/assets/svg/icon/threedot.svg"
+                                                alt="">
                                         </div>
                                         <template #overlay>
                                             <a-menu>
@@ -183,6 +190,13 @@ function handleModal(value) {
         isLoading.modal.delete = false;
         useCourses.clearData();
     }
+}
+
+function isOwner() {
+    if (useCourses.store.courses?.course?.user_id != isLoading.user.id) {
+        return true;
+    }
+    return false;
 }
 
 function handleButton(type, lesson) {
