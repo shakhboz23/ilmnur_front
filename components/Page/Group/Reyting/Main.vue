@@ -1,7 +1,7 @@
 <template>
     <div>
         <section class="text-center w-[60%] mx-auto space-y-2">
-            <img loading="lazy"  class="mx-auto" src="@/assets/svg/reyting/steps.svg" alt="">
+            <img loading="lazy" class="mx-auto" src="@/assets/svg/reyting/steps.svg" alt="">
             <h1 class="font-semibold text-lg c_c32">O'rganing. Tajriba orttiring. Raqobatlashing</h1>
             <p class="c_c55 text-sm">Darslar uchun imkon qadar ko'proq tajriba ball to'plash orqali haftalik reytingda
                 yangi o'rinni egallashga harakat qiling</p>
@@ -14,43 +14,27 @@
             </div>
             <div v-else-if="useReyting.store.reytings?.length">
                 <table class="c_c1f mx-auto w-[80%]">
-                    <tr v-for="(i, index) in useReyting.store.reytings?.slice(0, 10)">
-                        <td class="w-6">
-                            <div class="full_flex">
-                                <img loading="lazy"  v-if="index < 3" :src="reyting_steps[index]" alt="">
-                                <p v-else>{{ index + 1 }}</p>
+                    <tr v-for="(i, index) in useReyting.store.reytings">
+                        <td :colspan="index == 10 ? 3 : 1" class="w-6">
+                            <ul v-if="index == 10" class="full_flex w-full gap-5 whitespace-nowrap c_main">
+                                <li class="min-w-fit">
+                                    <img loading="lazy" src="@/assets/svg/reyting/top_arrow.svg" alt="">
+                                </li>
+                                <li>Yuqori o'rinlar</li>
+                                <li class="min-w-fit">
+                                    <img loading="lazy" src="@/assets/svg/reyting/top_arrow.svg" alt="">
+                                </li>
+                            </ul>
+                            <div v-else class="full_flex">
+                                <p>{{ index + (index < 11 ? 1 : 0) }}</p>
                             </div>
                         </td>
-                        <td class="flex items-center gap-4 px-4 py-[10px]">
+                        <td v-if="index != 10" class="flex items-center gap-4 px-4 py-[10px]">
                             <UIAvatar class="min-h-[40px] min-w-[40px] max-h-[40px] max-w-[40px]" :src="i.image" />
                             <span class="truncate w-[90%]">{{ i.name }}
                                 {{ i.surname }}</span>
                         </td>
-                        <td class="c_c75 text-sm whitespace-nowrap">{{ i.totalReyting }} ball</td>
-                    </tr>
-                </table>
-                <ul v-if="useReyting.store.reytings?.length > 10"
-                    class="full_flex w-full gap-5 whitespace-nowrap c_main">
-                    <li class="min-w-fit">
-                        <img loading="lazy"  src="@/assets/svg/reyting/top_arrow.svg" alt="">
-                    </li>
-                    <li>Yuqori o'rinlar</li>
-                    <li class="min-w-fit">
-                        <img loading="lazy"  src="@/assets/svg/reyting/top_arrow.svg" alt="">
-                    </li>
-                </ul>
-                <table class="c_c1f mx-auto w-[80%]">
-                    <tr v-for="(i, index) in useReyting.store.reytings?.slice(10)">
-                        <td class="w-6">
-                            <div class="full_flex">
-                                <p>{{ index + 11 }}</p>
-                            </div>
-                        </td>
-                        <td class="flex items-center gap-4 px-4 py-[10px]">
-                            <EmptyAvatar class="!h-10 !w-10" /> <span class="truncate w-[90%]">{{ i.name }}
-                                {{ i.surname }}</span>
-                        </td>
-                        <td class="c_c75 text-sm whitespace-nowrap">{{ i.totalReyting }} ball</td>
+                        <td v-if="index != 10" class="c_c75 text-sm whitespace-nowrap">{{ i.totalReyting }} ball</td>
                     </tr>
                 </table>
             </div>
