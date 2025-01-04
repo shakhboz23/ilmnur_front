@@ -16,6 +16,7 @@ export const useApiRequest = () => {
     return {
       Authorization: "Bearer " + token,
       "Access-Control-Allow-Origin": "*",
+      "x-api-key": "backend_special_key..."
     };
   }
 
