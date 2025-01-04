@@ -27,7 +27,7 @@ const onVideoPlay = () => {
 };
 
 const onVideoPause = () => {
-    // store.videoStatus = false;
+    plyrInstance.value.player.pause();
 };
 
 const playVideo = () => {
