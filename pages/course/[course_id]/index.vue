@@ -193,7 +193,7 @@ function handleModal(value) {
 }
 
 function isOwner() {
-    if (useCourses.store.courses?.course?.user_id != isLoading.user.id) {
+    if (useCourses.store.courses?.course?.user_id == isLoading.user.id) {
         return true;
     }
     return false;

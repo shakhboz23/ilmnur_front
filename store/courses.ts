@@ -88,30 +88,33 @@ export const useCoursesStore = defineStore("courses", () => {
   }
 
   async function updateCourse() {
-    create.group_id = router.currentRoute.value.params.group_id;
+    create.group_id = +router.currentRoute.value.params.group_id;
     const formData = new FormData();
+    console.log(create)
     for (let i in create) {
       if (create[i]) {
         formData.append(i, create[i]);
       }
     }
     await apiRequest.put(
-      `group/${store.course_id}`,
+      `course/${store.course_id}`,
       formData,
       "createCourse"
     );
+    useLessons.getByCourse();
     isLoading.modal.create = false;
     isLoading.modal.edit = false;
     clearData();
   }
 
   async function deleteCourse() {
+    console.log(store.course_id)
     await apiRequest.delete_req(
-      `group/${store.course_id}`,
+      `course/${store.course_id}`,
       "deletegroup"
     );
     isLoading.modal.delete = false;
-    getByCourse();
+    useLessons.getByCourse();
   }
 
   return {

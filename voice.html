@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Google Cloud Text-to-Speech Example</title>
+</head>
+<body>
+
+<textarea id="textToSpeak" rows="4" cols="50">Enter text here...</textarea><br>
+<button id="speakButton">Speak with Google TTS</button>
+
+<script>
+    const textToSpeak = document.getElementById("textToSpeak");
+    const speakButton = document.getElementById("speakButton");
+
+    speakButton.addEventListener("click", async () => {
+        const text = textToSpeak.value;
+
+        // *** IMPORTANT: Replace with your actual Google Cloud project ID and service account key ***
+        const projectId = 'YOUR_GOOGLE_CLOUD_PROJECT_ID'; // Replace this
+        // The service account key should be a JSON file downloaded from your Google Cloud console
+        const serviceAccountKey = {
+          "type": "fileupload",
+          "project_id": "fileupload-393404",
+          // ... (rest of your service account key JSON)
+        };
+
+        try {
+            const response = await fetch(`https://texttospeech.googleapis.com/v1/text:synthesize`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    input: { text: text },
+                    voice: { languageCode: "en-US", name: "en-US-Wavenet-D" }, // Example voice
+                    audioConfig: { audioEncoding: "MP3" },
+                }),
+            });
+
+            if (!response.ok) {
+                const errorBody = await response.json();
+                throw new Error(`Google TTS API Error: ${response.status} ${response.statusText} ${JSON.stringify(errorBody)}`);
+            }
+
+            const data = await response.json();
+
+            // Decode the base64 audio content
+            const audioBytes = data.audioContent;
+            const audioBlob = new Blob([Uint8Array.from(atob(audioBytes), c => c.charCodeAt(0))], {type: 'audio/mpeg'});
+            const audioUrl = URL.createObjectURL(audioBlob);
+
+            const audio = new Audio(audioUrl);
+            audio.play();
+
+        } catch (error) {
+            console.error("Error synthesizing speech:", error);
+            alert("Error synthesizing speech: " + error.message);
+        }
+    });
+</script>
+
+</body>
+</html>

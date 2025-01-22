@@ -1,16 +1,32 @@
 <template>
-    <div @click="$router.push(`/course/${lessoncarddata.id}`)" class="r_12 overflow-hidden bg_white pcursor">
-        <img loading="lazy"  class="aspect-video w-full object-cover"
-            :src="lessoncarddata?.cover"
-            alt="">
+    <div @click="$router.push(`/course/${lessoncarddata.id}`)" class="r_12 overflow-hidden bg_white pcursor relative">
+        <a-dropdown>
+            <div class="!bg-white r_8 absolute right-2 top-2 py-1">
+                <img loading="lazy" class="rotate-90 h-5" src="@/assets/svg/icon/threedot.svg" alt="">
+            </div>
+            <template #overlay>
+                <a-menu>
+                    <a-menu-item @click="handleButton('edit', lessoncarddata.id)">
+                        <a href="javascript:;">Edit</a>
+                    </a-menu-item>
+                    <a-menu-item @click="handleButton('delete', lessoncarddata.id)">
+                        <a href="javascript:;">Delete</a>
+                    </a-menu-item>
+                    <a-menu-item>
+                        <a href="javascript:;">3rd menu item</a>
+                    </a-menu-item>
+                </a-menu>
+            </template>
+        </a-dropdown>
+        <img loading="lazy" class="aspect-video w-full object-cover" :src="lessoncarddata?.cover" alt="">
         <div class="p-3 space-y-1">
             <h1 class="font-bold">{{ lessoncarddata.title }}</h1>
             <pre class="whitespace-pre-line line-clamp-2">
-                {{ lessoncarddata.description }}
-            </pre>
+        {{ lessoncarddata.description }}
+    </pre>
             <ul class="flex items-center gap-2 text-sm">
                 <li class="full_flex gap-1">
-                    <img loading="lazy"  src="@/assets/svg/icon/a_star.svg" alt="">
+                    <img loading="lazy" src="@/assets/svg/icon/a_star.svg" alt="">
                     <span class="c_main">355</span>
                 </li>
                 <li class="font-semibold">
@@ -19,9 +35,10 @@
             </ul>
             <a-progress class="w-full" stroke-color="#FF852E" :percent="45" :size="3" />
             <p class="text-sm !-mt-2 pb-3">3/10 completed</p>
+            {{ lessoncarddata.subscriptions }}
             <div class="flex items-center text-sm pt-2 pcursor border-t border-t-[#FF852E]">
                 <div class="flex items-center -space-x-2 w-[80%] py-2 overflow-hidden overflow-x-auto removeScroll">
-                    <img loading="lazy"  v-for="i in 16" class="h-7 w-7 min-w-[28px] r_f object-cover"
+                    <img loading="lazy" v-for="i in 16" class="h-7 w-7 min-w-[28px] r_f object-cover"
                         src="https://natureconservancy-h.assetsadobe.com/is/image/content/dam/tnc/nature/en/photos/w/o/WOPA160517_D056-resized.jpg?crop=864%2C0%2C1728%2C2304&wid=600&hei=800&scl=2.88"
                         alt="">
                 </div>
@@ -32,9 +49,26 @@
 </template>
 
 <script setup>
-defineProps({
+import { useCoursesStore, useLoadingStore } from '~/store';
+
+const props = defineProps({
     lessoncarddata: Object,
 })
+
+const useCourses = useCoursesStore();
+const isLoading = useLoadingStore();
+
+function handleButton(type, id) {
+    useCourses.store.course_id = id;
+    isLoading.modal[type] = true;
+    if (type == 'edit') {
+        for (let i in useCourses.create) {
+            useCourses.create[i] = props.lessoncarddata[i];
+        }
+        useCourses.store.image = props.lessoncarddata.cover;
+        isLoading.modal.create = true;
+    }
+}
 </script>
 
 <style lang="scss" scoped>

@@ -10,7 +10,7 @@
         class="md:flex md:gap-5 max-w-[100vw] md:mt-[120px] mt-[112px] sm:min-h-[calc(100vh_-_140px)] min-h-[calc(100vh_-_196px)] sm:pb-0 pb-20">
         <div class="md:min-w-[260px]"></div>
         <main
-          class="md:max-w-[calc(100vw_-_340px)] w-full bg-white sm:min-h-[calc(100vh_-_140px)] min-h-[calc(100vh_-_196px)] p-5 r_8">
+          class="md:max-w-[calc(100vw_-_340px)] w-full md:bg-white sm:min-h-[calc(100vh_-_140px)] min-h-[calc(100vh_-_196px)] md:p-5 py-5 r_8">
           <slot v-if="isLoading.store.isLogin || $router.currentRoute.value.name == 'login'" />
           <div v-else class="full_flex h-full py-20">
             <router-link to="/login">

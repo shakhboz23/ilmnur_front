@@ -6,7 +6,8 @@ export const useChatStore = defineStore("chat", () => {
     const apiRequest = useApiRequest();
     const isLoading = useLoadingStore();
     const router = useRouter();
-    const endPoint: string = isLoading.checkCurrentUrl();
+    // const endPoint: string = isLoading.checkCurrentUrl();
+    const endPoint: string = "http://localhost:4000/";
 
     let socket: any;
     if (process.client) {

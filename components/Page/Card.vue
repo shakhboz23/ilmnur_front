@@ -2,7 +2,7 @@
     <div @click="$router.push(`/group/${carddata.id}`)" class="r_12 overflow-hidden bg_white pcursor relative">
         <a-dropdown>
             <div class="!bg-white r_8 absolute right-2 top-2 py-1">
-                <img loading="lazy"  class="rotate-90 h-5" src="@/assets/svg/icon/threedot.svg" alt="">
+                <img loading="lazy" class="rotate-90 h-5" src="@/assets/svg/icon/threedot.svg" alt="">
             </div>
             <template #overlay>
                 <a-menu>
@@ -18,7 +18,7 @@
                 </a-menu>
             </template>
         </a-dropdown>
-        <img loading="lazy"  class="aspect-video w-full object-cover" :src="carddata?.cover" alt="">
+        <img loading="lazy" class="aspect-video w-full object-cover" :src="carddata?.cover" alt="">
         <div class="p-3 space-y-2">
             <h1 class="font-bold">{{ carddata.title }}</h1>
             <pre class="whitespace-pre-line line-clamp-2">
@@ -26,7 +26,7 @@
     </pre>
             <ul class="flex items-center gap-2 text-sm">
                 <li class="full_flex gap-1">
-                    <img loading="lazy"  src="@/assets/svg/icon/a_star.svg" alt="">
+                    <img loading="lazy" src="@/assets/svg/icon/a_star.svg" alt="">
                     <span class="c_main">355</span>
                 </li>
                 <li class="font-semibold">
@@ -36,13 +36,13 @@
             <div class="flex gap-2">
                 <!-- {{ carddata }} -->
                 <button class="text-sm font-medium py-1 px-2 bg_cf2 r_8">
-                    {{carddata.users_count}} Azolar
+                    {{ carddata.users_count }} Azolar
                 </button>
                 <button class="text-sm font-medium py-1 px-2 bg_cf2 r_8">
-                   Public
+                    Public
                 </button>
                 <button class="text-sm font-medium py-1 px-2 bg_cf2 r_8">
-                    {{carddata.courses_count}} Kurslar
+                    {{ carddata.courses_count }} Kurslar
                 </button>
             </div>
             <!-- <div class="flex items-center text-sm pt-2 pcursor">

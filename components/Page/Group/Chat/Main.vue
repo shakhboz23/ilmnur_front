@@ -73,7 +73,7 @@
                 </nav>
             </div>
         </section>
-        <section class="full_flex w-full border min-h-full" v-else>
+        <section class="lg:!flex !hidden full_flex w-full border min-h-full" v-else>
             Biror chatni tanlang
         </section>
     </div>
