@@ -3,7 +3,7 @@
         <nav class="sticky top-[140px]">
             <nav>
                 <ul class="flex items-center justify-between border-b border-[#EDEDED] pb-4">
-                    <li @click="$router.back()" class="full_flex gap-4 pcursor">
+                    <li @click="$router.replace(`/course/${useLessons.store.lessons?.course_id}`)" class="full_flex gap-4 pcursor">
                         <img loading="lazy"  src="@/assets/svg/icon/back_route.svg" alt="">
                         <span class="text-lg font-semibold c_c92">Orqaga</span>
                     </li>
@@ -30,7 +30,7 @@
                             class="b_main p-3 r_8">
                             <img loading="lazy"  class="stroke-[#FF852E]" src="@/assets/svg/course/markasread.svg" alt="">
                         </button>
-                        <button v-if="useLessons.store.lessons?.course?.user_id == isLoading.user?.id"
+                        <button @click="editLesson()" v-if="useLessons.store.lessons?.course?.user_id == isLoading.user?.id"
                             class="b_main p-3 r_8">
                             <img loading="lazy"  src="@/assets/svg/course/editpen.svg" alt="">
                         </button>
@@ -63,6 +63,7 @@ import { useLessonsStore, useLoadingStore } from '~/store';
 
 const isLoading = useLoadingStore()
 const useLessons = useLessonsStore();
+const router = useRouter();
 const store = reactive({
     active_id: 0,
 })
@@ -74,6 +75,11 @@ function handleContentClick() {
         behavior: 'smooth', // Smooth scroll animatsiyasi
         block: 'start', // Elementni yuqori qismga joylash
     });
+}
+
+function editLesson(){
+    const lesson_id = router.currentRoute.value.params.lesson_id
+    router.push(`/lesson/${lesson_id}/update`)
 }
 
 onBeforeMount(() => {

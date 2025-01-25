@@ -7,7 +7,7 @@
                 yangi o'rinni egallashga harakat qiling</p>
         </section>
         <section class="mt-10">
-            <CategorySlider :category="useLessons.store.courses" class="mb-5 pr-6" />
+            <CategorySlider :category="useLessons.store.courses" class="mb-5" />
             <hr />
             <div v-if="isLoading.isLoadingType('getReyting')">
                 <LoadingDiv v-for="i in 10" class="h-16 w-full my-2" />

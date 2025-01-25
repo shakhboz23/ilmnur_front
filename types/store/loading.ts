@@ -3,6 +3,7 @@ export interface LoadingType {
     baseUrl: string;
     error: string;
     isLogin: boolean;
+    isDrawer: boolean;
     middleware: boolean;
     pagination: Object;
     category_id: number,

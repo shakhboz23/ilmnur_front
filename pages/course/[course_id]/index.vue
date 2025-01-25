@@ -45,17 +45,17 @@
                         <template #overlay>
                             <a-menu>
                                 <a-menu-item @click="handleButton('edit', carddata.id)">
-                                    <a href="javascript:;">Edit</a>
+                                    <a href="javascript:;">O'zgartirish</a>
                                 </a-menu-item>
                                 <a-menu-item @click="handleButton('delete', carddata.id)">
-                                    <a href="javascript:;">Delete</a>
+                                    <a href="javascript:;">O'chirish</a>
                                 </a-menu-item>
                                 <a-menu-item
                                     @click="$router.push(`/lesson/${$router.currentRoute.value.params.course_id}/create`)">
-                                    <a href="javascript:;">Add lesson</a>
+                                    <a href="javascript:;">Dars qo'shish</a>
                                 </a-menu-item>
                                 <a-menu-item @click="isLoading.modal.create = true">
-                                    <a href="javascript:;">Add module</a>
+                                    <a href="javascript:;">Modul qo'shish</a>
                                 </a-menu-item>
                             </a-menu>
                         </template>
@@ -74,13 +74,17 @@
             </div>
             <!-- lessons -->
             <ul v-if="!isLoading.isLoadingType('getByCourse')" class="mt-5">
-                <draggable :list="useCourses.store.courses.lessons" class="drag-area" group="lessons"
-                    :animation="200">
+                <draggable :list="useCourses.store.courses.lessons" class="drag-area" group="lessons" :animation="200"
+                    handle=".drag-handle">
                     <li v-for="(i, index) in useCourses.store.courses.lessons" class="duration-700 overflow-hidden"
                         :style="store.active_id == i.id ? { height: `${52 * (i.lessons?.length ? i.lessons?.length + 1 : 1)}px` } : { height: '52px' }"
                         :class="store.active_id == i.id ? `bg_bg r_8` : ''">
                         <div @click="(e) => handleClick(e, i)"
                             class="flex items-center pcursor gap-5 border-b border-[#EDEDED] py-3 px-4">
+                            <button v-if="isOwner()" class="drag-handle w-6">
+                                <img draggable="false" class="h-6 w-6 min-w-[24px]" src="@/assets/svg/icon/drag.svg"
+                                    alt="" />
+                            </button>
                             <h1 class="w-full truncate">{{ i.title }}</h1>
                             <p class="min-w-fit">18 daqiqa</p>
                             <div class="min-w-fit">
@@ -94,15 +98,15 @@
                                 </div>
                                 <template #overlay>
                                     <a-menu>
-                                        <a-menu-item
+                                        <a-menu-item v-if="i.type == 'module'"
                                             @click="$router.push(`/lesson/${$router.currentRoute.value.params.course_id}/create?lesson_id=${i.id}`)">
-                                            Add lesson
+                                            Dars qo'shish
                                         </a-menu-item>
                                         <a-menu-item @click="handleButton('edit', i)">
-                                            Edit
+                                            O'zgartirish
                                         </a-menu-item>
                                         <a-menu-item @click="handleButton('delete', i)">
-                                            Delete
+                                            O'chirish
                                         </a-menu-item>
                                     </a-menu>
                                 </template>
@@ -113,9 +117,13 @@
                         </div>
                         <ul>
                             <draggable :list="useCourses.store.courses.lessons[index].lessons" class="drag-area"
-                                group="lessons" :animation="200">
-                                <li @click="handleClick(lesson)" v-for="lesson in i.lessons"
+                                group="lessons" :animation="200" handle=".drag-handle">
+                                <li @click="e => handleClick(e, lesson)" v-for="lesson in i.lessons"
                                     class="flex pcursor gap-5 border-b border-[#EDEDED] py-3 h-[52px] px-4">
+                                    <button v-if="isOwner()" class="drag-handle w-6">
+                                        <img draggable="false" class="h-6 w-6 min-w-[24px]"
+                                            src="@/assets/svg/icon/drag.svg" alt="" />
+                                    </button>
                                     <h1 class="w-full whitespace-nowrap">{{ lesson.title }}</h1>
                                     <p class="min-w-fit">18 daqiqa</p>
                                     <div class="min-w-fit">
@@ -131,10 +139,10 @@
                                         <template #overlay>
                                             <a-menu>
                                                 <a-menu-item @click="handleButton('edit', lesson)">
-                                                    <a href="javascript:;">Edit</a>
+                                                    <a href="javascript:;">O'zgartirish</a>
                                                 </a-menu-item>
                                                 <a-menu-item @click="handleButton('delete', lesson)">
-                                                    <a href="javascript:;">Delete</a>
+                                                    <a href="javascript:;">O'chirish</a>
                                                 </a-menu-item>
                                             </a-menu>
                                         </template>
@@ -183,7 +191,7 @@ function handleModal(value) {
         } else if (isLoading.modal.create && !isLoading.modal.edit) {
             useLessons.createLesson();
         } else {
-            useLessons.updateLesson();
+            useLessons.updateModule();
         }
     } else {
         isLoading.modal.create = false;
@@ -204,7 +212,7 @@ function handleButton(type, lesson) {
     isLoading.modal[type] = true;
     if (type == 'edit') {
         if (lesson.type == 'lesson') {
-            router.push(`/lesson/${router.currentRoute.value.params.course_id}/create?lesson_id=1`)
+            router.push(`/lesson/${lesson.id}/update`)
         } else {
             for (let i in useLessons.create) {
                 useLessons.create[i] = lesson[i];

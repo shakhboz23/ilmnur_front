@@ -3,7 +3,7 @@
         <nav class="w-full mb-2 space-y-2">
             <CategorySlider
                 :category_id="useCourses.store.users?.user?.role == 'teacher' ? useCourses.store.users?.user?.course_id : null"
-                :all="false" :category="useLessons.store.courses" class="w-full pr-6" />
+                :all="false" :category="useLessons.store.courses" class="w-full" />
             <div class="flex gap-3 min-w-fit">
                 <div class="flex items-center bg_bg h-[46px] w-[46px] rounded-[10px]">
                     <button class="flex items-center justify-center h-[46px] w-[46px] rounded-[10px]">

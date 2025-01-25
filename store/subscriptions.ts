@@ -13,6 +13,7 @@ export const useSubscriptionStore = defineStore("subscription", () => {
   const store: any = reactive({
     course_id: null,
     course_ids: [],
+    subscriptions: [],
     subscription_id: 0,
     currentDate: dayjs(new Date()),
   });
@@ -25,6 +26,14 @@ export const useSubscriptionStore = defineStore("subscription", () => {
     // });
     // store.course_id = 0;
     // store.image = "";
+  }
+
+  async function getByUserId() {
+    const data: any = await apiRequest.get(
+      `subscriptions/getByUserId`,
+      "getByUserId"
+    );
+    store.subscriptions = data.data;
   }
 
   async function createSubscribeUser(id: any) {
@@ -67,6 +76,7 @@ export const useSubscriptionStore = defineStore("subscription", () => {
   return {
     store,
     clearData,
+    getByUserId,
     createSubscribeUser,
     changeSubscriptionStatus,
   };

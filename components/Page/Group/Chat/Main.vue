@@ -15,10 +15,10 @@
                         alt="">
                     <p v-else
                         class="full_flex font-medium text-2xl text-white r_f w-12 h-12 min-w-[48px] bg_main uppercase">
-                        {{ i.title?.at(0) }}</p>
+                        {{ i.course?.title?.at(0) }}</p>
                     <ul class="w-full">
                         <li class="flex justify-between">
-                            <h1 class="c_c24">{{ i.title }}</h1>
+                            <h1 class="c_c24">{{ i.course?.title }}</h1>
                             <time class="text-sm c_c66">15:33</time>
                         </li>
                         <li class="flex justify-between text-sm c_c91">

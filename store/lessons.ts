@@ -8,10 +8,10 @@ export const useLessonsStore = defineStore("lessons", () => {
   const router = useRouter();
   const isLoading = useLoadingStore();
   const useCourses = useCoursesStore();
-  
+
   const store: LessonsType = reactive({
     lessons: [],
-    courses: [], 
+    courses: [],
     modal: {
       create: false,
     },
@@ -54,7 +54,7 @@ export const useLessonsStore = defineStore("lessons", () => {
     );
     store.lessons = data.data;
   }
-  
+
   async function getByCourse() {
     const data: any = await apiRequest.get(
       `course/getByCourse/${router.currentRoute.value.params.group_id}/${isLoading.store.category_id}/`,
@@ -63,7 +63,10 @@ export const useLessonsStore = defineStore("lessons", () => {
     store.courses = data.data;
   }
 
-  async function createLesson(is_create: string) {
+  async function createLesson(is_create: string, type: boolean) {
+    if (type) {
+      return updateLesson();
+    }
     create.lesson_id = router.currentRoute.value.query.lesson_id;
     if (is_create == "create") {
       create.course_id = router.currentRoute.value.params.lesson_id;
@@ -82,12 +85,26 @@ export const useLessonsStore = defineStore("lessons", () => {
       formData,
       "createLesson"
     );
-    isLoading.modal.create = false;
     clearData();
     router.push(`/lesson/${data.data.id}`);
   }
 
   async function updateLesson() {
+    const lesson_id = router.currentRoute.value.params.lesson_id;
+    const formData = new FormData();
+    for (let i in create) {
+      formData.append(i, create[i]);
+    }
+    const data: any = await apiRequest.put(
+      `lesson/${lesson_id}`,
+      formData,
+      "createCourse"
+    );
+    clearData();
+    router.push(`/lesson/${data.data.id}`);
+  }
+
+  async function updateModule() {
     create.course_id = router.currentRoute.value.params.course_id;
     const formData = new FormData();
     for (let i in create) {
@@ -121,6 +138,7 @@ export const useLessonsStore = defineStore("lessons", () => {
     getById,
     getByCourse,
     updateLesson,
+    updateModule,
     deleteLesson,
   };
 });

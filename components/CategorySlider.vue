@@ -1,24 +1,32 @@
 <template>
-    <div class="stack-tab-container">
-        <div v-if="isLoading.isLoadingType('category')" class="flex gap-5">
-            <button class="r_20 overflow-hidden" v-for="i in 12">
-                <LoadingDiv class="w-20 h-full min-h-[34px] r_f" />
-            </button>
-        </div>
-        <div v-else class="tab-bar whitespace-nowrap">
-            <button class="left-arrow">
-                <img loading="lazy"  class="rotate-90" src="@/assets/svg/icon/arrow.svg" alt="">
-            </button>
-            <ul class="tabs">
-                <button v-if="all" @click="setCategory(0)" class="duration-700 r_20 py-2 px-3 text-xs b_main"
-                    :class="isLoading.store.category_id == 0 ? 'bg_main c_white' : 'c_main'">All</button>
-                <button v-show="category_id ? category_id == i.id : true" @click="setCategory(i)" v-for="i in category"
-                    class="duration-700 r_20 py-2 px-3 text-xs b_main"
-                    :class="isLoading.store.category_id == i.id ? 'bg_main c_white' : 'c_main'">{{ i.category || i.title
-                    }}</button>
-            </ul>
-            <button class="right-arrow active">
-                <img loading="lazy"  class="-rotate-90" src="@/assets/svg/icon/arrow.svg" alt="">
+    <div>
+        <div class="flex items-center justify-between gap-4 w-full">
+            <div class="stack-tab-container w-full pr-6">
+                <div v-if="isLoading.isLoadingType('category')" class="flex gap-5">
+                    <button class="r_20 overflow-hidden" v-for="i in 12">
+                        <LoadingDiv class="w-20 h-full min-h-[34px] r_f" />
+                    </button>
+                </div>
+                <div v-else class="tab-bar whitespace-nowrap">
+                    <button class="left-arrow">
+                        <img loading="lazy" class="rotate-90" src="@/assets/svg/icon/arrow.svg" alt="">
+                    </button>
+                    <ul class="tabs">
+                        <button v-if="all" @click="setCategory(0)" class="duration-700 r_20 py-2 px-3 text-xs b_main"
+                            :class="isLoading.store.category_id == 0 ? 'bg_main c_white' : 'c_main'">All</button>
+                        <button v-show="category_id ? category_id == i.id : true" @click="setCategory(i)"
+                            v-for="i in category" class="duration-700 r_20 py-2 px-3 text-xs b_main"
+                            :class="isLoading.store.category_id == i.id ? 'bg_main c_white' : 'c_main'">{{ i.category ||
+                                i.title
+                            }}</button>
+                    </ul>
+                    <button class="right-arrow active">
+                        <img loading="lazy" class="-rotate-90" src="@/assets/svg/icon/arrow.svg" alt="">
+                    </button>
+                </div>
+            </div>
+            <button @click="isLoading.store.isDrawer = true" class="w-9 h-9 r_8 full_flex bg_cf5">
+                <img loading="lazy" src="@/assets/svg/icon/filter.svg" alt="">
             </button>
         </div>
     </div>
@@ -41,6 +49,19 @@ defineProps({
 const isLoading = useLoadingStore();
 const useCategory = useCategoryStore();
 const router = useRouter();
+
+
+const time_list = [
+    "1:00",
+    "1:30",
+    "2:00",
+    "2:30",
+    "3:00",
+    "3:30",
+    "4:00",
+    "4:30",
+    "5:00",
+];
 
 function setCategory(category) {
     isLoading.store.category_id = category.id || 0

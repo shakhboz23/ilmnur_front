@@ -12,6 +12,7 @@ export const useLoadingStore = defineStore("loading", () => {
     baseUrl: baseURL,
     isLogin: false,
     middleware: true,
+    isDrawer: false,
     errorMessage: {},
     error: "",
     pagination: {

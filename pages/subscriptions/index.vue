@@ -1,7 +1,5 @@
 <template>
-    <div>
-        developing...
-    </div>
+    <PageSubscriptionsMain />
 </template>
 
 <script setup>

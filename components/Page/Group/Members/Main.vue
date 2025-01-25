@@ -1,7 +1,7 @@
 <template>
     <div class="w-full">
         <nav class="w-full space-y-2">
-            <CategorySlider :category="useLessons.store.courses" class="pr-6 w-full" />
+            <CategorySlider :category="useLessons.store.courses" class="w-full" />
             <div class="flex gap-3 min-w-fit">
                 <div class="flex items-center bg_bg h-[46px] w-[46px] rounded-[10px]">
                     <button class="flex items-center justify-center h-[46px] w-[46px] rounded-[10px]">

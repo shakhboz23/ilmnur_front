@@ -5,14 +5,13 @@
                 yaratishni boshlang:</h1>
             <div class="max-h-[calc(100vh_-_225px)] overflow-y-auto overflow-hidden">
                 <section class="space-y-5">
-                    <!-- <video src=""></video> -->
                     <div class="w-full h-[312px] bg-black r_8">
-                        <video capture v-if="useLessons.store.create.video" class="w-full h-[312px] bg-black r_8"
-                            controls>
-                            <source :src="useLessons.store.create.video" type="video/mp4">
-                            <source :src="useLessons.store.create.video" type="video/ogg">
-                            Your browser does not support the video tag.
-                        </video>
+                        <div v-if="useLessons.create.youtube || useLessons.store.create.video"
+                            class="w-full md:h-[312px] h-[200px] r_8 rounded-lg overflow-hidden">
+                            <ClientOnly>
+                                <VideoReader :url="useLessons.create.youtube || useLessons.store.create.video" />
+                            </ClientOnly>
+                        </div>
                     </div>
                     <h1 class="px-5 text-xl font-semibold">{{ useLessons.create.title }}</h1>
                     <p class="px-5" v-html="useLessons.create.content"></p>
@@ -21,25 +20,25 @@
                     <ul class="flex gap-10 text-center font-medium">
                         <li @click="openModal('video')" class="space-y-4 pcursor">
                             <div class="bg_cf3 w-20 h-20 full_flex r_f">
-                                <img loading="lazy"  src="@/assets/svg/group/video.svg" alt="">
+                                <img loading="lazy" src="@/assets/svg/group/video.svg" alt="">
                             </div>
                             <p>Video</p>
                         </li>
                         <li @click="openModal('title')" class="space-y-4 pcursor">
                             <div class="bg_cf3 w-20 h-20 full_flex r_f">
-                                <img loading="lazy"  src="@/assets/svg/group/text.svg" alt="">
+                                <img loading="lazy" src="@/assets/svg/group/text.svg" alt="">
                             </div>
                             <p>Title</p>
                         </li>
                         <li @click="openModal('text')" class="space-y-4 pcursor">
                             <div class="bg_cf3 w-20 h-20 full_flex r_f">
-                                <img loading="lazy"  src="@/assets/svg/group/text.svg" alt="">
+                                <img loading="lazy" src="@/assets/svg/group/text.svg" alt="">
                             </div>
                             <p>Tekst</p>
                         </li>
                         <li @click="openModal('image')" class="space-y-4 pcursor">
                             <div class="bg_cf3 w-20 h-20 full_flex r_f">
-                                <img loading="lazy"  src="@/assets/svg/group/image.svg" alt="">
+                                <img loading="lazy" src="@/assets/svg/group/image.svg" alt="">
                             </div>
                             <p>Rasm</p>
                         </li>
@@ -53,35 +52,35 @@
             <div class="max-h-[calc(100vh_-_225px)] overflow-y-auto overflow-hidden">
                 <ul class="grid grid-cols-2 text-center font-medium">
                     <li @click="openModal('video')" class="full_flex flex-col h-[120px] b_ced space-y-2 pcursor">
-                        <img loading="lazy"  src="@/assets/svg/group/video.svg" alt="">
+                        <img loading="lazy" src="@/assets/svg/group/video.svg" alt="">
                         <p>Video</p>
                     </li>
                     <li @click="openModal('title')" class="full_flex flex-col h-[120px] b_ced space-y-2 pcursor">
-                        <img loading="lazy"  src="@/assets/svg/group/text.svg" alt="">
+                        <img loading="lazy" src="@/assets/svg/group/text.svg" alt="">
                         <p>Title</p>
                     </li>
                     <li @click="openModal('text')" class="full_flex flex-col h-[120px] b_ced space-y-2 pcursor">
-                        <img loading="lazy"  src="@/assets/svg/group/text.svg" alt="">
+                        <img loading="lazy" src="@/assets/svg/group/text.svg" alt="">
                         <p>Tekst</p>
                     </li>
                     <li @click="openModal('image')" class="full_flex flex-col h-[120px] b_ced space-y-2 pcursor">
-                        <img loading="lazy"  src="@/assets/svg/group/image.svg" alt="">
+                        <img loading="lazy" src="@/assets/svg/group/image.svg" alt="">
                         <p>Rasm</p>
                     </li>
                     <li class="full_flex flex-col h-[120px] b_ced space-y-2 pcursor">
-                        <img loading="lazy"  src="@/assets/svg/group/settings.svg" alt="">
+                        <img loading="lazy" src="@/assets/svg/group/settings.svg" alt="">
                         <p>Sozlamalar</p>
                     </li>
                 </ul>
                 <div class="b_ced !border-x-0 -mt-[1px] space-y-6 py-8">
                     <p class="font-medium">Resurslarni biriktiring</p>
                     <button class="full_flex gap-3 b_ced py-[10px] rounded-full w-full">
-                        <img loading="lazy"  src="@/assets/svg/group/upload.svg" alt="">
+                        <img loading="lazy" src="@/assets/svg/group/upload.svg" alt="">
                         <span>Fayl biriktirish</span>
                     </button>
                 </div>
                 <div class="space-y-5 py-6">
-                    <button @click="useLessons.createLesson('create')"
+                    <button @click="useLessons.createLesson('create', $router.currentRoute.value.fullPath.includes('update'))"
                         class="bg_main text-white w-full rounded-full py-3">Davom etish</button>
                     <button class="bg_green text-white w-full rounded-full py-3">Qoralamaga qo‘shish</button>
                     <button class="c_c55 underline text-white w-full rounded-full py-3">Oldindan ko‘rish</button>
@@ -114,7 +113,6 @@
         <div class="file_input">
             <input @change="handleVideo" id="file_input" class="file_input" type="file">
         </div>
-
     </UIModal>
 </template>
 
@@ -123,8 +121,25 @@ import { useLessonsStore } from '~/store';
 
 const useLessons = useLessonsStore();
 
+const router = useRouter();
+
+if (router.currentRoute.value.fullPath.includes('update')){
+    useLessons.getById(router.currentRoute.value.lesson_id)
+}
+
 const store = reactive({
     file_type: '',
+})
+
+watchEffect(() => {
+    for (let i in useLessons.create) {
+        useLessons.create[i] = useLessons.store.lessons[i]
+    }
+    if (useLessons.store.lessons?.video?.includes('https://youtu')) {
+        useLessons.create.youtube = useLessons.store.lessons?.video
+    } else {
+        useLessons.store.create.video = useLessons.store.lessons?.video
+    }
 })
 
 function handleModal(value) {

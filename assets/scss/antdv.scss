@@ -124,6 +124,11 @@
   overflow: hidden;
 }
 
+.ant-drawer-right .ant-drawer-content-wrapper {
+  width: max-content !important;
+  border-radius: 20px 0px 0px 20px !important;
+}
+
 .full-modal {
   .ant-modal {
     max-width: 100%;

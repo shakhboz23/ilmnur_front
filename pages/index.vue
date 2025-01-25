@@ -1,5 +1,5 @@
 <template>
-    <CategorySlider :category="useCategory.store.category" class="mb-5 pr-6" />
+    <CategorySlider :category="useCategory.store.category" class="mb-5" />
     <Tabs />
 </template>
 

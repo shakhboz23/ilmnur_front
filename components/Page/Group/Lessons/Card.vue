@@ -35,7 +35,6 @@
             </ul>
             <a-progress class="w-full" stroke-color="#FF852E" :percent="45" :size="3" />
             <p class="text-sm !-mt-2 pb-3">3/10 completed</p>
-            {{ lessoncarddata.subscriptions }}
             <div class="flex items-center text-sm pt-2 pcursor border-t border-t-[#FF852E]">
                 <div class="flex items-center -space-x-2 w-[80%] py-2 overflow-hidden overflow-x-auto removeScroll">
                     <img loading="lazy" v-for="i in 16" class="h-7 w-7 min-w-[28px] r_f object-cover"

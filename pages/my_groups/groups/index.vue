@@ -1,5 +1,5 @@
 <template>
-    <CategorySlider class="mb-5 pr-6" />
+    <CategorySlider class="mb-5" />
     <div>
         <div v-if="isLoading.isLoadingType('groups')"
             class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
