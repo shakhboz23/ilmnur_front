@@ -1,6 +1,6 @@
 <template>
-  <div class="w-full">
-    <nav class="full_flex bg_white r_8 py-4 px-5 !justify-between">
+  <div class="w-full grid">
+    <nav class="full_flex bg_white r_8 py-4 px-5 !justify-between !w-full">
       <ul class="flex md:justify-center items-center md:gap-20 gap-4 w-[50%] h-[40px]">
         <li class="md:hidden block" @click="isLoading.store.drawer = true">
           <img loading="lazy" class="h-6 min-w-[24px]" src="@/assets/svg/icon/menu.svg" alt="">
