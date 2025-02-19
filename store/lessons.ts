@@ -63,7 +63,8 @@ export const useLessonsStore = defineStore("lessons", () => {
     store.courses = data.data;
   }
 
-  async function createLesson(is_create: string, type: boolean) {
+  async function createLesson(published: boolean, is_create: string, type: boolean) {
+    create.published = published;
     if (type) {
       return updateLesson();
     }

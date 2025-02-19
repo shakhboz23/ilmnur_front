@@ -80,7 +80,7 @@
                     </button>
                 </div>
                 <div class="space-y-5 py-6">
-                    <button @click="useLessons.createLesson('create', $router.currentRoute.value.fullPath.includes('update'))"
+                    <button @click="useLessons.createLesson(true, 'create', $router.currentRoute.value.fullPath.includes('update'))"
                         class="bg_main text-white w-full rounded-full py-3">Davom etish</button>
                     <button class="bg_green text-white w-full rounded-full py-3">Qoralamaga qo‘shish</button>
                     <button class="c_c55 underline text-white w-full rounded-full py-3">Oldindan ko‘rish</button>
