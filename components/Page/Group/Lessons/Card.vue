@@ -1,8 +1,8 @@
 <template>
-    <div @click="$router.push(`/course/${lessoncarddata.id}`)" class="r_12 overflow-hidden bg_white pcursor relative">
+    <div @click="(e) => toRoute(e, lessoncarddata.id)" class="r_12 overflow-hidden bg_white pcursor relative">
         <a-dropdown>
-            <div class="!bg-white r_8 absolute right-2 top-2 py-1">
-                <img loading="lazy" class="rotate-90 h-5" src="@/assets/svg/icon/threedot.svg" alt="">
+            <div class="!bg-white r_8 absolute right-2 top-2 py-1 threedot">
+                <img loading="lazy" class="rotate-90 h-5 threedot" src="@/assets/svg/icon/threedot.svg" alt="">
             </div>
             <template #overlay>
                 <a-menu>
@@ -22,8 +22,8 @@
         <div class="p-3 space-y-1">
             <h1 class="font-bold">{{ lessoncarddata.title }}</h1>
             <pre class="whitespace-pre-line line-clamp-2">
-        {{ lessoncarddata.description }}
-    </pre>
+                {{ lessoncarddata.description }}
+            </pre>
             <ul class="flex items-center gap-2 text-sm">
                 <li class="full_flex gap-1">
                     <img loading="lazy" src="@/assets/svg/icon/a_star.svg" alt="">
@@ -33,8 +33,10 @@
                     ${{ lessoncarddata.price }}
                 </li>
             </ul>
-            <a-progress class="w-full" stroke-color="#FF852E" :percent="45" :size="3" />
-            <p class="text-sm !-mt-2 pb-3">3/10 completed</p>
+            <a-progress class="w-full" stroke-color="#FF852E"
+                :percent="lessoncarddata.finished_count * 100 / lessoncarddata.lessons_count" :size="3" />
+            <p class="text-sm !-mt-2 pb-3">{{ lessoncarddata.finished_count }}/{{ lessoncarddata.lessons_count }} completed
+            </p>
             <div class="flex items-center text-sm pt-2 pcursor border-t border-t-[#FF852E]">
                 <div class="flex items-center -space-x-2 w-[80%] py-2 overflow-hidden overflow-x-auto removeScroll">
                     <img loading="lazy" v-for="i in 16" class="h-7 w-7 min-w-[28px] r_f object-cover"
@@ -53,6 +55,7 @@ import { useCoursesStore, useLoadingStore } from '~/store';
 const props = defineProps({
     lessoncarddata: Object,
 })
+const router = useRouter();
 
 const useCourses = useCoursesStore();
 const isLoading = useLoadingStore();
@@ -66,6 +69,12 @@ function handleButton(type, id) {
         }
         useCourses.store.image = props.lessoncarddata.cover;
         isLoading.modal.create = true;
+    }
+}
+
+function toRoute(e, id) {
+    if (!e.target.className.includes('threedot')){
+        router.push(`/course/${id}`)
     }
 }
 </script>

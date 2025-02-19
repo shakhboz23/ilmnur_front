@@ -1,8 +1,8 @@
 <template>
-    <div @click="$router.push(`/group/${carddata.id}`)" class="r_12 overflow-hidden bg_white pcursor relative">
+    <div @click="(e) => toRoute(e, carddata.id)" class="r_12 overflow-hidden bg_white pcursor relative">
         <a-dropdown>
-            <div class="!bg-white r_8 absolute right-2 top-2 py-1">
-                <img loading="lazy" class="rotate-90 h-5" src="@/assets/svg/icon/threedot.svg" alt="">
+            <div class="!bg-white r_8 absolute right-2 top-2 py-1 threedot">
+                <img loading="lazy" class="rotate-90 h-5 threedot" src="@/assets/svg/icon/threedot.svg" alt="">
             </div>
             <template #overlay>
                 <a-menu>
@@ -62,6 +62,7 @@ import { useGroupsStore, useLoadingStore } from '~/store';
 const props = defineProps({
     carddata: Object,
 })
+const router = useRouter();
 
 const isLoading = useLoadingStore();
 const useGroups = useGroupsStore();
@@ -76,6 +77,12 @@ function handleButton(type, id) {
         }
         useGroups.store.image = props.carddata.cover;
         isLoading.modal.create = true;
+    }
+}
+
+function toRoute(e, id) {
+    if (!e.target.className.includes('threedot')) {
+        router.push(`/group/${id}`)
     }
 }
 </script>

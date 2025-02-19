@@ -86,7 +86,12 @@ export const useLessonsStore = defineStore("lessons", () => {
       "createLesson"
     );
     clearData();
-    router.push(`/lesson/${data.data.id}`);
+    if (data.data.type == "lesson") {
+      router.push(`/lesson/${data.data.id}`);
+    } else {
+      isLoading.modal.create = false;
+      useCourses.getByCourse();
+    }
   }
 
   async function updateLesson() {
