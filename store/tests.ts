@@ -50,9 +50,12 @@ export const useTestsStore = defineStore("tests", () => {
       "getById"
     );
     console.log(data);
-    for (let i in test_settings) {
-      test_settings[i] = data.data?.test_settings[i];
+    if (data.data?.test_settings) {
+      for (let i in test_settings) {
+        test_settings[i] = data.data?.test_settings[i];
+      }
     }
+    test_settings.sort_level = [[]];
     test_settings.sort_level[0] = [data.data?.category_id]
     clearInterval(store.timeInterval);
     if (test_settings.period > 0) {
