@@ -94,13 +94,23 @@
         <div v-if="true">
             <nav v-if="Object.keys(useTests.test)?.length" class="py-5">
                 <ul class="full_flex gap-3">
-                    <li v-for="i in testBar" class="full_flex r_4 bg_ce2 h-8 w-8">
-                        <img loading="lazy" :src="i" alt="">
+                    <li v-for="(i, index) in testBar" class="full_flex r_4 bg_ce2">
+                        <img loading="lazy" class="p-1 w-8 h-8" :src="i" alt="">
+                        <ul v-if="index == 0 && useTests.test_settings.period > 0" class="flex max-w-fit mx-auto text-center pr-2 font-semibold" :class="useTests.store.time.minutes < 20 ? 'c_red':'c_c66'">
+                            <li>{{ useTests.store.time.days }}</li>
+                            <li>:</li>
+                            <li>{{ useTests.store.time.hours }}</li>
+                            <li>:</li>
+                            <li>{{ useTests.store.time.minutes }}</li>
+                            <li>:</li>
+                            <li>{{ useTests.store.time.seconds }}</li>
+                        </ul>
                     </li>
                 </ul>
             </nav>
             <section class="bg-white md:mx-[100px] r_8 relative">
-                <section v-if="Object.keys(useTests.test)?.length" class="md:flex gap-7 items-start max-w-fit mx-auto md:p-8">
+                <section v-if="Object.keys(useTests.test)?.length"
+                    class="md:flex gap-7 items-start max-w-fit mx-auto md:p-8">
                     <img loading="lazy" @click="$router.back()" class="md:-ml-[52px] md:mb-0 mb-4 pcursor"
                         src="@/assets/svg/icon/closex.svg" alt="">
                     <div>
@@ -398,12 +408,12 @@
                         <a-select v-model:value="useTests.test_settings.sort_level[index][1]"
                             class="min-w-[80px] test_arrow !h-[42px] sr_12" show-search required>
                             <a-select-option v-for="i in useTests.store.questions_count" :value="i">{{ i
-                                }}</a-select-option>
+                            }}</a-select-option>
                         </a-select>
                         <a-select v-model:value="useTests.test_settings.sort_level[index][2]"
                             class="min-w-[80px] test_arrow !h-[42px] sr_12" show-search required>
                             <a-select-option v-for="i in useTests.store.questions_count" :value="i">{{ i
-                                }}</a-select-option>
+                            }}</a-select-option>
                         </a-select>
                         <p v-if="useTests.test_settings.sort_level?.length != 1" @click="addTestStep('remove', index)"
                             class="full_flex min-w-[50px] h-[50px] rounded-full border border-[#CCCCCC] cursor-pointer">
@@ -446,6 +456,7 @@ import mammoth from "mammoth";
 
 const testBar = [time, pen, calculator, periodic]
 const modules = [Pagination];
+
 const editorData = ref('')
 const editorData2 = ref('')
 

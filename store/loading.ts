@@ -108,6 +108,7 @@ export const useLoadingStore = defineStore("loading", () => {
   //   }
 
   function checkCurrentUrl() {
+    console.log(localBaseURL);
     const front_url =
       typeof window !== "undefined"
         ? window?.location.protocol + "//" + window?.location?.host

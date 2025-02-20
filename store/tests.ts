@@ -1,11 +1,13 @@
 import type { Router } from "vue-router";
 import { useApiRequest } from "~/composables";
 import { useUploadStore } from "./upload";
+import { useNotification } from "~/composables";
 
 export const useTestsStore = defineStore("tests", () => {
   const apiRequest = useApiRequest();
   const router: Router = useRouter();
   const useUpload = useUploadStore()
+  const { openNotification } = useNotification();
 
   const store: any = reactive({
     tests: [],
@@ -16,6 +18,13 @@ export const useTestsStore = defineStore("tests", () => {
     test_step: 1,
     testResBall: [],
     slideStep: 1,
+    time: {
+      days: 0,
+      hours: 0,
+      minutes: 0,
+      seconds: 0,
+      percentage: 0,
+    },
   });
 
   const test: any = reactive({
@@ -41,7 +50,16 @@ export const useTestsStore = defineStore("tests", () => {
       "getById"
     );
     console.log(data);
+    for (let i in test_settings) {
+      test_settings[i] = data.data?.test_settings[i];
+    }
     test_settings.sort_level[0] = [data.data?.category_id]
+    clearInterval(store.timeInterval);
+    if (test_settings.period > 0) {
+      setTestTime()
+    } else {
+      test_settings.period = null;
+    }
     store.tests = data.data;
     for (let i = 0; i < data.data?.test?.length; i++) {
       test[i] = data.data?.test[i]
@@ -69,7 +87,12 @@ export const useTestsStore = defineStore("tests", () => {
       `tests/check_answers/${router.currentRoute.value.params.test_id}`,
       { answers: results }
     );
-    store.testResBall = data?.data?.data?.ball;
+    store.testResBall = data?.data?.ball;
+    openNotification('success', "Muvaffaqiyatli", data?.data?.message)
+
+    // store.testResBall = data?.data?.message;
+    // isLoading.show
+    clearInterval(store.timeInterval);
     setTimeout(() => {
       store.slideStep = Object.keys(test)?.length + 1
     }, 1000);
@@ -129,7 +152,7 @@ export const useTestsStore = defineStore("tests", () => {
     console.log(tests);
     await apiRequest
       .post(`tests/create`, {
-        // ...test_settings,
+        ...test_settings,
         lesson_id,
         test: tests,
       })
@@ -140,6 +163,38 @@ export const useTestsStore = defineStore("tests", () => {
         console.log(err);
       });
   }
+
+  function setTestTime() {
+    let countDownDate = new Date().getTime() + test_settings?.period * 60 * 1000;
+    let now = new Date().getTime();
+    let totalTime = countDownDate - now;
+    store.timeInterval = setInterval(function () {
+      let now = new Date().getTime();
+      let distance = countDownDate - now;
+      store.time.days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      store.time.hours = Math.floor(
+        (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+      );
+      store.time.minutes = Math.floor(
+        (distance % (1000 * 60 * 60)) / (1000 * 60)
+      );
+      store.time.seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      store.time.percentage = (distance / totalTime) * 100;
+
+      if (distance < 0) {
+        store.time.days = 0;
+        store.time.hours = 0;
+        store.time.minutes = 0;
+        store.time.seconds = 0;
+        checkAllAnswers();
+        clearInterval(store.timeInterval);
+      }
+    }, 1000);
+  }
+
+  onBeforeUnmount(() => {
+    clearInterval(store.timeInterval);
+  })
 
 
   return {

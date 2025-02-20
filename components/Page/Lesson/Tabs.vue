@@ -13,7 +13,7 @@
         <footer class="boxtshadow bg-white py-4 duration-700 sticky -mx-5 px-4"
             :class="store.scrollY ? 'bottom-0' : '-bottom-40'">
             <ul>
-                <li v-if="activeKey == 1">
+                <li v-if="activeKey == 1 && (useLessons.store.lessons?.course?.user_id != isLoading.user?.id)">
                     <router-link v-if="useLessons.store.lessons?.course?.test_count"
                         :to="`/test/${$router.currentRoute.value.params.lesson_id}`" class="full_flex bg-white">
                         <button class="bg_main px-5 py-2 r_8 w-full text-white">Testni boshlash</button>
@@ -21,6 +21,12 @@
                     <div v-else class="full_flex bg-white">
                         <button class="bg_main px-5 py-2 r_8 w-full text-white">Test mavjud emas</button>
                     </div>
+                </li>
+                <li v-else-if="useLessons.store.lessons?.course?.user_id == isLoading.user?.id">
+                    <router-link :to="`/test/${$router.currentRoute.value.params.lesson_id}`"
+                        class="full_flex bg-white">
+                        <button class="bg_main px-5 py-2 r_8 w-full text-white">Test qo'shish</button>
+                    </router-link>
                 </li>
                 <li v-else-if="activeKey == 2" class="flex gap-4">
                     <button class="full_flex gap-2 b_main c_main px-5 py-2 r_8 w-full text-white truncate">
@@ -56,13 +62,14 @@ defineProps({
 })
 import { lesson_tabs } from "@/constants"
 import { useTabs } from "~/composables";
-import { useCoursesStore, useLessonsStore } from "~/store";
+import { useCoursesStore, useLessonsStore, useLoadingStore } from "~/store";
 const router = useRouter();
 const { tabsDrag } = useTabs()
 const activeKey = ref(1);
 
 const useCourses = useCoursesStore();
 const useLessons = useLessonsStore();
+const isLoading = useLoadingStore();
 
 const PageLessonLectures = resolveComponent('PageLessonLectures');
 const PageLessonOverview = resolveComponent('PageLessonOverview');
