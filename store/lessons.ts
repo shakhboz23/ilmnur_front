@@ -38,6 +38,9 @@ export const useLessonsStore = defineStore("lessons", () => {
     Object.keys(create).forEach((key) => {
       create[key] = create[key];
     });
+    store.create.video = '';
+    store.create.content = '';
+    store.create.title = '';
     store.lesson_id = 0;
   }
 
@@ -69,6 +72,7 @@ export const useLessonsStore = defineStore("lessons", () => {
       return updateLesson();
     }
     create.lesson_id = router.currentRoute.value.query.lesson_id;
+    create.video = '';
     if (is_create == "create") {
       create.course_id = router.currentRoute.value.params.lesson_id;
       create.type = "lesson";
@@ -112,6 +116,8 @@ export const useLessonsStore = defineStore("lessons", () => {
 
   async function updateModule() {
     create.course_id = router.currentRoute.value.params.course_id;
+    create.video = '';
+
     const formData = new FormData();
     for (let i in create) {
       formData.append(i, create[i]);
@@ -135,6 +141,10 @@ export const useLessonsStore = defineStore("lessons", () => {
     isLoading.modal.delete = false;
     useCourses.getByCourse();
   }
+
+  onBeforeUnmount(() => {
+    clearData()
+  })
 
   return {
     store,

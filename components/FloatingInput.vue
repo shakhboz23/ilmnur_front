@@ -8,7 +8,7 @@
       {{ label }}
     </label>
   </div>
-  <div v-if="maxValue" class="text-end text-sm !-mt-0">{{ inputValue.length }}/{{ maxValue }}</div>
+  <div v-if="maxValue" class="text-end text-sm !-mt-0">{{ inputValue?.length }}/{{ maxValue }}</div>
 </template>
 
 <script>

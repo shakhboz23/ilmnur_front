@@ -134,12 +134,12 @@ const store = reactive({
 
 watchEffect(() => {
     for (let i in useLessons.create) {
-        useLessons.create[i] = useLessons.store.lessons[i]
+        useLessons.create[i] = useLessons.store.lessons[i] || null;
     }
     if (useLessons.store.lessons?.video?.includes('https://youtu')) {
-        useLessons.create.youtube = useLessons.store.lessons?.video
+        useLessons.create.youtube = useLessons.store.lessons?.video || null;
     } else {
-        useLessons.store.create.video = useLessons.store.lessons?.video
+        useLessons.store.create.video = useLessons.store.lessons?.video || null;
     }
 })
 
@@ -170,8 +170,8 @@ function handleVideo(e) {
     const file = e.target.files[0];
     const imageUrl = URL.createObjectURL(file);
     if (store.file_type == 'video') {
-        useLessons.store.create.video = imageUrl;
-        useLessons.create.video = file;
+        useLessons.store.create.video = imageUrl || null;;
+        useLessons.create.video = file || null;;
     } else if (store.file_type == 'image') {
         useLessons.create.content += ` <img loading="lazy"  src="${imageUrl}" alt="">`;
     }

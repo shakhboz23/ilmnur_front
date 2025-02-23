@@ -8,4 +8,6 @@ export interface LessonsType {
 
 interface Create {
     video: string,
+    content: string,
+    title: string,
 }
