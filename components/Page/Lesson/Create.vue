@@ -161,7 +161,7 @@ function openModal(type) {
     store.file_type = type;
     useLessons.store.modal.create = true
 
-    if ('text') {
+    if (type == 'text') {
         useLessons.store.create.content = useLessons.create.content
     }
 }
