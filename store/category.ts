@@ -21,6 +21,14 @@ export const useCategoryStore = defineStore("category", () => {
     getCategory();
   }
 
+  async function uploadFile(file: any, type: string) {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('file_type', type);
+    const data: any = await apiRequest.post("uploaded/create", formData, "category");
+    return data.data;
+  }
+
   async function updateCategory() {
     await apiRequest.put(`category/${isLoading.store.category_id}`, create, "category");
     getCategory();
@@ -45,5 +53,6 @@ export const useCategoryStore = defineStore("category", () => {
     updateCategory,
     getCategory,
     deleteCategory,
+    uploadFile,
   };
 });

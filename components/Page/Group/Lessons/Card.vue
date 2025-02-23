@@ -1,6 +1,6 @@
 <template>
     <div @click="(e) => toRoute(e, lessoncarddata.id)" class="r_12 overflow-hidden bg_white pcursor relative">
-        <a-dropdown>
+        <a-dropdown v-if="lessoncarddata.user_id == isLoading.user.id">
             <div class="!bg-white r_8 absolute right-2 top-2 py-1 threedot">
                 <img loading="lazy" class="rotate-90 h-5 threedot" src="@/assets/svg/icon/threedot.svg" alt="">
             </div>

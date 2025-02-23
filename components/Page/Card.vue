@@ -1,6 +1,6 @@
 <template>
     <div @click="(e) => toRoute(e, carddata.id)" class="r_12 overflow-hidden bg_white pcursor relative">
-        <a-dropdown>
+        <a-dropdown v-if="carddata.user_id == isLoading.user.id">
             <div class="!bg-white r_8 absolute right-2 top-2 py-1 threedot">
                 <img loading="lazy" class="rotate-90 h-5 threedot" src="@/assets/svg/icon/threedot.svg" alt="">
             </div>
@@ -22,8 +22,8 @@
         <div class="p-3 space-y-2">
             <h1 class="font-bold">{{ carddata.title }}</h1>
             <pre class="whitespace-pre-line line-clamp-2">
-        {{ carddata.description }}
-    </pre>
+                {{ carddata.description }}
+            </pre>
             <ul class="flex items-center gap-2 text-sm">
                 <li class="full_flex gap-1">
                     <img loading="lazy" src="@/assets/svg/icon/a_star.svg" alt="">

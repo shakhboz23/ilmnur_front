@@ -22,19 +22,19 @@
               <label for="password">Parol</label>
               <div class="flex relative">
                 <input v-model="useAuth.login.password" :type="useAuth.store.passType" class="pr-10" />
-                <img loading="lazy"  v-if="useAuth.store.passType == 'password'" @click="useAuth.changePassType"
+                <img loading="lazy" v-if="useAuth.store.passType == 'password'" @click="useAuth.changePassType"
                   class="absolute top-0 right-0 p-4 cursor-pointer" src="@/assets/svg/icon/show.svg" alt="" />
-                <img loading="lazy"  v-else @click="useAuth.changePassType" class="absolute top-0 right-0 p-4 cursor-pointer"
-                  src="@/assets/svg/icon/hide.svg" alt="" />
+                <img loading="lazy" v-else @click="useAuth.changePassType"
+                  class="absolute top-0 right-0 p-4 cursor-pointer" src="@/assets/svg/icon/hide.svg" alt="" />
               </div>
             </div>
           </div>
           <p class="c_red font-medium">{{ isLoading.store.error }}</p>
 
           <div class="space-y-2 text-center mx-auto">
-            <button type="button" id="googleButton" class="!w-full">
+            <button type="button" id="googleButton" class="!w-full googleButton">
               <div class="full_flex gap-2 mx-auto b_ce2 r_4 py-2">
-                <img loading="lazy"  class="h-5 w-5" src="@/assets/svg/register/google.svg" alt="">
+                <img loading="lazy" class="h-5 w-5" src="@/assets/svg/register/google.svg" alt="">
                 <p>Google orqali</p>
               </div>
             </button>
@@ -64,12 +64,21 @@
 import { useAuthStore, useLoadingStore } from "@/store";
 
 const runtime = useRuntimeConfig();
+const router = useRouter();
 const useAuth = useAuthStore();
 const isLoading = useLoadingStore();
 
 function handleSubmit() {
   useAuth.authLogin();
 }
+
+onBeforeMount(() => {
+  const token = router.currentRoute.value.query.token;
+  if (token) {
+    localStorage.setItem("token", token);
+    router.push('/');
+  }
+})
 
 onMounted(() => {
   if (typeof google !== "undefined") {

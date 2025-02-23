@@ -105,6 +105,11 @@ img {
   width: 100% !important;
 }
 
+.googleButton  {
+  iframe {
+    width: 100% !important;
+  }
+}
 
 @keyframes loading_animation {
   to {
@@ -201,6 +206,12 @@ img {
   }
 }
 
+.login_btn {
+  height: 40px;
+  background: color(main);
+  color: white;
+}
+
 // plyr
 .plyr {
   border-radius: 12px !important;
@@ -235,3 +246,13 @@ img {
 .plyr--full-ui input[type=range] {
   color: #FF852E !important;
 }
+
+// youtube
+.ytp-chrome-top, .ytp-share-icon {
+  display: none !important;
+}
+
+.ytp-pause-overlay {
+  display: none !important;
+}
+// youtube

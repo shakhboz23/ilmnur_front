@@ -3,10 +3,9 @@
     class="py-10 md:px-0 px-4 max-h-screen min-h-[calc(100vh_-_100px)] overflow-y-auto"
   >
   <!-- v-if="$router.currentRoute.value.query.activation_link" -->
-    <div
+    <!-- <div
       class="flex flex-col items-center justify-center sm:p-[50px] p-5 pb-8"
     >
-      <!-- <img loading="lazy"  src="@/assets/svg/register/verify-email.png" alt="" /> -->
       <section class="mb-10">
         <h1 class="text-center md:text-[40px] text-xl font-bold">
           Assalomu alaykum! David
@@ -18,7 +17,7 @@
       <a target="_blank" href="https://mail.google.com/mail/u/0/#inbox"
         ><button class="login_btn mx-auto">Emailni tasdiqlash</button>
       </a>
-    </div>
+    </div> -->
     <!-- v-else -->
     <div
       class="flex flex-col items-center justify-center sm:p-[50px] p-5 pb-8"

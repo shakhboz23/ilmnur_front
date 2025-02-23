@@ -1,12 +1,12 @@
 import type { Router } from "vue-router";
 import { useApiRequest } from "~/composables";
-import { useUploadStore } from "./upload";
+// import { useUploadStore } from "./upload";
 import { useNotification } from "~/composables";
 
 export const useTestsStore = defineStore("tests", () => {
   const apiRequest = useApiRequest();
   const router: Router = useRouter();
-  const useUpload = useUploadStore()
+  // const useUpload = useUploadStore()
   const { openNotification } = useNotification();
 
   const store: any = reactive({
@@ -31,7 +31,8 @@ export const useTestsStore = defineStore("tests", () => {
     0: {
       question: null,
       variants: [null, null, null],
-      type: "variant"
+      type: "variant",
+      true_answer: [0],
     }
   });
 
@@ -65,7 +66,7 @@ export const useTestsStore = defineStore("tests", () => {
     }
     store.tests = data.data;
     for (let i = 0; i < data.data?.test?.length; i++) {
-      test[i] = data.data?.test[i]
+      test[i] = { ...data.data?.test[i], is_action: 'old' }
     }
   }
 
@@ -113,41 +114,41 @@ export const useTestsStore = defineStore("tests", () => {
     let tests = []
     for (let i = 0; i < store.questions_count; i++) {
       try {
-        const tempElement = document.createElement("div");
-        tempElement.innerHTML = test[i].question;
-        const imgElement = tempElement.querySelector("img")?.src;
-        if (imgElement) {
-          const base64Data: any = imgElement.split(";base64,").pop();
-          const arrayBuffer = Uint8Array.from(atob(base64Data), (c) =>
-            c.charCodeAt(0)
-          ).buffer;
-          const file = new File([arrayBuffer], "file.png", {
-            type: "image/png",
-          });
+        // const tempElement = document.createElement("div");
+        // tempElement.innerHTML = test[i].question;
+        // const imgElement = tempElement.querySelector("img")?.src;
+        // if (imgElement) {
+        //   const base64Data: any = imgElement.split(";base64,").pop();
+        //   const arrayBuffer = Uint8Array.from(atob(base64Data), (c) =>
+        //     c.charCodeAt(0)
+        //   ).buffer;
+        //   const file = new File([arrayBuffer], "file.png", {
+        //     type: "image/png",
+        //   });
 
-          const src = await useUpload.create_url(file);
-          tempElement.querySelector("img")!.src = src.url;
-          test[i].question = `${tempElement.innerHTML}`;
-        }
-        for (let variants in test[i].variants) {
-          const tempElement = document.createElement("div");
-          tempElement.innerHTML = test[i].variants[variants];
-          const imgElement = tempElement.querySelector("img")?.src;
-          if (imgElement) {
-            const base64Data: any = imgElement.split(";base64,").pop();
-            const arrayBuffer = Uint8Array.from(atob(base64Data), (c) =>
-              c.charCodeAt(0)
-            ).buffer;
-            const file = new File([arrayBuffer], "file.png", {
-              type: "image/png",
-            });
+        //   const src = await useUpload.create_url(file);
+        //   tempElement.querySelector("img")!.src = src.url;
+        //   test[i].question = `${tempElement.innerHTML}`;
+        // }
+        // for (let variants in test[i].variants) {
+        // const tempElement = document.createElement("div");
+        // tempElement.innerHTML = test[i].variants[variants];
+        // const imgElement = tempElement.querySelector("img")?.src;
+        // if (imgElement) {
+        //   const base64Data: any = imgElement.split(";base64,").pop();
+        //   const arrayBuffer = Uint8Array.from(atob(base64Data), (c) =>
+        //     c.charCodeAt(0)
+        //   ).buffer;
+        // const file = new File([arrayBuffer], "file.png", {
+        //   type: "image/png",
+        // });
 
-            const src = await useUpload.create_url(file);
-            tempElement.querySelector("img")!.src = src.url;
-            test[i].variants[variants] = `${tempElement.innerHTML}`;
-          }
-        }
-        tests.push(test[i]);
+        // const src = await useUpload.create_url(file);
+        // tempElement.querySelector("img")!.src = src.url;
+        // test[i].variants[variants] = `${tempElement.innerHTML}`;
+        // }
+        // }
+        tests.push({ ...test[i] });
       } catch (err) {
         console.log(err);
       }

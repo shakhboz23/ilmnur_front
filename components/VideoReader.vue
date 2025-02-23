@@ -1,33 +1,40 @@
 <template>
     <ClientOnly>
-        <vue-plyr ref="plyrInstance" @play="onVideoPlay" @pause="onVideoPause"
+        <vue-plyr ref="plyrInstance" @play="onVideoPlay" @pause="onVideoPause" :options="playerOptions"
             class="md:h-[312px] h-[200px] max-h-fit w-full object-contain object-center">
             <div class="plyr__video-embed">
-                <iframe class="md:h-[312px] h-[200px] w-full object-contain object-center" :src="url" allowfullscreen
-                    allowtransparency allow="autoplay"></iframe>
+                <iframe class="md:h-[312px] h-[200px] w-full object-contain object-center"
+                    :src="`${url}?autoplay=1&rel=0&modestbranding=1&controls=1&disablekb=1&fs=0&iv_load_policy=3`" allowfullscreen allowtransparency
+                    allow="autoplay"></iframe>
             </div>
         </vue-plyr>
-        <!-- Custom Controls -->
-        <!-- <div class="custom-controls">
-            <button @click="seekBackward" class="control-button">⏪ -10 min</button>
-            <button @click="seekForward" class="control-button">⏩ +10 min</button>
-        </div> -->
     </ClientOnly>
 </template>
 
 <script setup>
+import { ref, onUnmounted } from "vue";
+
 const props = defineProps({
     url: String,
-})
+});
+
 const plyrInstance = ref(null);
 
+const playerOptions = {
+    youtube: {
+        modestbranding: 1, // YouTube logotipini kichikroq qiladi
+        controls: 0, // Faqat asosiy tugmalarni o'chiradi
+    },
+};
+
 const onVideoPlay = () => {
-    // store.videoStatus = true;
-    // console.log('Video is playing!');
+    console.log("Video is playing!");
 };
 
 const onVideoPause = () => {
-    plyrInstance.value.player.pause();
+    if (plyrInstance.value && plyrInstance.value.player) {
+        plyrInstance.value.player.pause();
+    }
 };
 
 const playVideo = () => {
@@ -38,7 +45,7 @@ const playVideo = () => {
 
 const seekBackward = () => {
     if (plyrInstance.value && plyrInstance.value.player) {
-        plyrInstance.value.player.currentTime = Math.max(plyrInstance.value.player.currentTime - 10, 0); // 600 sekund = 10 daqiqa
+        plyrInstance.value.player.currentTime = Math.max(plyrInstance.value.player.currentTime - 10, 0);
     }
 };
 
@@ -47,13 +54,11 @@ const seekForward = () => {
         plyrInstance.value.player.currentTime = Math.min(
             plyrInstance.value.player.currentTime + 10,
             plyrInstance.value.player.duration
-        ); // 600 sekund = 10 daqiqa
+        );
     }
 };
 
 onUnmounted(() => {
     props.url = "";
-})
+});
 </script>
-
-<style lang="scss" scoped></style>
