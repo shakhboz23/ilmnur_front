@@ -80,7 +80,8 @@
                     </button>
                 </div>
                 <div class="space-y-5 py-6">
-                    <button @click="useLessons.createLesson(true, 'create', $router.currentRoute.value.fullPath.includes('update'))"
+                    <button
+                        @click="useLessons.createLesson(true, 'create', $router.currentRoute.value.fullPath.includes('update'))"
                         class="bg_main text-white w-full rounded-full py-3">Davom etish</button>
                     <button class="bg_green text-white w-full rounded-full py-3">Qoralamaga qo‘shish</button>
                     <button class="c_c55 underline text-white w-full rounded-full py-3">Oldindan ko‘rish</button>
@@ -123,7 +124,7 @@ const useLessons = useLessonsStore();
 
 const router = useRouter();
 
-if (router.currentRoute.value.fullPath.includes('update')){
+if (router.currentRoute.value.fullPath.includes('update')) {
     useLessons.getById(router.currentRoute.value.lesson_id)
 }
 
@@ -146,7 +147,7 @@ function handleModal(value) {
     if (value == "OK") {
         useLessons.store.modal.create = false;
         if (store.file_type == 'text') {
-            useLessons.create.content += useLessons.store.create.content;
+            useLessons.create.content = useLessons.store.create.content;
             useLessons.store.create.content = "";
         } else if (store.file_type == 'title') {
             useLessons.create.title = useLessons.store.create.title;
@@ -159,6 +160,10 @@ function handleModal(value) {
 function openModal(type) {
     store.file_type = type;
     useLessons.store.modal.create = true
+
+    if ('text') {
+        useLessons.store.create.content = useLessons.create.content
+    }
 }
 
 function handleVideo(e) {
