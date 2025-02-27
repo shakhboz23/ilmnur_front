@@ -28,7 +28,7 @@
         </section>
         <footer>
             <button>
-                <img src="@/assets/svg" alt="">
+                <!-- <img src="@/assets/svg" alt=""> -->
             </button>
         </footer>
     </div>
