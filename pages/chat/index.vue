@@ -1,5 +1,38 @@
 <template>
     <div>
+        <nav class="flex justify-between">
+            <div class="flex gap-10">
+                <h1>Preparing for the holiday</h1>
+                <p><span class="inline-block w-4 h-4 rounded-full bg_red white"></span> 02:22:09</p>
+            </div>
+            <div>
+                template list
+            </div>
+            <div>
+                <p>+23</p>
+            </div>
+        </nav>
+        <section class="video_container">
+            <div id="local-player" class="r_12 bg_cf2"></div>
+            <div id="local-player" class="r_12 bg_cf2"></div>
+            <div id="local-player" class="r_12 bg_cf2"></div>
+            <div id="local-player" class="r_12 bg_cf2"></div>
+            <div id="local-player" class="r_12 bg_cf2"></div>
+            <div id="local-player" class="r_12 bg_cf2"></div>
+            <div id="local-player" class="r_12 bg_cf2"></div>
+            <div id="local-player" class="r_12 bg_cf2"></div>
+
+            <div v-for="(user, uid) in remoteUsers" :key="uid">
+                <div :id="'remote-player-' + uid"></div>
+            </div>
+        </section>
+        <footer>
+            <button>
+                <img src="@/assets/svg" alt="">
+            </button>
+        </footer>
+    </div>
+    <div>
         <h2>Agora Video Call</h2>
         <form @submit.prevent="joinChannel">
             <label>App ID:</label>
@@ -16,9 +49,11 @@
 
             <button type="submit" :disabled="joined">Join</button>
             <button type="button" @click="leaveChannel" :disabled="!joined">Leave</button>
-            {{ isMuted }}
-            <button type="button" @click="toggleMute">Mute Audio</button>
-            <button type="button" @click="toggleMute">Mute Video</button>
+            <button type="button" @click="muteAudio">Mute Audio</button>
+            <button type="button" @click="muteVideo">Mute Video</button>
+            <button @click="toggleScreenShare">
+                {{ isScreenSharing ? "Stop Sharing" : "Share Screen" }}
+            </button>
 
         </form>
 
@@ -31,15 +66,10 @@
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from "vue";
-//   import AgoraRTC from "agora-rtc-sdk-ng";
-let AgoraRTC = null
+
+let AgoraRTC = null;
 if (process.client) {
-    AgoraRTC = await import('agora-rtc-sdk-ng')
-    // return {
-    //     provide: {
-    //         agora: AgoraRTC
-    //     }
-    // }
+    AgoraRTC = await import("agora-rtc-sdk-ng");
 }
 
 const options = ref({
@@ -51,9 +81,10 @@ const options = ref({
 
 const client = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
 const localTracks = ref({ videoTrack: null, audioTrack: null });
+const localScreenTrack = ref(null);
 const remoteUsers = ref({});
 const joined = ref(false);
-const isMuted = ref(false)
+const isScreenSharing = ref(false);
 
 const joinChannel = async () => {
     try {
@@ -87,39 +118,64 @@ const leaveChannel = async () => {
         }
     }
 
+    if (localScreenTrack.value) {
+        localScreenTrack.value.stop();
+        localScreenTrack.value.close();
+    }
+
     await client.leave();
     remoteUsers.value = {};
     joined.value = false;
+    isScreenSharing.value = false;
 };
 
-// Toggle Mute/Unmute
-function toggleMute() {
-    console.log(localTracks.value.audio);
-    if (localTracks.value.audio) {
-        isMuted.value = !isMuted.value
-        localTracks.value.audio.setMuted(isMuted.value)
-    }
+async function muteAudio() {
+    if (!localTracks.value.audioTrack) return;
+    await localTracks.value.audioTrack.setMuted(!localTracks.value.audioTrack.muted);
 }
 
-// $("#mute-audio").click(function (e) {
-//   if (!localTrackState.audioTrackMuted) {
-//     muteAudio();
-//   } else {
-//     unmuteAudio();
-//   }
-// });
-// $("#mute-video").click(function (e) {
-//   if (!localTrackState.videoTrackMuted) {
-//     muteVideo();
-//   } else {
-//     unmuteVideo();
-//   }
-// });
+async function muteVideo() {
+    if (!localTracks.value.videoTrack) return;
+    await localTracks.value.videoTrack.setMuted(!localTracks.value.videoTrack.muted);
+}
+
+const toggleScreenShare = async () => {
+    if (!isScreenSharing.value) {
+        try {
+            localScreenTrack.value = await AgoraRTC.createScreenVideoTrack();
+
+            // Unpublish camera and publish screen
+            await client.unpublish(localTracks.value.videoTrack);
+            await client.publish(localScreenTrack.value);
+
+            localScreenTrack.value.play("local-player");
+
+            isScreenSharing.value = true;
+        } catch (error) {
+            console.error("Error sharing screen:", error);
+        }
+    } else {
+        // Stop screen sharing and return to camera
+        if (localScreenTrack.value) {
+            await client.unpublish(localScreenTrack.value);
+            localScreenTrack.value.stop();
+            localScreenTrack.value.close();
+            localScreenTrack.value = null;
+        }
+
+        // Re-enable camera
+        localTracks.value.videoTrack = await AgoraRTC.createCameraVideoTrack();
+        await client.publish(localTracks.value.videoTrack);
+        localTracks.value.videoTrack.play("local-player");
+
+        isScreenSharing.value = false;
+    }
+};
 
 const handleUserPublished = async (user, mediaType) => {
     await client.subscribe(user, mediaType);
 
-    if (mediaType === "video") {
+    if (mediaType === "video" || mediaType === "screen") {
         const player = document.createElement("div");
         player.id = `remote-player-${user.uid}`;
         document.body.appendChild(player);
@@ -136,6 +192,12 @@ const handleUserUnpublished = (user) => {
 onMounted(() => {
     client.on("user-published", handleUserPublished);
     client.on("user-unpublished", handleUserUnpublished);
+
+    window.addEventListener("beforeunload", () => {
+        if (isScreenSharing.value && localScreenTrack.value) {
+            localScreenTrack.value.close();
+        }
+    });
 });
 
 onBeforeUnmount(() => {
@@ -143,11 +205,20 @@ onBeforeUnmount(() => {
 });
 </script>
 
+
 <style scoped>
 #local-player,
 [id^="remote-player-"] {
-    width: 320px;
-    height: 240px;
-    border: 1px solid black;
+    width: 280px;
+    height: 280px;
+    background: #33305A;
+    opacity: 70%;
 }
+
+.video_container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px; /* Elementlar orasidagi masofa */
+}
+
 </style>

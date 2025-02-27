@@ -31,7 +31,6 @@ const useTests = useTestsStore();
 // CKEditor instance'ini saqlash uchun
 const editorInstance = ref(null);
 
-
 // **CKEditor init bo'lganda, editor instance'ni saqlab qo‘yamiz**
 function onEditorReady(editor) {
   editorInstance.value = editor;

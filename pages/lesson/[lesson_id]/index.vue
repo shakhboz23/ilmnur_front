@@ -27,7 +27,7 @@
                 </div>
                 <div @click="handleContentClick" v-else
                     class="bg_cf9 r_8 p-5 pcursor max-h-[200px] w-full overflow-hidden aspect-video">
-                    <p class="line-clamp-6" v-html="useLessons.store.lessons?.content"></p>
+                    <p class="line-clamp-6 tiptap" v-html="useLessons.store.lessons?.content"></p>
                 </div>
                 <div class="flex items-center justify-between my-5">
                     <h1 class="text-xl font-semibold">{{ useLessons.store.lessons?.title }}</h1>

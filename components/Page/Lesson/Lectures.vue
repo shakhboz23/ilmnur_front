@@ -1,6 +1,6 @@
 <template>
     <div>
-        <p v-html="lesson_lecture"></p>
+        <p class="tiptap" v-html="lesson_lecture"></p>
     </div>
 </template>
 

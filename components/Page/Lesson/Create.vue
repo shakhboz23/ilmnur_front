@@ -14,7 +14,7 @@
                         </div>
                     </div>
                     <h1 class="px-5 text-xl font-semibold">{{ useLessons.create.title }}</h1>
-                    <p class="px-5" v-html="useLessons.create.content"></p>
+                    <p class="px-5 tiptap" v-html="useLessons.create.content"></p>
                 </section>
                 <section class="full_flex h-full py-10">
                     <ul class="flex gap-10 text-center font-medium">
@@ -89,22 +89,26 @@
             </div>
         </aside>
     </div>
-    <UIModal :isOpen="useLessons.store.modal.create" @update:isOpen="(value) => handleModal(value)"
-        :loadingType="'createCourse'">
-        <div v-if="['video', 'image'].includes(store.file_type)">
+    <UIModal :width="store.file_type == 'text' ? '100%' : 500"
+        :wrap-class-name="store.file_type == 'text' ? 'full-modal' : null" :isOpen="useLessons.store.modal.create"
+        @update:isOpen="(value) => handleModal(value)" :loadingType="'createCourse'">
+        <div class="space-y-3" v-if="['video', 'image'].includes(store.file_type)">
             <label for="file_input" class="block pcursor">
                 <div class="w-full text-center space-y-10 r_8 py-10 border border-dashed border-[#EDEDED]">
                     <button class="bg_main py-2 px-7 text-white rounded-full">Rasm yuklash</button>
                     <p class="w-1/2 mx-auto">Minimal o'lcham - 808 x 632 piksel. GIF tasvirlari jonlantirilmaydi.</p>
                 </div>
             </label>
-            <FloatingInput :id="'youtube'" :maxValue="200" class="w-full" type="link"
+            <FloatingInput :id="'youtube'" :maxValue="200" class="w-full mt-3 block" type="link"
                 v-model="useLessons.create.youtube" :label="'Youtube link'" required />
         </div>
         <div v-else-if="store.file_type == 'text'">
             <ClientOnly>
-                <CKEditor class="minh_80" v-model:editorContent="useLessons.store.create.content" :toolbar="false"
+                <EditorTiptapEditor v-model="useLessons.store.create.content"
                     :placeholder="'Savolingizni shu yerga yozing'" />
+
+                <!-- <CKEditor class="minh_80" v-model:editorContent="useLessons.store.create.content" :toolbar="true"
+                    :placeholder="'Savolingizni shu yerga yozing'" /> -->
             </ClientOnly>
         </div>
         <div v-else>
