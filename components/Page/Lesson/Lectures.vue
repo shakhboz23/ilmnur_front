@@ -1,11 +1,11 @@
 <template>
     <div>
-        <p class="tiptap" v-html="lesson_lecture"></p>
+        <EditorTiptapEditor :modelValue="lesson_lecture" :editable="false" />
     </div>
 </template>
 
 <script setup>
-defineProps({
+const props = defineProps({
     lesson_lecture: String,
 })
 </script>

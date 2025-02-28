@@ -17,19 +17,20 @@
                     </li>
                 </ul>
             </nav>
-            <section class="px-[0.5px] pt-5">
+            <section class="px-[0.5px] pt-5 md:mb-0 mb-5">
                 <!-- {{ useLessons.store.lessons.video }} -->
                 <div v-if="useLessons.store.lessons?.video"
-                    class="w-full md:h-[312px] h-[200px] r_8 rounded-lg overflow-hidden">
+                    class="w-full md:h-[312px] h-[200px] r_8 rounded-lg overflow-hidden mb-5">
                     <ClientOnly>
                         <VideoReader :url="useLessons.store.lessons?.video" />
                     </ClientOnly>
                 </div>
-                <div @click="handleContentClick" v-else
+                <!-- <div @click="handleContentClick" v-else
                     class="bg_cf9 r_8 p-5 pcursor max-h-[200px] w-full overflow-hidden aspect-video">
-                    <p class="line-clamp-6 tiptap" v-html="useLessons.store.lessons?.content"></p>
-                </div>
-                <div class="flex items-center justify-between my-5">
+                    <EditorTiptapEditor :modelValue="useLessons.store.lessons?.content" :editable="false" />
+
+                </div> -->
+                <div class="flex items-center justify-between mb-5">
                     <h1 class="text-xl font-semibold">{{ useLessons.store.lessons?.title }}</h1>
                     <div class="space-x-3">
                         <button v-if="useLessons.store.lessons?.course?.user_id != isLoading.user?.id"
@@ -79,7 +80,6 @@ const store = reactive({
 
 function handleContentClick() {
     const content = document.getElementById('tabs');
-    console.log(content)
     content.scrollIntoView({
         behavior: 'smooth', // Smooth scroll animatsiyasi
         block: 'start', // Elementni yuqori qismga joylash
@@ -95,10 +95,8 @@ const player = ref(null);
 const videoEnded = ref(false);
 
 const onPlayerStateChange = (event) => {
-    console.log(event.data, YT.PlayerState.ENDED)
     if (event.data === YT.PlayerState.ENDED) {
         videoEnded.value = true;
-        console.log("Video tugadi!");
     }
 };
 

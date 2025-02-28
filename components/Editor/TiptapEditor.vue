@@ -1,6 +1,6 @@
 <template>
     <div v-if="editor" class="container">
-        <div class="control-group">
+        <div v-if="editable" class="control-group">
             <div class="button-group">
                 <button @click="addImage">
                     Set image
@@ -92,6 +92,8 @@ import suggestion from './suggestion.js'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import Image from '@tiptap/extension-image'
 import Placeholder from '@tiptap/extension-placeholder'
+import ListItem from '@tiptap/extension-list-item'
+import OrderedList from '@tiptap/extension-ordered-list'
 
 import css from 'highlight.js/lib/languages/css'
 import js from 'highlight.js/lib/languages/javascript'
@@ -143,6 +145,10 @@ export default {
         placeholder: {
             type: String,
             default: 'Write something ...',
+        },
+        editable: {
+            type: Boolean,
+            default: true,
         }
     },
     emits: ['update:modelValue'],
@@ -165,6 +171,7 @@ export default {
 
     mounted() {
         this.editor = new Editor({
+            editable: this.editable,
             extensions: [
                 StarterKit,
                 Table.configure({
@@ -178,6 +185,8 @@ export default {
                 // Default TableCell
                 // TableCell,
                 // Custom TableCell with backgroundColor attribute
+                OrderedList,
+                ListItem,
                 CustomTableCell,
                 ColorHighlighter,
                 // Image,
@@ -241,6 +250,7 @@ export default {
 /* Basic editor styles */
 .tiptap {
     min-height: 100px;
+
     :first-child {
         margin-top: 0;
     }
@@ -273,21 +283,21 @@ export default {
 
     /* List styles */
     ul {
-        list-style-type: none;
+        list-style-type: circle;
     }
 
     ol {
 
         list-style-type: decimal;
     }
-
     ul,
     ol {
         padding: 0 1rem;
+        margin: 1.25rem 1rem 1.25rem 0.4rem;
 
-        li {
-            // margin-top: 0.25em;
-            // margin-bottom: 0.25em;
+        li p {
+            margin-top: 0.25em;
+            margin-bottom: 0.25em;
         }
     }
 
@@ -381,13 +391,13 @@ export default {
         }
 
         th {
-            background-color: gray;
+            background-color: #c9ccd1;
             font-weight: bold;
             text-align: left;
         }
 
         .selectedCell:after {
-            background: var(--gray-2);
+            background: gray;
             content: "";
             left: 0;
             right: 0;
@@ -399,7 +409,7 @@ export default {
         }
 
         .column-resize-handle {
-            background-color: var(--purple);
+            background-color: #FF852E;
             bottom: -2px;
             pointer-events: none;
             position: absolute;

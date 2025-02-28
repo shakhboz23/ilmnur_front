@@ -94,11 +94,7 @@ const getComponent = (componentName) => {
 function checkWindowHeight() {
     window?.addEventListener("scroll", function (e) {
         let { clientHeight, scrollHeight, scrollTop } = e.target.documentElement;
-        console.log(scrollTop, scrollHeight, clientHeight);
-        console.log(scrollHeight - scrollTop, 'scrollHeight');
-        console.log(scrollTop > (clientHeight - scrollTop) / 2);
         store.scrollY = scrollTop > (clientHeight - scrollTop) / 2;
-        console.log(store.scrollY);
     })
 }
 checkWindowHeight();

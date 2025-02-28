@@ -1,1 +1,0 @@
-import{_ as o}from"./DZ1-h16D.js";import{a1 as n,ab as t,an as s}from"./BTE0Iqu5.js";const _={},a={class:"is_loading"};function c(e,r){return n(),t("div",a,[s(e.$slots,"default",{},void 0,!0)])}const i=o(_,[["render",c],["__scopeId","data-v-530c9ffd"]]);export{i as _};
