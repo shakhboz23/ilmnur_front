@@ -17,7 +17,7 @@
             :loadingType="'createCourse'" @update:isOpen="(value) => handleModal(value)">
             <div class="space-y-6">
                 <label for="file_input" class="block pcursor">
-                    <img loading="lazy"  class="aspect-video w-full object-cover r_8" v-if="useCourses.store.image"
+                    <img loading="lazy" class="aspect-video w-full object-cover r_8" v-if="useCourses.store.image"
                         :src="useCourses.store.image" alt="">
                     <div v-else
                         class="aspect-video w-full full_flex flex-col text-center space-y-10 r_8 py-10 border border-dashed border-[#CCCCCC]">
@@ -41,6 +41,47 @@
                         v-model="useCourses.create.price" :label="'Price'" required />
                     <FloatingInput :id="'discount'" :is_select="true" class="w-full" :type="'text'"
                         v-model="useCourses.create.discount" :label="'Discount'" required />
+                </div>
+                <div class="grid gap-5">
+                    <label @click="useCourses.create.group_type = 'private'" class="space-y-3 r_8 p-5 cursor-pointer"
+                        :class="useCourses.create.group_type == 'private'
+                            ? 'b_main'
+                            : 'b_ccc'
+                            ">
+                        <div class="flex items-center gap-3">
+                            <input @focus="useCourses.create.group_type = 'private'"
+                                v-model="useCourses.create.group_type" :checked="useCourses.create.group_type == 'private'
+                                    ? true
+                                    : false
+                                    " id="private" class="rounded-full w-5" type="radio" name="type" />
+                            <div class="full_flex gap-1 capitalize font-medium">
+                                <!-- <img src="@/assets/svg/members/private.svg" alt="" /> -->
+                                Private
+                            </div>
+                        </div>
+                        <p>
+                            Only members can see who's in the group and what they post. Content is hidden from search
+                            engines.
+                        </p>
+                    </label>
+                    <label @click="useCourses.create.group_type = 'public'" class="space-y-3 r_8 p-5 cursor-pointer"
+                        :class="useCourses.create.group_type == 'private'
+                            ? 'b_main'
+                            : 'b_ccc'
+                            ">
+                        <div class="flex items-center gap-3">
+                            <input :checked="useCourses.create.group_type == 'public' ? true : false
+                                " id="public" class="rounded-full w-5" type="radio" name="type" />
+                            <div class="full_flex gap-1 capitalize font-medium">
+                                <!-- <img src="@/assets/svg/members/public.svg" alt="" /> -->
+                                Public
+                            </div>
+                        </div>
+                        <p>
+                            Anyone can see who's in the group and what they post. Content is discoverable by search
+                            engines.
+                        </p>
+                    </label>
                 </div>
                 <p class="c_red">{{ isLoading.store.errorMessage.message }}</p>
             </div>

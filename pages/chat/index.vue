@@ -19,17 +19,34 @@
             <div id="local-player" class="r_12 bg_cf2"></div>
             <div id="local-player" class="r_12 bg_cf2"></div>
             <div id="local-player" class="r_12 bg_cf2"></div>
-            <div id="local-player" class="r_12 bg_cf2"></div>
-            <div id="local-player" class="r_12 bg_cf2"></div>
 
             <div v-for="(user, uid) in remoteUsers" :key="uid">
                 <div :id="'remote-player-' + uid"></div>
             </div>
         </section>
-        <footer>
+        <footer class="full_flex py-4 gap-3">
             <button>
-                <!-- <img src="@/assets/svg" alt=""> -->
+                <img src="@/assets/svg/video/microphone.svg" alt="">
             </button>
+            <button>
+                <img src="@/assets/svg/video/voice.svg" alt="">
+            </button>
+            <button>
+                <img src="@/assets/svg/video/video.svg" alt="">
+            </button>
+            <button>
+                <img src="@/assets/svg/video/call.svg" alt="">
+            </button>
+            <button>
+                <img src="@/assets/svg/video/reaction.svg" alt="">
+            </button>
+            <button>
+                <img src="@/assets/svg/video/screen.svg" alt="">
+            </button>
+            <button>
+                <img src="@/assets/svg/video/upload.svg" alt="">
+            </button>
+
         </footer>
     </div>
     <div>
@@ -65,7 +82,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from "vue";
+// import { ref, onMounted, onBeforeUnmount } from "vue";
 
 let AgoraRTC = null;
 if (process.client) {
@@ -209,16 +226,30 @@ onBeforeUnmount(() => {
 <style scoped>
 #local-player,
 [id^="remote-player-"] {
-    width: 280px;
-    height: 280px;
+    /* width: 280px;
+    height: 280px; */
+    width: 100%;
+    /* height: 280px; */
+    aspect-ratio: 9/8;
     background: #33305A;
     opacity: 70%;
 }
 
 .video_container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 16px; /* Elementlar orasidagi masofa */
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
 }
 
+footer {
+    button {
+        background: #D9D9D9;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
 </style>

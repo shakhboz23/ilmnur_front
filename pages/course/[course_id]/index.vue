@@ -88,9 +88,12 @@
                             <h1 class="w-full truncate">{{ i.title }}</h1>
                             <p class="min-w-fit">18 daqiqa</p>
                             <div class="min-w-fit">
+                                <img loading="lazy" v-if="!i.is_finished && i.is_viewed"
+                                    src="@/assets/svg/news/show.svg" alt="">
                                 <img loading="lazy" v-if="checkIsFinished(i)" src="@/assets/svg/course/finished.svg"
                                     alt="">
-                                <img loading="lazy" v-else src="@/assets/svg/course/lock.svg" alt="">
+                                <img loading="lazy" v-else-if="!checkIsFinished(i) && !i.is_viewed"
+                                    src="@/assets/svg/course/lock.svg" alt="">
                             </div>
                             <a-dropdown v-if="isOwner()">
                                 <div>
@@ -127,7 +130,9 @@
                                     <h1 class="w-full whitespace-nowrap">{{ lesson.title }}</h1>
                                     <p class="min-w-fit">18 daqiqa</p>
                                     <div class="min-w-fit">
-                                        <img loading="lazy" v-if="lesson.is_finished"
+                                        <img loading="lazy" v-if="!lesson.is_finished && lesson.is_viewed"
+                                            src="@/assets/svg/news/show.svg" alt="">
+                                        <img loading="lazy" v-if="lesson.is_finished || index == 0"
                                             src="@/assets/svg/course/finished.svg" alt="">
                                         <img loading="lazy" v-else src="@/assets/svg/course/lock.svg" alt="">
                                     </div>

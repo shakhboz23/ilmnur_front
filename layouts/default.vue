@@ -1,4 +1,7 @@
 <template>
+  <!-- <div class="animation">
+    <p class="item"></p>
+  </div> -->
   <header class="px-5">
     <LoadingPage v-show="isLoading.store.middleware" />
     <div v-show="!isLoading.store.middleware">
@@ -27,7 +30,7 @@
       @close="isLoading.store.drawer = false">
       <template #title>
         <router-link to="/">
-          <img loading="lazy"  class="min-w-fit" src="public/logo.svg" alt="">
+          <img loading="lazy" class="min-w-fit" src="public/logo.svg" alt="">
         </router-link>
       </template>
       <Sidebar />

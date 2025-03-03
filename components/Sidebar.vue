@@ -46,6 +46,15 @@
                     </div>
                 </router-link>
             </li>
+            <li v-else-if="$route.path.includes('group') && $route.query.page == 'settings'">
+                <router-link class="active-link" :to="{ query: { ...$route.query, tab: i.url}}" v-for="i in group_settings" :key="i.id">
+                    <div :class="{ 'active': $route.query.tab == i.url }"
+                        class="flex items-center hover:bg-[#FF852E] hover:bg-opacity-80 px-2 rounded-lg gap-2 h-12 cursor-pointer text-[#555555]">
+                        <img loading="lazy"  class="w-5 h-5" :src="i.svg" alt="" />
+                        <p>{{ i.name }}</p>
+                    </div>
+                </router-link>
+            </li>
             <li v-else>
                 <router-link :to="i.url" v-for="i in sidebar" :key="i.id">
                     <div
@@ -60,7 +69,7 @@
 </template>
 
 <script setup>
-import { sidebar, group_sidebar, settings_sidebar } from "@/constants";
+import { sidebar, group_sidebar, settings_sidebar, group_settings } from "@/constants";
 import { useLoadingStore } from "~/store";
 
 const router = useRouter();
@@ -97,6 +106,16 @@ watch(() => router.currentRoute.value, () => {
     &hover {
         background: #FF852E;
     }
+}
+
+.active-link .active {
+    background: #FF852E !important;
+    color: #14191f;
+}
+
+.active-link div {
+    background: transparent !important;
+    color: #14191f;
 }
 
 .clip {

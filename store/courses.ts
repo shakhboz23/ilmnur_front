@@ -26,12 +26,14 @@ export const useCoursesStore = defineStore("courses", () => {
     discount: "0",
     group_id: router.currentRoute.value.params.group_id,
     category_id: null,
+    group_type: 'public',
   });
 
   function clearData() {
     Object.keys(create).forEach((key) => {
       create[key] = create[key];
     });
+    create.group_type = 'public';
     store.course_id = 0;
     store.image = "";
   }

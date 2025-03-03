@@ -9,4 +9,5 @@ export interface GroupsCreate {
     title: string,
     description: string,
     file: any,
+    group_type: string,
 }

@@ -17,6 +17,7 @@ export const useGroupsStore = defineStore("groups", () => {
     title: "",
     description: "",
     file: "",
+    group_type: 'public',
   });
 
   function clearData() {
@@ -24,6 +25,7 @@ export const useGroupsStore = defineStore("groups", () => {
       create[key as keyof GroupsCreate] =
         groupCreate[key as keyof GroupsCreate];
     });
+    create.group_type = 'public';
     store.group_id = 0;
     store.image = "";
   }
