@@ -1,14 +1,22 @@
-import { VueRenderer } from '@tiptap/vue-3'
-import tippy from 'tippy.js'
+import { VueRenderer } from '@tiptap/vue-3';
+import tippy from 'tippy.js';
 
-import MentionList from './MentionList.vue'
+import MentionList from './MentionList.vue';
+import { useLoadingStore } from '~/store';
 
 export default {
+  // isLoading: useLoadingStore(),
   items: ({ query }) => {
-    return [
-      'Lea Thompson', 'Cyndi Lauper', 'Tom Cruise', 'Madonna', 'Jerry Hall', 'Joan Collins', 'Winona Ryder', 'Christina Applegate', 'Alyssa Milano', 'Molly Ringwald', 'Ally Sheedy', 'Debbie Harry', 'Olivia Newton-John', 'Elton John', 'Michael J. Fox', 'Axl Rose', 'Emilio Estevez', 'Ralph Macchio', 'Rob Lowe', 'Jennifer Grey', 'Mickey Rourke', 'John Cusack', 'Matthew Broderick', 'Justine Bateman', 'Lisa Bonet',
-    ].filter(item => item.toLowerCase().startsWith(query.toLowerCase())).slice(0, 5)
+    const isLoading = useLoadingStore();
+    if (isLoading.store.suggestions.isCustom && isLoading.store.suggestions.customIndex) isLoading.store.suggestions.list.splice(isLoading.store.suggestions.customIndex, 1, query);
+    const filteredItems = [...isLoading.store.suggestions.list].filter(item => {
+      return item.toLowerCase().startsWith(query.toLowerCase());
+    }).slice(0, 5);
+
+    console.log(isLoading.store.suggestions.list); // Logs all pushed items after filtering
+    return filteredItems;
   },
+
 
   render: () => {
     let component

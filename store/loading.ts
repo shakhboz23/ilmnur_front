@@ -9,6 +9,11 @@ export const useLoadingStore = defineStore("loading", () => {
 
   const store: LoadingType = reactive({
     loadingTypes: [],
+    suggestions: {
+      list: ["apple"],
+      isCustom: true,
+      customIndex: null,
+    },
     baseUrl: baseURL,
     isLogin: false,
     middleware: true,
@@ -115,7 +120,7 @@ export const useLoadingStore = defineStore("loading", () => {
         : "";
     if (front_url.includes("localhost") || front_url.includes("demo")) {
       store.baseUrl = localBaseURL;
-      // store.baseUrl = baseURL;
+      store.baseUrl = baseURL;
     } else {
       store.baseUrl = baseURL;
     }

@@ -47,9 +47,12 @@
                             <div class="px-2 py-6">
                                 <div>
                                     <ClientOnly>
-                                        <CKEditor class="minh_80" v-model:editorContent="useTests.test[index].question"
+                                        <EditorTiptapEditor id="questionEditor" class="border"
+                                            v-model="useTests.test[index].question" :toolbar="false"
+                                            :placeholder="'Savolingizni shu yerga yozing'" />
+                                        <!-- <CKEditor class="minh_80" v-model:editorContent="useTests.test[index].question"
                                             :toolbar="false" :placeholder="'Savolingizni shu yerga yozing'"
-                                            :type="useTests.test[index].type" />
+                                            :type="useTests.test[index].type" /> -->
                                     </ClientOnly>
                                 </div>
                                 <h2 class="font-medium mt-6 mb-4">Resurslarni biriktiring</h2>
@@ -60,7 +63,6 @@
                             </div>
                             <hr />
                             <div class="px-2 py-6">
-                                {{ useTests.test[index].is_action }}
                                 <h2 class="text-2xl">Variantlar</h2>
                                 <p class="mt-3 mb-6">To‘g‘ri javobni belgilang</p>
                                 <a-checkbox-group class="block w-full" @change="handleVariant(index)"
@@ -68,14 +70,21 @@
                                     <ul class="min-h-fit p-4 r_8 w-full"
                                         :class="checkCurrentType(useTests.test[index].type, false)">
                                         <li v-for="(i, v_index) in useTests.test[index]?.variants">
-                                            <div class="flex gap-4 bg_cf5 px-4 r_8 w-full"
+                                            <div class="flex items-center gap-4 bg_cf5 px-4 r_8 w-full"
                                                 :class="checkCurrentType(useTests.test[index].type, true)">
-                                                <a-checkbox :value="v_index"></a-checkbox>
+                                                <a-checkbox v-if="useTests.test[index].type == 'variant'"
+                                                    :value="v_index"></a-checkbox>
+                                                <p class="border duration-700 w-6 h-6 full_flex r_4 text-sm font-medium"
+                                                    :class="useTests.store.true_answers[+index] == variant
+                                                        ? 'orange border-[#FF852E]'
+                                                        : 'border-[#EDEDED]'
+                                                        ">
+                                                    {{ generateAlphabet(v_index) }}
+                                                </p>
                                                 <ClientOnly>
                                                     <CKEditor class="w-full b-none"
                                                         v-model:editorContent="useTests.test[index].variants[v_index]"
-                                                        :toolbar="false"
-                                                        :placeholder="'Savolingizni shu yerga yozing'" />
+                                                        :toolbar="false" :placeholder="'Javobni shu yerga yozing'" />
                                                 </ClientOnly>
                                             </div>
                                             <hr class="w-full" />
@@ -166,7 +175,7 @@
                                                         ? 'orange border-[#FF852E]'
                                                         : 'border-[#EDEDED]'
                                                         ">
-                                                    A
+                                                    {{ generateAlphabet(index) }}
                                                 </p>
                                                 <p v-html="variant"></p>
                                             </li>
@@ -425,12 +434,12 @@
                             <a-select v-model:value="useTests.test_settings.sort_level[index][1]"
                                 class="min-w-[80px] test_arrow !h-[42px] sr_12" show-search required>
                                 <a-select-option v-for="i in useTests.store.questions_count" :value="i">{{ i
-                                }}</a-select-option>
+                                    }}</a-select-option>
                             </a-select>
                             <a-select v-model:value="useTests.test_settings.sort_level[index][2]"
                                 class="min-w-[80px] test_arrow !h-[42px] sr_12" show-search required>
                                 <a-select-option v-for="i in useTests.store.questions_count" :value="i">{{ i
-                                }}</a-select-option>
+                                    }}</a-select-option>
                             </a-select>
                             <p v-if="useTests.test_settings.sort_level?.length != 1"
                                 @click="addTestStep('remove', index)"
@@ -509,6 +518,10 @@ function handleModal(value) {
 
 function handleInput(e) {
     console.log("Hiiiii")
+}
+
+function generateAlphabet(index) {
+    return String.fromCharCode(65 + index);
 }
 
 function checkCurrentType(type, is_inline) {
@@ -654,6 +667,13 @@ watch(
         }
     }
 );
+
+watch(() => useTests.test[useTests.store.slideStep - 1].question, () => {
+    const mentionList = document.querySelector("#questionEditor");
+    const l = mentionList.querySelectorAll('[data-type="mention"]')?.length || 0;
+    console.log(isLoading.store.suggestions.list, l);
+    isLoading.store.suggestions.customIndex = l;
+})
 
 watch(() => useTests.test[useTests.store.slideStep - 1], () => {
     console.log("Hi");

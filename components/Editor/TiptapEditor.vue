@@ -1,7 +1,7 @@
 <template>
     <div v-if="editor" class="container">
         <div v-if="editable" class="control-group">
-            <div class="button-group">
+            <div v-if="toolbar" class="button-group">
                 <button @click="addImage">
                     Set image
                 </button>
@@ -149,6 +149,11 @@ export default {
         editable: {
             type: Boolean,
             default: true,
+        },
+        toolbar: {
+            type: Boolean,
+            default: true,
+
         }
     },
     emits: ['update:modelValue'],
@@ -290,6 +295,7 @@ export default {
 
         list-style-type: decimal;
     }
+
     ul,
     ol {
         padding: 0 1rem;
