@@ -74,18 +74,26 @@ export const useTestsStore = defineStore("tests", () => {
     if (Object.keys(test)?.length == step - 1) {
       return checkAllAnswers();
     }
+    console.log(store.true_answers);
+    console.log(store.true_answers[step]);
+    store.true_answers[step] = Array.isArray(store.true_answers[step]) ? store.true_answers[step] : [store.true_answers[step]];
+    console.log(store.true_answers[step]);
+
     const data: any = await apiRequest.post(
       `tests/check/${id}`,
-      { answer: store.true_answers[step - 1] },
+      { answer: store.true_answers[step] || [] },
       "checkAnswer"
     );
     store.checked_answers[step] = data.data[1];
   }
+  function checkAnswerList(list: boolean[]): boolean {
+    return list.every(item => item === true);
+  }
 
   async function checkAllAnswers() {
     const results = [];
-    for (let i = 0; i < Object.keys(test)?.length; i++) {
-      results.push([test[i].id, store.true_answers[i]]);
+    for (let i = 1; i <= Object.keys(test)?.length; i++) {
+      results.push([test[i - 1].id, store.true_answers[i]]);
     }
     const data: any = await apiRequest.post(
       `tests/check_answers/${router.currentRoute.value.params.test_id}`,
@@ -209,5 +217,6 @@ export const useTestsStore = defineStore("tests", () => {
     checkAnswer,
     checkAllAnswers,
     createTest,
+    checkAnswerList,
   };
 });

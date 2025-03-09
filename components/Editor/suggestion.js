@@ -8,7 +8,6 @@ export default {
   // isLoading: useLoadingStore(),
   items: ({ query }) => {
     const isLoading = useLoadingStore();
-    if (isLoading.store.suggestions.isCustom && isLoading.store.suggestions.customIndex) isLoading.store.suggestions.list.splice(isLoading.store.suggestions.customIndex, 1, query);
     const filteredItems = [...isLoading.store.suggestions.list].filter(item => {
       return item.toLowerCase().startsWith(query.toLowerCase());
     }).slice(0, 5);

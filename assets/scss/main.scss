@@ -374,3 +374,21 @@ img {
 .animation .item {
   animation: explode 1.8s ease-in-out forwards;
 }
+
+.mentionstep {
+  display: inline-block;
+  text-align: center;
+  margin-right: 5px;
+  border: 1px solid #FF852E;
+  border-radius: 4px;
+  padding: 5px;
+  // height: 24px;
+  // width: 24px;
+  // font-size: 14px;
+}
+
+.questionInfo {
+  * {
+      display: inline;
+  }
+}
