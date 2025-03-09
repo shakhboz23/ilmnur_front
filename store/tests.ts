@@ -18,6 +18,7 @@ export const useTestsStore = defineStore("tests", () => {
     test_step: 1,
     testResBall: [],
     slideStep: 1,
+    deletedTestList: [],
     time: {
       days: 0,
       hours: 0,
@@ -110,6 +111,15 @@ export const useTestsStore = defineStore("tests", () => {
     }, 1000);
   }
 
+  function deleteTest() {
+    // test[store.slideStep].type = 'deleted';
+    if (store.deletedTestList.includes(store.slideStep)) {
+      store.deletedTestList.splice(store.deletedTestList.indexOf(store.slideStep), 1);
+    } else {
+      store.deletedTestList.push(store.slideStep);
+    }
+  }
+
   async function createTest() {
     store.questions_count = Object.keys(test)?.length;
     let l = test_settings.sort_level?.length;
@@ -156,7 +166,7 @@ export const useTestsStore = defineStore("tests", () => {
         // test[i].variants[variants] = `${tempElement.innerHTML}`;
         // }
         // }
-        tests.push({ ...test[i] });
+        tests.push({ ...test[i], is_action: store.deletedTestList.includes(i+1) ? "deleted" : test[i].is_action });
       } catch (err) {
         console.log(err);
       }
@@ -216,6 +226,7 @@ export const useTestsStore = defineStore("tests", () => {
     getByLesson,
     checkAnswer,
     checkAllAnswers,
+    deleteTest,
     createTest,
     checkAnswerList,
   };

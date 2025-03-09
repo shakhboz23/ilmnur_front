@@ -44,57 +44,64 @@
                     <swiper @slider-move="changeSlide" :watchSlidesProgress="true" :slidesPerView="1" :spaceBetween="30"
                         :pagination="{ clickable: true }" :modules="modules" class="flex max-w-[50vw] overflow-hidden">
                         <swiper-slide :id="index" class="min-w-full" v-for="(i, index) in useTests.test">
-                            <div class="px-2 py-6">
-                                <div>
-                                    <ClientOnly>
-                                        <EditorTiptapEditor id="questionEditor" class="border"
-                                            v-model="useTests.test[index].question" :toolbar="false"
-                                            :placeholder="'Savolingizni shu yerga yozing'" />
-                                    </ClientOnly>
+                            <div class="relative">
+                                <div v-if="useTests.store.deletedTestList?.includes(useTests.store.slideStep)" class="full_flex absolute w-full h-full bg-red-700 bg-opacity-50 backdrop-blur-sm z-10 r_12">deleted</div>
+                                <div class="px-2 py-6">
+                                    <div>
+                                        <ClientOnly>
+                                            <EditorTiptapEditor id="questionEditor" class="border"
+                                                v-model="useTests.test[index].question" :toolbar="false"
+                                                :placeholder="'Savolingizni shu yerga yozing'" />
+                                        </ClientOnly>
+                                    </div>
+                                    <h2 class="font-medium mt-6 mb-4">Resurslarni biriktiring</h2>
+                                    <button class="full_flex gap-3 b_ced py-2 px-8 rounded-full">
+                                        <img loading="lazy" src="@/assets/svg/group/upload.svg" alt="">
+                                        <span>Fayl biriktirish</span>
+                                    </button>
                                 </div>
-                                <h2 class="font-medium mt-6 mb-4">Resurslarni biriktiring</h2>
-                                <button class="full_flex gap-3 b_ced py-2 px-8 rounded-full">
-                                    <img loading="lazy" src="@/assets/svg/group/upload.svg" alt="">
-                                    <span>Fayl biriktirish</span>
-                                </button>
+                                <hr />
+                                <div class="px-2 py-6">
+                                    <h2 class="text-2xl">Variantlar</h2>
+                                    <p class="mt-3 mb-6">To‘g‘ri javobni belgilang</p>
+                                    <a-checkbox-group class="block w-full" @change="handleVariant(index)"
+                                        v-model:value="useTests.test[index].true_answer">
+                                        <ul class="min-h-fit p-4 r_8 w-full"
+                                            :class="checkCurrentType(useTests.test[index].type, false)">
+                                            <li v-for="(i, v_index) in useTests.test[index]?.variants">
+                                                <div class="flex items-center gap-4 bg_cf5 px-4 r_8 w-full"
+                                                    :class="checkCurrentType(useTests.test[index].type, true)">
+                                                    <a-checkbox v-if="useTests.test[index].type == 'variant'"
+                                                        :value="v_index"></a-checkbox>
+                                                    <p class="border duration-700 w-6 h-6 full_flex r_4 text-sm font-medium"
+                                                        :class="useTests.store.true_answers[+index] == variant
+                                                            ? 'orange border-[#FF852E]'
+                                                            : 'border-[#EDEDED]'
+                                                            ">
+                                                        {{ generateAlphabet(v_index) }}
+                                                    </p>
+                                                    <ClientOnly>
+                                                        <CKEditor class="w-full b-none"
+                                                            v-model:editorContent="useTests.test[index].variants[v_index]"
+                                                            :toolbar="false"
+                                                            :placeholder="'Javobni shu yerga yozing'" />
+                                                    </ClientOnly>
+                                                </div>
+                                                <hr class="w-full" />
+                                            </li>
+                                            <li @click="addVariant(index)">
+                                                <div class="full_flex bg_cf5 p-3 r_8 pcursor">
+                                                    <img loading="lazy" src="@/assets/svg/icon/plus.svg" alt="">
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </a-checkbox-group>
+                                </div>
                             </div>
-                            <hr />
-                            <div class="px-2 py-6">
-                                <h2 class="text-2xl">Variantlar</h2>
-                                <p class="mt-3 mb-6">To‘g‘ri javobni belgilang</p>
-                                <a-checkbox-group class="block w-full" @change="handleVariant(index)"
-                                    v-model:value="useTests.test[index].true_answer">
-                                    <ul class="min-h-fit p-4 r_8 w-full"
-                                        :class="checkCurrentType(useTests.test[index].type, false)">
-                                        <li v-for="(i, v_index) in useTests.test[index]?.variants">
-                                            <div class="flex items-center gap-4 bg_cf5 px-4 r_8 w-full"
-                                                :class="checkCurrentType(useTests.test[index].type, true)">
-                                                <a-checkbox v-if="useTests.test[index].type == 'variant'"
-                                                    :value="v_index"></a-checkbox>
-                                                <p class="border duration-700 w-6 h-6 full_flex r_4 text-sm font-medium"
-                                                    :class="useTests.store.true_answers[+index] == variant
-                                                        ? 'orange border-[#FF852E]'
-                                                        : 'border-[#EDEDED]'
-                                                        ">
-                                                    {{ generateAlphabet(v_index) }}
-                                                </p>
-                                                <ClientOnly>
-                                                    <CKEditor class="w-full b-none"
-                                                        v-model:editorContent="useTests.test[index].variants[v_index]"
-                                                        :toolbar="false" :placeholder="'Javobni shu yerga yozing'" />
-                                                </ClientOnly>
-                                            </div>
-                                            <hr class="w-full" />
-                                        </li>
-                                        <li @click="addVariant(index)">
-                                            <div class="full_flex bg_cf5 p-3 r_8 pcursor">
-                                                <img loading="lazy" src="@/assets/svg/icon/plus.svg" alt="">
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </a-checkbox-group>
-                            </div>
-                            <div class="flex gap-4 justify-end px-5">
+                            <div class="flex gap-4 justify-end px-5 pt-2">
+                                <button @click="useTests.deleteTest"
+                                    class="bg_red c_white px-8 py-2 rounded-full">{{ useTests.store.deletedTestList?.includes(useTests.store.slideStep) ? "O'chirilgan" : "O'chirish" }}</button>
+
                                 <button @click="useTests.createTest"
                                     class="b_main c_main px-8 py-2 rounded-full">Yuklash</button>
                                 <button @click="nextSlide"
@@ -153,24 +160,9 @@
                                 :spaceBetween="30" :pagination="{ clickable: true }" :modules="modules"
                                 class="flex md:max-w-[50vw] max-w-[75vw] overflow-hidden">
                                 <swiper-slide :id="+index + 1" class="min-w-full" v-for="(i, index) in useTests.test">
-                                    <!-- :touchStartPreventDefault="false" :cssMode="true" -->
-                                    <!-- <section class="max-w-fit mx-auto">
-                                        <h1 class="font-bold text-2xl break-words">
-                                            <span>{{ index + 1 }}</span>.
-                                            <span v-html="renderQuestion(i.question)"></span>
-                                        </h1>
-                                        <hr />
-                                        <VueDraggableNext v-model="useTests.test[index].variants" tag="ul"
-                                            class="space-y-4" item-key="id">
-                                            <div v-for="element in useTests.test[index].variants" :key="element"
-                                                class="flex gap-8 items-center border px-5 py-2 cursor-pointer">
-                                                {{ element }}
-                                            </div>
-                                        </VueDraggableNext>
-                                    </section> -->
                                     <section
                                         class="max-h-[calc(100vh_-_300px)] min-h-[calc(100vh_-_300px)] overflow-y-auto mt-10 space-y-7 max-w-fit mx-auto">
-                                        <h1 class="flex gap-1 font-bold text-2xl break-words">
+                                        <h1 class="flex tiptap gap-1 font-bold text-2xl break-words">
                                             <span>{{ +index + 1 }}.</span> <span class="question"
                                                 v-html="i.question"></span>
                                         </h1>
@@ -202,21 +194,13 @@
                                                         </a-menu>
                                                     </template>
                                                 </a-dropdown>
-                                                <!-- <a-select v-model:value="useTests.store.true_answers[+index]"
-                                                    class="min-w-[80px] test_arrow w-full !h-[42px] sr_12" show-search
-                                                    required>
-                                                    <a-select-option
-                                                        @click="selectedAnswer(+i, useTests.store.true_answers[+i])"
-                                                        v-for="i in 5" :value="useTests.store.true_answers[+i]">{{ i
-                                                        }}</a-select-option>
-                                                </a-select> -->
                                             </li>
                                         </ul>
                                         <ClientOnly v-else>
-                                            {{ useTests.store.true_answers[useTests.store.slideStep] }}
-                                            <EditorTiptapEditor id="questionEditor" class="border w-full min-w-[20vw] border"
-                                                v-model="useTests.store.true_answers[useTests.store.slideStep]" :toolbar="false"
-                                                :placeholder="'Savolingizni shu yerga yozing'" />
+                                            <EditorTiptapEditor id="questionEditor"
+                                                class="border w-full min-w-[20vw] border"
+                                                v-model="useTests.store.true_answers[useTests.store.slideStep]"
+                                                :toolbar="false" :placeholder="'Savolingizni shu yerga yozing'" />
                                         </ClientOnly>
                                     </section>
                                 </swiper-slide>
@@ -276,33 +260,6 @@
                                                 </ul>
                                             </div>
                                         </div>
-                                        <!-- <div class="relative overflow-x-auto">
-                                        <table
-                                            class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                                            <thead class="text-xs uppercase bg-gray-50 bg_orange text-white">
-                                                <tr>
-                                                    <th scope="col" class="px-6 py-3">
-                                                        Fan
-                                                    </th>
-                                                    <th scope="col" class="px-6 py-3">
-                                                        Ball
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr v-for="i in Object.keys(useTests.store.subject_ball)"
-                                                    class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                                    <th scope="row"
-                                                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                        {{ i }}
-                                                    </th>
-                                                    <td class="px-6 py-4">
-                                                        {{ useTests.store.subject_ball[i] }}
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div> -->
                                     </section>
                                 </swiper-slide>
                             </swiper>
@@ -331,7 +288,6 @@
                                     <p class="c_red font-bold">Javob noto‘g‘ri!</p>
                                 </li>
                             </ul>
-                            <!-- {{ Object.keys(useTests.store.checked_answers)?.length + ' ' + useTests.store.tests.test?.length }} -->
                             <li>
                                 <button @click="$router.push(`/lesson/${useTests.store.tests.lesson_id}`)"
                                     v-if="useTests.store.testResBall?.length"
@@ -696,9 +652,11 @@ function selectedAnswer(id, variant, type, step) {
             }
             useTests.store.true_answers[useTests.store.slideStep][0][id - 1] = variant;
             for (let i = 0; i < 3; i++) {
-                const element = document.querySelector(`[data-id="${String.fromCharCode(65 + i)}"]`);
-                if (element && useTests.store.true_answers[useTests.store.slideStep][0][i]) element.innerHTML = `<span class="mentionstep">${i + 1}</span> <span class="questionInfo">${useTests.store.true_answers[useTests.store.slideStep][0][i]}</span>`;
-                else element.innerHTML = `<span class="mentionstep">${i + 1}</span> ...`;
+                // const element = document.querySelector(`#${useTests.store.slideStep} [data-id="${String.fromCharCode(65 + i)}"]`);
+                const element = document.getElementById(useTests.store.slideStep)?.querySelector(`[data-id="${String.fromCharCode(65 + i)}"]`);
+
+                if (element && useTests.store.true_answers[useTests.store.slideStep][0][i]) element.innerHTML = `<span>${i + 1}</span> <span class="questionInfo">${useTests.store.true_answers[useTests.store.slideStep][0][i]}</span>`;
+                else element.innerHTML = `<span>${i + 1}</span> ...`;
             }
             console.log(useTests.store.true_answers);
 
