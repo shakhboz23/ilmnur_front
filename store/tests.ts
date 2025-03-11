@@ -2,7 +2,7 @@ import type { Router } from "vue-router";
 import { useApiRequest } from "~/composables";
 // import { useUploadStore } from "./upload";
 import { useNotification } from "~/composables";
-
+import dayjs from 'dayjs';
 export const useTestsStore = defineStore("tests", () => {
   const apiRequest = useApiRequest();
   const router: Router = useRouter();
@@ -19,6 +19,7 @@ export const useTestsStore = defineStore("tests", () => {
     testResBall: [],
     slideStep: 1,
     deletedTestList: [],
+    calculateHours: null,
     time: {
       days: 0,
       hours: 0,
@@ -56,11 +57,15 @@ export const useTestsStore = defineStore("tests", () => {
       for (let i in test_settings) {
         test_settings[i] = data.data?.test_settings[i];
       }
+      test_settings.start_date = dayjs(test_settings.start_date)
+      test_settings.end_date = dayjs(test_settings.end_date)
     }
     test_settings.sort_level = [[]];
     test_settings.sort_level[0] = [data.data?.category_id]
     clearInterval(store.timeInterval);
-    if (test_settings.period > 0) {
+    store.calculateHours = test_settings.period?.split(":") || [0, 0];
+    store.calculateHours = +store.calculateHours[0] * 60 + +store.calculateHours[1];
+    if (store.calculateHours > 0) {
       setTestTime()
     } else {
       test_settings.period = null;
@@ -187,7 +192,7 @@ export const useTestsStore = defineStore("tests", () => {
   }
 
   function setTestTime() {
-    let countDownDate = new Date().getTime() + test_settings?.period * 60 * 1000;
+    let countDownDate = new Date().getTime() + store.calculateHours * 60 * 1000;
     let now = new Date().getTime();
     let totalTime = countDownDate - now;
     store.timeInterval = setInterval(function () {

@@ -190,7 +190,7 @@
                     <ul class="full_flex gap-3">
                         <li v-for="(i, index) in testBar" class="full_flex r_4 bg_ce2">
                             <img loading="lazy" class="p-1 w-8 h-8" :src="i" alt="">
-                            <ul v-if="index == 0 && useTests.test_settings.period > 0"
+                            <ul v-if="index == 0 && useTests.store.calculateHours > 0"
                                 class="flex max-w-fit mx-auto text-center pr-2 font-semibold"
                                 :class="useTests.store.time.minutes < 20 ? 'c_red' : 'c_c66'">
                                 <li>{{ useTests.store.time.days }}</li>
@@ -466,12 +466,7 @@
                     <label for="name">Test muddati</label>
                     <!-- {{ useTests.test_settings.period }} -->
                     <div>
-                        <a-time-picker @change="(val) => {
-                            const hours = val.split(':');
-                            const hour = +hours[0] * 60;
-                            const minute = +hours[1];
-                            useTests.test_settings.period = minute + hour;
-                        }" format="HH:mm" value-format="HH:mm" placeholder="00:00" />
+                        <a-time-picker v-model:value="useTests.test_settings.period" format="HH:mm" value-format="HH:mm" placeholder="00:00" />
                     </div>
                 </div>
                 <div class="space-y-3">

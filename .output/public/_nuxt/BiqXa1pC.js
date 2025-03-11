@@ -1,0 +1,1 @@
+import{_}from"./RWTArXoJ.js";import{a4 as c,ac as s,z as o,a7 as r,a1 as l}from"./DrnJMpD-.js";const i={class:"max-h-[80vh]"},f={__name:"index",setup(p){function n(t){console.log(t.target)}return(t,m)=>{const e=c("Editor_cki"),a=_;return l(),s("div",i,[o(a,null,{default:r(()=>[o(e,{onInput:n})]),_:1})])}}};export{f as default};
