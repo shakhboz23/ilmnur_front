@@ -36,11 +36,11 @@
                     <div class="flex items-center gap-3">
                         <img loading="lazy"  @click="routeToChat(undefined)" class="md:hidden block pcursor h-6" src="@/assets/svg/icon/back_route.svg"
                             alt="">
-                        <p>
+                        <div>
                         <h1 class="c_c24">Barno Halilova</h1>
                         <time class="text-sm c_c66">15 min ago</time>
-                        </p>
-                    </div>
+                        </div>
+                    </div> 
                     <img loading="lazy"  class="h-6 rotate-90" src="@/assets/svg/icon/threedot.svg" alt="">
                 </div>
             </nav>

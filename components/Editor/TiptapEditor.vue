@@ -77,6 +77,7 @@
 </template>
 
 <script>
+import { useCategoryStore } from '~/store'
 import Document from '@tiptap/extension-document'
 import Paragraph from '@tiptap/extension-paragraph'
 import Mention from '@tiptap/extension-mention'
@@ -102,6 +103,7 @@ import html from 'highlight.js/lib/languages/xml'
 // load all languages with "all" or common languages with "common"
 import { all, createLowlight } from 'lowlight'
 
+// const useCategory = useCategoryStore();
 const CustomTableCell = TableCell.extend({
     addAttributes() {
         return {
@@ -136,7 +138,6 @@ export default {
     components: {
         EditorContent,
     },
-
     props: {
         modelValue: {
             type: String,
@@ -161,6 +162,7 @@ export default {
         return {
             editor: null,
             tableHTML: ``,
+            useCategory: null,
         }
     },
 
@@ -175,6 +177,28 @@ export default {
     },
 
     mounted() {
+        this.useCategory = useCategoryStore();
+        const ResizableImage = Image.extend({
+            addAttributes() {
+                return {
+                    ...this.parent?.(),
+                    width: {
+                        default: null,
+                        parseHTML: (element) => element.getAttribute('width') || null,
+                        renderHTML: (attributes) => {
+                            return attributes.width ? { width: attributes.width } : {}
+                        },
+                    },
+                    height: {
+                        default: null,
+                        parseHTML: (element) => element.getAttribute('height') || null,
+                        renderHTML: (attributes) => {
+                            return attributes.height ? { height: attributes.height } : {}
+                        },
+                    },
+                }
+            },
+        })
         this.editor = new Editor({
             editable: this.editable,
             extensions: [
@@ -195,7 +219,27 @@ export default {
                 CustomTableCell,
                 ColorHighlighter,
                 // Image,
-                Image,
+                ResizableImage,
+                Image.configure({
+                    handlePaste: async (view, event, slice) => {
+                        const file = event.clipboardData?.files[0];
+                        if (file) {
+                            const imageUrl = await uploadImage(file);
+                            this.editor.commands.setImage({ src: imageUrl });
+                            return true;
+                        }
+                        return false;
+                    },
+                    handleDrop: async (view, event, slice, moved) => {
+                        const file = event.dataTransfer?.files[0];
+                        if (file) {
+                            const imageUrl = await uploadImage(file);
+                            this.editor.commands.setImage({ src: imageUrl });
+                            return true;
+                        }
+                        return false;
+                    },
+                }),
                 Mention.configure({
                     HTMLAttributes: {
                         class: 'mention',
@@ -218,7 +262,7 @@ export default {
                     // },
                 }),
             ],
-            content: `Editor`,
+            content: this.modelValue,
             onUpdate: () => {
                 // HTML
                 this.$emit('update:modelValue', this.editor.getHTML())
@@ -226,9 +270,33 @@ export default {
                 // JSON
                 // this.$emit('update:modelValue', this.editor.getJSON())
             },
-        })
-    },
+        });
+        // ✨ **Event qo‘shish**
+        this.editor.on('create', () => {
+            const editorElement = this.editor.view.dom;
 
+            // 📌 **Drop event**
+            editorElement.addEventListener('drop', async (event) => {
+                event.preventDefault(); // Default dropni oldini olamiz
+                const file = event.dataTransfer?.files[0];
+                if (file && file.type.startsWith('image/')) {
+                    const imageUrl = await this.useCategory.uploadFile(file, 'image')
+                    console.log(imageUrl);
+                    this.editor.chain().focus().setImage({ src: imageUrl }).run();
+                }
+            });
+
+            // 📌 **Paste event**
+            editorElement.addEventListener('paste', async (event) => {
+                const file = event.clipboardData?.files[0];
+                if (file && file.type.startsWith('image/')) {
+                    const imageUrl = await this.useCategory.uploadFile(file, 'image')
+                    console.log(imageUrl);
+                    this.editor.chain().focus().setImage({ src: imageUrl }).run();
+                }
+            });
+        });
+    },
     watch: {
         modelValue(value) {
             // HTML

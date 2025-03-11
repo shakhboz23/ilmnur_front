@@ -1,6 +1,6 @@
 <template>
   <main class="full_flex py-10 md:px-0 px-4 max-h-screen min-h-[calc(100vh_-_100px)] overflow-y-auto">
-    <form @submit.prevent="useAuth.authRegister"
+    <div
       class="sm:w-[500px] bg_white mx-auto sm:p-[50px] p-5 pb-8 rounded-[16px]">
       <h1 class="text-center md:text-[28px] mb-7 text-xl font-bold">
         Roʻyxatdan oʻtish
@@ -46,7 +46,7 @@
           </router-link>
         </div>
       </form>
-    </form>
+    </div>
   </main>
 </template>
 

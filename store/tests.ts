@@ -166,7 +166,7 @@ export const useTestsStore = defineStore("tests", () => {
         // test[i].variants[variants] = `${tempElement.innerHTML}`;
         // }
         // }
-        tests.push({ ...test[i], is_action: store.deletedTestList.includes(i+1) ? "deleted" : test[i].is_action });
+        tests.push({ ...test[i], is_action: store.deletedTestList.includes(i + 1) ? "deleted" : test[i].is_action, true_answer: test.true_answer?.length ? test.true_answer : [0] });
       } catch (err) {
         console.log(err);
       }

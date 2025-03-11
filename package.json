@@ -51,8 +51,7 @@
     "vue-novel": "^0.0.18",
     "vue-plyr": "^7.0.0",
     "vue-router": "^4.2.5",
-    "vue3-apexcharts": "^1.7.0",
-    "vuedraggable": "^4.1.0"
+    "vue3-apexcharts": "^1.7.0"
   },
   "devDependencies": {
     "@nuxt/types": "^2.18.1",

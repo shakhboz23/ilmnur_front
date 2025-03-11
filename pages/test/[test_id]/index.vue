@@ -4,28 +4,55 @@
             <LoadingDiv v-for="i in 10" class="w-full h-10" />
         </div>
         <div v-else-if="useTests.store.tests?.user_id == isLoading.user?.id">
-            <div class="pb-8 pt-3 font-semibold text-xl">
-                <h1>Test yaratishni boshlang:</h1>
-            </div>
-            <nav class="bg_bg py-6 -mx-5 px-7">
-                <div class="flex items-center justify-between mb-5">
-                    <p>10 ta test</p>
-                    <div class="flex gap-2">
-                        <div>
-                            <label for="import_file"
-                                class="full_flex gap-2 bg-white p-1.5 rounded-md border_ced cursor-pointer">
-                                <img loading="lazy" class="h-7 w-7" src="@/assets/svg/image/word.png" alt="" />
-                                <p>WORD</p>
-                            </label>
-                            <div class="file_input">
-                                <input @change="importFile" class="file_input" type="file" id="import_file" />
-                            </div>
-                        </div>
-                        <button @click="isLoading.modal.create = true" class="bg-white rounded-md p-1.5 w-10">
-                            <img loading="lazy" class="mx-auto" src="@/assets/svg/icon/settings.svg" alt="" />
-                        </button>
-                    </div>
+            <nav class="flex items-center justify-between pb-5 w-full">
+                <div class="flex items-center gap-2">
+                    <button class="r_8 bg_cf5 p-2">
+                        <img class="w-4 h-4" src="@/assets/svg/icon/back.svg" alt="">
+                    </button>
+                    <p>Edited just now</p>
                 </div>
+                <div class="flex items-center gap-2">
+                    <h1>Html questions</h1>
+                    <img class="w-4 h-4 rotate-[270deg]" src="@/assets/svg/icon/back.svg" alt="">
+                </div>
+                <div class="flex items-center gap-2">
+                    <button @click="isLoading.modal.create = true" class="bg-white rounded-md p-1.5 w-10">
+                        <img loading="lazy" class="mx-auto" src="@/assets/svg/icon/settings.svg" alt="" />
+                    </button>
+                    <a-dropdown>
+                        <button class="flex items-center gap-2 b_black px-8 py-2 r_8">
+                            <img class="w-4" src="@/assets/svg/icon/import.svg" alt="">
+                            <p>Import</p>
+                        </button>
+                        <template #overlay>
+                            <a-menu>
+                                <a-menu-item>
+                                    <label for="import_file"
+                                        class="flex items-center gap-2 bg-white p-1.5 rounded-md border_ced cursor-pointer">
+                                        <img loading="lazy" class="h-7 w-7" src="@/assets/svg/image/word.png" alt="" />
+                                        <p>WORD</p>
+                                    </label>
+                                </a-menu-item>
+                                <a-menu-item>
+                                    <label for="import_file"
+                                        class="flex items-center gap-2 bg-white p-1.5 rounded-md border_ced cursor-pointer">
+                                        <img loading="lazy" class="h-7 w-7" src="@/assets/svg/image/excel.png" alt="" />
+                                        <p>Excel</p>
+                                    </label>
+                                </a-menu-item>
+                            </a-menu>
+                        </template>
+                    </a-dropdown>
+                    <div class="file_input">
+                        <input @change="importFile" class="file_input" type="file" id="import_file" />
+                    </div>
+                    <button @click="useTests.createTest" class="flex items-center gap-1 b_main c_main px-8 py-2 r_8">
+                        <img loading="lazy" class="mx-auto w-5" src="@/assets/svg/icon/preview.svg" alt="" />
+                        Preview</button>
+                    <button @click="useTests.createTest" class="bg_main c_white px-8 py-2 r_8">Yuklash</button>
+                </div>
+            </nav>
+            <nav class="bg_bg py-6 -mx-5 px-7">
                 <ul class="flex flex-wrap gap-3">
                     <li @click="useTests.store.slideStep = +index + 1" v-for="(_, index) in useTests.test"
                         class="w-10 h-10 r_f full_flex text-sm pcursor"
@@ -36,59 +63,101 @@
             </nav>
             <section>
                 <ClientOnly>
-                    <ul class="flex items-center justify-between max-w-[50vw] mx-auto my-6">
-                        <li class="text-lg font-semibold">{{ useTests.store.slideStep }}. Savol </li>
-                        <a-select class="min-w-[200px]" v-model:value="useTests.test[useTests.store.slideStep - 1].type"
+                    <ul class="flex items-center justify-between lg:max-w-[50vw] mx-auto my-6">
+                        <a-select class="min-w-[200px]" v-if="useTests.test[useTests.store.slideStep - 1]"
+                            v-model:value="useTests.test[useTests.store.slideStep - 1].type"
                             placeholder="Select a person" :options="testType"></a-select>
+                        <div class="flex gap-4">
+                            <div class="space-x-2 block">
+                                <label for="Required" class="">Required</label>
+                                <a-switch id="Required" v-model:checked="checked" />
+                            </div>
+                            <a-dropdown>
+                                <div class="pcursor r_8 b_cbb p-1 threedot">
+                                    <img src="@/assets/svg/icon/threedot.svg" alt="">
+                                </div>
+                                <template #overlay>
+                                    <a-menu>
+                                        <a-menu-item @click="useTests.deleteTest">
+                                            {{ useTests.store.deletedTestList?.includes(useTests.store.slideStep) ?
+                                                "Qayta tiklash" : "O'chirish" }}
+                                        </a-menu-item>
+                                        <!-- <a-menu-item>
+                                            Save as drift
+                                        </a-menu-item> -->
+                                    </a-menu>
+                                </template>
+                            </a-dropdown>
+                        </div>
                     </ul>
                     <swiper @slider-move="changeSlide" :watchSlidesProgress="true" :slidesPerView="1" :spaceBetween="30"
-                        :pagination="{ clickable: true }" :modules="modules" class="flex max-w-[50vw] overflow-hidden">
+                        :pagination="{ clickable: true }" :modules="modules"
+                        class="flex lg:max-w-[50vw] overflow-hidden">
                         <swiper-slide :id="index" class="min-w-full" v-for="(i, index) in useTests.test">
+                            <p class="flex gap-2 text-sm">
+                                <img src="@/assets/svg/icon/info.svg" alt="">
+                                <span>Question {{ +index + 1 }}</span>
+                            </p>
                             <div class="relative">
-                                <div v-if="useTests.store.deletedTestList?.includes(useTests.store.slideStep)" class="full_flex absolute w-full h-full bg-red-700 bg-opacity-50 backdrop-blur-sm z-10 r_12">deleted</div>
-                                <div class="px-2 py-6">
+                                <div v-if="useTests.store.deletedTestList?.includes(useTests.store.slideStep)"
+                                    class="full_flex absolute w-full h-full bg-red-700 bg-opacity-50 backdrop-blur-sm z-10 r_12">
+                                    deleted
+                                </div>
+                                <div class="px-2 py-2">
                                     <div>
                                         <ClientOnly>
-                                            <EditorTiptapEditor id="questionEditor" class="border"
+                                            <EditorTiptapEditor id="questionEditor" class="r_8 bg_cf5"
                                                 v-model="useTests.test[index].question" :toolbar="false"
                                                 :placeholder="'Savolingizni shu yerga yozing'" />
                                         </ClientOnly>
                                     </div>
-                                    <h2 class="font-medium mt-6 mb-4">Resurslarni biriktiring</h2>
-                                    <button class="full_flex gap-3 b_ced py-2 px-8 rounded-full">
+                                    <h2 class="font-medium mt-4">Resurslarni biriktiring</h2>
+                                    <button class="full_flex gap-3 b_ced py-2 my-1 px-8 rounded-full">
                                         <img loading="lazy" src="@/assets/svg/group/upload.svg" alt="">
                                         <span>Fayl biriktirish</span>
                                     </button>
                                 </div>
                                 <hr />
-                                <div class="px-2 py-6">
-                                    <h2 class="text-2xl">Variantlar</h2>
-                                    <p class="mt-3 mb-6">To‘g‘ri javobni belgilang</p>
+                                <div class="px-2 py-4">
+                                    <h2 class="text-lg">Variantlar</h2>
+                                    <p class="mb-6 text-sm">To‘g‘ri javobni belgilang</p>
                                     <a-checkbox-group class="block w-full" @change="handleVariant(index)"
                                         v-model:value="useTests.test[index].true_answer">
-                                        <ul class="min-h-fit p-4 r_8 w-full"
+                                        <ul class="min-h-fit r_8 w-full"
                                             :class="checkCurrentType(useTests.test[index].type, false)">
-                                            <li v-for="(i, v_index) in useTests.test[index]?.variants">
-                                                <div class="flex items-center gap-4 bg_cf5 px-4 r_8 w-full"
-                                                    :class="checkCurrentType(useTests.test[index].type, true)">
-                                                    <a-checkbox v-if="useTests.test[index].type == 'variant'"
-                                                        :value="v_index"></a-checkbox>
-                                                    <p class="border duration-700 w-6 h-6 full_flex r_4 text-sm font-medium"
-                                                        :class="useTests.store.true_answers[+index] == variant
-                                                            ? 'orange border-[#FF852E]'
-                                                            : 'border-[#EDEDED]'
-                                                            ">
-                                                        {{ generateAlphabet(v_index) }}
-                                                    </p>
-                                                    <ClientOnly>
-                                                        <CKEditor class="w-full b-none"
-                                                            v-model:editorContent="useTests.test[index].variants[v_index]"
-                                                            :toolbar="false"
-                                                            :placeholder="'Javobni shu yerga yozing'" />
-                                                    </ClientOnly>
-                                                </div>
-                                                <hr class="w-full" />
-                                            </li>
+                                            <Draggable class="dragArea list-group w-full"
+                                                :v-model="useTests.test[index]?.variants" @change="log"
+                                                :key="store.listKey" ghost-class="ghost" handle=".drag-handle"
+                                                @move="disableSwiper" @end="enableSwiper" animation="300">
+                                                <li v-for="(i, v_index) in useTests.test[index]?.variants">
+                                                    <div class="flex items-center gap-4 bg_cf5 px-4 mt-2 r_8 w-full"
+                                                        :class="checkCurrentType(useTests.test[index].type, true)">
+                                                        <a-checkbox v-if="useTests.test[index].type == 'variant'"
+                                                            :value="v_index"></a-checkbox>
+                                                        <p class="border duration-700 w-6 h-6 full_flex r_4 text-sm font-medium"
+                                                            :class="useTests.store.true_answers[+index] == variant
+                                                                ? 'orange border-[#FF852E]'
+                                                                : 'border-[#EDEDED]'
+                                                                ">
+                                                            {{ generateAlphabet(v_index) }}
+                                                        </p>
+                                                        <ClientOnly>
+                                                            <CKEditor class="w-full b-none"
+                                                                v-model:editorContent="useTests.test[index].variants[v_index]"
+                                                                :toolbar="false"
+                                                                :placeholder="'Javobni shu yerga yozing'" />
+                                                        </ClientOnly>
+                                                        <img class="w-6 h-6" loading="lazy"
+                                                            src="@/assets/svg/group/upload.svg" alt="">
+                                                        <img @mousemove="disableSwiper" @mouseleave="enableSwiper"
+                                                            class="w-6 h-6 drag-handle" loading="lazy"
+                                                            src="@/assets/svg/icon/drag.svg" alt="">
+                                                        <img class="w-6 h-6" loading="lazy"
+                                                            src="@/assets/svg/icon/delete.svg" alt="">
+                                                    </div>
+                                                    <hr class="w-full" />
+                                                </li>
+                                            </Draggable>
                                             <li @click="addVariant(index)">
                                                 <div class="full_flex bg_cf5 p-3 r_8 pcursor">
                                                     <img loading="lazy" src="@/assets/svg/icon/plus.svg" alt="">
@@ -99,8 +168,11 @@
                                 </div>
                             </div>
                             <div class="flex gap-4 justify-end px-5 pt-2">
-                                <button @click="useTests.deleteTest"
-                                    class="bg_red c_white px-8 py-2 rounded-full">{{ useTests.store.deletedTestList?.includes(useTests.store.slideStep) ? "O'chirilgan" : "O'chirish" }}</button>
+                                <button @click="useTests.deleteTest" class="bg_red c_white px-8 py-2 rounded-full">{{
+                                    useTests.store.deletedTestList?.includes(useTests.store.slideStep) ? "Qayta tiklash"
+                                        :
+                                        "O'chirish"
+                                }}</button>
 
                                 <button @click="useTests.createTest"
                                     class="b_main c_main px-8 py-2 rounded-full">Yuklash</button>
@@ -158,11 +230,11 @@
                             </nav>
                             <swiper @slider-move="changeSlide" :watchSlidesProgress="true" :slidesPerView="1"
                                 :spaceBetween="30" :pagination="{ clickable: true }" :modules="modules"
-                                class="flex md:max-w-[50vw] max-w-[75vw] overflow-hidden">
+                                class="flex lg:max-w-[50vw] max-w-[75vw] overflow-hidden">
                                 <swiper-slide :id="+index + 1" class="min-w-full" v-for="(i, index) in useTests.test">
                                     <section
-                                        class="max-h-[calc(100vh_-_300px)] min-h-[calc(100vh_-_300px)] overflow-y-auto mt-10 space-y-7 max-w-fit mx-auto">
-                                        <h1 class="flex tiptap gap-1 font-bold text-2xl break-words">
+                                        class="max-h-[calc(100vh_-_300px)] min-h-[calc(100vh_-_300px)] overflow-y-auto mt-10 space-y-3 max-w-fit mx-auto">
+                                        <h1 class="flex gap-1 font-bold text-2xl break-words">
                                             <span>{{ +index + 1 }}.</span> <span class="question"
                                                 v-html="i.question"></span>
                                         </h1>
@@ -198,7 +270,7 @@
                                         </ul>
                                         <ClientOnly v-else>
                                             <EditorTiptapEditor id="questionEditor"
-                                                class="border w-full min-w-[20vw] border"
+                                                class="w-full min-w-[20vw] bg_cf5 r_8"
                                                 v-model="useTests.store.true_answers[useTests.store.slideStep]"
                                                 :toolbar="false" :placeholder="'Savolingizni shu yerga yozing'" />
                                         </ClientOnly>
@@ -295,14 +367,14 @@
                                 </button>
                                 <div v-else>
                                     <button
-                                        v-if="Object.keys(useTests.store.checked_answers)?.length == useTests.store.tests?.length"
+                                        v-if="Object.keys(useTests.store.checked_answers)?.length == useTests.store.tests?.test?.length"
                                         @click="() => useTests.checkAllAnswers()"
                                         class="bg_main px-[54px] py-3 r_50 text-white">Yakunlash</button>
                                     <a-button :loading="isLoading.isLoadingType('checkAnswer')"
                                         v-else-if="isNaN(useTests.store.checked_answers[useTests.store.slideStep]) && !useTests.store.checked_answers[useTests.store.slideStep]?.length"
                                         @click="() => { useTests.checkAnswer(useTests.test[useTests.store.slideStep - 1]?.id, useTests.store.slideStep) }"
                                         class="bg_main px-[54px] py-3 min-h-fit r_50 text-white">Tekshirish</a-button>
-                                    <button v-else @click="() => useTests.store.slideStep++"
+                                    <button v-else @click="nextSlide('student')"
                                         class="bg_main px-[54px] py-3 r_50 text-white">Keyingisi</button>
                                 </div>
                             </li>
@@ -462,7 +534,6 @@ definePageMeta({
 import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
-import { VueDraggableNext } from 'vue-draggable-next'
 import time from "@/assets/svg/test/time.svg"
 import pen from "@/assets/svg/test/pen.svg"
 import calculator from "@/assets/svg/test/calculator.svg"
@@ -492,24 +563,8 @@ useCategory.getCategory();
 
 const store = reactive({
     convertedContent: [],
+    listKey: 0,
 })
-
-const dragging = ref(null);
-
-// Dynamic question rendering with dropzones
-const renderQuestion = (question) => {
-    console.log(question);
-    return question?.replace(/👆🏾👆🏾👆🏾/g, `<span class="dropzone" @drop="dropAnswer" @dragover.prevent>👆🏾👆🏾👆🏾</span>`);
-};
-
-const dropAnswer = (event) => {
-    if (dragging.value) {
-        console.log(dragging.value)
-        // props.i.question = props.i.question.replace("👆🏾👆🏾👆🏾", dragging.value);
-        // props.i.variants = props.i.variants.filter(v => v !== dragging.value);
-        dragging.value = null;
-    }
-};
 
 function handleModal(value) {
     if (value == "OK") {
@@ -527,6 +582,19 @@ function handleModal(value) {
     }
 }
 
+const disableSwiper = () => {
+    document.querySelector('.swiper').swiper.allowTouchMove = false
+}
+
+const enableSwiper = () => {
+    store.listKey++
+    if (useTests.test[useTests.store.slideStep - 1]?.id) {
+        useTests.test[useTests.store.slideStep - 1].is_action = 'edited';
+    }
+    console.log(useTests.test);
+    document.querySelector('.swiper').swiper.allowTouchMove = true
+}
+
 function handleInput(e) {
     console.log("Hiiiii")
 }
@@ -537,11 +605,11 @@ function generateAlphabet(index) {
 
 function checkCurrentType(type, is_inline) {
     if (type == 'variant') {
-        return is_inline ? 'mb-5' : 'space-y-5'
+        return is_inline ? 'mb-2' : 'space-y-2'
     } else if (type == 'multiple' || type == 'fill') {
         return 'bg_cf5'
     } else if (type == 'customizable') {
-        return is_inline ? 'mb-5' : 'grid grid-cols-2 -mt-5 gap-5'
+        return is_inline ? 'mb-2' : 'grid grid-cols-2 -mt-5 gap-2'
     }
 }
 
@@ -632,29 +700,17 @@ function selectedAnswer(id, variant, type, step) {
     let l;
     if (isNaN(useTests.store.checked_answers[useTests.store.slideStep])) {
         if (type == "variant" && step == 1) {
-            console.log(useTests.store.true_answers)
             useTests.store.true_answers[useTests.store.slideStep] = [[variant]];
         } else if (step != 1) {
             useTests.store.true_answers[useTests.store.slideStep] = useTests.store.true_answers[useTests.store.slideStep] || [{}];
             for (let i in useTests.store.true_answers[useTests.store.slideStep][0]) {
                 if (useTests.store.true_answers[useTests.store.slideStep][0][i - 1] == variant) {
-                    // console.log(useTests.store.true_answers[useTests.store.slideStep])
                     delete useTests.store.true_answers[useTests.store.slideStep][0][i - 1]
-                    //     delete useTests.store.true_answers[i];
-                    //     console.log(useTests.store.true_answers[i + 1][0], variant);
-                    //     const element = document.querySelector(`[data-id="${String.fromCharCode(64 + i)}"]`);
-                    //     // console.log(useTests.store.true_answers);
-                    //     // if (element && useTests.store.true_answers[id]) element.innerHTML = `<span class="mentionstep">${id}</span> <span class="questionInfo">${variant}</span>`;
-                    //     element.innerHTML = `<span class="mentionstep">${id}</span> ...`;
                 }
-                // console.log(element);
-                /* <span class="mentionstep">${mentionCount}</span>...... */
             }
             useTests.store.true_answers[useTests.store.slideStep][0][id - 1] = variant;
             for (let i = 0; i < 3; i++) {
-                // const element = document.querySelector(`#${useTests.store.slideStep} [data-id="${String.fromCharCode(65 + i)}"]`);
                 const element = document.getElementById(useTests.store.slideStep)?.querySelector(`[data-id="${String.fromCharCode(65 + i)}"]`);
-
                 if (element && useTests.store.true_answers[useTests.store.slideStep][0][i]) element.innerHTML = `<span>${i + 1}</span> <span class="questionInfo">${useTests.store.true_answers[useTests.store.slideStep][0][i]}</span>`;
                 else element.innerHTML = `<span>${i + 1}</span> ...`;
             }
@@ -682,15 +738,34 @@ function changeSlide() {
     }, 200);
 }
 
-function nextSlide() {
-    console.log(Object.keys(useTests.test)?.length)
-    if (Object.keys(useTests.test)?.length == useTests.store.slideStep) {
-        useTests.test[+useTests.store.slideStep] = { question: null, variants: [null, null, null], type: 'variant', true_answer: [0] };
-        setTimeout(() => {
-            useTests.store.slideStep = +useTests.store.slideStep + 1;
-        }, 100)
+function nextSlide(type) {
+    console.log("Hi")
+    if (type == 'student') {
+        // console.log(useTests.store.true_answers)
+        if (Object.keys(useTests.test)?.length == useTests.store.slideStep) {
+            for (let i = 0; i < Object.keys(useTests.test)?.length; i++) {
+                // console.log(!useTests.store.true_answers[i][1], '===')
+                if (!useTests.store.checked_answers[i + 1]?.length) {
+                    useTests.store.slideStep = +i + 1;
+                    return;
+                }
+            }
+        } else {
+            useTests.store.slideStep++
+        }
+
     } else {
-        useTests.store.slideStep = +useTests.store.slideStep + 1;
+        if (Object.keys(useTests.test)?.length == useTests.store.slideStep) {
+            useTests.test[+useTests.store.slideStep] = { question: null, variants: [null, null, null], type: 'variant', true_answer: [0] };
+            setTimeout(() => {
+                useTests.store.slideStep = +useTests.store.slideStep + 1;
+            }, 100)
+        } else {
+            if (useTests.store.true_answers?.length != Object.keys(useTests.test)?.length) {
+                return
+            }
+            useTests.store.slideStep = +useTests.store.slideStep + 1;
+        }
     }
 }
 
@@ -727,9 +802,6 @@ watch(() => useTests.test[useTests.store.slideStep - 1]?.question, () => {
         useTests.test[useTests.store.slideStep - 1].true_answer = [];
         for (let i of l) {
             useTests.test[useTests.store.slideStep - 1].true_answer.push(i.getAttribute("data-id").charCodeAt(0) - 65);
-            // console.log();
-            // // String.fromCharCode
-            // console.log(String.fromCharCode(i.getAttribute("data-id")));
         }
     }
 })

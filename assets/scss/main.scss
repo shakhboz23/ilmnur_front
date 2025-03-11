@@ -392,3 +392,25 @@ img {
       display: inline;
   }
 }
+
+.drag-handle {
+  cursor: grab;
+}
+
+.ghost {
+  opacity: 1;
+  color: color(main);
+}
+
+.dragArea .drag-handle {
+  touch-action: none; /* Mobil uchun */
+}
+
+.dragArea .list-group {
+  display: flex;
+  flex-direction: column; /* Faqat vertikal */
+}
+
+.dragArea .sortable-ghost {
+  transform: translateX(0) !important; /* X o‘qi bo‘yicha harakatni oldini oladi */
+}

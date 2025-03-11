@@ -25,6 +25,7 @@ $colors: (
   bg: #f6f6f6,
   red: #f23636,
   white: #ffffff,
+  black: #000000,
   main: #FF852E,
   blue: #027DFC,
   green: #39CF3F,
@@ -34,17 +35,17 @@ $colors: (
 // Mixin to generate background color classes
 @mixin generate-bg-classes($color-map) {
   @each $name, $color in $color-map {
-    .bg_#{$name} {
+    .bg_#{#{$name}} {
       background-color: $color;
     }
-    .c_#{$name} {
+    .c_#{#{$name}} {
       color: $color;
     }
-    .b_#{$name} {
+    .b_#{#{$name}} {
       border: 1px solid $color;
     }
   };
-};
+}; 
 
 // Function to get a color from the map
 @function color($key) {
