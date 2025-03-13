@@ -344,11 +344,12 @@
                     <footer v-if="Object.keys(useTests.test)?.length" class="w-full bg-white r_8 overflow-hidden">
                         <hr />
                         <ul class="flex items-center justify-around py-5">
-                            <li class="full_flex gap-3">
+                            <li class="md:!flex !hidden full_flex gap-3">
                                 <img loading="lazy" src="@/assets/svg/test/help.svg" alt="">
                                 <p class="font-medium text-sm max-w-[112px] c_c65">Muammo haqida xabar bering</p>
                             </li>
-                            <ul v-if="useTests.store.checked_answers[useTests.store.slideStep]?.length">
+                            <ul class="md:!flex !hidden"
+                                v-if="useTests.store.checked_answers[useTests.store.slideStep]?.length">
                                 <li v-if="useTests.checkAnswerList(useTests.store.checked_answers[useTests.store.slideStep])"
                                     class="full_flex gap-3">
                                     <img loading="lazy" src="@/assets/svg/test/true.svg" alt="">
@@ -466,7 +467,8 @@
                     <label for="name">Test muddati</label>
                     <!-- {{ useTests.test_settings.period }} -->
                     <div>
-                        <a-time-picker v-model:value="useTests.test_settings.period" format="HH:mm" value-format="HH:mm" placeholder="00:00" />
+                        <a-time-picker v-model:value="useTests.test_settings.period" format="HH:mm" value-format="HH:mm"
+                            placeholder="00:00" />
                     </div>
                 </div>
                 <div class="space-y-3">
@@ -495,12 +497,12 @@
                             <a-select v-model:value="useTests.test_settings.sort_level[index][1]"
                                 class="min-w-[80px] test_arrow !h-[42px] sr_12" show-search required>
                                 <a-select-option v-for="i in useTests.store.questions_count" :value="i">{{ i
-                                }}</a-select-option>
+                                    }}</a-select-option>
                             </a-select>
                             <a-select v-model:value="useTests.test_settings.sort_level[index][2]"
                                 class="min-w-[80px] test_arrow !h-[42px] sr_12" show-search required>
                                 <a-select-option v-for="i in useTests.store.questions_count" :value="i">{{ i
-                                }}</a-select-option>
+                                    }}</a-select-option>
                             </a-select>
                             <p v-if="useTests.test_settings.sort_level?.length != 1"
                                 @click="addTestStep('remove', index)"
@@ -516,6 +518,35 @@
                 </div>
             </div>
         </UIModal>
+        <a-drawer class="!bg-[#FFDFE0] [#EBFFDB]" :placement="'bottom'" height="auto" :closable="false" :open="useTests.store.isChecked"
+            @close="() => useTests.store.isChecked = false">
+            <ul>
+                <li class="space-y-10" v-if="useTests.checkAnswerList(useTests.store.checked_answers[useTests.store.slideStep])">
+                    <div class="flex items-center justify-between">
+                        <div class="full_flex gap-3">
+                            <img class="h-8 w-8" loading="lazy" src="@/assets/svg/test/true.svg" alt="">
+                            <p class="c_green font-bold">Javob to‘g‘ri!</p>
+                        </div>
+                        <img loading="lazy" src="@/assets/svg/test/help.svg" alt="">
+                    </div>
+                    <button @click="nextSlide('student')" class="bg_green w-full text-white px-8 py-3 rounded-full">Keyingi</button>
+                </li>
+                <li class="space-y-10" v-else="!useTests.checkAnswerList(useTests.store.checked_answers[useTests.store.slideStep])">
+                    <div class="flex items-center justify-between">
+                        <div class="full_flex gap-3">
+                            <img class="h-8 w-8" loading="lazy" src="@/assets/svg/test/false.svg" alt="">
+                            <p class="c_red font-bold">Noto‘g‘ri javob!</p>
+                        </div>
+                        <img loading="lazy" src="@/assets/svg/test/help.svg" alt="">
+                    </div>
+                    <div class="space-y-2">
+                        <p class="c_red font-semibold">To‘g‘ri javob</p>
+                        <p class="c_red">6 proton, 1 elektron, 8 neytron</p>
+                    </div>
+                    <button @click="nextSlide('student')" class="bg_red w-full text-white px-8 py-3 rounded-full">Keyingi</button>
+                </li>
+            </ul>
+        </a-drawer>
     </div>
 </template>
 
@@ -735,6 +766,7 @@ function changeSlide() {
 
 function nextSlide(type) {
     console.log("Hi")
+    useTests.store.isChecked = false;
     if (type == 'student') {
         // console.log(useTests.store.true_answers)
         if (Object.keys(useTests.test)?.length == useTests.store.slideStep) {

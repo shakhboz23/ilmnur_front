@@ -2,6 +2,7 @@
 
 .ant-tabs-content-holder {
   overflow: hidden;
+
   .ant-tabs-tabpane {
     visibility: visible !important;
     overflow: visible !important;
@@ -73,6 +74,7 @@
     height: 40px;
     font-weight: 600;
   }
+
   .ant-btn-primary {
     background: #ff852e;
   }
@@ -90,6 +92,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
     svg {
       width: 24px;
       height: 24px;
@@ -107,10 +110,12 @@
   height: 50px;
   display: flex !important;
   align-items: center !important;
+
   input {
     height: 48px !important;
     padding: 12px !important;
   }
+
   // inset-inline: 0 !important;
   // inset-inline: 0px !important;
   * {
@@ -118,15 +123,24 @@
   }
 }
 
-.ant-drawer-content-wrapper {
-  width: max-content !important;
-  border-radius: 0px 20px 20px 0px;
-  overflow: hidden;
+.ant-drawer-left,
+.ant-drawer-right {
+  .ant-drawer-content-wrapper {
+    width: max-content !important;
+    border-radius: 0px 20px 20px 0px;
+    overflow: hidden;
+  }
 }
 
 .ant-drawer-right .ant-drawer-content-wrapper {
   width: max-content !important;
   border-radius: 20px 0px 0px 20px !important;
+}
+
+
+.ant-drawer-bottom .ant-drawer-content-wrapper {
+  border-radius: 20px 20px 0px 0 !important;
+  overflow: hidden;
 }
 
 .full-modal {
@@ -136,11 +150,13 @@
     padding-bottom: 0;
     margin: 0;
   }
+
   .ant-modal-content {
     display: flex;
     flex-direction: column;
     height: calc(100vh);
   }
+
   .ant-modal-body {
     flex: 1;
   }

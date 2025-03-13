@@ -18,6 +18,7 @@ export const useTestsStore = defineStore("tests", () => {
     test_step: 1,
     testResBall: [],
     slideStep: 1,
+    isChecked: false,
     deletedTestList: [],
     calculateHours: null,
     time: {
@@ -90,6 +91,7 @@ export const useTestsStore = defineStore("tests", () => {
       { answer: store.true_answers[step] || [] },
       "checkAnswer"
     );
+    store.isChecked = true;
     store.checked_answers[step] = data.data[1];
   }
   function checkAnswerList(list: boolean[]): boolean {
