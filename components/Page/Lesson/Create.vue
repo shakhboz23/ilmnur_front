@@ -4,12 +4,25 @@
             <h1 class="h-16 -mt-5 full_flex !justify-start text-xl font-semibold border-b border-[#EDEDED]">Mavzuni
                 yaratishni boshlang:</h1>
             <div class="max-h-[calc(100vh_-_225px)] overflow-y-auto overflow-hidden">
-                <section class="space-y-5">
+                <section v-if="useLessons.store.create.video" class="space-y-5">
+                    <!-- <video src=""></video> -->
                     <div class="w-full h-[312px] bg-black r_8">
-                        <div v-if="useLessons.create.youtube || useLessons.store.create.video"
+                        <video capture v-if="useLessons.store.create.video" class="w-full h-[312px] bg-black r_8"
+                            controls>
+                            <source :src="useLessons.store.create.video" type="video/mp4">
+                            <source :src="useLessons.store.create.video" type="video/ogg">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <h1 class="px-5 text-xl font-semibold">{{ useLessons.create.title }}</h1>
+                    <p class="px-5" v-html="useLessons.create.content"></p>
+                </section>
+                <section v-else class="space-y-5">
+                    <div class="w-full h-[312px] bg-black r_8">
+                        <div v-if="useLessons.create.youtube"
                             class="w-full md:h-[312px] h-[200px] r_8 rounded-lg overflow-hidden">
                             <ClientOnly>
-                                <VideoReader :url="useLessons.create.youtube || useLessons.store.create.video" />
+                                <VideoReader :url="useLessons.create.youtube" />
                             </ClientOnly>
                         </div>
                     </div>
@@ -36,12 +49,12 @@
                             </div>
                             <p>Tekst</p>
                         </li>
-                        <li @click="openModal('image')" class="space-y-4 pcursor">
+                        <!-- <li @click="openModal('image')" class="space-y-4 pcursor">
                             <div class="bg_cf3 w-20 h-20 full_flex r_f">
                                 <img loading="lazy" src="@/assets/svg/group/image.svg" alt="">
                             </div>
                             <p>Rasm</p>
-                        </li>
+                        </li> -->
                     </ul>
                 </section>
             </div>
@@ -63,10 +76,10 @@
                         <img loading="lazy" src="@/assets/svg/group/text.svg" alt="">
                         <p>Tekst</p>
                     </li>
-                    <li @click="openModal('image')" class="full_flex flex-col h-[120px] b_ced space-y-2 pcursor">
+                    <!-- <li @click="openModal('image')" class="full_flex flex-col h-[120px] b_ced space-y-2 pcursor">
                         <img loading="lazy" src="@/assets/svg/group/image.svg" alt="">
                         <p>Rasm</p>
-                    </li>
+                    </li> -->
                     <li class="full_flex flex-col h-[120px] b_ced space-y-2 pcursor">
                         <img loading="lazy" src="@/assets/svg/group/settings.svg" alt="">
                         <p>Sozlamalar</p>
@@ -80,10 +93,11 @@
                     </button>
                 </div>
                 <div class="space-y-5 py-6">
-                    <button
+                    <a-button :loading="isLoading.isLoadingType('createLesson')"
                         @click="useLessons.createLesson(true, 'create', $router.currentRoute.value.fullPath.includes('update'))"
-                        class="bg_main text-white w-full rounded-full py-3">Davom etish</button>
-                    <button class="bg_green text-white w-full rounded-full py-3">Qoralamaga qo‘shish</button>
+                        class="bg_main text-white w-full min-h-fit rounded-full py-3">Davom etish</a-button>
+                    <a-button :loading="isLoading.isLoadingType('createLesson')"
+                        class="bg_green text-white w-full min-h-fit rounded-full py-3">Qoralamaga qo‘shish</a-button>
                     <button class="c_c55 underline text-white w-full rounded-full py-3">Oldindan ko‘rish</button>
                 </div>
             </div>
@@ -91,7 +105,7 @@
     </div>
     <UIModal :width="store.file_type == 'text' ? '100%' : 500"
         :wrap-class-name="store.file_type == 'text' ? 'full-modal' : null" :isOpen="useLessons.store.modal.create"
-        @update:isOpen="(value) => handleModal(value)" :loadingType="'createCourse'">
+        @update:isOpen="(value) => handleModal(value)" :loadingType="'createLesson'">
         <div class="space-y-3" v-if="['video', 'image'].includes(store.file_type)">
             <label for="file_input" class="block pcursor">
                 <div class="w-full text-center space-y-10 r_8 py-10 border border-dashed border-[#EDEDED]">
@@ -102,9 +116,9 @@
             <FloatingInput :id="'youtube'" :maxValue="200" class="w-full mt-3 block" type="link"
                 v-model="useLessons.create.youtube" :label="'Youtube link'" required />
         </div>
-        <div v-else-if="store.file_type == 'text'">
+        <div v-else-if="store.file_type == 'text'" class="mt-10">
             <ClientOnly>
-                <EditorTiptapEditor v-model="useLessons.store.create.content"
+                <EditorTiptapEditor class="r_8 bg_cf5" :toolbar="false" v-model="useLessons.store.create.content"
                     :placeholder="'Savolingizni shu yerga yozing'" />
 
                 <!-- <CKEditor class="minh_80" v-model:editorContent="useLessons.store.create.content" :toolbar="true"
@@ -122,9 +136,10 @@
 </template>
 
 <script setup>
-import { useLessonsStore } from '~/store';
+import { useLessonsStore, useLoadingStore } from '~/store';
 
 const useLessons = useLessonsStore();
+const isLoading = useLoadingStore();
 
 const router = useRouter();
 

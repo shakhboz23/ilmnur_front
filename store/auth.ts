@@ -110,6 +110,7 @@ export const useAuthStore = defineStore("auth", () => {
     apiRequest
       .post("user/login", login, 'auth')
       .then((res: any) => {
+        console.log(res);
         if (!res.data?.user?.is_active) {
           return router.push("/verify-email");
         }

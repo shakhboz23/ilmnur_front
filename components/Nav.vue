@@ -38,9 +38,9 @@
           Hisob yaratish
         </router-link>
       </div>
-      <UIModal :isOpen="isLoading.store.logout" :loadingType="'category'"
+      <UIModal :title="'Tizimdan chiqish'" :isOpen="isLoading.store.logout" :loadingType="'category'"
         @update:isOpen="(value) => handleModal(value)">
-        <p class="py-5">Haqiqatdan ham hisobingizdan chiqmoqchimisiz?</p>
+        <p class="py-5">Haqiqatan ham tizimdan chiqmoqchimisiz?</p>
       </UIModal>
     </nav>
     <a-drawer v-model:open="isLoading.store.isDrawer" class="custom-class right-drawer min-w-[300px]"

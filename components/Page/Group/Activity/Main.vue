@@ -93,7 +93,7 @@
 
         <!-- modal -->
         <!-- modal -->
-        <UIModal v-if="$router.currentRoute.value.query.page == 'activity'" :isOpen="isLoading.modal.create"
+        <UIModal :title="''" v-if="$router.currentRoute.value.query.page == 'activity'" :isOpen="isLoading.modal.create"
             :wrapClassName="'full-modal'" :loadingType="'creategroup'" @update:isOpen="(value) => handleModal(value)">
             <div class="space-y-6">
                 <div>

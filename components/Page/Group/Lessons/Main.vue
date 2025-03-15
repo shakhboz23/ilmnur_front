@@ -13,7 +13,7 @@
             </div>
         </section>
         <!-- modal -->
-        <UIModal v-if="!$router.currentRoute.value.query.page" :isOpen="isLoading.modal.create"
+        <UIModal :title="'Dars qo\'shish'" v-if="!$router.currentRoute.value.query.page" :isOpen="isLoading.modal.create"
             :loadingType="'createCourse'" @update:isOpen="(value) => handleModal(value)">
             <div class="space-y-6">
                 <label for="file_input" class="block pcursor">

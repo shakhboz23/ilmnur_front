@@ -1,5 +1,5 @@
 <template>
-    <div v-if="editor" class="container">
+    <div v-if="editor">
         <div v-if="editable" class="control-group">
             <div v-if="toolbar" class="button-group">
                 <button @click="addImage">

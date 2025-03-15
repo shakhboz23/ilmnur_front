@@ -72,7 +72,6 @@ export const useLessonsStore = defineStore("lessons", () => {
       return updateLesson();
     }
     create.lesson_id = router.currentRoute.value.query.lesson_id;
-    create.video = '';
     if (is_create == "create") {
       create.course_id = router.currentRoute.value.params.lesson_id;
       create.type = "lesson";
@@ -80,11 +79,16 @@ export const useLessonsStore = defineStore("lessons", () => {
       create.course_id = router.currentRoute.value.params.course_id;
     }
     const formData = new FormData();
+    if (!create.video) {
+      create.video = '';
+    }
     for (let i in create) {
+      console.log(create[i]);
       if (create[i]) {
         formData.append(i, create[i]);
       }
     }
+
     const data: any = await apiRequest.post(
       "lesson/create",
       formData,
@@ -102,13 +106,18 @@ export const useLessonsStore = defineStore("lessons", () => {
   async function updateLesson() {
     const lesson_id = router.currentRoute.value.params.lesson_id;
     const formData = new FormData();
+    if (create.youtube) {
+      create.video = '';
+    }
     for (let i in create) {
-      formData.append(i, create[i]);
+      if (create[i]) {
+        formData.append(i, create[i]);
+      }
     }
     const data: any = await apiRequest.put(
       `lesson/${lesson_id}`,
       formData,
-      "createCourse"
+      "createLesson"
     );
     clearData();
     router.push(`/lesson/${data.data.id}`);
@@ -117,7 +126,6 @@ export const useLessonsStore = defineStore("lessons", () => {
   async function updateModule() {
     create.course_id = router.currentRoute.value.params.course_id;
     create.video = '';
-
     const formData = new FormData();
     for (let i in create) {
       formData.append(i, create[i]);
@@ -125,7 +133,7 @@ export const useLessonsStore = defineStore("lessons", () => {
     await apiRequest.put(
       `lesson/${store.lesson_id}`,
       formData,
-      "createCourse"
+      "createLesson"
     );
     isLoading.modal.create = false;
     isLoading.modal.edit = false;
