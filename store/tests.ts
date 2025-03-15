@@ -12,6 +12,7 @@ export const useTestsStore = defineStore("tests", () => {
   const store: any = reactive({
     tests: [],
     true_answers: {},
+    checked_true_answers: null,
     checked_answers: {},
     is_checked: false,
     questions_count: 1,
@@ -93,9 +94,10 @@ export const useTestsStore = defineStore("tests", () => {
     );
     store.isChecked = true;
     store.checked_answers[step] = data.data[1];
+    store.checked_true_answers = data.data[2];
   }
   function checkAnswerList(list: boolean[]): boolean {
-    return list.every(item => item === true);
+    return list?.every(item => item === true);
   }
 
   async function checkAllAnswers() {
@@ -105,7 +107,7 @@ export const useTestsStore = defineStore("tests", () => {
     }
     const data: any = await apiRequest.post(
       `tests/check_answers/${router.currentRoute.value.params.test_id}`,
-      { answers: results }
+      { answers: results }, 'checkAllAnswer'
     );
     store.testResBall = data?.data?.ball;
     openNotification('success', "Muvaffaqiyatli", data?.data?.message)

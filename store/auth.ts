@@ -110,8 +110,11 @@ export const useAuthStore = defineStore("auth", () => {
     apiRequest
       .post("user/login", login, 'auth')
       .then((res: any) => {
+        if (!res.data?.user?.is_active) {
+          return router.push("/verify-email");
+        }
         isLoading.store.error = '';
-        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("token", res.data?.token);
         getUserFullInfo('login');
         isLoading.store.isLogin = true;
         if (res.data.statusCode == 200) {
@@ -158,10 +161,11 @@ export const useAuthStore = defineStore("auth", () => {
   function authActivateLink() {
     const activation_link = router.currentRoute.value.query.activation_link;
     apiRequest
-      .get(`user/activation_link/${activation_link}`)
+      .get(`user/activation_link/${activation_link}`, 'auth')
       .then((res: any) => {
         if (res.data.message == "User activated successfully") {
-          router.push("/verify-email");
+          localStorage.setItem("token", res.data?.token);
+          router.push("/");
         }
       })
       .catch((err: any) => {

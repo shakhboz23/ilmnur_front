@@ -1,5 +1,5 @@
 <template>
-  <main class="full_flex py-10 md:px-0 px-4 max-h-screen min-h-[calc(100vh_-_100px)] overflow-y-auto">
+  <main class="full_flex py-10 md:px-0 px-4 overflow-y-auto">
     <div
       class="sm:w-[500px] bg_white mx-auto sm:p-[50px] p-5 pb-8 rounded-[16px]">
       <h1 class="text-center md:text-[28px] mb-7 text-xl font-bold">
@@ -30,8 +30,8 @@
           </div>
         </div>
         <div class="space-y-2 text-center mx-auto">
-          <button type="submit" class="bg_main px-10 py-3 mt-5 rounded-full text-white mx-auto">Ro'yhatdan
-            o'tish</button>
+          <a-button :loading="isLoading.isLoadingType('auth')" html-type="submit" class="bg_main px-10 py-3 min-h-fit mt-5 rounded-full text-white mx-auto">Ro'yhatdan
+            o'tish</a-button>
         </div>
         <button type="button" id="googleButton" class="!w-full googleButton">
           <!-- <div class="full_flex gap-2 mx-auto b_ce2 r_4 py-2"> -->

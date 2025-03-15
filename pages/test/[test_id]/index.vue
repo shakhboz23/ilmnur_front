@@ -91,9 +91,9 @@
                         </div>
                     </ul>
                     <swiper @slider-move="changeSlide" :watchSlidesProgress="true" :slidesPerView="1" :spaceBetween="30"
-                        :pagination="{ clickable: true }" :modules="modules"
-                        class="flex lg:max-w-[50vw] overflow-hidden">
-                        <swiper-slide :id="index" class="min-w-full" v-for="(i, index) in useTests.test">
+                        :pagination="{ clickable: true }" :modules="modules" :noSwiping="true"
+                        noSwipingClass="no-swiping" class="flex lg:max-w-[50vw] overflow-hidden">
+                        <swiper-slide :id="+index + 1" class="min-w-full" v-for="(i, index) in useTests.test">
                             <p class="flex gap-2 text-sm">
                                 <img src="@/assets/svg/icon/info.svg" alt="">
                                 <span>Question {{ +index + 1 }}</span>
@@ -367,10 +367,10 @@
                                     class="bg_main px-[54px] py-3 r_50 text-white">Davom etish
                                 </button>
                                 <div v-else>
-                                    <button
+                                    <a-button :loading="isLoading.isLoadingType('checkAllAnswer')"
                                         v-if="Object.keys(useTests.store.checked_answers)?.length == useTests.store.tests?.test?.length"
                                         @click="() => useTests.checkAllAnswers()"
-                                        class="bg_main px-[54px] py-3 r_50 text-white">Yakunlash</button>
+                                        class="bg_main px-[54px] py-3 min-h-fit r_50 text-white">Yakunlash</a-button>
                                     <a-button :loading="isLoading.isLoadingType('checkAnswer')"
                                         v-else-if="isNaN(useTests.store.checked_answers[useTests.store.slideStep]) && !useTests.store.checked_answers[useTests.store.slideStep]?.length"
                                         @click="() => { useTests.checkAnswer(useTests.test[useTests.store.slideStep - 1]?.id, useTests.store.slideStep) }"
@@ -518,10 +518,13 @@
                 </div>
             </div>
         </UIModal>
-        <a-drawer class="!bg-[#FFDFE0] [#EBFFDB]" :placement="'bottom'" height="auto" :closable="false" :open="useTests.store.isChecked"
+        <a-drawer
+            :class="useTests.checkAnswerList(useTests.store.checked_answers[useTests.store.slideStep]) ? '!bg-[#EBFFDB]' : '!bg-[#FFDFE0]'"
+            :placement="'bottom'" height="auto" :closable="false" :open="useTests.store.isChecked"
             @close="() => useTests.store.isChecked = false">
-            <ul>
-                <li class="space-y-10" v-if="useTests.checkAnswerList(useTests.store.checked_answers[useTests.store.slideStep])">
+            <ul v-if="useTests.store.checked_answers[useTests.store.slideStep]">
+                <li class="space-y-10"
+                    v-if="useTests.checkAnswerList(useTests.store.checked_answers[useTests.store.slideStep])">
                     <div class="flex items-center justify-between">
                         <div class="full_flex gap-3">
                             <img class="h-8 w-8" loading="lazy" src="@/assets/svg/test/true.svg" alt="">
@@ -529,9 +532,10 @@
                         </div>
                         <img loading="lazy" src="@/assets/svg/test/help.svg" alt="">
                     </div>
-                    <button @click="nextSlide('student')" class="bg_green w-full text-white px-8 py-3 rounded-full">Keyingi</button>
+                    <button @click="nextSlide('student')"
+                        class="bg_green w-full text-white px-8 py-3 rounded-full">Keyingi</button>
                 </li>
-                <li class="space-y-10" v-else="!useTests.checkAnswerList(useTests.store.checked_answers[useTests.store.slideStep])">
+                <li class="space-y-10" v-else>
                     <div class="flex items-center justify-between">
                         <div class="full_flex gap-3">
                             <img class="h-8 w-8" loading="lazy" src="@/assets/svg/test/false.svg" alt="">
@@ -541,9 +545,11 @@
                     </div>
                     <div class="space-y-2">
                         <p class="c_red font-semibold">To‘g‘ri javob</p>
-                        <p class="c_red">6 proton, 1 elektron, 8 neytron</p>
+                        <p v-for="answer in useTests.store.checked_true_answers.true_answer" class="c_red"
+                            v-html="useTests.store.checked_true_answers.variants[answer]"></p>
                     </div>
-                    <button @click="nextSlide('student')" class="bg_red w-full text-white px-8 py-3 rounded-full">Keyingi</button>
+                    <button @click="nextSlide('student')"
+                        class="bg_red w-full text-white px-8 py-3 rounded-full">Keyingi</button>
                 </li>
             </ul>
         </a-drawer>
@@ -617,13 +623,10 @@ const enableSwiper = () => {
     if (useTests.test[useTests.store.slideStep - 1]?.id) {
         useTests.test[useTests.store.slideStep - 1].is_action = 'edited';
     }
-    console.log(useTests.test);
     document.querySelector('.swiper').swiper.allowTouchMove = true
 }
 
-function handleInput(e) {
-    console.log("Hiiiii")
-}
+function handleInput(e) { }
 
 function generateAlphabet(index) {
     return String.fromCharCode(65 + index);
@@ -640,7 +643,6 @@ function checkCurrentType(type, is_inline) {
 }
 
 function addTestStep(type, index) {
-    console.log(index);
     if (type == "add") {
         useTests.test_settings.sort_level[index + 1] = [null, null, null];
         useTests.store.test_step += 1;
@@ -654,7 +656,6 @@ async function importFile(event) {
     const file = event.target.files[0];
     if (!file) return;
     const result = await convertFileToHtml(file);
-    console.log(result);
     store.convertedContent = result.value;
     htmlTableToArray(result.value);
 }
@@ -670,10 +671,8 @@ function htmlTableToArray(htmlTable) {
     });
 
     result.shift();
-    console.log(result, "res");
     let test = {};
     useTests.store.questions_count = result.length;
-    console.log(useTests.test_settings.sort_level[0][1])
     try {
         useTests.test_settings.sort_level[0][1] = useTests.test_settings.sort_level[0][1] || result.length;
         useTests.test_settings.sort_level[0][2] = useTests.test_settings.sort_level[0][2] || result.length;
@@ -682,7 +681,6 @@ function htmlTableToArray(htmlTable) {
     useTests.test[0] = { question: null, variants: [], type: 'variant' }
     for (let i = 0; i < result.length; i++) {
         // Initialize `useTests.test[i + 1]` as an object if it hasn't been initialized yet
-        // console.log(useTests.test[i + 1]);
         if (!useTests.test[i]) {
             useTests.test[i] = { question: null, variants: [], type: 'variant' };
         }
@@ -699,7 +697,6 @@ function htmlTableToArray(htmlTable) {
     // if (!matches) return [];
 
     // matches.map((match) => match.replace(/<\/?p>/g, ""));
-    // console.log(matches);
 }
 
 function convertFileToHtml(file) {
@@ -707,14 +704,12 @@ function convertFileToHtml(file) {
         const reader = new FileReader();
         reader.onload = async (event) => {
             const arrayBuffer = event.target.result;
-            console.log(arrayBuffer);
             const result = await mammoth.convertToHtml(
                 { arrayBuffer },
                 {
                     styleMap: ["p[style-name='Equation'] => span.math-display:fresh"],
                 }
             );
-            console.log(result);
             resolve(result);
         };
         reader.onerror = reject;
@@ -740,7 +735,6 @@ function selectedAnswer(id, variant, type, step) {
                 if (element && useTests.store.true_answers[useTests.store.slideStep][0][i]) element.innerHTML = `<span>${i + 1}</span> <span class="questionInfo">${useTests.store.true_answers[useTests.store.slideStep][0][i]}</span>`;
                 else element.innerHTML = `<span>${i + 1}</span> ...`;
             }
-            console.log(useTests.store.true_answers);
 
             // useTests.store.true_answers = useTests.store.true_answers || [];
             // useTests.store.true_answers.push(variant);
@@ -759,19 +753,15 @@ function getSelectedItem(variant) {
 
 function changeSlide() {
     setTimeout(() => {
-        useTests.store.slideStep = +document.querySelector(".swiper-slide-visible")?.id;
-        console.log(useTests.store.slideStep);
+        useTests.store.slideStep = +document.querySelector(".swiper-slide-active")?.id;
     }, 200);
 }
 
 function nextSlide(type) {
-    console.log("Hi")
     useTests.store.isChecked = false;
     if (type == 'student') {
-        // console.log(useTests.store.true_answers)
         if (Object.keys(useTests.test)?.length == useTests.store.slideStep) {
             for (let i = 0; i < Object.keys(useTests.test)?.length; i++) {
-                // console.log(!useTests.store.true_answers[i][1], '===')
                 if (!useTests.store.checked_answers[i + 1]?.length) {
                     useTests.store.slideStep = +i + 1;
                     return;
@@ -783,10 +773,14 @@ function nextSlide(type) {
 
     } else {
         if (Object.keys(useTests.test)?.length == useTests.store.slideStep) {
-            useTests.test[+useTests.store.slideStep] = { question: null, variants: [null, null, null], type: 'variant', true_answer: [0] };
-            setTimeout(() => {
+            if (!useTests.test[+useTests.store.slideStep]) {
+                useTests.test[+useTests.store.slideStep] = { question: null, variants: [null, null, null], type: 'variant', true_answer: [0] };
+                setTimeout(() => {
+                    useTests.store.slideStep = +useTests.store.slideStep + 1;
+                }, 100)
+            } else {
                 useTests.store.slideStep = +useTests.store.slideStep + 1;
-            }, 100)
+            }
         } else {
             if (useTests.store.true_answers?.length != Object.keys(useTests.test)?.length) {
                 return
@@ -797,8 +791,6 @@ function nextSlide(type) {
 }
 
 function handleVariant(index) {
-    console.log(index, "================================================")
-    // useTests.test[index].true_answer = [useTests.test[index].true_answer.splice(-1)];
     useTests.test[index].true_answer = [useTests.test[index].true_answer.pop()]
 }
 
@@ -812,7 +804,6 @@ watch(
         watchStep.value = 0;
         const swiper = document?.querySelector(".swiper-pagination-clickable");
         const swiperCount = document?.querySelectorAll(".swiper-wrapper>div");
-        console.log(swiperCount.length);
         if (swiper && swiper.children.length >= useTests.store.slideStep) {
             const secondChild = swiper.children[useTests.store.slideStep - 1];
             if (secondChild) {
@@ -834,8 +825,6 @@ watch(() => useTests.test[useTests.store.slideStep - 1]?.question, () => {
 })
 
 watch(() => useTests.test[useTests.store.slideStep - 1], () => {
-    console.log("Hi");
-    console.log(useTests.test);
     if (watchStep.value != 0) {
         useTests.test[useTests.store.slideStep - 1].is_action = 'edited';
     }

@@ -25,7 +25,7 @@
       <!-- <img loading="lazy"  src="@/assets/svg/register/verify-email.png" alt="" /> -->
       <section class="mb-10">
         <h1 class="text-center md:text-[40px] text-xl font-bold">
-          Assalomu alaykum! David
+          Assalomu alaykum!
         </h1>
         <p class="_c42 text-center md:text-lg text-sm font-medium my-5">
           IlmNur platformasiga xush kelibsiz
@@ -36,7 +36,7 @@
         </p>
       </section>
       <a target="_blank" href="https://mail.google.com/mail/u/0/#inbox"
-        ><button class="login_btn mx-auto">Emailni tasdiqlash</button>
+        ><a-button :loading="isLoading.isLoadingType('auth')" class="login_btn r_50 px-[54px] py-3 min-h-fit mx-auto">Emailni tasdiqlash</a-button>
       </a>
     </div>
   </main>
