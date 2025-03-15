@@ -5,7 +5,7 @@
         </div>
         <div v-else-if="useTests.store.tests?.user_id == isLoading.user?.id">
             <nav class="flex items-center justify-between pb-5 w-full">
-                <div class="flex items-center gap-2">
+                <div @click="$router.back()" class="flex items-center gap-2">
                     <button class="r_8 bg_cf5 p-2">
                         <img class="w-4 h-4" src="@/assets/svg/icon/back.svg" alt="">
                     </button>
