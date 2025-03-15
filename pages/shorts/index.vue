@@ -6,9 +6,11 @@
             <swiper-slide :id="i.id" v-for="i in useLessons.store.lessons" :key="i.id"
                 class="video-container mx-auto max-w-[360px] w-[60%] relative">
                 <ClientOnly>
-                    <VideoReader class="h-[calc(100vh_-_160px)] overflow-hidden" :url="i.video" />
+                    <VideoReader v-if="i.video" class="h-[calc(100vh_-_160px)] overflow-hidden" :url="i.video" />
+                    <EditorTiptapEditor class="overflow-hidden video-container overflow-y-auto" :modelValue="i?.content" :editable="false" />
                 </ClientOnly>
-                <ul class="flex flex-col justify-end items-end h-full text-center video-actions absolute top-0 right-[-80px] space-y-3">
+                <ul
+                    class="flex flex-col justify-end items-end h-full text-center video-actions absolute top-0 right-[-80px] space-y-3">
                     <li>
                         <button class="p-4 bg_cf2 rounded-full" @click="like(video.id)">
                             <img class="w-6 h-6" src="@/assets/svg/icon/star.svg" alt="">
