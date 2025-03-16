@@ -33,6 +33,7 @@ export const useLoadingStore = defineStore("loading", () => {
     category_id: 0,
     drawer: false,
     logout: false,
+    analytics_id: 0,
   });
 
   const user: any = reactive({
@@ -43,6 +44,7 @@ export const useLoadingStore = defineStore("loading", () => {
     create: false,
     edit: false,
     delete: false,
+    analytics: false,
   });
   checkCurrentUrl();
 

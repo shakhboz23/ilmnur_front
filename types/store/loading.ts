@@ -9,4 +9,5 @@ export interface LoadingType {
     category_id: number,
     drawer: boolean,
     logout: boolean,
+    analytics_id: number,
 }

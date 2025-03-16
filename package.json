@@ -38,6 +38,8 @@
     "calendar": "^0.1.1",
     "ckeditor5": "^43.3.1",
     "ckeditor5-premium-features": "^43.3.1",
+    "highcharts": "^12.1.2",
+    "highcharts-vue": "^2.0.1",
     "lowlight": "^3.3.0",
     "mammoth": "^1.8.0",
     "moment-timezone": "^0.5.46",

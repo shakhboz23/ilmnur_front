@@ -9,26 +9,28 @@
             <div class="bg_white b_cf5 r_12 p-5">
                 <h1 class="text-lg font-semibold">Groups analytics</h1>
                 <p>Current subscribers</p>
-                <span
-                    class="inline-block mb-7 text-xl font-semibold bg_cf5 px-2 r_50">{{ useGroups.store.groups?.summary[0]?.users_count }}</span>
+                <span class="inline-block mb-7 text-xl font-semibold bg_cf5 px-2 r_50">{{
+                    useGroups.store.groups?.summary?.length ? useGroups.store.groups?.summary[0]?.users_count : 0
+                }}</span>
                 <hr>
                 <h2 class="mt-2 font-semibold text-lg">Summary</h2>
                 <p class="c_c92">Last 28 days</p>
                 <ul class="space-y-2 mt-2">
                     <li class="flex items-center justify-between gap-1">
                         <span>Views</span>
-                        <span
-                            class="inline-block bg_cf5 px-2 r_50">{{ useGroups.store.groups?.summary[0]?.watched_count }}</span>
+                        <span class="inline-block bg_cf5 px-2 r_50">{{ useGroups.store.groups?.summary?.length ?
+                            useGroups.store.groups?.summary[0]?.watched_count : 0 }}</span>
                     </li>
                     <li class="flex items-center justify-between gap-1">
                         <span>Likes</span>
-                        <span
-                            class="inline-block bg_cf5 px-2 r_50">{{ useGroups.store.groups?.summary[0]?.likes_count }}</span>
+                        <span class="inline-block bg_cf5 px-2 r_50">{{ useGroups.store.groups?.summary?.length ?
+                            useGroups.store.groups?.summary[0]?.likes_count : 0 }}</span>
                     </li>
                 </ul>
                 <h2 class="mt-2 font-semibold text-lg">Top videos</h2>
                 <p><span class="c_c92">Last 48 hours</span> · Views</p>
-                <button class="bg_main c_white mt-2 py-2 px-5 r_50">Go to groups analytics</button>
+                <button @click="() => {isLoading.modal.analytics = true; isLoading.store.analytics_id = 0}" class="bg_main c_white mt-2 py-2 px-5 r_50">Go to
+                    groups analytics</button>
             </div>
             <div v-for="i in useGroups.store.groups?.groups" @click="(e) => toRoute(e, i.id)"
                 class="r_12 overflow-hidden bg_white pcursor relative">
@@ -61,7 +63,7 @@
                         <span class="inline-block bg_cf5 px-2 r_50">{{ i.likes_count }}</span>
                     </li>
                     <li>
-                        <button class="bg_main c_white py-2 px-5 r_50">Go to course analytics</button>
+                        <button @click="() => {isLoading.modal.analytics = true; isLoading.store.analytics_id = i.id}" class="bg_main c_white py-2 px-5 r_50">Go to course analytics</button>
                     </li>
                     <li>
                         <button class="bg_main c_white py-2 px-5 r_50">See comments (0)</button>
@@ -133,6 +135,14 @@
     </UIModal>
     <UIDeleteModal :isOpen="isLoading.modal.delete" :loadingType="'deletegroup'"
         @update:isOpen="(value) => handleModal(value)" />
+
+    <UIModal :title="''" :isOpen="isLoading.modal.analytics" :wrapClassName="'full-modal'" :loadingType="'creategroup'"
+        @update:isOpen="(value) => isLoading.modal.analytics = false">
+        <ClientOnly>
+            <PageDashboardHighChart v-if="useGroups.store.groups?.summary?.length"
+                :data="useGroups.store.groups?.summary" />
+        </ClientOnly>
+    </UIModal>
 </template>
 <script setup>
 import { useLoadingStore, useGroupsStore, useCategoryStore } from '~/store';
