@@ -107,6 +107,7 @@ export const useAuthStore = defineStore("auth", () => {
   }
 
   function authLogin() {
+    localStorage.removeItem("token");
     apiRequest
       .post("user/login", login, 'auth')
       .then((res: any) => {

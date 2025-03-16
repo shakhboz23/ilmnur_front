@@ -10,7 +10,7 @@
             <div @click="isLoading.modal.create = true" class="addbox addbox-h min-h-40">Guruh qo'shish</div>
         </div>
     </div>
-    <UIModal :isOpen="isLoading.modal.create" :loadingType="'creategroup'"
+    <UIModal :title="`Guruh qo'shish`" :isOpen="isLoading.modal.create" :loadingType="'creategroup'"
         @update:isOpen="(value) => handleModal(value)">
         <div class="space-y-6">
             <label for="file_input" class="block pcursor">
@@ -70,7 +70,7 @@
             <input @change="handleImage" id="file_input" class="file_input" type="file" accept="image/*">
         </div>
     </UIModal>
-    <UIDeleteModal :isOpen="isLoading.modal.delete" :loadingType="'deletegroup'"
+    <UIDeleteModal :title="`Guruh o'chirish`" :isOpen="isLoading.modal.delete" :loadingType="'deletegroup'"
         @update:isOpen="(value) => handleModal(value)" />
 </template>
 <script setup>

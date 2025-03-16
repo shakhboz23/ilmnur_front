@@ -39,7 +39,7 @@
                     {{ carddata.users_count }} Azolar
                 </button>
                 <button class="text-sm font-medium py-1 px-2 bg_cf2 r_8">
-                    Public
+                    {{carddata.group_type == 'public' ? 'Ommaviy' : 'Shaxsiy'}}
                 </button>
                 <button class="text-sm font-medium py-1 px-2 bg_cf2 r_8">
                     {{ carddata.courses_count }} Kurslar

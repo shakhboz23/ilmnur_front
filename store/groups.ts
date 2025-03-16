@@ -35,6 +35,11 @@ export const useGroupsStore = defineStore("groups", () => {
     store.groups = data.data;
   }
 
+  async function getAllAnalytics() {
+    const data: any = await apiRequest.get(`group/get-analytics/${isLoading.store.category_id}`, "groups");
+    store.groups = data.data;
+  }
+
   async function createGroup() {
     const formData = new FormData();
     for (let i in create) {
@@ -87,5 +92,6 @@ export const useGroupsStore = defineStore("groups", () => {
     deleteGroup,
     updateGroup,
     clearData,
+    getAllAnalytics,
   };
 });

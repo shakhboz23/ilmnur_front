@@ -20,7 +20,7 @@ const store = reactive({
 })
 
 onBeforeMount(() => {
-    useGroups.getGroups();
+    // useGroups.getGroups();
 })
 onMounted(() => {
     async function getImage(n) {

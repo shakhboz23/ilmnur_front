@@ -23,6 +23,7 @@ onBeforeMount(() => {
 })
 
 watch(() => isLoading.store.category_id, () => {
+    console.log("Loading");
     getData();
 })
 </script>

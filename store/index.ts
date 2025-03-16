@@ -9,6 +9,7 @@ import { useGroupsStore } from "./groups"
 import { useCategoryStore } from "./category"
 import { useUploadStore } from "./upload"
 import { useChatStore } from './chat';
+import { useWatchedStore } from './watched';
 export {
     useLoadingStore,
     useGroupsStore,
@@ -21,4 +22,5 @@ export {
     useSubscriptionStore,
     useUploadStore,
     useChatStore,
+    useWatchedStore,
 }
