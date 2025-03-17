@@ -414,3 +414,8 @@ img {
 .dragArea .sortable-ghost {
   transform: translateX(0) !important; /* X o‘qi bo‘yicha harakatni oldini oladi */
 }
+
+// charts
+.highcharts-credits {
+  display: none;
+}

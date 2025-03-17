@@ -10,7 +10,7 @@ export const useLessonsStore = defineStore("lessons", () => {
   const useCourses = useCoursesStore();
 
   const store: LessonsType = reactive({
-    lessons: [],
+    lessons: {},
     courses: [],
     modal: {
       create: false,

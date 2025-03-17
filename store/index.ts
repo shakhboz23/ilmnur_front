@@ -10,6 +10,7 @@ import { useCategoryStore } from "./category"
 import { useUploadStore } from "./upload"
 import { useChatStore } from './chat';
 import { useWatchedStore } from './watched';
+import { useLikesStore } from './likes';
 export {
     useLoadingStore,
     useGroupsStore,
@@ -23,4 +24,5 @@ export {
     useUploadStore,
     useChatStore,
     useWatchedStore,
+    useLikesStore,
 }

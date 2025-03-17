@@ -1,5 +1,5 @@
 export interface LessonsType {
-    lessons: any[],
+    lessons: any,
     courses: any[],
     lesson_id: number,
     create: Create,

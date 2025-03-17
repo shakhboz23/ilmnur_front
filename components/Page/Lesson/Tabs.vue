@@ -29,14 +29,14 @@
                     </router-link>
                 </li>
                 <li v-else-if="activeKey == 2" class="flex gap-4">
-                    <button class="full_flex gap-2 b_main c_main px-5 py-2 r_8 w-full text-white truncate">
-                        <img loading="lazy" src="@/assets/svg/icon/star.svg" alt="">
+                    <a-button :loading="isLoading.isLoadingType('like')" @click="useLikes.postLike(+$route.params.lesson_id)"
+                        class="full_flex gap-2 px-5 py-2 min-h-fit r_8 w-full truncate" :class="useLessons.store.lessons?.is_liked ? 'bg_main c_white' : 'b_main c_main'">
+                        <img v-if="useLessons.store.lessons?.is_liked" loading="lazy" src="@/assets/svg/icon/star_white.svg" alt="">
+                        <img v-else loading="lazy" src="@/assets/svg/icon/star.svg" alt="">
                         <span class="max-w-full truncate">Like</span>
-                    </button>
-                    <button v-if="lesson_course?.is_subscribed"
-                        class="bg_main px-5 py-2 r_8 w-full text-white truncate">Subscribed</button>
-                    <button v-else @click="useCourses.subscribeCourse(lesson_course?.id)"
-                        class="bg_main px-5 py-2 r_8 w-full text-white truncate">Subscribe</button>
+                    </a-button>
+                    <a-button :loading="isLoading.isLoadingType('subscribe')" @click="useCourses.subscribeCourse(lesson_course?.id)"
+                        class="px-5 py-2 r_8 w-full min-h-fit truncate" :class="useLessons.store.lessons?.course?.is_subscribed ? 'bg_main c_white' : 'b_main c_main'">{{lesson_course?.is_subscribed ? 'Subscribed' : 'Subscribe'}}</a-button>
                 </li>
                 <li v-else-if="activeKey == 3" class="flex items-center gap-4 ">
                     <img loading="lazy" src="@/assets/svg/chat/upload.svg" alt="">
@@ -62,7 +62,7 @@ defineProps({
 })
 import { lesson_tabs } from "@/constants"
 import { useTabs } from "~/composables";
-import { useCoursesStore, useLessonsStore, useLoadingStore } from "~/store";
+import { useCoursesStore, useLessonsStore, useLikesStore, useLoadingStore } from "~/store";
 const router = useRouter();
 const { tabsDrag } = useTabs()
 const activeKey = ref(1);
@@ -70,6 +70,7 @@ const activeKey = ref(1);
 const useCourses = useCoursesStore();
 const useLessons = useLessonsStore();
 const isLoading = useLoadingStore();
+const useLikes = useLikesStore();
 
 const PageLessonLectures = resolveComponent('PageLessonLectures');
 const PageLessonOverview = resolveComponent('PageLessonOverview');

@@ -12,7 +12,7 @@
                 </li>
                 <li class="flex items-center gap-3">
                     <img loading="lazy"  src="@/assets/svg/lesson/total.svg" alt="">
-                    <span>21h 33m total lenghts</span>
+                    <span>{{lesson_course?.total_duration}}s total lenghts</span>
                 </li>
                 <li class="flex items-center gap-3">
                     <img loading="lazy"  src="@/assets/svg/lesson/lang.svg" alt="">

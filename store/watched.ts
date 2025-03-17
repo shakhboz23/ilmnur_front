@@ -7,6 +7,8 @@ export const useWatchedStore = defineStore("watched", () => {
 
   const store: any = reactive({
     watched: [],
+    showUsers: false,
+    currentIndex: 0,
   })
 
   async function getWatched(type: string) {

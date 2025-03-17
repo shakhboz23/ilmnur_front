@@ -60,14 +60,22 @@ export const useCoursesStore = defineStore("courses", () => {
   }
 
   async function subscribeCourse(id: any) {
-    await apiRequest.post(
+    const data: any = await apiRequest.post(
       "subscriptions/create",
       {
         course_id: id,
       },
       "subscribe"
     );
-    getByCourse();
+    if (router.currentRoute.value.params.lesson_id) {
+      if (data.data.statusCode == 200) {
+        useLessons.store.lessons.course.is_subscribed = false;
+      } else {
+        useLessons.store.lessons.course.is_subscribed = true;
+      }
+    } else {
+      getByCourse();
+    }
   }
 
   async function createCourse() {
