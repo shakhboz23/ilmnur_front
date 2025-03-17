@@ -71,7 +71,10 @@
                     </li>
                 </ul>
             </div>
-            <!-- <div @click="isLoading.modal.create = true" class="addbox addbox-h min-h-40">Create a post</div> -->
+            <div @click="isLoading.modal.create = true" class="flex flex-col justify-center items-center gap-2 text-center b_cf5 r_12 min-h-[380px]">
+                <p>Create your new group to start a conversation and get feedback from your community.</p>
+                <button class="bg_main c_white py-2 px-5 r_50">Create a new group</button>
+            </div>
         </div>
     </div>
     <UIModal :title="`Guruh qo'shish`" :isOpen="isLoading.modal.create" :loadingType="'creategroup'"
