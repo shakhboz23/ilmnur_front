@@ -13,8 +13,7 @@ export default function apiRequest(options) {
 
     return {
       Authorization: "Bearer " + token,
-      "Access-Control-Allow-Origin": "*",
-      // "x-api-key": "backend_special_key..."
+      "Access-Control-Allow-Origin": '*',
     };
   }
   const api = axios.create({
