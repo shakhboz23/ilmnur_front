@@ -1,0 +1,1 @@
+import{_}from"./j5iQ0g_l.js";import{a4 as c,ac as s,z as o,a7 as r,a1 as i}from"./DrnJMpD-.js";import"./DIizXLpT.js";const l={class:"max-h-[80vh]"},h={__name:"index",setup(p){function n(t){console.log(t.target)}return(t,m)=>{const e=c("Editor_cki"),a=_;return i(),s("div",l,[o(a,null,{default:r(()=>[o(e,{onInput:n})]),_:1})])}}};export{h as default};
