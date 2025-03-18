@@ -16,7 +16,7 @@ export const useApiRequest = () => {
     return {
       Authorization: "Bearer " + token,
       "Content-Type": "application/json",
-      // "Access-Control-Allow-Origin": '*',
+      "Access-Control-Allow-Origin": '*',
     };
   }
 
@@ -28,7 +28,7 @@ export const useApiRequest = () => {
       url = endPoint + url;
       return new Promise(function (resolve) {
         axios
-          .get(url, { headers, withCredentials: true, })
+          .get(url, { headers })
           .then((res) => {
             console.log(res, "res");
             isLoading.removeLoading(loadingType);
