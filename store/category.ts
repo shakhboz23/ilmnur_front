@@ -23,6 +23,7 @@ export const useCategoryStore = defineStore("category", () => {
 
   async function uploadFile(file: any, type: string) {
     const formData = new FormData();
+    console.log(file)
     formData.append('file', file);
     formData.append('file_type', type);
     const data: any = await apiRequest.post("uploaded/create", formData, "category");

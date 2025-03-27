@@ -419,3 +419,36 @@ img {
 .highcharts-credits {
   display: none;
 }
+
+.spoiler {
+  background-color: black;
+  color: black;
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 3px;
+  transition: color 0.5s ease;
+}
+
+.spoiler:hover,
+.spoiler:focus {
+  color: white;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

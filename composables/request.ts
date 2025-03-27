@@ -15,7 +15,6 @@ export const useApiRequest = () => {
 
     return {
       Authorization: "Bearer " + token,
-      "Content-Type": "application/json",
       "Access-Control-Allow-Origin": '*',
     };
   }
@@ -49,7 +48,9 @@ export const useApiRequest = () => {
 
   function post(url: string, data: any = {}, loadingType?: string) {
     console.log(data);
-    console.log(data.sort_level)
+    // for (let [key, value] of data.entries()) {
+    //   console.log(`${key}: ${value}`);
+    // }
     let headers = getHeader();
     isLoading.addLoading(loadingType);
     url = endPoint + url;

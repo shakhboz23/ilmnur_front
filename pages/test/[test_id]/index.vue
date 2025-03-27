@@ -1,6 +1,7 @@
 <template>
     <div class="p-5 bg-white">
         <div v-if="isLoading.isLoadingType('getById')" class="space-y-4">
+            {{ isLoading.store.error }}
             <LoadingDiv v-for="i in 10" class="w-full h-10" />
         </div>
         <div v-else-if="useTests.store.tests?.user_id == isLoading.user?.id">

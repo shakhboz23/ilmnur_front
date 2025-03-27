@@ -72,6 +72,26 @@
                 </button>
             </div>
         </div>
+        <bubble-menu :editor="editor" :tippy-options="{ duration: 100 }" v-if="editor">
+            <div class="bubble-menu">
+                <button @click="editor.chain().focus().toggleBold().run()"
+                    :class="{ 'is-active': editor.isActive('bold') }">
+                    Bold
+                </button>
+                <button @click="editor.chain().focus().toggleItalic().run()"
+                    :class="{ 'is-active': editor.isActive('italic') }">
+                    Italic
+                </button>
+                <button @click="editor.chain().focus().toggleStrike().run()"
+                    :class="{ 'is-active': editor.isActive('strike') }">
+                    Strike
+                </button>
+                <button @click="editor.chain().focus().toggleSpoiler().run()"
+                    :class="{ 'is-active': editor.isActive('spoiler') }">
+                    Spoiler
+                </button>
+            </div>
+        </bubble-menu>
         <editor-content :editor="editor" v-model="tableHTML" />
     </div>
 </template>
@@ -86,7 +106,7 @@ import TableCell from '@tiptap/extension-table-cell'
 import TableHeader from '@tiptap/extension-table-header'
 import TableRow from '@tiptap/extension-table-row'
 import StarterKit from '@tiptap/starter-kit'
-import { Editor, EditorContent, VueNodeViewRenderer } from '@tiptap/vue-3'
+import { BubbleMenu, Editor, EditorContent, VueNodeViewRenderer } from '@tiptap/vue-3'
 import BulletList from '@tiptap/extension-bullet-list'
 import { ColorHighlighter } from './ColorHighlighter'
 import suggestion from './suggestion.js'
@@ -102,6 +122,7 @@ import ts from 'highlight.js/lib/languages/typescript'
 import html from 'highlight.js/lib/languages/xml'
 // load all languages with "all" or common languages with "common"
 import { all, createLowlight } from 'lowlight'
+import { Mark } from '@tiptap/core';
 
 // const useCategory = useCategoryStore();
 const CustomTableCell = TableCell.extend({
@@ -133,10 +154,43 @@ lowlight.register('html', html)
 lowlight.register('css', css)
 lowlight.register('js', js)
 lowlight.register('ts', ts)
+const Spoiler = Mark.create({
+    name: 'spoiler',
 
+    addAttributes() {
+        return {
+            class: {
+                default: 'spoiler',
+            },
+        };
+    },
+
+    parseHTML() {
+        return [
+            {
+                tag: 'span[class="spoiler"]',
+            },
+        ];
+    },
+
+    renderHTML({ HTMLAttributes }) {
+        return ["span", { ...HTMLAttributes, class: "spoiler" }, 0];
+    },
+
+    addCommands() {
+        return {
+            toggleSpoiler:
+                () =>
+                    ({ commands }) => {
+                        return commands.toggleMark('spoiler');
+                    },
+        };
+    },
+});
 export default {
     components: {
         EditorContent,
+        BubbleMenu,
     },
     props: {
         modelValue: {
@@ -206,6 +260,7 @@ export default {
                 Table.configure({
                     resizable: true,
                 }),
+                Spoiler,
                 Document,
                 Paragraph,
                 BulletList,
@@ -226,6 +281,9 @@ export default {
                         if (file) {
                             const imageUrl = await uploadImage(file);
                             this.editor.commands.setImage({ src: imageUrl });
+                            document.querySelectorAll('img[contenteditable]').forEach(img => {
+                                img.removeAttribute('contenteditable');
+                            });
                             return true;
                         }
                         return false;
@@ -235,6 +293,9 @@ export default {
                         if (file) {
                             const imageUrl = await uploadImage(file);
                             this.editor.commands.setImage({ src: imageUrl });
+                            document.querySelectorAll('img[contenteditable]').forEach(img => {
+                                img.removeAttribute('contenteditable');
+                            });
                             return true;
                         }
                         return false;
@@ -289,10 +350,14 @@ export default {
             // 📌 **Paste event**
             editorElement.addEventListener('paste', async (event) => {
                 const file = event.clipboardData?.files[0];
+                console.log(file);
                 if (file && file.type.startsWith('image/')) {
                     const imageUrl = await this.useCategory.uploadFile(file, 'image')
                     console.log(imageUrl);
                     this.editor.chain().focus().setImage({ src: imageUrl }).run();
+                    //  document.querySelectorAll('img[contenteditable]').forEach(img => {
+                    //         img.removeAttribute('contenteditable');
+                    //     });
                 }
             });
         });
@@ -563,6 +628,32 @@ export default {
 
         &.ProseMirror-selectednode {
             outline: 3px solid purple;
+        }
+    }
+}
+
+/* Bubble menu */
+.bubble-menu {
+    background-color: white;
+    border: 1px solid gray;
+    border-radius: 0.7rem;
+    box-shadow: 1px 2px 8px black;
+    display: flex;
+    padding: 0.2rem;
+
+    button {
+        background-color: unset;
+
+        &:hover {
+            background-color: gray;
+        }
+
+        &.is-active {
+            background-color: purple;
+
+            &:hover {
+                background-color: purple;
+            }
         }
     }
 }
