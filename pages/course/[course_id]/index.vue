@@ -20,7 +20,7 @@
                     <div class="flex items-center gap-5">
                         <h1 class="font-semibold text-[24px] max-w-[70%]">{{ useCourses.store.courses?.course?.title }}
                         </h1>
-                        <div v-if="isOwner()">
+                        <div v-if="!isOwner()">
                             <div v-if="useCourses.store.courses?.course?.is_subscribed">
                                 <a-dropdown>
                                     <button class="bg_main rounded-full text-white px-4 py-1 text-sm">Obuna</button>
@@ -87,7 +87,8 @@
                             </button>
                             <h1 class="w-full truncate">{{ i.title }}</h1>
                             <p class="min-w-fit">18 daqiqa</p>
-                            <div class="min-w-fit">
+                            <div class="flex gap-5 min-w-fit">
+                                <img class="h-7" loading="lazy" src="@/assets/svg/course/statistics.svg" alt="">
                                 <img loading="lazy" v-if="!i.is_finished && i.is_viewed"
                                     src="@/assets/svg/news/show.svg" alt="">
                                 <img loading="lazy" v-if="checkIsFinished(i)" src="@/assets/svg/course/finished.svg"
@@ -129,7 +130,8 @@
                                     </button>
                                     <h1 class="w-full whitespace-nowrap">{{ lesson.title }}</h1>
                                     <p class="min-w-fit">18 daqiqa</p>
-                                    <div class="min-w-fit">
+                                    <div class="flex gap-5 min-w-fit">
+                                        <img class="h-7" loading="lazy" src="@/assets/svg/course/statistics.svg" alt="">
                                         <img loading="lazy" v-if="!lesson.is_finished && lesson.is_viewed"
                                             src="@/assets/svg/news/show.svg" alt="">
                                         <img loading="lazy" v-if="lesson.is_finished || index == 0"

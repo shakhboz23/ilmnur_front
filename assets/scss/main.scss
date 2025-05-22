@@ -90,6 +90,11 @@ img {
   -webkit-user-drag: none;
 }
 
+.aspect-video iframe {
+  aspect-ratio: 16 / 9 !important;
+  height: auto;
+}
+
 .is_loading {
   background: #ededed;
   background: linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
@@ -389,7 +394,7 @@ img {
 
 .questionInfo {
   * {
-      display: inline;
+    display: inline;
   }
 }
 
@@ -403,16 +408,19 @@ img {
 }
 
 .dragArea .drag-handle {
-  touch-action: none; /* Mobil uchun */
+  touch-action: none;
+  /* Mobil uchun */
 }
 
 .dragArea .list-group {
   display: flex;
-  flex-direction: column; /* Faqat vertikal */
+  flex-direction: column;
+  /* Faqat vertikal */
 }
 
 .dragArea .sortable-ghost {
-  transform: translateX(0) !important; /* X o‘qi bo‘yicha harakatni oldini oladi */
+  transform: translateX(0) !important;
+  /* X o‘qi bo‘yicha harakatni oldini oladi */
 }
 
 // charts
@@ -433,22 +441,3 @@ img {
 .spoiler:focus {
   color: white;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

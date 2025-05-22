@@ -14,14 +14,14 @@
             Your browser does not support the video tag.
           </video>
         </div> -->
-        <div class="spect-video w-full object-cover">
+        <div class="aspect-video w-full object-cover bg-black">
           <ClientOnly>
-            <VideoReader :url="i.video" />
+            <VideoReader class="aspect-video" v-if="i.video" :url="i.video" />
           </ClientOnly>
         </div>
         <div class="p-3 space-y-2">
           <h1 class="font-bold">{{ i.title }}</h1>
-          <pre class="whitespace-pre-line line-clamp-2" v-html="i.content"></pre>
+          <pre class="whitespace-pre-line line-clamp-2 max-h-[42px]" v-html="i.content"></pre>
           <ul class="flex items-center gap-2 text-sm">
             <li class="full_flex gap-1">
               <img loading="lazy" src="@/assets/svg/icon/a_star.svg" alt="" />

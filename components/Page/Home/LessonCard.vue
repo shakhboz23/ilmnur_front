@@ -11,7 +11,7 @@
         </div> -->
         <div class="spect-video w-full object-cover">
             <ClientOnly>
-                <VideoReader :url="lessoncard.video" />
+                <VideoReader v-if="lessoncard.video" :url="lessoncard.video" />
             </ClientOnly>
         </div>
         <div class="p-3 space-y-2">

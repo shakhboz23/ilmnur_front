@@ -33,7 +33,7 @@
                     ${{ carddata.low_price }} - ${{ carddata.high_price }}
                 </li>
             </ul>
-            <div class="flex gap-2">
+            <div class="flex flex-wrap whitespace-nowrap gap-2">
                 <!-- {{ carddata }} -->
                 <button class="text-sm font-medium py-1 px-2 bg_cf2 r_8">
                     {{ carddata.users_count }} Azolar

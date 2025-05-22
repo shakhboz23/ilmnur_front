@@ -32,12 +32,13 @@
                 </div> -->
                 <div class="flex items-center justify-between mb-5">
                     <h1 class="text-xl font-semibold">{{ useLessons.store.lessons?.title }}</h1>
-                    <div class="space-x-3">
+                    <div class="flex items-center gap-5 space-x-3">
                         <button v-if="useLessons.store.lessons?.course?.user_id != isLoading.user?.id"
                             class="b_main p-3 r_8">
                             <img loading="lazy" class="stroke-[#FF852E]" src="@/assets/svg/course/markasread.svg"
                                 alt="">
                         </button>
+                        <img @click="isLoading.modal.create = true" class="h-[42px]" loading="lazy" src="@/assets/svg/course/statistics.svg" alt="">
                         <button @click="editLesson()"
                             v-if="useLessons.store.lessons?.course?.user_id == isLoading.user?.id"
                             class="b_main p-3 r_8">
@@ -65,6 +66,12 @@
             <PageLessonTabs class="lesson_tab" :lesson_lecture="useLessons.store.lessons?.content"
                 :lesson_course="useLessons.store.lessons?.course" />
         </section>
+
+        <!-- modal -->
+        <UIModal :title="''" :isOpen="isLoading.modal.create"
+            :wrapClassName="'full-modal'" :loadingType="'creategroup'" @update:isOpen="(value) => isLoading.modal.create = false">
+                    <ChartLine />
+        </UIModal>
     </div>
 </template>
 
