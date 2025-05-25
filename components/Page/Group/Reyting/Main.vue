@@ -64,12 +64,11 @@ const useLessons = useLessonsStore();
 const isLoading = useLoadingStore();
 const router = useRouter();
 
-useLessons.getByCourse();
-console.log(props, 23333)
 onBeforeMount(() => {
     if (props.type == 'lesson') {
         useReyting.getLessonReyting(props.lesson_id);
     } else {
+        useLessons.getByCourse();
         useReyting.getReyting();
     }
 })

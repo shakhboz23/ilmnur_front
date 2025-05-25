@@ -38,7 +38,8 @@
                             <img loading="lazy" class="stroke-[#FF852E]" src="@/assets/svg/course/markasread.svg"
                                 alt="">
                         </button>
-                        <img @click="isLoading.modal.create = true" class="h-[42px]" loading="lazy" src="@/assets/svg/course/statistics.svg" alt="">
+                        <img @click="isLoading.modal.create = true" class="h-[42px] pcursor" loading="lazy"
+                            src="@/assets/svg/course/statistics.svg" alt="">
                         <button @click="editLesson()"
                             v-if="useLessons.store.lessons?.course?.user_id == isLoading.user?.id"
                             class="b_main p-3 r_8">
@@ -68,9 +69,9 @@
         </section>
 
         <!-- modal -->
-        <UIModal :title="''" :isOpen="isLoading.modal.create"
-            :wrapClassName="'full-modal'" :loadingType="'creategroup'" @update:isOpen="(value) => isLoading.modal.create = false">
-                    <ChartLine />
+        <UIModal :title="''" :isOpen="isLoading.modal.create" :wrapClassName="'full-modal'" :loadingType="'creategroup'"
+            @update:isOpen="(value) => isLoading.modal.create = false">
+            <PageGroupReytingMain v-if="isLoading.modal.create" :type="'lesson'" :lesson_id="$route.params.lesson_id" />
         </UIModal>
     </div>
 </template>

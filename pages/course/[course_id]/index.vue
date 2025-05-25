@@ -239,7 +239,6 @@ function handleButton(type, lesson) {
 }
 
 function handleClick(e, lesson) {
-    console.log(e.target.className.includes("statistics"));
     store.lesson_id = lesson.id;
     if (e.target.className.includes("statistics")) {
         return useCourses.store.reytingModal = true;

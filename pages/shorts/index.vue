@@ -1,13 +1,19 @@
 <template>
     <div class="shorts">
-        <swiper @slider-move="changeSlide" :watchSlidesProgress="true" direction="vertical" :slidesPerView="1"
-            :spaceBetween="30" :pagination="{ clickable: true }" :modules="modules"
-            class="flex md:max-w-[50vw] max-w-[75vw] h-[calc(100vh_-_160px)] overflow-hidden" :mousewheel="true">
+        <swiper :slidesPerView="'auto'" :centeredSlides="true" :grabCursor="true" :effect="'coverflow'"
+            :coverflowEffect="{
+                rotate: 50,
+                stretch: 0,
+                depth: 100,
+                modifier: 1,
+                slideShadows: true,
+            }" :spaceBetween="120" :modules="modules" :mousewheel="true">
             <swiper-slide :id="i.id" v-for="i in useLessons.store.lessons" :key="i.id"
-                class="video-container mx-auto max-w-[360px] w-[60%] relative">
+                class="video-container mx-auto max-w-[450px] shadow-2xl w-[60%] relative">
                 <ClientOnly>
                     <VideoReader v-if="i.video" class="h-[calc(100vh_-_160px)] overflow-hidden" :url="i.video" />
-                    <EditorTiptapEditor class="overflow-hidden video-container overflow-y-auto" :modelValue="i?.content" :editable="false" />
+                    <EditorTiptapEditor class="overflow-hidden video-container overflow-y-auto" :modelValue="i?.content"
+                        :editable="false" />
                 </ClientOnly>
                 <ul
                     class="flex flex-col justify-end items-end h-full text-center video-actions absolute top-0 right-[-80px] space-y-3">
@@ -59,11 +65,12 @@
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/pagination';
-import { Mousewheel, Pagination } from 'swiper/modules';
+import 'swiper/css/effect-coverflow';
+import { Mousewheel, Pagination, EffectCoverflow } from 'swiper/modules';
 
 import { useLessonsStore, useLoadingStore } from "~/store";
 const router = useRouter();
-const modules = [Mousewheel, Pagination];
+const modules = [EffectCoverflow, Pagination];
 const useLessons = useLessonsStore();
 const isLoading = useLoadingStore();
 useLessons.getLessons();
