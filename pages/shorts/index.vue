@@ -7,9 +7,10 @@
                 depth: 100,
                 modifier: 1,
                 slideShadows: true,
-            }" :spaceBetween="120" :modules="modules" :mousewheel="true">
+            }" :simulateTouch="true"
+            touch-angle="1" touch-ratio="45" :spaceBetween="120" :modules="modules" :mousewheel="true">
             <swiper-slide :id="i.id" v-for="i in useLessons.store.lessons" :key="i.id"
-                class="video-container mx-auto md:max-w-[450px] max-w-[80%] shadow-2xl w-[60%] relative">
+                class="video-container mx-auto md:max-w-[450px] max-w-[70%] shadow-2xl w-[60%] relative">
                 <ClientOnly>
                     <VideoReader v-if="i.video" class="h-[calc(100vh_-_160px)] overflow-hidden" :url="i.video" />
                     <EditorTiptapEditor class="overflow-hidden video-container overflow-y-auto" :modelValue="i?.content"
