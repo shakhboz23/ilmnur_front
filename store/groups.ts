@@ -6,9 +6,11 @@ import { groupCreate } from "~/types/default";
 export const useGroupsStore = defineStore("groups", () => {
   const apiRequest = useApiRequest();
   const isLoading = useLoadingStore();
+  const router = useRouter();
 
   const store: GroupsType = reactive({
     groups: [],
+    group: {},
     group_id: 0,
     image: "",
   });
@@ -33,6 +35,11 @@ export const useGroupsStore = defineStore("groups", () => {
   async function getGroups() {
     const data: any = await apiRequest.get(`group/${isLoading.store.category_id}`, "groups");
     store.groups = data.data;
+  }
+
+  async function getGroupById() {
+    const data: any = await apiRequest.get(`group/getById/${router.currentRoute.value.params.group_id}`, "groups");
+    store.group = data.data;
   }
 
   async function getAllAnalytics() {
@@ -88,6 +95,7 @@ export const useGroupsStore = defineStore("groups", () => {
     store,
     create,
     getGroups,
+    getGroupById,
     createGroup,
     deleteGroup,
     updateGroup,

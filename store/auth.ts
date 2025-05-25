@@ -48,6 +48,7 @@ export const useAuthStore = defineStore("auth", () => {
   });
 
   const profile: any = reactive({
+    id: "",
     name: "",
     surname: "",
     image: "",

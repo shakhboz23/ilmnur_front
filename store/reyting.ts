@@ -20,8 +20,18 @@ export const useReytingStore = defineStore("reyting", () => {
     store.reytings = data.data;
   }
 
+  async function getLessonReyting(id: number) {
+    const data: any = await apiRequest.get(
+      `user/lesson-reyting/${id}`,
+      "getReyting"
+    );
+    console.log(data, "2303");
+    store.reytings = data.data;
+  }
+
   return {
     store,
     getReyting,
+    getLessonReyting,
   };
 });

@@ -34,6 +34,7 @@ const InfiniteScroll = resolveComponent('InfiniteScroll');
 const PageGroupCalendarMain = resolveComponent('PageGroupCalendarMain');
 const PageGroupSettingsMain = resolveComponent('PageGroupSettingsMain');
 const PageGroupActivityMain = resolveComponent('PageGroupActivityMain');
+const PageGroupAboutMain = resolveComponent('PageGroupAboutMain');
 let t = 1;
 for (let i of group_tabs) {
     if (i.url == router.currentRoute.value.query.page) {
@@ -51,6 +52,7 @@ const tabsComponents = {
     PageGroupMembersMain,
     PageGroupCalendarMain,
     PageGroupSettingsMain,
+    PageGroupAboutMain,
     PageGroupActivityMain,
 }
 const getComponent = (component) => {

@@ -1,5 +1,6 @@
 export interface GroupsType {
     groups: any[],
+    group: any,
     // users: any[],
     group_id: number,
     image: string,

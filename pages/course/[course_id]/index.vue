@@ -88,7 +88,8 @@
                             <h1 class="w-full truncate">{{ i.title }}</h1>
                             <p class="min-w-fit">18 daqiqa</p>
                             <div class="flex gap-5 min-w-fit">
-                                <img class="h-7" loading="lazy" src="@/assets/svg/course/statistics.svg" alt="">
+                                <!-- <img class="h-7 statistics" loading="lazy" src="@/assets/svg/course/statistics.svg"
+                                    alt=""> -->
                                 <img loading="lazy" v-if="!i.is_finished && i.is_viewed"
                                     src="@/assets/svg/news/show.svg" alt="">
                                 <img loading="lazy" v-if="checkIsFinished(i)" src="@/assets/svg/course/finished.svg"
@@ -123,23 +124,24 @@
                             <draggable :list="useCourses.store.courses.lessons[index].lessons" class="drag-area"
                                 group="lessons" :animation="200" handle=".drag-handle">
                                 <li @click="e => handleClick(e, lesson)" v-for="lesson in i.lessons"
-                                    class="flex pcursor gap-5 border-b border-[#EDEDED] py-3 h-[52px] px-4">
+                                    class="flex items-center pcursor gap-5 border-b border-[#EDEDED] py-3 h-[52px] px-4">
                                     <button v-if="isOwner()" class="drag-handle w-6">
                                         <img draggable="false" class="h-6 w-6 min-w-[24px]"
                                             src="@/assets/svg/icon/drag.svg" alt="" />
                                     </button>
                                     <h1 class="w-full whitespace-nowrap">{{ lesson.title }}</h1>
                                     <p class="min-w-fit">18 daqiqa</p>
-                                    <div class="flex gap-5 min-w-fit">
-                                        <img class="h-7" loading="lazy" src="@/assets/svg/course/statistics.svg" alt="">
-                                        <img loading="lazy" v-if="!lesson.is_finished && lesson.is_viewed"
+                                    <div class="flex items-center gap-5 min-w-fit">
+                                        <img class="h-6 statistics" loading="lazy"
+                                            src="@/assets/svg/course/statistics.svg" alt="">
+                                        <img class="h-5" loading="lazy" v-if="!lesson.is_finished && lesson.is_viewed"
                                             src="@/assets/svg/news/show.svg" alt="">
-                                        <img loading="lazy" v-if="lesson.is_finished || index == 0"
+                                        <img class="h-5" loading="lazy" v-if="lesson.is_finished || index == 0"
                                             src="@/assets/svg/course/finished.svg" alt="">
                                         <img loading="lazy" v-else src="@/assets/svg/course/lock.svg" alt="">
                                     </div>
                                     <a-dropdown>
-                                        <div>
+                                        <div class="min-w-fit">
                                             <img loading="lazy" class="threedot" src="@/assets/svg/icon/threedot.svg"
                                                 alt="">
                                         </div>
@@ -175,6 +177,12 @@
         </UIModal>
         <UIDeleteModal :isOpen="isLoading.modal.delete" :loadingType="'deletegroup'"
             @update:isOpen="(value) => handleModal(value)" />
+
+        <!-- modal -->
+        <UIModal class="!bg-white !min-h-fit" :title="''" :isOpen="useCourses.store.reytingModal" :wrapClassName="'full-modal'"
+            :loadingType="'creategroup'" @update:isOpen="(value) => useCourses.store.reytingModal = false">
+            <PageGroupReytingMain v-if="useCourses.store.reytingModal" :type="'lesson'" :lesson_id="store.lesson_id" />
+        </UIModal>
     </div>
 </template>
 
@@ -189,6 +197,7 @@ const useLessons = useLessonsStore();
 const router = useRouter();
 const store = reactive({
     active_id: 0,
+    lesson_id: 0,
 })
 
 function handleModal(value) {
@@ -230,7 +239,11 @@ function handleButton(type, lesson) {
 }
 
 function handleClick(e, lesson) {
-    if (e.target.className == "threedot") return;
+    console.log(e.target.className.includes("statistics"));
+    store.lesson_id = lesson.id;
+    if (e.target.className.includes("statistics")) {
+        return useCourses.store.reytingModal = true;
+    } else if (e.target.className == "threedot") return;
     if (lesson.type == 'module') {
         store.active_id = store.active_id == lesson.id ? 0 : lesson.id
     } else {

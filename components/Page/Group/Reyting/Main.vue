@@ -7,7 +7,7 @@
                 yangi o'rinni egallashga harakat qiling</p>
         </section>
         <section class="mt-10">
-            <CategorySlider :category="useLessons.store.courses" class="mb-5" />
+            <CategorySlider v-if="type != 'lesson'" :category="useLessons.store.courses" class="mb-5" />
             <hr />
             <div v-if="isLoading.isLoadingType('getReyting')">
                 <LoadingDiv v-for="i in 10" class="h-16 w-full my-2" />
@@ -52,6 +52,11 @@ import first from "@/assets/svg/reyting/first.svg"
 import second from "@/assets/svg/reyting/second.svg"
 import third from "@/assets/svg/reyting/third.svg"
 
+const props = defineProps({
+    type: String,
+    lesson_id: Number,
+})
+
 const reyting_steps = [first, second, third];
 
 const useReyting = useReytingStore();
@@ -60,7 +65,14 @@ const isLoading = useLoadingStore();
 const router = useRouter();
 
 useLessons.getByCourse();
-useReyting.getReyting();
+console.log(props, 23333)
+onBeforeMount(() => {
+    if (props.type == 'lesson') {
+        useReyting.getLessonReyting(props.lesson_id);
+    } else {
+        useReyting.getReyting();
+    }
+})
 
 watch(() => router.currentRoute.value.query.category, () => {
     if (router.currentRoute.value.query.page == 'reyting') {

@@ -48,8 +48,15 @@ export const group_tabs = [
     component: "PageGroupNewsMain",
     role: [],
   },
-  {
+   {
     id: 8,
+    name: "Haqida",
+    url: "about",
+    component: "PageGroupAboutMain",
+    role: [],
+  },
+  {
+    id: 9,
     name: "Sozlamalar",
     url: "settings",
     component: "PageGroupSettingsMain",

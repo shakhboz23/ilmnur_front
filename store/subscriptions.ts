@@ -36,8 +36,21 @@ export const useSubscriptionStore = defineStore("subscription", () => {
     store.subscriptions = data.data;
   }
 
-  async function createSubscribeUser(id: any) {
-    console.log(id);
+  async function subscribeToGroup(course_id: number) {
+    const data: any = await apiRequest.post(
+      "subscriptions/create",
+      {
+        role: 'student',
+        course_id,
+      },
+      "subscriptions"
+    );
+    useCourses.getUsersByGroupId();
+    isLoading.modal.create = false;
+    console.log(data);
+  }
+
+  async function createSubscribeUser() {
     let course_ids: any = [];
     for (let i of store.course_ids) {
       course_ids.push(i.id);
@@ -46,8 +59,8 @@ export const useSubscriptionStore = defineStore("subscription", () => {
     const data: any = await apiRequest.post(
       "subscriptions/createSubscription",
       {
-        ...useAuth.user,
-        role: useAuth.user?.role,
+        user_id: useAuth.profile.id,
+        role: 'student',
         course_ids,
       },
       "subscriptions"
@@ -78,6 +91,7 @@ export const useSubscriptionStore = defineStore("subscription", () => {
     clearData,
     getByUserId,
     createSubscribeUser,
+    subscribeToGroup,
     changeSubscriptionStatus,
   };
 });

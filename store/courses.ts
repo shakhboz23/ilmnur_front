@@ -16,6 +16,7 @@ export const useCoursesStore = defineStore("courses", () => {
     users: {},
     image: "",
     course_id: 0,
+    reytingModal: false,
   });
 
   const create: any = reactive({

@@ -3,4 +3,5 @@ export interface CoursesType {
     users: any,
     image: string,
     course_id: number,
+    reytingModal: boolean,
 }
