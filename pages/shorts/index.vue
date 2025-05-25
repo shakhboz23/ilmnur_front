@@ -8,7 +8,7 @@
                 modifier: 1,
                 slideShadows: true,
             }" :simulateTouch="true"
-            touch-angle="1" touch-ratio="45" :spaceBetween="120" :modules="modules" :mousewheel="true">
+ :spaceBetween="120" :modules="modules" :mousewheel="true">
             <swiper-slide :id="i.id" v-for="i in useLessons.store.lessons" :key="i.id"
                 class="video-container mx-auto md:max-w-[450px] max-w-[70%] shadow-2xl w-[60%] relative">
                 <ClientOnly>
