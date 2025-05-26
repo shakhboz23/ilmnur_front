@@ -7,9 +7,17 @@
                     <span class="text-lg font-semibold c_c92">Orqaga</span>
                 </li>
                 <li>
-                    <span class="c_cab text-sm">Darsliklar</span>
+                    <span class="c_cab text-sm">Kurslar</span>
                     <div>
-                        Kimyo
+                        <a-select class="w-full" v-model:value="store.course_id" :placeholder="'Kursni tanlang'">
+                            <a-select-option v-for="course in useLessons.store.courses" :key="course.id"
+                                :value="course.id">
+                                {{ course.title }}
+                            </a-select-option>
+                            <template #suffixIcon>
+                                <img class="w-4" src="@/assets/svg/icon/arrow.svg" alt="" />
+                            </template>
+                        </a-select>
                     </div>
                 </li>
             </ul>
@@ -61,8 +69,8 @@
                         </template>
                     </a-dropdown>
                 </div>
-                <pre
-                    class="whitespace-pre-line mt-1 mb-2 text-sm c_c66">{{ useCourses.store.courses?.course?.description }}</pre>
+                <pre class="whitespace-pre-line mt-1 mb-2 text-sm c_c66">{{ useCourses.store.courses?.course?.description }}
+        </pre>
                 <a-progress class="w-full" stroke-color="#FF852E"
                     :percent="useCourses.store.courses?.course?.finished_count * 100 / useCourses.store.courses?.course?.lessons_count"
                     status="active" :size="3" />
@@ -179,8 +187,9 @@
             @update:isOpen="(value) => handleModal(value)" />
 
         <!-- modal -->
-        <UIModal class="!bg-white !min-h-fit" :title="''" :isOpen="useCourses.store.reytingModal" :wrapClassName="'full-modal'"
-            :loadingType="'creategroup'" @update:isOpen="(value) => useCourses.store.reytingModal = false">
+        <UIModal class="!bg-white !min-h-fit" :title="''" :isOpen="useCourses.store.reytingModal"
+            :wrapClassName="'full-modal'" :loadingType="'creategroup'"
+            @update:isOpen="(value) => useCourses.store.reytingModal = false">
             <PageGroupReytingMain v-if="useCourses.store.reytingModal" :type="'lesson'" :lesson_id="store.lesson_id" />
         </UIModal>
     </div>
@@ -195,9 +204,11 @@ const useCourses = useCoursesStore();
 const useLessons = useLessonsStore();
 
 const router = useRouter();
+
 const store = reactive({
     active_id: 0,
     lesson_id: 0,
+    course_id: +router.currentRoute.value.params.course_id,
 })
 
 function handleModal(value) {
@@ -264,8 +275,13 @@ function checkIsFinished(data) {
 
 }
 
-onBeforeMount(() => {
-    useCourses.getByCourse();
+watch(() => store.course_id, () => {
+    router.push(`/course/${store.course_id}`)
+})
+
+onBeforeMount(async () => {
+    await useCourses.getByCourse();
+    useLessons.getByCourse(useCourses.store.courses?.course?.group_id);
 })
 </script>
 

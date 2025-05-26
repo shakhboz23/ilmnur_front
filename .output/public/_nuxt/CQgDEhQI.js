@@ -1,0 +1,1 @@
+import{_}from"./BOqu8Ff9.js";import{a4 as c,ac as s,z as o,a7 as r,a1 as i}from"./BwpkegjB.js";import"./o2oh58l2.js";const l={class:"max-h-[80vh]"},h={__name:"index",setup(p){function n(t){console.log(t.target)}return(t,m)=>{const e=c("Editor_cki"),a=_;return i(),s("div",l,[o(a,null,{default:r(()=>[o(e,{onInput:n})]),_:1})])}}};export{h as default};
