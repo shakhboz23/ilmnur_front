@@ -1,6 +1,6 @@
 <template>
     <div class="shorts">
-        <swiper :slidesPerView="'auto'" :centeredSlides="true" :grabCursor="true" :effect="'coverflow'"
+        <swiper :slidesPerView="'auto'" :centeredSlides="true" :grabCursor="true" 
             :coverflowEffect="{
                 rotate: 50,
                 stretch: 0,
@@ -64,7 +64,7 @@ import { Mousewheel, Pagination, EffectCoverflow } from 'swiper/modules';
 
 import { useLessonsStore, useLoadingStore } from "~/store";
 const router = useRouter();
-const modules = [EffectCoverflow, Pagination];
+const modules = [Pagination];
 const useLessons = useLessonsStore();
 const isLoading = useLoadingStore();
 useLessons.getLessons();
