@@ -4,7 +4,7 @@
   </div> -->
   <header class="px-5">
     <LoadingPage v-show="isLoading.store.middleware" />
-    <div v-show="!isLoading.store.middleware">
+    <div v-if="!isLoading.store.middleware">
       <div class="fixed top-0 z-50 bg_bg py-5 w-[calc(100vw_-_40px)]">
         <Nav class="md:w-[calc(100vw_-_60px)] w-full" />
       </div>
@@ -14,12 +14,13 @@
         <div class="md:min-w-[260px]"></div>
         <main
           class="md:max-w-[calc(100vw_-_340px)] w-full md:bg-white sm:min-h-[calc(100vh_-_140px)] min-h-[calc(100vh_-_196px)] md:p-5 py-5 r_8">
-          <slot v-if="isLoading.store.isLogin || ['login', 'verify-email'].includes($route.name)" />
-          <div v-else class="full_flex h-full py-20">
+          <slot />
+          <!-- <slot v-if="isLoading.store.isLogin || ['login', 'verify-email'].includes($route.name)" /> -->
+          <!-- <div v-else class="full_flex h-full py-20">
             <router-link to="/login">
               <button class="bg_main px-6 py-1 rounded-full">Login</button>
             </router-link>
-          </div>
+          </div> -->
         </main>
       </div>
       <div class="sm:hidden block">

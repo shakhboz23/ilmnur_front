@@ -13,35 +13,64 @@
         <footer class="boxtshadow bg-white py-4 duration-700 sticky -mx-5 px-4"
             :class="store.scrollY ? 'bottom-0' : '-bottom-40'">
             <ul>
-                <li v-if="activeKey == 1 && (useLessons.store.lessons?.course?.user_id != isLoading.user?.id)">
-                    <router-link v-if="useLessons.store.lessons?.course?.test_count"
-                        :to="`/test/${$router.currentRoute.value.params.lesson_id}`" class="full_flex bg-white">
-                        <button class="bg_main px-5 py-2 r_8 w-full text-white">Testni boshlash</button>
-                    </router-link>
-                    <div v-else class="full_flex bg-white">
-                        <button class="bg_main px-5 py-2 r_8 w-full text-white">Test mavjud emas</button>
+                <li v-if="activeKey == 1">
+                    <div v-if="useLessons.store.lessons?.course?.user_id != isLoading.user?.id">
+                        <router-link v-if="useLessons.store.lessons?.course?.test_count"
+                            :to="`/test/${$router.currentRoute.value.params.lesson_id}`" class="full_flex bg-white">
+                            <button class="bg_main px-5 py-2 r_8 w-full text-white">Testni boshlash</button>
+                        </router-link>
+                        <div v-else class="full_flex bg-white">
+                            <button class="bg_main px-5 py-2 r_8 w-full text-white">Test mavjud emas</button>
+                        </div>
+                    </div>
+                    <div v-else-if="useLessons.store.lessons?.course?.user_id == isLoading.user?.id">
+                        <router-link :to="`/test/${$router.currentRoute.value.params.lesson_id}`"
+                            class="full_flex bg-white">
+                            <button class="bg_main px-5 py-2 r_8 w-full text-white">Test qo'shish</button>
+                        </router-link>
                     </div>
                 </li>
-                <li v-else-if="useLessons.store.lessons?.course?.user_id == isLoading.user?.id">
-                    <router-link :to="`/test/${$router.currentRoute.value.params.lesson_id}`"
-                        class="full_flex bg-white">
-                        <button class="bg_main px-5 py-2 r_8 w-full text-white">Test qo'shish</button>
-                    </router-link>
-                </li>
                 <li v-else-if="activeKey == 2" class="flex gap-4">
-                    <a-button :loading="isLoading.isLoadingType('like')" @click="useLikes.postLike(+$route.params.lesson_id)"
-                        class="full_flex gap-2 px-5 py-2 min-h-fit r_8 w-full truncate" :class="useLessons.store.lessons?.is_liked ? 'bg_main c_white' : 'b_main c_main'">
-                        <img v-if="useLessons.store.lessons?.is_liked" loading="lazy" src="@/assets/svg/icon/star_white.svg" alt="">
+                    <a-button :loading="isLoading.isLoadingType('like')"
+                        @click="useLikes.postLike(+$route.params.lesson_id)"
+                        class="full_flex gap-2 px-5 py-2 min-h-fit r_8 w-full truncate"
+                        :class="useLessons.store.lessons?.is_liked ? 'bg_main c_white' : 'b_main c_main'">
+                        <img v-if="useLessons.store.lessons?.is_liked" loading="lazy"
+                            src="@/assets/svg/icon/star_white.svg" alt="">
                         <img v-else loading="lazy" src="@/assets/svg/icon/star.svg" alt="">
                         <span class="max-w-full truncate">Like</span>
                     </a-button>
-                    <a-button :loading="isLoading.isLoadingType('subscribe')" @click="useCourses.subscribeCourse(lesson_course?.id)"
-                        class="px-5 py-2 r_8 w-full min-h-fit truncate" :class="useLessons.store.lessons?.course?.is_subscribed ? 'bg_main c_white' : 'b_main c_main'">{{lesson_course?.is_subscribed ? 'Subscribed' : 'Subscribe'}}</a-button>
+                    <a-button :loading="isLoading.isLoadingType('subscribe')"
+                        @click="useCourses.subscribeCourse(lesson_course?.id)"
+                        class="px-5 py-2 r_8 w-full min-h-fit truncate"
+                        :class="useLessons.store.lessons?.course?.is_subscribed ? 'bg_main c_white' : 'b_main c_main'">{{
+                            lesson_course?.is_subscribed
+                                ? 'Subscribed' : 'Subscribe' }}</a-button>
                 </li>
-                <li v-else-if="activeKey == 3" class="flex items-center gap-4 ">
+                <li v-else-if="activeKey == 3" class="flex items-end justify-between gap-4 ">
                     <img loading="lazy" src="@/assets/svg/chat/upload.svg" alt="">
-                    <input type="text" class="w-full !px-0" placeholder="Your comment">
-                    <img loading="lazy" src="@/assets/svg/chat/smile.svg" alt="">
+                    <!-- <input type="text" class="w-full !px-0 border-none" placeholder="Write a comment"> -->
+                    <EditorTiptapEditor class="w-[80%] -ml-4 -mb-2" :v-model="useLessons.store.comment.text"
+                        :toolbar="false" :placeholder="'Write a comment...'" />
+                    <a-dropdown trigger="click" placement="top">
+                        <div class="pcursor">
+                            <img loading="lazy" src="@/assets/svg/chat/smile.svg" alt="">
+                        </div>
+                        <template #overlay>
+                             <a-menu>
+                                <!-- <a-menu-item> -->
+                                    <Emoji />
+                                    <!-- <a href="javascript:;">1st menu item</a> -->
+                                <!-- </a-menu-item> -->
+                                <!-- <a-menu-item>
+                                    <a href="javascript:;">2nd menu item</a>
+                                </a-menu-item>
+                                <a-menu-item>
+                                    <a href="javascript:;">3rd menu item</a>
+                                </a-menu-item> -->
+                            </a-menu> 
+                        </template>
+                    </a-dropdown>
                     <img loading="lazy" src="@/assets/svg/chat/record.svg" alt="">
                     <img loading="lazy" src="@/assets/svg/chat/send.svg" alt="">
                 </li>

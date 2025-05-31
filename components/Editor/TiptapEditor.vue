@@ -195,7 +195,7 @@ export default {
     props: {
         modelValue: {
             type: String,
-            default: '',
+            default: null,
         },
         placeholder: {
             type: String,
@@ -387,7 +387,7 @@ export default {
 <style lang="scss">
 /* Basic editor styles */
 .tiptap {
-    min-height: 100px;
+    // min-height: 100px;
 
     :first-child {
         margin-top: 0;
@@ -630,6 +630,14 @@ export default {
             outline: 3px solid purple;
         }
     }
+}
+
+.ProseMirror p.is-empty::before {
+  content: attr(data-placeholder);
+  color: #999;
+  float: left;
+  height: 0;
+  pointer-events: none;
 }
 
 /* Bubble menu */
