@@ -11,6 +11,8 @@ import { useUploadStore } from "./upload"
 import { useChatStore } from './chat';
 import { useWatchedStore } from './watched';
 import { useLikesStore } from './likes';
+import { useCommentsStore } from './comment';
+
 export {
     useLoadingStore,
     useGroupsStore,
@@ -25,4 +27,5 @@ export {
     useChatStore,
     useWatchedStore,
     useLikesStore,
+    useCommentsStore,
 }

@@ -21,10 +21,6 @@ export const useLessonsStore = defineStore("lessons", () => {
       title: "",
     },
     lesson_id: 0,
-    comment: {
-      text: null,
-      file: "",
-    }
   });
 
   const create: any = reactive({

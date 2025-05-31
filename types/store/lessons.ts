@@ -3,7 +3,6 @@ export interface LessonsType {
     courses: any[],
     lesson_id: number,
     create: Create,
-    comment: Object,
 }
 
 

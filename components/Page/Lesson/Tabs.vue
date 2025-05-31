@@ -5,7 +5,7 @@
                 <a-tabs v-model:activeKey="activeKey" animated>
                     <a-tab-pane v-for="i in lesson_tabs" :key="i.id" :tab="i.name">
                         <component class="min-h-[calc(100vh_-_256px)]" :is="getComponent(i.component)"
-                            :lesson_lecture="lesson_lecture" :lesson_course="lesson_course" />
+                            :lesson_lecture="lesson_lecture" :comments="comments" :lesson_course="lesson_course" />
                     </a-tab-pane>
                 </a-tabs>
             </div>
@@ -50,7 +50,7 @@
                 <li v-else-if="activeKey == 3" class="flex items-end justify-between gap-4 ">
                     <img loading="lazy" src="@/assets/svg/chat/upload.svg" alt="">
                     <!-- <input type="text" class="w-full !px-0 border-none" placeholder="Write a comment"> -->
-                    <EditorTiptapEditor class="w-[80%] -ml-4 -mb-2" :v-model="useLessons.store.comment.text"
+                    <EditorTiptapEditor class="w-[80%] -ml-4 -mb-2" v-model="useComments.store.comment.text"
                         :toolbar="false" :placeholder="'Write a comment...'" />
                     <a-dropdown trigger="click" placement="top">
                         <div class="pcursor">
@@ -72,7 +72,7 @@
                         </template>
                     </a-dropdown>
                     <img loading="lazy" src="@/assets/svg/chat/record.svg" alt="">
-                    <img loading="lazy" src="@/assets/svg/chat/send.svg" alt="">
+                    <img @click="useComments.createComment()" loading="lazy" src="@/assets/svg/chat/send.svg" alt="">
                 </li>
                 <li v-else-if="activeKey == 4">
                     <router-link to="/test/1" class="full_flex bg-white">
@@ -88,16 +88,18 @@
 defineProps({
     lesson_lecture: String,
     lesson_course: Object,
+    comments: Object,
 })
 import { lesson_tabs } from "@/constants"
 import { useTabs } from "~/composables";
-import { useCoursesStore, useLessonsStore, useLikesStore, useLoadingStore } from "~/store";
+import { useCoursesStore, useLessonsStore, useCommentsStore, useLikesStore, useLoadingStore } from "~/store";
 const router = useRouter();
 const { tabsDrag } = useTabs()
 const activeKey = ref(1);
 
 const useCourses = useCoursesStore();
 const useLessons = useLessonsStore();
+const useComments = useCommentsStore();
 const isLoading = useLoadingStore();
 const useLikes = useLikesStore();
 

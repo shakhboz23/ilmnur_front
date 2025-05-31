@@ -64,7 +64,7 @@
             </section>
         </nav>
         <section class="bg-white z-10 relative" id="tabs">
-            <PageLessonTabs class="lesson_tab" :lesson_lecture="useLessons.store.lessons?.content"
+            <PageLessonTabs class="lesson_tab" :lesson_lecture="useLessons.store.lessons?.content" :comments="useLessons.store.lessons?.comments"
                 :lesson_course="useLessons.store.lessons?.course" />
         </section>
 
