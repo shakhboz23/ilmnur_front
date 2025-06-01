@@ -4,8 +4,8 @@
             class="md:h-[312px] h-[200px] max-h-fit w-full object-contain object-center">
             <div class="plyr__video-embed">
                 <iframe class="md:h-[312px] h-[200px] w-full object-contain object-center"
-                    :src="`${url}?autoplay=1&rel=0&modestbranding=1&controls=1&disablekb=1&fs=0&iv_load_policy=3`" allowfullscreen allowtransparency
-                    allow="autoplay"></iframe>
+                    :src="`${url}?&rel=0&modestbranding=1&controls=1&disablekb=1&fs=0&iv_load_policy=3`"
+                    allowfullscreen allowtransparency></iframe>
             </div>
         </vue-plyr>
     </ClientOnly>
@@ -39,7 +39,7 @@ const onVideoPause = () => {
 
 const playVideo = () => {
     if (plyrInstance.value && plyrInstance.value.player) {
-        plyrInstance.value.player.play();
+        // plyrInstance.value.player.play();
     }
 };
 

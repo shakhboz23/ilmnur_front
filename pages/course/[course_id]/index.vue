@@ -26,12 +26,13 @@
             <div v-if="!isLoading.isLoadingType('getByCourse')">
                 <div class="flex justify-between items-center">
                     <div class="flex items-center gap-5">
-                        <h1 class="font-semibold text-[24px] max-w-[70%]">{{ useCourses.store.courses?.course?.title }}
+                        <h1 class="font-semibold text-[24px]">{{ useCourses.store.courses?.course?.title }}
                         </h1>
                         <div v-if="!isOwner()">
                             <div v-if="useCourses.store.courses?.course?.is_subscribed">
                                 <a-dropdown>
-                                    <button class="bg_main rounded-full text-white px-4 py-1 text-sm">Obuna</button>
+                                    <a-button :loading="isLoading.isLoadingType('subscribe')"
+                                        class="bg_main rounded-full text-white px-4 py-1 text-sm">Obuna</a-button>
                                     <template #overlay>
                                         <a-menu>
                                             <a-menu-item
@@ -131,7 +132,7 @@
                         <ul>
                             <draggable :list="useCourses.store.courses.lessons[index].lessons" class="drag-area"
                                 group="lessons" :animation="200" handle=".drag-handle">
-                                <li @click="e => handleClick(e, lesson)" v-for="lesson in i.lessons"
+                                <li @click="e => handleClick(e, lesson)" v-for="(lesson, l_index) in i.lessons"
                                     class="flex items-center pcursor gap-5 border-b border-[#EDEDED] py-3 h-[52px] px-4">
                                     <button v-if="isOwner()" class="drag-handle w-6">
                                         <img draggable="false" class="h-6 w-6 min-w-[24px]"
@@ -144,7 +145,8 @@
                                             src="@/assets/svg/course/statistics.svg" alt="">
                                         <img class="h-5" loading="lazy" v-if="!lesson.is_finished && lesson.is_viewed"
                                             src="@/assets/svg/news/show.svg" alt="">
-                                        <img class="h-5" loading="lazy" v-if="lesson.is_finished || index == 0"
+                                        <img class="h-5" loading="lazy"
+                                            v-if="lesson.is_finished || (index == 0 && l_index == 0)"
                                             src="@/assets/svg/course/finished.svg" alt="">
                                         <img loading="lazy" v-else src="@/assets/svg/course/lock.svg" alt="">
                                     </div>

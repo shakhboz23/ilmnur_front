@@ -53,19 +53,20 @@
                             :src="useLessons.store.lessons?.course?.cover" alt="">
                         <ul>
                             <li class="text-sm font-bold">{{ useLessons.store.lessons?.course?.title }}</li>
-                            <li class="text-xs">850K subscribers</li>
+                            <li class="text-xs">{{ useLessons.store.lessons?.course?.subscriptions_count }} subscribers
+                            </li>
                         </ul>
                     </li>
                     <li class="flex gap-2">
                         <img loading="lazy" src="@/assets/svg/icon/a_star.svg" alt="">
-                        <span>2.3K</span>
+                        <span>{{ useLessons.store.lessons?.course?.likes_count }}</span>
                     </li>
                 </ul>
             </section>
         </nav>
         <section class="bg-white z-10 relative" id="tabs">
-            <PageLessonTabs class="lesson_tab" :lesson_lecture="useLessons.store.lessons?.content" :comments="useLessons.store.lessons?.comments"
-                :lesson_course="useLessons.store.lessons?.course" />
+            <PageLessonTabs class="lesson_tab" :lesson_lecture="useLessons.store.lessons?.content"
+                :comments="useLessons.store.lessons?.comments" :lesson_course="useLessons.store.lessons?.course" />
         </section>
 
         <!-- modal -->

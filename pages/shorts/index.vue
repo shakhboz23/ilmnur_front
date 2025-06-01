@@ -2,7 +2,7 @@
     <div class="shorts">
         <swiper :slidesPerView="'auto'" :centeredSlides="true" :grabCursor="true" :effect="'coverflow'"
             :coverflowEffect="{
-                rotate: 50,
+                rotate: useLessons.store.lessons?.length > 1 ? 50 : 0,
                 stretch: 0,
                 depth: 100,
                 modifier: 1,
@@ -10,13 +10,13 @@
             }" :simulateTouch="true" :spaceBetween="120" :modules="modules" :mousewheel="true">
             <swiper-slide :id="i.id" v-for="i in useLessons.store.lessons" :key="i.id"
                 class="video-container mx-auto md:max-w-[450px]">
-                <div class="flex items-end">
-                    <div  class="w-full shadow-2xl">
+                <div class="flex items-end border">
+                    <div  class="w-full h-[calc(100vh_-_160px)] shadow-2xl">
                         <ClientOnly>
                             <VideoReader v-if="i.video" class="h-[calc(100vh_-_160px)] overflow-hidden"
                                 :url="i.video" />
-                            <EditorTiptapEditor class="overflow-hidden bg-white video-container overflow-y-auto"
-                                :modelValue="i?.content" :editable="false" />
+                            <!-- <EditorTiptapEditor class="overflow-hidden bg-white video-container overflow-y-auto"
+                                :modelValue="i?.content" :editable="false" /> -->
                         </ClientOnly>
                     </div>
                     <ul class="flex flex-col min-w-[60px] justify-end items-end h-full text-center space-y-3">
