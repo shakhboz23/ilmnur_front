@@ -1,10 +1,12 @@
 import { useApiRequest } from "~/composables";
 import { useLoadingStore } from "./loading";
+import { useLessonsStore } from "./lessons";
 
 export const useCommentsStore = defineStore("comments", () => {
     const apiRequest = useApiRequest();
     const router = useRouter();
     const isLoading = useLoadingStore();
+    const useLessons = useLessonsStore();
 
     const store: any = reactive({
         comment: {
@@ -25,6 +27,7 @@ export const useCommentsStore = defineStore("comments", () => {
     });
 
     function clearData() {
+        store.comment.text = '';
         // Object.keys(create).forEach((key) => {
         //     create[key] = create[key];
         // });
@@ -48,12 +51,14 @@ export const useCommentsStore = defineStore("comments", () => {
         store.lessons = data.data;
     }
 
-    async function getByCourse(group_id?: number) {
+    async function loadMoreComments() {
         const data: any = await apiRequest.get(
-            `course/getByCourse/${router.currentRoute.value.params.group_id || group_id}/${isLoading.store.category_id}/`,
-            "getByCourse"
+            `comments/pagination/${useLessons.store.lessons.comments.pagination.currentPage + 1}/${router.currentRoute.value.params.lesson_id}`,
+            "loadMoreComments"
         );
-        store.courses = data.data;
+        console.log(data, 2303)
+        useLessons.store.lessons.comments.records.push(...(data?.data?.records || []))
+        useLessons.store.lessons.comments.pagination.currentPage = data.data.pagination.currentPage;
     }
 
     async function createComment() {
@@ -64,6 +69,7 @@ export const useCommentsStore = defineStore("comments", () => {
             "createComment"
         ); 
         console.log(data);
+        useLessons.store.lessons.comments.records.unshift(data?.data);
         clearData();
     }
 
@@ -124,7 +130,7 @@ export const useCommentsStore = defineStore("comments", () => {
         getLessons,
         createComment,
         getById,
-        getByCourse,
+        loadMoreComments,
         updateLesson,
         updateModule,
         deleteLesson,
