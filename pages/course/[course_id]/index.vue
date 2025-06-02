@@ -53,10 +53,12 @@
                         </div>
                         <template #overlay>
                             <a-menu>
-                                <a-menu-item @click="handleButton('edit', carddata.id)">
+                                <a-menu-item
+                                    @click="handleButton('edit', useCourses.store.courses?.course?.id, 'course')">
                                     <a href="javascript:;">O'zgartirish</a>
                                 </a-menu-item>
-                                <a-menu-item @click="handleButton('delete', carddata.id)">
+                                <a-menu-item
+                                    @click="handleButton('delete', useCourses.store.courses?.course?.id, 'course')">
                                     <a href="javascript:;">O'chirish</a>
                                 </a-menu-item>
                                 <a-menu-item
@@ -176,8 +178,9 @@
                 <LoadingDiv v-for="_ in 5" class="h-9 w-full" />
             </div>
         </section>
+
         <!-- modal -->
-        <UIModal :isOpen="isLoading.modal.create" :loadingType="'createLesson'"
+        <UIModal v-if="store.modalType == 'lesson'" :isOpen="isLoading.modal.create" :loadingType="'createLesson'"
             @update:isOpen="(value) => handleModal(value)">
             <div class="space-y-6">
                 <FloatingInput :id="'title'" :maxValue="50" class="w-full" :type="'text'"
@@ -185,8 +188,24 @@
                 <p class="c_red">{{ isLoading.store.errorMessage.message }}</p>
             </div>
         </UIModal>
-        <UIDeleteModal :isOpen="isLoading.modal.delete" :loadingType="'deletegroup'"
+
+        <UIModal :title="'Dars qo\'shish'" :isOpen="isLoading.modal.create" :loadingType="'createCourse'"
+            @update:isOpen="(value) => handleModal(value, 'course')">
+            <ModalCreateCourse />
+        </UIModal>
+
+        <UIModal v-if="store.modalType == 'lesson'" :isOpen="isLoading.modal.edit" :loadingType="'createLesson'"
+            @update:isOpen="(value) => handleModal(value)">
+            <div class="space-y-6">
+                <FloatingInput :id="'title'" :maxValue="50" class="w-full" :type="'text'"
+                    v-model="useLessons.create.title" :label="'Title'" required />
+                <p class="c_red">{{ isLoading.store.errorMessage.message }}</p>
+            </div>
+        </UIModal>
+        <UIDeleteModal v-if="store.modalType == 'lesson'" :isOpen="isLoading.modal.delete" :loadingType="'deletegroup'"
             @update:isOpen="(value) => handleModal(value)" />
+        <UIDeleteModal v-else :isOpen="isLoading.modal.delete" :loadingType="'deletegroup'"
+            @update:isOpen="(value) => handleModal(value, 'course')" />
 
         <!-- modal -->
         <UIModal class="!bg-white !min-h-fit" :title="''" :isOpen="useCourses.store.reytingModal"
@@ -198,29 +217,40 @@
 </template>
 
 <script setup>
-import { useLoadingStore, useCoursesStore, useLessonsStore } from '~/store';
+import { useLoadingStore, useCoursesStore, useLessonsStore, useCategoryStore } from '~/store';
 import { VueDraggableNext as draggable } from "vue-draggable-next";
 
 const isLoading = useLoadingStore();
 const useCourses = useCoursesStore();
 const useLessons = useLessonsStore();
+const useCategory = useCategoryStore();
 
 const router = useRouter();
 
 const store = reactive({
     active_id: 0,
     lesson_id: 0,
+    modalType: '',
     course_id: +router.currentRoute.value.params.course_id,
 })
 
-function handleModal(value) {
+async function handleModal(value, modalType) {
+    modalType = modalType || 'lesson'
     if (value == "OK") {
         if (isLoading.modal.delete) {
-            useLessons.deleteLesson();
+            if (modalType == 'lesson') {
+                useLessons.deleteLesson();
+            } else {
+                useCourses.deleteCourse();
+            }
         } else if (isLoading.modal.create && !isLoading.modal.edit) {
             useLessons.createLesson();
         } else {
-            useLessons.updateModule();
+            if (modalType == 'lesson') {
+                useLessons.updateModule();
+            } else {
+                useCourses.updateCourse();
+            }
         }
     } else {
         isLoading.modal.create = false;
@@ -236,16 +266,23 @@ function isOwner() {
     return false;
 }
 
-function handleButton(type, lesson) {
-    useLessons.store.lesson_id = lesson.id;
+function handleButton(type, lesson, modalType) {
+    if (lesson.type == 'lesson') {
+        useLessons.store.lesson_id = lesson?.id;
+    } else {
+        useCourses.create.group_id = useCourses.store.courses?.course?.group_id;
+        useCourses.store.course_id = lesson;
+    }
+    store.modalType = modalType || 'lesson';
     isLoading.modal[type] = true;
     if (type == 'edit') {
         if (lesson.type == 'lesson') {
             router.push(`/lesson/${lesson.id}/update`)
         } else {
-            for (let i in useLessons.create) {
-                useLessons.create[i] = lesson[i];
+            for (let i in useCourses.create) {
+                useCourses.create[i] = useCourses.store.courses?.course[i];
             }
+            useCourses.store.image = useCourses.store.courses?.course?.cover;
             isLoading.modal.create = true;
         }
     }
