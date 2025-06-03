@@ -10,7 +10,8 @@
                 </div>
             </li>
         </ul>
-        <div v-if="comments?.pagination?.currentPage < comments?.pagination?.total_pages" id="loadingDiv" class="grid gap-4 py-4">
+        <div v-show="comments?.pagination?.currentPage < comments?.pagination?.total_pages" id="loadingDiv"
+            class="grid gap-4 py-4">
             <LoadingDiv v-for="i in 12" class="w-full h-full min-h-[64px] r_12" />
         </div>
     </main>
@@ -29,6 +30,11 @@ const useComments = useCommentsStore();
 
 onMounted(() => {
     const target = document.querySelector('#loadingDiv');
+
+    // if (!target) {
+    //     console.warn('Target element #loadingDiv not found');
+    //     return;
+    // }
 
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {

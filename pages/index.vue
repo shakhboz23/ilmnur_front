@@ -1,25 +1,13 @@
 <template>
     <nav class="mb-5 overflow-hidden overflow-x-auto whitespace-nowrap removeScroll">
-        <ul class="flex text-[10px] gap-2">
-            <li class="flex flex-col items-center space-y-1 pcursor">
-                <p class="flex items-center justify-center text-center bg_bg text-[24px] rounded-full p-2 max-w-[48px] max-h-[48px]">📚</p>
-                <p>Akademik fanlar</p>
-            </li>
-            <li class="flex flex-col items-center space-y-1 pcursor">
-                <p class="flex items-center justify-center text-center bg_bg text-[24px] rounded-full p-2 max-w-[48px] max-h-[48px]">🧠</p>
-                <p>Shaxsiy rivojlanish</p>
-            </li>
-            <li class="flex flex-col items-center space-y-1 pcursor">
-                <p class="flex items-center justify-center text-center bg_bg text-[24px] rounded-full p-2 max-w-[48px] max-h-[48px]">🌍</p>
-                <p>Til o'rganish</p>
-            </li>
-            <li class="flex flex-col items-center space-y-1 pcursor" v-for="i in 20">
-                <p class="flex items-center justify-center text-center bg_bg text-[24px] rounded-full p-2 max-w-[48px] max-h-[48px]">💻</p>
-                <p>Akademik fanlar</p>
+        <ul class="flex text-sm gap-2">
+            <li v-for="i in useCategory.store.category" class="flex flex-col items-center space-y-1 pcursor">
+                <p class="flex items-center justify-center text-center bg_bg text-[32px] rounded-full p-2 min-w-[64px] max-w-[64px] max-h-[64px]">{{ i.icon }}</p>
+                <p>{{ i.title }}</p>
             </li>
         </ul>
     </nav>
-    <CategorySlider :category="useCategory.store.category" class="mb-5" />
+    <CategorySlider :category="useCategory.store.subcategory" class="mb-5" />
     <Tabs />
 </template>
 

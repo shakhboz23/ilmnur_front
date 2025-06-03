@@ -11,6 +11,7 @@ export const useLessonsStore = defineStore("lessons", () => {
 
   const store: LessonsType = reactive({
     lessons: {},
+    all_lessons: {},
     courses: [],
     modal: {
       create: false,
@@ -46,7 +47,7 @@ export const useLessonsStore = defineStore("lessons", () => {
 
   async function getLessons() {
     const data: any = await apiRequest.get(`lesson/${isLoading.store.category_id}`, "lessons");
-    store.lessons = data.data;
+    store.all_lessons = data.data;
   }
 
   async function getById() {

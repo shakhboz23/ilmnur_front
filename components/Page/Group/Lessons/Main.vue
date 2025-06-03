@@ -1,6 +1,6 @@
 <template>
     <div>
-        <CategorySlider :category="useCategory.store.category" class="mb-5" />
+        <CategorySlider :category="useCategory.store.subcategory" class="mb-5" />
         <section>
             <div v-if="isLoading.isLoadingType('getByCourse')"
                 class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">

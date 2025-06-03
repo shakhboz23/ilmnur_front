@@ -8,18 +8,28 @@ export const useCategoryStore = defineStore("category", () => {
 
   const store: CategoryType = reactive({
     category: [],
+    subcategory: [],
     category_id: 0,
   });
 
   const create: any = reactive({
-    category: "",
+    icon: "",
+    title: "",
+    category_id: "",
     type: true,
   })
 
-  async function createCategory() {
-    await apiRequest.post("category/create", create, "category");
+  async function createCategory(type = 'category') {
+    await apiRequest.post(`${type}/create`, create, "category");
     getCategory();
   }
+
+  function getCategories() {
+    store.subcategory = [];
+    for(let i of store.category) {
+        store.subcategory.push(...i.subcategories)
+    }
+}
 
   async function uploadFile(file: any, type: string) {
     const formData = new FormData();
@@ -30,8 +40,9 @@ export const useCategoryStore = defineStore("category", () => {
     return data.data;
   }
 
-  async function updateCategory() {
-    await apiRequest.put(`category/${isLoading.store.category_id}`, create, "category");
+  async function updateCategory(type = 'category') {
+    await apiRequest.put(`${type}/${isLoading.store.category_id}`, create, "category");
+    isLoading.modal.edit = false;
     getCategory();
   }
 
@@ -39,10 +50,11 @@ export const useCategoryStore = defineStore("category", () => {
     const data: any = await apiRequest.get("category", "category");
     isLoading.modal.create = false;
     store.category = data.data;
+    getCategories();
   }
 
-  async function deleteCategory() {
-    await apiRequest.delete_req(`category/${isLoading.store.category_id}`, "category");
+  async function deleteCategory(type = 'category') {
+    await apiRequest.delete_req(`${type}/${isLoading.store.category_id}`, "category");
     isLoading.modal.delete = false;
     getCategory();
   }

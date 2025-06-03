@@ -2,9 +2,9 @@
   <div>
     <LoadingDiv v-if="isLoading.isLoadingType('lessons')" v-for="i in 12"
       class="w-full h-full min-h-[360px] r_12 !overflow-hidden" />
-    <section v-else-if="useLesson.store.lessons?.length"
+    <section v-else-if="useLesson.store.all_lessons?.length"
       class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-      <div v-for="i in useLesson.store.lessons" @click="$router.push(`/lesson/${i.id}`)"
+      <div v-for="i in useLesson.store.all_lessons" @click="$router.push(`/lesson/${i.id}`)"
         class="r_12 overflow-hidden bg_white pcursor">
         <!-- <img loading="lazy"  class="aspect-video w-full object-cover" :src="i.cover" alt="" /> -->
         <!-- <div class="aspect-video w-full object-cover bg-black r_8">
