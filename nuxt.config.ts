@@ -44,9 +44,13 @@ export default defineNuxtConfig({
       script: [
         {
           src: "https://accounts.google.com/gsi/client",
+          async: true,
+          defer: true,
         },
         {
           src: "https://cdn.jsdelivr.net/npm/vue-plyr@7.0.0/dist/vue-plyr.min.js",
+          async: true,
+          defer: true,
         },
       ],
     },

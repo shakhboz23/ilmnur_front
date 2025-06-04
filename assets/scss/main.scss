@@ -107,25 +107,6 @@ img {
   box-shadow: 0px 1px 1px #00000026;
 }
 
-#googleButton>div>div>div {
-  width: 100% !important;
-}
-
-.googleButton {
-  iframe {
-    width: 100% !important;
-  }
-  * {
-    width: 100% !important;
-    max-width: 100% !important;
-  }
-
-  .container {
-    width: 100% !important;
-    display: block !important;
-  }
-}
-
 @keyframes loading_animation {
   to {
     background-position-x: -200%;

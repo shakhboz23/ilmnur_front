@@ -113,7 +113,6 @@ onMounted(() => {
     text: "signin_with",
     shape: "rectangular",
     logo_alignment: "center",
-    width: 250,
   });
 });
 </script>
