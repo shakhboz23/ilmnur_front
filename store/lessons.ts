@@ -2,6 +2,7 @@ import { useApiRequest } from "~/composables";
 import type { LessonsType } from "~/types/store";
 import { useLoadingStore } from "./loading";
 import { useCoursesStore } from "./courses";
+import type { Create } from "~/types/store/lessons";
 
 export const useLessonsStore = defineStore("lessons", () => {
   const apiRequest = useApiRequest();
@@ -37,12 +38,15 @@ export const useLessonsStore = defineStore("lessons", () => {
 
   function clearData() {
     Object.keys(create).forEach((key) => {
-      create[key] = create[key];
+      create[key] = null;
     });
-    store.create.video = '';
-    store.create.content = '';
-    store.create.title = '';
-    store.lesson_id = 0;
+    (Object.keys(store.create) as (keyof Create)[]).forEach((key) => {
+      store.create[key] = '';
+    });
+    create.published = true;
+    create.type = "module";
+    console.log('cleared');
+    
   }
 
   async function getLessons() {
@@ -158,6 +162,7 @@ export const useLessonsStore = defineStore("lessons", () => {
   return {
     store,
     create,
+    clearData,
     getLessons,
     createLesson,
     getById,

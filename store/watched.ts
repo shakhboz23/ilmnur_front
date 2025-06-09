@@ -17,6 +17,11 @@ export const useWatchedStore = defineStore("watched", () => {
     store.watched = data.data;
   }
 
+  async function getUserWatched() {
+    const data: any = await apiRequest.get(`watched/getall`, "watched");
+    store.watched = data.data;
+  }
+
   // async function deleteGroup() {
   //   await apiRequest.delete_req(
   //     `group/${store.group_id}`,
@@ -29,5 +34,6 @@ export const useWatchedStore = defineStore("watched", () => {
   return {
     store,
     getWatched,
+    getUserWatched,
   };
 });

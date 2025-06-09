@@ -23,7 +23,7 @@ const useCategory = useCategoryStore();
 const router = useRouter();
 
 onBeforeMount(() => {
-    usewatched.getWatched(0);
+    usewatched.getUserWatched();
 })
 </script>
 

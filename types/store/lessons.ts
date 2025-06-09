@@ -7,7 +7,7 @@ export interface LessonsType {
 }
 
 
-interface Create {
+export interface Create {
     video: string,
     content: string,
     title: string,

@@ -1,7 +1,5 @@
 <template>
-    <div>
-        developing...
-    </div>
+    <PageGroupSettingsPayouts />
 </template>
 <script setup>
 </script>

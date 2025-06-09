@@ -43,9 +43,9 @@
 </template>
 
 <script lang="ts" setup>
-definePageMeta({
+// definePageMeta({
   // layout: "register",
-});
+// });
 
 import { useAuthStore, useLoadingStore } from "@/store";
 

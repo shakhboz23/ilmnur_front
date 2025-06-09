@@ -97,6 +97,7 @@
                         @click="useLessons.createLesson(true, 'create', $router.currentRoute.value.fullPath.includes('update'))"
                         class="bg_main text-white w-full min-h-fit rounded-full py-3">Davom etish</a-button>
                     <a-button :loading="isLoading.isLoadingType('createLesson')"
+                        @click="useLessons.createLesson(false, 'create', $router.currentRoute.value.fullPath.includes('update'))"
                         class="bg_green text-white w-full min-h-fit rounded-full py-3">Qoralamaga qo‘shish</a-button>
                     <button class="c_c55 underline text-white w-full rounded-full py-3">Oldindan ko‘rish</button>
                 </div>
@@ -142,6 +143,7 @@ const useLessons = useLessonsStore();
 const isLoading = useLoadingStore();
 
 const router = useRouter();
+useLessons.clearData();
 
 if (router.currentRoute.value.fullPath.includes('update')) {
     useLessons.getById(router.currentRoute.value.lesson_id)
@@ -152,13 +154,15 @@ const store = reactive({
 })
 
 watchEffect(() => {
-    for (let i in useLessons.create) {
-        useLessons.create[i] = useLessons.store.lessons[i] || null;
-    }
-    if (useLessons.store.lessons?.video?.includes('https://youtu')) {
-        useLessons.create.youtube = useLessons.store.lessons?.video || null;
-    } else {
-        useLessons.store.create.video = useLessons.store.lessons?.video || null;
+    if (router.currentRoute.value.fullPath.includes('update')) {
+        for (let i in useLessons.create) {
+            useLessons.create[i] = useLessons.store.lessons[i] || null;
+        }
+        if (useLessons.store.lessons?.video?.includes('https://youtu')) {
+            useLessons.create.youtube = useLessons.store.lessons?.video || null;
+        } else {
+            useLessons.store.create.video = useLessons.store.lessons?.video || null;
+        }
     }
 })
 
@@ -196,6 +200,10 @@ function handleVideo(e) {
     }
     useLessons.store.modal.create = false;
 }
+
+onBeforeUnmount(() => {
+    useLessons.clearData();
+})
 </script>
 
 <style lang="scss" scoped></style>
