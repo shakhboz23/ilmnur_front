@@ -96,6 +96,27 @@ function handleModal(value) {
     isLoading.store.isLogin = false
   }
 }
+
+if (Notification.permission !== 'granted') {
+  Notification.requestPermission().then(permission => {
+    if (permission === 'granted') {
+      console.log('Notification permission granted.');
+      showNotification("Notification permission granted");
+    }
+  });
+}
+
+function showNotification(title, options) {
+  if (Notification.permission === 'granted') {
+    new Notification(title, options);
+  }
+}
+
+showNotification('New Video Uploaded!', {
+  body: 'Check out our latest video on JavaScript tips.',
+  icon: 'https://ilmnur.online/icon.png', // image for the notification
+  tag: 'new-video', // prevents stacking multiple notifications with same tag
+});
 </script>
 
 <style lang="scss" scoped></style>
