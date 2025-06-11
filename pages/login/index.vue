@@ -1,5 +1,5 @@
 <template>
-  <main class="full_flex py-10 md:px-0 px-4 max-h-screen min-h-[calc(100vh_-_160px)] overflow-y-auto">
+  <main class="full_flex py-10 md:px-0 px-4">
     <LoadingComponent :isloading="isLoading.isLoadingType('auth')">
       <div class="sm:w-[500px] bg_white mx-auto sm:p-[50px] p-5 pb-8 rounded-[16px]">
         <section>
@@ -27,6 +27,9 @@
                 <img loading="lazy" v-else @click="useAuth.changePassType"
                   class="absolute top-0 right-0 p-4 cursor-pointer" src="@/assets/svg/icon/hide.svg" alt="" />
               </div>
+              <router-link to="/forgot-password" class="!mt-1 block c_main text-end">
+                Parolni unutdingizmi?
+              </router-link>
             </div>
           </div>
           <p class="c_red font-medium">{{ isLoading.store.error }}</p>
@@ -45,15 +48,13 @@
               Akkaunt yaratish
             </router-link>
           </div>
-          <!-- <div class="pt-2 space-y-6 grid">
-          <p class="sm:w-[284px] text-[#323232] text-sm mx-auto text-center">
-            Davom etish orqali
-            <span class="orange border-b border-[#FF852E]"
-              >Foydalanish shartlari</span
-            >
-            ga roziligingizni bildirasiz.
-          </p>
-        </div> -->
+          <div class="pt-2 space-y-6 grid">
+            <p class="sm:w-[284px] text-[#323232] text-sm mx-auto text-center">
+              Davom etish orqali
+              <span class="c_main border-b border-[#FF852E]">Foydalanish shartlari</span>
+              ga roziligingizni bildirasiz.
+            </p>
+          </div>
         </form>
       </div>
     </LoadingComponent>

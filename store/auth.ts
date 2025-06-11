@@ -8,7 +8,21 @@ export const useAuthStore = defineStore("auth", () => {
   const { openNotification } = useNotification();
   const store = reactive({
     passType: "password",
+    is_matched: false,
+    step: 0,
+    code: '',
+    changeEmailModal: false,
   });
+
+  const changepassword = reactive({
+    old_password: '',
+    new_password: '',
+    confirm_password: '',
+  })
+
+  const modal = reactive({
+    verification: false,
+  })
 
   const isLoading = useLoadingStore();
   const router = useRouter();
@@ -131,8 +145,66 @@ export const useAuthStore = defineStore("auth", () => {
   }
 
   function resetPassword() {
+    const activation_link = router.currentRoute.value.query.activation_link;
     apiRequest
-      .post("resetpassword/create", { email: login.email })
+      .post("user/reset-password", { activation_link, new_password: changepassword.new_password })
+      .then((res: any) => {
+        console.log(res);
+        if (res.status == 201) {
+          router.push("/login");
+        }
+      })
+      .catch((err: any) => {
+        console.log(err);
+      });
+  }
+
+  function changePassword() {
+    apiRequest
+      .post("user/change-password", changepassword)
+      .then((res: any) => {
+        console.log(res);
+        if (res.status == 201) {
+          router.push("/login");
+        }
+      })
+      .catch((err: any) => {
+        console.log(err);
+      });
+  }
+
+  function sendOtp() {
+    apiRequest
+      .post("otp/send-otp", login)
+      .then((res: any) => {
+        console.log(res);
+        if (res.status == 201) {
+          store.step = 1;
+        }
+      })
+      .catch((err: any) => {
+        console.log(err);
+      });
+  }
+
+  function changeEmail() {
+    apiRequest
+      .put("user/change-email", {...login, code: store.code})
+      .then((res: any) => {
+        console.log(res);
+        if (res.status == 200) {
+          store.changeEmailModal = false;
+          router.push("/login");
+        }
+      })
+      .catch((err: any) => {
+        console.log(err);
+      });
+  }
+
+  function forgotPassword() {
+    apiRequest
+      .post("user/forgot-password", { email: login.email })
       .then((res: any) => {
         if (res.status == 201) {
           router.push("/verify-email");
@@ -253,20 +325,26 @@ export const useAuthStore = defineStore("auth", () => {
   return {
     store,
     create,
+    modal,
     user,
     profile,
     getUserFullInfo,
     reset_pass,
+    sendOtp,
     register,
     login,
     authLogin,
     authRegister,
     authActivateLink,
+    forgotPassword,
     resetPassword,
+    changePassword,
+    changeEmail,
     authResetPass,
     verifyGoogleCredential,
     createUser,
     updateProfile,
     changePassType,
+    changepassword,
   };
 });

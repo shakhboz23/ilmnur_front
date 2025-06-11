@@ -40,7 +40,7 @@
           <!-- </div> -->
         </button>
         <div class="pt-8 space-y-6 grid">
-          <router-link class="text-[#2E9AFF] max-w-fit mx-auto border-b border-[#2E9AFF] text-end font-medium"
+          <router-link class="c_main max-w-fit mx-auto  border-b border-[#FF852E] text-end font-medium"
             to="/login">
             Oldin ro'yhatdan o'tganmisiz?
           </router-link>
