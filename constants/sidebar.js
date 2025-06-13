@@ -296,8 +296,8 @@ export const group_settings = [
   //   role: [],
   // },
   {
-    id: 1, name: "Metrics",
-    url: "metrics",
+    id: 1, name: "Analytics",
+    url: "analytics",
     svg: _lessons,
     // svgActive: dashboardActive, 
     role: [],
@@ -317,8 +317,8 @@ export const group_settings = [
   //   role: [],
   // },
   {
-    id: 1, name: "Billing & referrals",
-    url: "billing&referrals",
+    id: 1, name: "Payments",
+    url: "payments",
     svg: _lessons,
     // svgActive: dashboardActive, 
     role: [],

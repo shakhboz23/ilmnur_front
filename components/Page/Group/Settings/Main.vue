@@ -6,6 +6,8 @@
         <PageGroupSettingsInvite v-if="$route.query.tab == 'invite'" />
         <PageGroupSettingsGeneral v-if="$route.query.tab == 'general'" />
         <PageGroupSettingsSubscriptions v-if="$route.query.tab == 'subscriptions'" />
+        <PageGroupSettingsPayments v-if="$route.query.tab == 'payments'" />
+        <PageGroupSettingsAnalytics v-if="$route.query.tab == 'analytics'" />
     </main>
 </template>
 <script setup>
