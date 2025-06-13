@@ -26,7 +26,7 @@ export const useCoursesStore = defineStore("courses", () => {
     price: "0",
     discount: "0",
     group_id: router.currentRoute.value.params.group_id,
-    category_id: null,
+    subcategory_id: null,
     group_type: 'public',
   });
 

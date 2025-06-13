@@ -24,6 +24,38 @@
         </nav>
         <section>
             <div v-if="!isLoading.isLoadingType('getByCourse')">
+                <!-- <img class="" :src="useCourses.store.courses?.course?.cover" alt=""> -->
+                <div class="bg_cf2 r_20 my-3" v-if="useCourses.store.courses?.course?.cover">
+                    <img loading="lazy" class="mx-auto h-[290px] object-contain"
+                        :src="useCourses.store.courses?.course?.cover" alt="">
+                </div>
+                <div class="flex flex-wrap whitespace-nowrap gap-2 mb-3">
+                    <button class="flex items-center gap-2 text-sm font-medium py-2 px-4 bg_cf2 r_8">
+                        <img src="@/assets/svg/calendar/event.svg" alt="">
+                        <span>2025, 11-Mart</span>
+                    </button>
+                    <button class="flex items-center gap-2 text-sm font-medium py-2 px-4 bg_cf2 r_8">
+                        <img src="@/assets/svg/news/time.svg" alt="">
+                        <span>24 soat 08 daqiqa</span>
+                    </button>
+                    <button class="flex items-center gap-2 text-sm font-medium py-2 px-4 bg_cf2 r_8">
+                        <img src="@/assets/svg/icon/members.svg" alt="">
+                        <span>133 Azolar</span>
+                    </button>
+                    <button class="flex items-center gap-2 text-sm font-medium py-2 px-4 bg_cf2 r_8">
+                        <img src="@/assets/svg/icon/private.svg" alt="">
+                        <span>
+                            {{ useCourses.store.courses?.course?.group_type == 'public' ? 'Ommaviy' : 'Shaxsiy' }}
+                        </span>
+                    </button>
+                    <button class="text-sm font-medium py-2 px-4 bg_cf2 r_8">
+                        {{ useCourses.store.courses?.course?.lessons_count }} Kurslar
+                    </button>
+                    <button class="flex items-center gap-2 text-sm font-medium py-2 px-4 bg_cf2 r_8">
+                        <img src="@/assets/svg/icon/a_star.svg" alt="">
+                        <span>24</span>
+                    </button>
+                </div>
                 <div class="flex justify-between items-center">
                     <div class="flex items-center gap-5">
                         <h1 class="font-semibold text-[24px]">{{ useCourses.store.courses?.course?.title }}
@@ -179,6 +211,15 @@
             </div>
         </section>
 
+
+        <ul class="sticky bottom-3 my-3 w-full flex items-center justify-between bg_cf2 r_20 p-3">
+            <li>Kurs narxi</li>
+            <li><span>Bepul</span> <strike>250.000 UZS</strike></li>
+            <li>
+                <a-button :loading="isLoading.isLoadingType('checkout')"  @click="useStripe.createCheckout" class="b_main rounded-full h-10 px-5 c_main">Kursga qo'shilish</a-button>
+            </li>
+        </ul>
+
         <!-- modal -->
         <UIModal v-if="store.modalType == 'lesson'" :isOpen="isLoading.modal.create" :loadingType="'createLesson'"
             @update:isOpen="(value) => handleModal(value)">
@@ -217,13 +258,14 @@
 </template>
 
 <script setup>
-import { useLoadingStore, useCoursesStore, useLessonsStore, useCategoryStore } from '~/store';
+import { useLoadingStore, useCoursesStore, useLessonsStore, useCategoryStore, useStripeStore } from '~/store';
 import { VueDraggableNext as draggable } from "vue-draggable-next";
 
 const isLoading = useLoadingStore();
 const useCourses = useCoursesStore();
 const useLessons = useLessonsStore();
 const useCategory = useCategoryStore();
+const useStripe = useStripeStore()
 
 const router = useRouter();
 

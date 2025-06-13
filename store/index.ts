@@ -12,6 +12,7 @@ import { useChatStore } from './chat';
 import { useWatchedStore } from './watched';
 import { useLikesStore } from './likes';
 import { useCommentsStore } from './comment';
+import { useStripeStore } from './stripe';
 
 export {
     useLoadingStore,
@@ -28,4 +29,5 @@ export {
     useWatchedStore,
     useLikesStore,
     useCommentsStore,
+    useStripeStore,
 }

@@ -14,11 +14,11 @@
                 :label="'Title'" required />
             <a-textarea v-model:value="useCourses.create.description" placeholder="Description"
                 :auto-size="{ minRows: 2, maxRows: 10 }" />
-            <a-select class="w-full" v-model:value="useCourses.create.category_id" show-search
+            <a-select class="w-full" v-model:value="useCourses.create.subcategory_id" show-search
                 placeholder="Select a person" :filter-option="filterOption" @focus="handleFocus" @blur="handleBlur"
                 @change="handleChange">
-                <a-select-option v-for="i in useCategory.store.category" :value="i.id">
-                    {{ i.category }}
+                <a-select-option v-for="i in useCategory.store.subcategory" :value="i.id">
+                    {{ i.title }}
                 </a-select-option>
             </a-select>
             <div class="grid grid-cols-2 gap-5">

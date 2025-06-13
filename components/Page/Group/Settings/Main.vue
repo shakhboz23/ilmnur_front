@@ -1,5 +1,6 @@
 <template>
     <main class="settings_tabs">
+        <PageGroupSettingsDashboard v-if="$route.query.tab == 'dashboard' || !$route.query.tab" />
         <PageGroupSettingsPayouts v-if="$route.query.tab == 'payouts'" />
         <PageGroupSettingsCourses v-if="$route.query.tab == 'courses'" />
         <PageGroupSettingsInvite v-if="$route.query.tab == 'invite'" />
