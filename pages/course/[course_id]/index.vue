@@ -109,8 +109,11 @@
                 <a-progress class="w-full" stroke-color="#FF852E"
                     :percent="useCourses.store.courses?.course?.finished_count * 100 / useCourses.store.courses?.course?.lessons_count"
                     status="active" :size="3" />
-                <p class="text-sm -mt-2 text-[#C7C7CC]">{{ useCourses.store.courses?.course?.finished_count }}/{{
-                    useCourses.store.courses?.course?.lessons_count }} completed</p>
+                <div class="flex items-center gap-2 my-2">
+                    <p class="text-sm -mt-2 text-[#C7C7CC]">{{ useCourses.store.courses?.course?.finished_count }}/{{
+                        useCourses.store.courses?.course?.lessons_count }} completed</p>
+                    <a-button @click="() => { }" class="b_main rounded-full h-5 py-0 px-3 -mt-2 text-xs c_main">Davom etish</a-button>
+                </div>
             </div>
             <div v-else class="space-y-1 mt-5">
                 <LoadingDiv class="h-[110px] w-full" />
@@ -212,22 +215,22 @@
         </section>
         <!-- useCourses.store.courses.courses -->
 
-        <div class="sticky bottom-3 my-3 w-full bg_cf2 r_20 p-3">
+        <div v-if="!['completed'].includes(useCourses.store.courses?.course?.payment?.status)"
+            class="sticky bottom-3 my-3 w-full bg_cf2 r_20 p-3">
             <!-- {{useCourses.store.courses?.course?.payment}}23 -->
-            <ul v-if="useCourses.store.courses?.course?.payment?.status == 'completed'" class="flex items-center justify-between">
+            <!-- <ul v-if="useCourses.store.courses?.course?.payment?.status == 'completed'" class="flex items-center justify-between">
                 <li>Kurs muddati</li>
                 {{useCourses.store.courses?.course?.payment?.createdAt}}
-                <!-- <li><span>Bepul</span> <strike>250.000 UZS</strike></li> -->
                 <li>
                     <a-button :loading="isLoading.isLoadingType('checkout')"
                         class="b_main rounded-full h-10 px-5 c_main">Davom etish</a-button>
                 </li>
-            </ul>
-            <ul v-else class="flex items-center justify-between">
+            </ul> -->
+            <ul class="flex items-center justify-between">
                 <li>Kurs narxi</li>
                 <li><span>Bepul</span> <strike>250.000 UZS</strike></li>
                 <li>
-                    <a-button @click="useStripe.createCheckout" :loading="isLoading.isLoadingType('checkout')"
+                    <a-button @click="useStripe.createCheckout" :loading="isLoading.isLoadingType('checkout') || isLoading.isLoadingType('getByCourse')"
                         class="b_main rounded-full h-10 px-5 c_main">Kursga qo'shilish</a-button>
                 </li>
             </ul>
