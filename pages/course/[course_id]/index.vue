@@ -210,15 +210,28 @@
                 <LoadingDiv v-for="_ in 5" class="h-9 w-full" />
             </div>
         </section>
+        <!-- useCourses.store.courses.courses -->
 
-
-        <ul class="sticky bottom-3 my-3 w-full flex items-center justify-between bg_cf2 r_20 p-3">
-            <li>Kurs narxi</li>
-            <li><span>Bepul</span> <strike>250.000 UZS</strike></li>
-            <li>
-                <a-button :loading="isLoading.isLoadingType('checkout')"  @click="useStripe.createCheckout" class="b_main rounded-full h-10 px-5 c_main">Kursga qo'shilish</a-button>
-            </li>
-        </ul>
+        <div class="sticky bottom-3 my-3 w-full bg_cf2 r_20 p-3">
+            <!-- {{useCourses.store.courses?.course?.payment}}23 -->
+            <ul v-if="useCourses.store.courses?.course?.payment?.status == 'completed'" class="flex items-center justify-between">
+                <li>Kurs muddati</li>
+                {{useCourses.store.courses?.course?.payment?.createdAt}}
+                <!-- <li><span>Bepul</span> <strike>250.000 UZS</strike></li> -->
+                <li>
+                    <a-button :loading="isLoading.isLoadingType('checkout')"
+                        class="b_main rounded-full h-10 px-5 c_main">Davom etish</a-button>
+                </li>
+            </ul>
+            <ul v-else class="flex items-center justify-between">
+                <li>Kurs narxi</li>
+                <li><span>Bepul</span> <strike>250.000 UZS</strike></li>
+                <li>
+                    <a-button @click="useStripe.createCheckout" :loading="isLoading.isLoadingType('checkout')"
+                        class="b_main rounded-full h-10 px-5 c_main">Kursga qo'shilish</a-button>
+                </li>
+            </ul>
+        </div>
 
         <!-- modal -->
         <UIModal v-if="store.modalType == 'lesson'" :isOpen="isLoading.modal.create" :loadingType="'createLesson'"

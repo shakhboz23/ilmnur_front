@@ -23,6 +23,7 @@ export const useStripeStore = defineStore("stripe", () => {
     // isLoading.modal.checkout = true
     // router.push(data.data?.url, )
     window.open(url, '_blank')
+    window.close
   }
 
   return {
