@@ -5,6 +5,7 @@ const groupCreate: GroupsCreate = {
   description: "",
   file: "",
   group_type: "public",
+  color: '',
 };
 
 export default groupCreate;

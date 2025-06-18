@@ -11,4 +11,5 @@ export interface GroupsCreate {
     description: string,
     file: any,
     group_type: string,
+    color: string,
 }

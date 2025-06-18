@@ -1,3 +1,7 @@
 {
-    "postman.settings.dotenv-detection-notification-visibility": false
+    "postman.settings.dotenv-detection-notification-visibility": false,
+    "vue.features.codeActions": true,
+    "vue.features.definition": true,
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "editor.definitionLinkOpensInPeek": false
 }

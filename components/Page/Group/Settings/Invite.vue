@@ -4,8 +4,8 @@
         <div class="space-y-4">
             <p>This will take people to your group’s About page where they can purchase or request membership.</p>
             <div class="flex gap-3">
-                <p class="px-6 py-2.5 b_main w-full r_8 c_blue">https://www.ilmnur.online/frontend-3698/about</p>
-                <button class="px-6 py-2.5 font-bold r_8 bg_main">COPY</button>
+                <p class="px-6 py-2.5 b_main w-full r_8 c_blue">https://www.ilmnur.online/{{$route.params.group_id}}?page=about</p>
+                <button @click="isLoading.copyLink(`https://www.ilmnur.online/${$route.params.group_id}?page=about`, 'Copied to clipboard')" class="px-6 py-2.5 font-bold r_8 bg_main">COPY</button>
             </div>
         </div>
         <div class="space-y-4">
@@ -21,7 +21,9 @@
 </template>
 
 <script setup>
+import { useLoadingStore } from '~/store';
 
+const isLoading = useLoadingStore();
 </script>
 
 <style lang="scss" scoped></style>

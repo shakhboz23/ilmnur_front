@@ -3,6 +3,7 @@ import type { LoadingType } from "~/types/store";
 
 export const useLoadingStore = defineStore("loading", () => {
   const runtime = useRuntimeConfig();
+    const { openNotification } = useNotification();
   const baseURL: string = String(runtime.public.baseURL);
   const localBaseURL: string = String(runtime.public.localBaseURL);
   const router = useRouter();
@@ -110,10 +111,10 @@ export const useLoadingStore = defineStore("loading", () => {
   //     return newText;
   //   }
 
-  //   function copyLink(copyText, text) {
-  //     navigator.clipboard.writeText(copyText);
-  //     showMessage(text);
-  //   }
+    function copyLink(copyText: string, text: string) {
+      navigator.clipboard.writeText(copyText);
+      openNotification('success', text, '');
+    }
 
   function checkCurrentUrl() {
     const front_url =
@@ -149,5 +150,6 @@ export const useLoadingStore = defineStore("loading", () => {
     isLoadingType,
     checkCurrentUrl,
     checkIsTelegramMiniApp,
+    copyLink,
   };
 });

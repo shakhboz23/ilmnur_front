@@ -1,7 +1,7 @@
 <template>
   <div class="relative">
     <!-- <h1>{{ title }}</h1> -->
-    <input @input="handleInput" @focus="handleFocus" :type="type" :id="id" v-model="inputValue" class="peer focus:placeholder-[#b3b3b3] placeholder-transparent"
+    <input @input="handleInput" @focus="handleFocus" :disabled="disabled" :type="type" :id="id" v-model="inputValue" class="peer focus:placeholder-[#b3b3b3] placeholder-transparent"
       :placeholder="placeholder" :required="requiredValue" />
     <label :for="id"
       class="absolute text-sm _ca1 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">
@@ -48,7 +48,11 @@ export default {
     required: {
       type: Boolean,
       default: false,
-    }
+    }, 
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {

@@ -20,6 +20,7 @@ export const useGroupsStore = defineStore("groups", () => {
     description: "",
     file: "",
     group_type: 'public',
+    color: "",
   });
 
   function clearData() {
