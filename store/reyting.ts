@@ -13,7 +13,7 @@ export const useReytingStore = defineStore("reyting", () => {
 
   async function getReyting() {
     const data: any = await apiRequest.get(
-      `user/reyting/${router.currentRoute.value.params.group_id}/${isLoading.store.category_id}`,
+      `user/reyting/${router.currentRoute.value.params.group_id || 0}/${isLoading.store.category_id}`,
       "getReyting"
     );
     console.log(data, "skslaskl");

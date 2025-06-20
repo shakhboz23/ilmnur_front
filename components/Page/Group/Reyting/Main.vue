@@ -1,13 +1,14 @@
 <template>
     <div>
-        <section class="text-center w-[60%] mx-auto space-y-2">
+        <section v-if="type != 'navreyting'" class="text-center w-[60%] mx-auto space-y-2">
             <img loading="lazy" class="mx-auto" src="@/assets/svg/reyting/steps.svg" alt="">
             <h1 class="font-semibold text-lg c_c32">O'rganing. Tajriba orttiring. Raqobatlashing</h1>
             <p class="c_c55 text-sm">Darslar uchun imkon qadar ko'proq tajriba ball to'plash orqali haftalik reytingda
                 yangi o'rinni egallashga harakat qiling</p>
         </section>
-        <section class="mt-10">
-            <CategorySlider v-if="type != 'lesson'" :category="useLessons.store.courses" class="mb-5" />
+        <section :class="type != 'navreyting' ? 'mt-10' : ''">
+            <CategorySlider v-if="type != 'lesson' && type != 'navreyting'" :category="useLessons.store.courses"
+                class="mb-5" />
             <hr />
             <div v-if="isLoading.isLoadingType('getReyting')">
                 <LoadingDiv v-for="i in 10" class="h-16 w-full my-2" />
