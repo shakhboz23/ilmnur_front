@@ -20,7 +20,11 @@
                     <button @click="isLoading.modal.create = true" class="bg-white rounded-md p-1.5 w-10">
                         <img loading="lazy" class="mx-auto" src="@/assets/svg/icon/settings.svg" alt="" />
                     </button>
-                    <a-dropdown>
+                    <button @click="store.importModal = true" class="flex items-center gap-2 b_black px-8 py-2 r_8">
+                        <img class="w-4" src="@/assets/svg/icon/import.svg" alt="">
+                        <p>Import</p>
+                    </button>
+                    <!-- <a-dropdown>
                         <button class="flex items-center gap-2 b_black px-8 py-2 r_8">
                             <img class="w-4" src="@/assets/svg/icon/import.svg" alt="">
                             <p>Import</p>
@@ -43,7 +47,7 @@
                                 </a-menu-item>
                             </a-menu>
                         </template>
-                    </a-dropdown>
+</a-dropdown> -->
                     <div class="file_input">
                         <input @change="importFile" class="file_input" type="file" id="import_file" />
                     </div>
@@ -554,6 +558,28 @@
                 </li>
             </ul>
         </a-drawer>
+
+
+        <!-- modal -->
+        <UIModal :isOpen="store.importModal" :loadingType="'gettests'" @update:isOpen="(value) => handleModal(value)">
+            <h1 class="font-semibold text-2xl">Test import qilish</h1>
+            <div class="flex items-center gap-2 w-full">
+                <div>
+                    <label for="import_file"
+                        class="flex items-center gap-2 bg-white p-1.5 rounded-md border_ced cursor-pointer">
+                        <img loading="lazy" class="h-7 w-7" src="@/assets/svg/image/word.png" alt="" />
+                        <p>WORD</p>
+                    </label>
+                </div>
+                <div>
+                    <label for="import_file"
+                        class="flex items-center gap-2 bg-white p-1.5 rounded-md border_ced cursor-pointer">
+                        <img loading="lazy" class="h-7 w-7" src="@/assets/svg/image/excel.png" alt="" />
+                        <p>Excel</p>
+                    </label>
+                </div>
+            </div>
+        </UIModal>
     </div>
 </template>
 
@@ -597,10 +623,12 @@ useCategory.getCategory();
 const store = reactive({
     convertedContent: [],
     listKey: 0,
+    importModal: false,
 })
 
 function handleModal(value) {
     if (value == "OK") {
+        store.importModal = false;
         if (isLoading.modal.delete) {
             // useCourses.deleteCourse();
         } else if (isLoading.modal.create && !isLoading.modal.edit) {
@@ -609,6 +637,7 @@ function handleModal(value) {
             // useCourses.updateCourse();
         }
     } else {
+        store.importModal = false;
         isLoading.modal.create = false;
         isLoading.modal.delete = false;
         // useCourses.clearData();

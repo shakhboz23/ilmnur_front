@@ -7,6 +7,7 @@ export const useStripeStore = defineStore("stripe", () => {
   const apiRequest = useApiRequest();
   const useCourses = useCoursesStore();
   const router = useRouter();
+  const { openNotification } = useNotification();
 
   const store: any = reactive({
     // url: '',
@@ -16,16 +17,18 @@ export const useStripeStore = defineStore("stripe", () => {
 
   async function createCheckout() {
     const course_id = +router.currentRoute.value.params.course_id
+    let res: any;
     const data: any = await apiRequest.post(`stripe/checkout`, {
       course_id,
       amount: 250,
     }, "checkout");
-    let url = data.data?.url;
-    // console.log(data, data.data, store.url);
-    // isLoading.modal.checkout = true
-    // router.push(data.data?.url, )
-    // window.open(url, '_blank', 'width=400,height=600')
-    openStripeWindow(url);
+    if (data.data.message) {
+      openNotification('success', data.data.message, '');
+      return { success: true }
+    } else {
+      res = data.data?.url;
+    }
+    openStripeWindow(res);
     window.close
   }
 
@@ -47,13 +50,18 @@ export const useStripeStore = defineStore("stripe", () => {
     const top = (window.screen.height / 2) - (height / 2);
 
     // 2. Yangi oynani ochish
-    const newWindow: any = window.open(url, '_blank',
+    const stripeWindow: any = window.open(url, '_blank',
       `width=${width},height=${height},top=${top},left=${left}`
     );
 
+    backdrop.addEventListener('click', () => {
+      stripeWindow?.focus();
+    });
+
+
     // 3. Orqa fonni o‘chirish (ixtiyoriy: timeout yoki postMessage orqali)
     const interval = setInterval(() => {
-      if (newWindow.closed) {
+      if (stripeWindow.closed) {
         clearInterval(interval);
         document.getElementById('stripe-backdrop')?.remove();
         useCourses.getByCourse();

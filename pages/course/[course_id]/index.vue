@@ -112,7 +112,8 @@
                 <div class="flex items-center gap-2 my-2">
                     <p class="text-sm -mt-2 text-[#C7C7CC]">{{ useCourses.store.courses?.course?.finished_count }}/{{
                         useCourses.store.courses?.course?.lessons_count }} completed</p>
-                    <a-button @click="() => { }" class="b_main rounded-full h-5 py-0 px-3 -mt-2 text-xs c_main">Davom etish</a-button>
+                    <a-button @click="() => { }" class="b_main rounded-full h-5 py-0 px-3 -mt-2 text-xs c_main">Davom
+                        etish</a-button>
                 </div>
             </div>
             <div v-else class="space-y-1 mt-5">
@@ -230,7 +231,8 @@
                 <li>Kurs narxi</li>
                 <li><span>Bepul</span> <strike>250.000 UZS</strike></li>
                 <li>
-                    <a-button @click="useStripe.createCheckout" :loading="isLoading.isLoadingType('checkout') || isLoading.isLoadingType('getByCourse')"
+                    <a-button @click="createCheckout"
+                        :loading="isLoading.isLoadingType('checkout') || isLoading.isLoadingType('getByCourse')"
                         class="b_main rounded-full h-10 px-5 c_main">Kursga qo'shilish</a-button>
                 </li>
             </ul>
@@ -322,6 +324,13 @@ function isOwner() {
         return true;
     }
     return false;
+}
+
+async function createCheckout() {
+    const res = await useStripe.createCheckout();
+    if (res?.success) {
+        await useCourses.getByCourse();
+    }
 }
 
 function handleButton(type, lesson, modalType) {

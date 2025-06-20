@@ -2,18 +2,25 @@
     <div class="sc-bottom-bar">
         <router-link to="/" class="sc-menu-item">
              <IconHome />
+             <span>Asosiy</span>
         </router-link>
-        <router-link to="/my_groups" class="sc-menu-item">
+        <button @click="isLoading.store.drawer = true" to="/my_groups" class="sc-menu-item">
             <IconPlus />
-        </router-link>
+        </button>
         <router-link to="/settings" class="sc-menu-item">
             <IconProfile />
+             <span>Profile</span>
         </router-link>
         <!-- <a class="sc-nav-indicator" :style="{ left: menuPosition + 'px' }"></a> -->
     </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { useLoadingStore } from '~/store';
+
+
+const isLoading = useLoadingStore();
+</script>
 
 <style scoped>
 :root {
@@ -36,8 +43,8 @@
     left: 0;
     bottom: 0;
     right: 0;
-    height: 56px;
-    font-size: 26px;
+    height: 70px;
+    font-size: 10px;
     background: white;
     /* background-image: radial-gradient(circle at 36px 26px, transparent 36px, #ffffff 37px); */
     filter: drop-shadow(0px -1px 6px rgba(0, 0, 0, 0.08)) drop-shadow(0px -2px 12px rgba(0, 0, 0, 0.12));
@@ -50,9 +57,10 @@
     color: var(--fore-color);
     transition: ease-in-out .5s;
     cursor: pointer;
-    width: 25px;
-    height: 25px;
+    width: 50px;
+    height: 50px;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
