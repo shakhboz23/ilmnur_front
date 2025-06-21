@@ -16,7 +16,7 @@
         </li>
       </ul>
       <ul v-if="isLoading.store.isLogin" class="full_flex gap-5 md:!flex !hidden">
-        <li>
+        <!-- <li>
           <a-dropdown>
             <div class="full_flex gap-2">
               <button class="full_flex h-10 w-10 bg_cf9 rf"><img loading="lazy" src="@/assets/svg/nav/daily.svg"
@@ -32,7 +32,7 @@
             </template>
           </a-dropdown>
 
-        </li>
+        </li> -->
         <li>
           <button class="full_flex h-10 w-10 bg_cf9 rf"><img loading="lazy" src="@/assets/svg/nav/notification.svg"
               alt=""></button>
