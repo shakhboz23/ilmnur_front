@@ -15,10 +15,10 @@
           <img loading="lazy" class="absolute top-0 bottom-0 my-auto right-5" src="@/assets/svg/nav/search.svg" alt="">
         </li>
       </ul>
-      <ul v-if="isLoading.store.isLogin" class="full_flex gap-5">
+      <ul v-if="isLoading.store.isLogin" class="full_flex gap-5 md:!flex !hidden">
         <li>
           <a-dropdown>
-            <div class="md:!flex !hidden full_flex gap-2">
+            <div class="full_flex gap-2">
               <button class="full_flex h-10 w-10 bg_cf9 rf"><img loading="lazy" src="@/assets/svg/nav/daily.svg"
                   alt=""></button>
               <span>0</span>

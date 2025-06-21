@@ -5,7 +5,7 @@
   <header class="px-5">
     <LoadingPage v-show="isLoading.store.middleware" />
     <div v-if="!isLoading.store.middleware">
-      <div class="fixed top-0 z-50 bg_bg py-5 w-[calc(100vw_-_40px)]">
+      <div class="fixed top-0 z-100 bg_bg py-5 w-[calc(100vw_-_40px)]">
         <Nav class="md:w-[calc(100vw_-_60px)] w-full" />
       </div>
       <Sidebar class="md:block hidden fixed top-[120px] max-w-[260px]" />
