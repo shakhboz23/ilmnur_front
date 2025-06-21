@@ -41,7 +41,7 @@ export const useTestsStore = defineStore("tests", () => {
   });
 
   const test_settings: any = reactive({
-    test_type: 'Test',
+    test_type: 'test',
     start_date: null,
     end_date: null,
     sort_level: [[null, null, null, null]],
