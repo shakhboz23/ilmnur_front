@@ -451,6 +451,13 @@
             </div>
             <div class="mt-4 space-y-4">
                 <div class="space-y-2">
+                    <ul class="flex gap-2 font-semibold">
+                        <button @click="useTests.test_settings.test_type = type" v-for="type in testSettingsType"
+                            class="duration-700 r_20 py-2 px-3 text-xs b_main"
+                            :class="useTests.test_settings.test_type == type ? 'bg_main c_white' : 'c_main'">{{ type }}</button>
+                    </ul>
+                </div>
+                <div class="space-y-2">
                     <label for="name">Boshlanish vaqti</label>
                     <div class="flex gap-2">
                         <a-date-picker class="w-full" v-model:value="useTests.test_settings.start_date"
@@ -502,12 +509,12 @@
                             <a-select v-model:value="useTests.test_settings.sort_level[index][1]"
                                 class="min-w-[80px] test_arrow !h-[42px] sr_12" show-search required>
                                 <a-select-option v-for="i in useTests.store.questions_count" :value="i">{{ i
-                                    }}</a-select-option>
+                                }}</a-select-option>
                             </a-select>
                             <a-select v-model:value="useTests.test_settings.sort_level[index][2]"
                                 class="min-w-[80px] test_arrow !h-[42px] sr_12" show-search required>
                                 <a-select-option v-for="i in useTests.store.questions_count" :value="i">{{ i
-                                    }}</a-select-option>
+                                }}</a-select-option>
                             </a-select>
                             <p v-if="useTests.test_settings.sort_level?.length != 1"
                                 @click="addTestStep('remove', index)"
@@ -606,6 +613,12 @@ const modules = [Pagination];
 const editorData = ref('')
 const editorData2 = ref('')
 const watchStep = ref('0')
+
+const testSettingsType = {
+    "test": "test",
+    "vocabulary": "vocabulary",
+    "IELTS": "IELTS",
+}
 
 const testType = [
     { value: 'variant', label: 'Variantli' },
@@ -721,12 +734,6 @@ function htmlTableToArray(htmlTable) {
             useTests.test[i].variants[j - 2] = result[i][j];
         }
     }
-    // return result;
-    // const regex = /<p>(.*?)<\/p>/g;
-    // const matches = htmlTable.match(regex);
-    // if (!matches) return [];
-
-    // matches.map((match) => match.replace(/<\/?p>/g, ""));
 }
 
 function convertFileToHtml(file) {
