@@ -14,10 +14,14 @@ export default defineNuxtConfig({
         //   "http-equiv": 'Content-Security-Policy',
         //   content: 'default-src * data: blob:;'
         // }
-        // {
-        //   name: "theme-color",
-        //   content: "#5C0099",
-        // },
+        {
+          name: "viewport",
+          content: "width=device-width, initial-scale=1.0",
+        },
+        {
+          name: "theme-color",
+          content: "#FF852E",
+        },
       ],
       link: [
         {
