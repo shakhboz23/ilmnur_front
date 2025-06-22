@@ -1,5 +1,5 @@
 <template>
-  <main class="full_flex py-10 md:px-0 px-4 overflow-y-auto">
+  <main class="py-10 md:px-0 px-4">
     <div
       class="sm:w-[500px] bg_white mx-auto sm:p-[50px] p-5 pb-8 rounded-[16px]">
       <h1 class="text-center md:text-[28px] mb-7 text-xl font-bold">

@@ -64,6 +64,10 @@
 <script setup>
 import { useAuthStore, useLoadingStore } from "@/store";
 
+definePageMeta({
+  layout: false,
+})
+
 const runtime = useRuntimeConfig();
 const router = useRouter();
 const useAuth = useAuthStore();

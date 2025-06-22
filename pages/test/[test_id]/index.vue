@@ -54,7 +54,7 @@
                     <button @click="useTests.createTest" class="flex items-center gap-1 b_main c_main px-8 py-2 r_8">
                         <img loading="lazy" class="mx-auto w-5" src="@/assets/svg/icon/preview.svg" alt="" />
                         Preview</button>
-                    <button @click="useTests.createTest" class="bg_main c_white px-8 py-2 r_8">Yuklash</button>
+                    <a-button :loading="isLoading.isLoadingType('createTest')" @click="useTests.createTest" class="bg_main c_white px-8 h-[42px] r_8">Yuklash</a-button>
                 </div>
             </nav>
             <nav class="bg_bg py-6 -mx-5 px-7">

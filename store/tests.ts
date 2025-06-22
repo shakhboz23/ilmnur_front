@@ -187,7 +187,7 @@ export const useTestsStore = defineStore("tests", () => {
         ...test_settings,
         lesson_id,
         test: tests,
-      })
+      }, 'createTest')
       .then((res) => {
         console.log(res);
       })
