@@ -73,6 +73,7 @@ export default defineNuxtConfig({
     "~/assets/scss/main.scss",
     // "vue-plyr/dist/vue-plyr.css",
   ],
+
   modules: ["@pinia/nuxt", "@nuxtjs/tailwindcss", "nuxt-swiper"],
 
   postcss: {
@@ -98,10 +99,12 @@ export default defineNuxtConfig({
   //   }
   // },
   components: true,
+
+  // compatibilityDate: "2024-11-15",
   typescript: {
     typeCheck: true,
     strict: false,
   },
 
-  // compatibilityDate: "2024-11-15",
+  compatibilityDate: "2025-06-22",
 });

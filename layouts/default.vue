@@ -5,9 +5,10 @@
   <header class="px-5">
     <LoadingPage v-show="isLoading.store.middleware" />
     <div v-if="!isLoading.store.middleware">
-      <div class="fixed top-0 z-100 bg_bg py-5 w-[calc(100vw_-_40px)]">
+      <div class="fixed top-0 z-50 bg_bg py-5 w-[calc(100vw_-_40px)]">
         <Nav class="md:w-[calc(100vw_-_60px)] w-full" />
       </div>
+      {{ isLoading.store.error }}
       <Sidebar class="md:block hidden fixed top-[120px] max-w-[260px]" />
       <div
         class="md:flex md:gap-5 max-w-[100vw] md:mt-[120px] mt-[112px] sm:min-h-[calc(100vh_-_140px)] min-h-[calc(100vh_-_196px)] sm:pb-0 pb-20">

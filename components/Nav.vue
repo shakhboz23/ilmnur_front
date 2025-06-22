@@ -7,7 +7,7 @@
         </li>
         <li>
           <router-link to="/">
-            <img loading="lazy" class="min-w-fit" src="public/logo.svg" alt="">
+            <img loading="lazy" class="min-w-fit" src="/logo.svg" alt="">
           </router-link>
         </li>
         <li class="md:block hidden bg_cf5 relative r_8 w-full">
@@ -15,8 +15,8 @@
           <img loading="lazy" class="absolute top-0 bottom-0 my-auto right-5" src="@/assets/svg/nav/search.svg" alt="">
         </li>
       </ul>
-      <ul v-if="isLoading.store.isLogin" class="full_flex gap-5 md:!flex !hidden">
-        <!-- <li>
+      <ul v-if="isLoading.store.isLogin" class="full_flex gap-5">
+        <li class="md:!flex !hidden">
           <a-dropdown>
             <div class="full_flex gap-2">
               <button class="full_flex h-10 w-10 bg_cf9 rf"><img loading="lazy" src="@/assets/svg/nav/daily.svg"
@@ -31,8 +31,7 @@
               </a-menu>
             </template>
           </a-dropdown>
-
-        </li> -->
+        </li>
         <li>
           <button class="full_flex h-10 w-10 bg_cf9 rf"><img loading="lazy" src="@/assets/svg/nav/notification.svg"
               alt=""></button>
@@ -94,41 +93,45 @@
 
 <script setup>
 import { useLoadingStore } from '~/store';
-
 const isLoading = useLoadingStore();
-
-function logout() {
-  isLoading.store.logout = true;
-}
-
-function handleModal(value) {
-  isLoading.store.logout = false;
-  if (value == "OK") {
-    localStorage.removeItem('token');
-    isLoading.store.isLogin = false
+try {
+  function logout() {
+    isLoading.store.logout = true;
   }
-}
 
-if (Notification.permission !== 'granted') {
-  Notification.requestPermission().then(permission => {
-    if (permission === 'granted') {
-      console.log('Notification permission granted.');
-      showNotification("Notification permission granted");
+  function handleModal(value) {
+    isLoading.store.logout = false;
+    if (value == "OK") {
+      localStorage.removeItem('token');
+      isLoading.store.isLogin = false
     }
-  });
-}
-
-function showNotification(title, options) {
-  if (Notification.permission === 'granted') {
-    new Notification(title, options);
   }
-}
 
-showNotification('New Video Uploaded!', {
-  body: 'Check out our latest video on JavaScript tips.',
-  icon: 'https://ilmnur.online/icon.png', // image for the notification
-  tag: 'new-video', // prevents stacking multiple notifications with same tag
-});
+  if (Notification.permission !== 'granted') {
+    Notification.requestPermission().then(permission => {
+      if (permission === 'granted') {
+        console.log('Notification permission granted.');
+        showNotification("Notification permission granted");
+      }
+    });
+  }
+
+  function showNotification(title, options) {
+    if (Notification.permission === 'granted') {
+      new Notification(title, options);
+    }
+  }
+
+  showNotification('New Video Uploaded!', {
+    body: 'Check out our latest video on JavaScript tips.',
+    // icon: 'https://ilmnur.online/icon.png', // image for the notification
+    tag: 'new-video', // prevents stacking multiple notifications with same tag
+  });
+} catch (error) {
+  console.log(error);
+  isLoading.store.error = error
+
+}
 </script>
 
 <style lang="scss" scoped></style>
