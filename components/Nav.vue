@@ -93,20 +93,21 @@
 
 <script setup>
 import { useLoadingStore } from '~/store';
+
 const isLoading = useLoadingStore();
+
+function logout() {
+  isLoading.store.logout = true;
+}
+
+function handleModal(value) {
+  isLoading.store.logout = false;
+  if (value == "OK") {
+    localStorage.removeItem('token');
+    isLoading.store.isLogin = false
+  }
+}
 try {
-  function logout() {
-    isLoading.store.logout = true;
-  }
-
-  function handleModal(value) {
-    isLoading.store.logout = false;
-    if (value == "OK") {
-      localStorage.removeItem('token');
-      isLoading.store.isLogin = false
-    }
-  }
-
   if (Notification.permission !== 'granted') {
     Notification.requestPermission().then(permission => {
       if (permission === 'granted') {
@@ -129,8 +130,6 @@ try {
   });
 } catch (error) {
   console.log(error);
-  isLoading.store.error = error
-
 }
 </script>
 

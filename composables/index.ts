@@ -2,7 +2,7 @@ import { useTabs } from './tabs';
 import { useApiRequest } from "./request";
 import apiRequest from './apiRequest';
 import { useNotification } from './notification';
-import { formatDate } from './format';
+import { formatDate, formatDurationFromSeconds } from './format';
 
 export {
     useApiRequest,
@@ -10,4 +10,5 @@ export {
     useNotification,
     apiRequest,
     formatDate,
+    formatDurationFromSeconds,
 }
