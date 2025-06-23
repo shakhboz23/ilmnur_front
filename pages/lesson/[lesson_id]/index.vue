@@ -58,8 +58,16 @@
                         </ul>
                     </li>
                     <li class="flex gap-2">
-                        <img loading="lazy" src="@/assets/svg/icon/a_star.svg" alt="">
-                        <span>{{ useLessons.store.lessons?.course?.likes_count }}</span>
+                        <!-- {{ useLessons.store.lessons.is_liked }} -->
+                        <!-- <img loading="lazy" src="@/assets/svg/icon/a_star.svg" alt=""> -->
+                        <a-button :loading="isLoading.isLoadingType('like')" @click="handleLikeButton"
+                            class="full_flex gap-2 px-5 py-2 min-h-fit r_8 w-full !border-none bg-transparent shadow-none truncate">
+                            <img class="w-5 h-5" v-if="useLessons.store.lessons?.is_liked" loading="lazy"
+                                src="@/assets/svg/icon/a_star.svg" alt="">
+                            <img class="w-5 h-5" v-else loading="lazy" src="@/assets/svg/icon/star.svg"
+                                alt="">
+                            <span>{{ useLessons.store.lessons?.course?.likes_count }}</span>
+                        </a-button>
                     </li>
                 </ul>
             </section>
@@ -78,10 +86,11 @@
 </template>
 
 <script setup>
-import { useLessonsStore, useLoadingStore } from '~/store';
+import { useLessonsStore, useLikesStore, useLoadingStore } from '~/store';
 
 const isLoading = useLoadingStore()
 const useLessons = useLessonsStore();
+const useLikes = useLikesStore();
 const router = useRouter();
 const store = reactive({
     active_id: 0,
@@ -98,6 +107,11 @@ function handleContentClick() {
 function editLesson() {
     const lesson_id = router.currentRoute.value.params.lesson_id
     router.push(`/lesson/${lesson_id}/update`)
+}
+
+async function handleLikeButton() {
+    await useLikes.postLike(+router.currentRoute.value.params.lesson_id);
+    useLessons.getById();
 }
 
 const player = ref(null);

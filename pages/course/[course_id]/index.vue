@@ -74,9 +74,13 @@
                                     </template>
                                 </a-dropdown>
                             </div>
-                            <a-button v-else :loading="isLoading.isLoadingType('subscribe')"
-                                @click="useCourses.subscribeCourse(useCourses.store.courses?.course?.id)"
-                                class="b_main c_main rounded-full px-4 py-1 text-sm">Obuna bo'lish</a-button>
+                            <!-- <a-button @click="createCheckout"
+                        :loading="isLoading.isLoadingType('checkout') || isLoading.isLoadingType('getByCourse')"
+                        class="b_main rounded-full h-10 px-5 c_main">Kursga qo'shilish</a-button> -->
+                            <a-button v-else @click="createCheckout"
+                                :loading="isLoading.isLoadingType('checkout') || isLoading.isLoadingType('getByCourse')"
+                                class="b_main c_main rounded-full px-4 py-1 text-sm">Obuna
+                                bo'lish</a-button>
                         </div>
                     </div>
                     <a-dropdown>
@@ -97,7 +101,7 @@
                                     @click="$router.push(`/lesson/${$router.currentRoute.value.params.course_id}/create`)">
                                     <a href="javascript:;">Dars qo'shish</a>
                                 </a-menu-item>
-                                <a-menu-item @click="isLoading.modal.create = true">
+                                <a-menu-item @click="isLoading.modal.create = true; store.modalType = 'lesson'">
                                     <a href="javascript:;">Modul qo'shish</a>
                                 </a-menu-item>
                             </a-menu>
@@ -133,10 +137,12 @@
                                     alt="" />
                             </button>
                             <h1 class="w-full truncate">{{ i.title }}</h1>
-                            <p class="min-w-fit">18 daqiqa</p>
+                            <p v-if="i.type == 'lesson'" class="min-w-fit">{{ formatDurationFromSeconds(i.duration || 0)
+                                }}</p>
+                            <p v-else class="min-w-fit">{{ calculateTotalDuration(index) }}</p>
                             <div class="flex gap-5 min-w-fit">
-                                <!-- <img class="h-7 statistics" loading="lazy" src="@/assets/svg/course/statistics.svg"
-                                    alt=""> -->
+                                <img v-if="i.type != 'module'" class="h-7 statistics" loading="lazy"
+                                    src="@/assets/svg/course/statistics.svg" alt="">
                                 <img loading="lazy" v-if="!i.is_finished && i.is_viewed"
                                     src="@/assets/svg/news/show.svg" alt="">
                                 <img loading="lazy" v-if="checkIsFinished(i)" src="@/assets/svg/course/finished.svg"
@@ -145,7 +151,7 @@
                                     src="@/assets/svg/course/lock.svg" alt="">
                             </div>
                             <a-dropdown v-if="isOwner()">
-                                <div>
+                                <div class="min-w-fit">
                                     <img loading="lazy" class="threedot" src="@/assets/svg/icon/threedot.svg" alt="">
                                 </div>
                                 <template #overlay>
@@ -163,7 +169,7 @@
                                     </a-menu>
                                 </template>
                             </a-dropdown>
-                            <img loading="lazy" v-if="i.type == 'module'" class="w-5 h-5 duration-700"
+                            <img loading="lazy" v-if="i.type == 'module'" class="w-5 h-5 duration-700 min-w-fit"
                                 :class="store.active_id == i.id ? 'rotate-180' : 'rotate-0'"
                                 src="@/assets/svg/icon/arrow.svg" alt="">
                         </div>
@@ -176,8 +182,8 @@
                                         <img draggable="false" class="h-6 w-6 min-w-[24px]"
                                             src="@/assets/svg/icon/drag.svg" alt="" />
                                     </button>
-                                    <h1 class="w-full whitespace-nowrap">{{ lesson.title }}</h1>
-                                    <p class="min-w-fit">18 daqiqa</p>
+                                    <h1 class="w-full truncate">{{ lesson.title }}</h1>
+                                    <p class="min-w-fit">{{ formatDurationFromSeconds(lesson.duration) }}</p>
                                     <div class="flex items-center gap-5 min-w-fit">
                                         <img class="h-6 statistics" loading="lazy"
                                             src="@/assets/svg/course/statistics.svg" alt="">
@@ -217,7 +223,7 @@
         <!-- useCourses.store.courses.courses -->
 
         <div v-if="!['completed'].includes(useCourses.store.courses?.course?.payment?.status)"
-            class="sticky bottom-3 my-3 w-full bg_cf2 r_20 p-3">
+            class="sticky sm:bottom-3 bottom-20 my-3 w-full bg_cf2 r_20 p-3">
             <!-- {{useCourses.store.courses?.course?.payment}}23 -->
             <!-- <ul v-if="useCourses.store.courses?.course?.payment?.status == 'completed'" class="flex items-center justify-between">
                 <li>Kurs muddati</li>
@@ -248,7 +254,7 @@
             </div>
         </UIModal>
 
-        <UIModal :title="'Dars qo\'shish'" :isOpen="isLoading.modal.create" :loadingType="'createCourse'"
+        <UIModal v-else :title="'Dars qo\'shish'" :isOpen="isLoading.modal.create" :loadingType="'createCourse'"
             @update:isOpen="(value) => handleModal(value, 'course')">
             <ModalCreateCourse />
         </UIModal>
@@ -279,6 +285,9 @@
 import { useLoadingStore, useCoursesStore, useLessonsStore, useCategoryStore, useStripeStore } from '~/store';
 import { VueDraggableNext as draggable } from "vue-draggable-next";
 import { formatDate, formatDurationFromSeconds } from "@/composables";
+import { useNotification } from "~/composables";
+
+const { openNotification } = useNotification();
 
 const isLoading = useLoadingStore();
 const useCourses = useCoursesStore();
@@ -364,7 +373,11 @@ function handleClick(e, lesson) {
     if (lesson.type == 'module') {
         store.active_id = store.active_id == lesson.id ? 0 : lesson.id
     } else {
-        router.push(`/lesson/${lesson.id}`)
+        if (useCourses.store.courses?.course?.payment?.status == 'completed') {
+            router.push(`/lesson/${lesson.id}`)
+        } else {
+            openNotification('warning', "Kurslarga obuna bo'lmagansiz", "Kursga qo'shilish tugmasini bosing")
+        }
     }
 }
 
@@ -380,6 +393,15 @@ function checkIsFinished(data) {
         return data.is_finished;
     }
 
+}
+
+function calculateTotalDuration(index) {
+    const lesson = useCourses.store.courses.lessons[index].lessons;
+    let s = 0;
+    for (let i of lesson) {
+        s = s + (i.duration || 0);
+    }
+    return formatDurationFromSeconds(s);
 }
 
 watch(() => store.course_id, () => {
