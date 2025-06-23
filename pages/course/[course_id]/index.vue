@@ -116,7 +116,8 @@
                 <div class="flex items-center gap-2 my-2">
                     <p class="text-sm -mt-2 text-[#C7C7CC]">{{ useCourses.store.courses?.course?.finished_count }}/{{
                         useCourses.store.courses?.course?.lessons_count }} completed</p>
-                    <a-button @click="() => { }" class="b_main rounded-full h-5 py-0 px-3 -mt-2 text-xs c_main">Davom
+                    <a-button @click="getFirstUnfinishedLessonId"
+                        class="b_main rounded-full h-5 py-0 px-3 -mt-2 text-xs c_main">Davom
                         etish</a-button>
                 </div>
             </div>
@@ -138,7 +139,7 @@
                             </button>
                             <h1 class="w-full truncate">{{ i.title }}</h1>
                             <p v-if="i.type == 'lesson'" class="min-w-fit">{{ formatDurationFromSeconds(i.duration || 0)
-                                }}</p>
+                            }}</p>
                             <p v-else class="min-w-fit">{{ calculateTotalDuration(index) }}</p>
                             <div class="flex gap-5 min-w-fit">
                                 <img v-if="i.type != 'module'" class="h-7 statistics" loading="lazy"
@@ -363,6 +364,22 @@ function handleButton(type, lesson, modalType) {
             isLoading.modal.create = true;
         }
     }
+}
+
+function getFirstUnfinishedLessonId() {
+    for (const lesson of useCourses.store.courses?.lessons) {
+        if (!lesson.is_finished) {
+            return router.push(`/lesson/${lesson.id}`)
+        }
+        if (lesson.lessons && Array.isArray(lesson.lessons)) {
+            for (const subLesson of lesson.lessons) {
+                if (!subLesson.is_finished) {
+                    return router.push(`/lesson/${subLesson.id}`)
+                }
+            }
+        }
+    }
+    return null; // Barchasi finished bo‘lsa
 }
 
 function handleClick(e, lesson) {
