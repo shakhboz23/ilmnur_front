@@ -23,7 +23,11 @@
 </template>
 
 <script setup>
+import { useStripeStore } from '~/store';
 
+const useStripe = useStripeStore();
+
+useStripe.getUserPaymentHistory();
 </script>
 
 <style lang="scss" scoped></style>

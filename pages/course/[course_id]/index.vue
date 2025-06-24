@@ -223,20 +223,15 @@
         </section>
         <!-- useCourses.store.courses.courses -->
 
-        <div v-if="!['completed'].includes(useCourses.store.courses?.course?.payment?.status)"
+        <div v-if="!['completed'].includes(useCourses.store.courses?.course?.payment?.status) && !isOwner()"
             class="sticky sm:bottom-3 bottom-20 my-3 w-full bg_cf2 r_20 p-3">
-            <!-- {{useCourses.store.courses?.course?.payment}}23 -->
-            <!-- <ul v-if="useCourses.store.courses?.course?.payment?.status == 'completed'" class="flex items-center justify-between">
-                <li>Kurs muddati</li>
-                {{useCourses.store.courses?.course?.payment?.createdAt}}
-                <li>
-                    <a-button :loading="isLoading.isLoadingType('checkout')"
-                        class="b_main rounded-full h-10 px-5 c_main">Davom etish</a-button>
-                </li>
-            </ul> -->
             <ul class="flex items-center justify-between">
                 <li>Kurs narxi</li>
-                <li><span>Bepul</span> <strike>250.000 UZS</strike></li>
+                <li><span v-if="useCourses.store.courses?.course?.price == 0">Bepul</span><span v-else>{{
+                    useCourses.store.courses?.course?.price }} UZS</span> <strike
+                        v-if="useCourses.store.courses?.course?.discount">{{ useCourses.store.courses?.course?.discount
+                        }}
+                        UZS</strike></li>
                 <li>
                     <a-button @click="createCheckout"
                         :loading="isLoading.isLoadingType('checkout') || isLoading.isLoadingType('getByCourse')"
@@ -367,6 +362,9 @@ function handleButton(type, lesson, modalType) {
 }
 
 function getFirstUnfinishedLessonId() {
+    if (useCourses.store.courses?.course?.payment?.status != 'completed' && !isOwner()) {
+        return openNotification('warning', "Kurslarga obuna bo'lmagansiz", "Kursga qo'shilish tugmasini bosing")
+    }
     for (const lesson of useCourses.store.courses?.lessons) {
         if (!lesson.is_finished) {
             return router.push(`/lesson/${lesson.id}`)
@@ -390,7 +388,7 @@ function handleClick(e, lesson) {
     if (lesson.type == 'module') {
         store.active_id = store.active_id == lesson.id ? 0 : lesson.id
     } else {
-        if (useCourses.store.courses?.course?.payment?.status == 'completed') {
+        if (useCourses.store.courses?.course?.payment?.status == 'completed' || isOwner()) {
             router.push(`/lesson/${lesson.id}`)
         } else {
             openNotification('warning', "Kurslarga obuna bo'lmagansiz", "Kursga qo'shilish tugmasini bosing")

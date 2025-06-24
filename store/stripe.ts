@@ -11,6 +11,7 @@ export const useStripeStore = defineStore("stripe", () => {
 
   const store: any = reactive({
     // url: '',
+    paymentHistory: null,
   });
 
   function clearData() { }
@@ -30,6 +31,18 @@ export const useStripeStore = defineStore("stripe", () => {
     }
     openStripeWindow(res);
     window.close
+  }
+
+  async function getUserPaymentHistory() {
+    const data: any = await apiRequest.get(`stripe/get-user-payment-history`, "payment");
+    if (data.data.message) {
+      // openNotification('success', data.data.message, '');
+      return { success: true }
+    } else {
+      console.log(data, 2303);
+      store.paymentHistory = data.data; 
+      // res = data.data?.url;
+    }
   }
 
   function openStripeWindow(url: string) {
@@ -75,5 +88,6 @@ export const useStripeStore = defineStore("stripe", () => {
     store,
     clearData,
     createCheckout,
+    getUserPaymentHistory,
   };
 });
