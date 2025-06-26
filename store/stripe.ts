@@ -12,6 +12,8 @@ export const useStripeStore = defineStore("stripe", () => {
   const store: any = reactive({
     // url: '',
     paymentHistory: null,
+    userGrouppaymentHistory: null,
+    groupPaymentHistory: null,
   });
 
   function clearData() { }
@@ -39,9 +41,27 @@ export const useStripeStore = defineStore("stripe", () => {
       // openNotification('success', data.data.message, '');
       return { success: true }
     } else {
-      console.log(data, 2303);
       store.paymentHistory = data.data; 
-      // res = data.data?.url;
+    }
+  }
+  
+  async function getUserGroupPaymentHistory() {
+    const data: any = await apiRequest.get(`stripe/get-user-group-payment-history`, "payment");
+    if (data.data.message) {
+      // openNotification('success', data.data.message, '');
+      return { success: true }
+    } else {
+      store.userGrouppaymentHistory = data.data; 
+    }
+  }
+
+  async function getGroupPaymentHistory() {
+    const data: any = await apiRequest.get(`stripe/get-group-payment-history`, "payment");
+    if (data.data.message) {
+      // openNotification('success', data.data.message, '');
+      return { success: true }
+    } else {
+      store.groupPaymentHistory = data.data; 
     }
   }
 
@@ -89,5 +109,7 @@ export const useStripeStore = defineStore("stripe", () => {
     clearData,
     createCheckout,
     getUserPaymentHistory,
+    getUserGroupPaymentHistory,
+    getGroupPaymentHistory,
   };
 });

@@ -28,10 +28,11 @@
                     <li class="text-sm">
                         {{ i.title }}
                     </li>
-                    <li class="text-2xl font-bold">{{ i.count }}</li>
-                    <li class="text-green-600 whitespace-nowrap text-sm">{{ i.percentage }} from last period</li>
+                    <li class="text-2xl font-bold">{{ getTotalInfo(i.key, 'val') }}</li>
+                    <li class="text-green-600 whitespace-nowrap text-sm">{{ getTotalInfo(i.key) }}% from last period
+                    </li>
                 </ul>
-                <img class="bg-blue-100 p-3 rounded-lg" src="@/assets/svg/icon/show.svg" alt="">
+                <img class="w-12 h-12 min-w-[48px] bg-blue-100 p-3 rounded-lg" :src="i.icon" alt="">
             </div>
         </section>
         <section class="grid grid-cols-2">
@@ -46,6 +47,10 @@
 </template>
 <script setup>
 
+import { useStripeStore } from '~/store';
+
+const useStripe = useStripeStore();
+
 const time_list = [
     "Last 28 days",
     "Last 90 days",
@@ -55,21 +60,42 @@ const time_list = [
 const statistics = [
     {
         title: "Total Views",
-        count: "1.2M",
-        percentage: "+12.5%",
+        key: "watched",
+        icon: new URL('@/assets/svg/icon/show.svg', import.meta.url).href,
     }, {
         title: "Likes",
-        count: "48.5K",
-        percentage: "+8.3%",
+        key: "like",
+        icon: new URL('@/assets/svg/icon/star.svg', import.meta.url).href,
     }, {
         title: "Subscribers",
-        count: "25.8K",
-        percentage: "+15.2%",
+        key: "subscribers",
+        icon: new URL('@/assets/svg/payment/dollar.svg', import.meta.url).href,
     }, {
         title: "Revenue",
-        count: "3,247",
-        percentage: "+22.1%",
+        key: "payment",
+        icon: new URL('@/assets/svg/icon/members.svg', import.meta.url).href,
     },
 ]
+
+function getTotalInfo(key, type) {
+    if (!useStripe.store.groupPaymentHistory) return
+    const current = useStripe.store.groupPaymentHistory[`total_current_month_${key}`];
+    const prev = useStripe.store.groupPaymentHistory[`total_previous_month_${key}`];
+    if (type == 'val') {
+        return current;
+    }
+
+    if (prev == 0 && current > 0) {
+        return '+100'; // oldingi oyda hech nima yo'q edi, bu oyda bor
+    } else if (prev == 0 && current == 0) {
+        return '0'; // ikkala oyda ham nol
+    }
+
+    if (prev < current) {
+        return '+' + (prev / current * 100).toFixed(1);
+    } else {
+        return '-' + (current / prev * 100).toFixed(1);
+    }
+}
 </script>
 <style lang="scss"></style>

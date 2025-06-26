@@ -9,7 +9,7 @@
                             <h1 class="text-3xl font-bold text-gray-900">Payment History</h1>
                             <p class="mt-2 text-gray-600">Track all your course purchases and payment details</p>
                         </div>
-                        <div v-if="useStripe.store.paymentHistory?.length" class="flex items-center space-x-3">
+                        <div v-if="useStripe.store.paymentHistory?.payment?.length" class="flex items-center space-x-3">
                             <button
                                 class="bg-white border border-gray-300 rounded-lg px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 flex items-center">
                                 <i class="mr-2 w-5" data-fa-i2svg=""><svg class="svg-inline--fa fa-download"
@@ -37,7 +37,7 @@
                         </div>
                     </div>
                 </div>
-                <div v-if="!useStripe.store.paymentHistory?.length" class="full_flex flex-col gap-4 _c07 h-[180px] r_8">
+                <div v-if="!useStripe.store.paymentHistory?.payment?.length" class="full_flex flex-col gap-4 _c07 h-[180px] r_8">
                     <img src="@/assets/svg/icon/card.svg" alt="">
                     {{ $t("You have no payments.") }}
                 </div>
@@ -50,7 +50,7 @@
                                 </div>
                                 <div class="ml-4">
                                     <p class="text-sm font-medium text-gray-600">Total Spent</p>
-                                    <p class="text-2xl font-bold text-gray-900">$2,450</p>
+                                    <p class="text-2xl font-bold text-gray-900">${{useStripe.store.paymentHistory?.total?.total_payment}}</p>
                                 </div>
                             </div>
                         </div>
@@ -62,7 +62,7 @@
                                 </div>
                                 <div class="ml-4">
                                     <p class="text-sm font-medium text-gray-600">Courses Purchased</p>
-                                    <p class="text-2xl font-bold text-gray-900">12</p>
+                                    <p class="text-2xl font-bold text-gray-900">{{useStripe.store.paymentHistory?.total?.purchased_courses_count}}</p>
                                 </div>
                             </div>
                         </div>
@@ -74,7 +74,7 @@
                                 </div>
                                 <div class="ml-4">
                                     <p class="text-sm font-medium text-gray-600">This Month</p>
-                                    <p class="text-2xl font-bold text-gray-900">$320</p>
+                                    <p class="text-2xl font-bold text-gray-900">${{useStripe.store.paymentHistory?.total?.total_monthly_payment}}</p>
                                 </div>
                             </div>
                         </div>
@@ -139,11 +139,11 @@
                                     </tr>
                                 </thead>
                                 <tbody class="bg-white divide-y divide-gray-200">
-                                    <tr v-for="history in useStripe.store.paymentHistory" class="hover:bg-gray-50">
+                                    <tr v-for="history in useStripe.store.paymentHistory?.payment" class="hover:bg-gray-50">
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <div class="flex items-center">
                                                 <div
-                                                    class="h-10 w-10 rounded-lg bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
+                                                    class="h-10 w-10 rounded-lg flex items-center justify-center">
                                                     <img class="r_8" :src="history.course?.cover" alt="">
                                                 </div>
                                                 <div class="ml-4">

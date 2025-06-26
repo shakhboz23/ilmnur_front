@@ -1,9 +1,15 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import Highcharts from 'highcharts';
+import { useStripeStore } from '~/store';
 
+const useStripe = useStripeStore();
 const chartContainer = ref(null);
 const chartInstance = ref(null);
+
+watch(() => useStripe.store.groupPaymentHistory?.courseBreakdown, () => {
+  setData();
+});
 
 // To'lovlar haqidagi ma'lumotlar
 const chartOptions = ref({
@@ -35,19 +41,26 @@ const chartOptions = ref({
     {
       name: 'Payments',
       colorByPoint: true,
-      data: [
-        { name: 'Frontend Development Course', y: 1200 },
-        { name: 'Backend Development Course', y: 950, sliced: true, selected: true },
-        { name: 'UI/UX Design Course', y: 700 },
-        { name: 'Data Science Course', y: 850 },
-        { name: 'Digital Marketing Course', y: 400 }
-      ]
+      data: []
     }
   ]
 });
 
+function setData() {
+  if (!useStripe.store.groupPaymentHistory?.courseBreakdown?.length) return;
+  chartOptions.value.series[0].data = [];
+  for (let i of useStripe.store.groupPaymentHistory?.courseBreakdown) {
+    chartOptions.value.series[0]?.data.push({
+      name: i["course.group.title"],
+      y: +i["total"],
+    })
+  }
+  chartInstance.value = Highcharts.chart(chartContainer.value, chartOptions.value);
+}
+
 onMounted(() => {
   if (chartContainer.value) {
+    setData();
     chartInstance.value = Highcharts.chart(chartContainer.value, chartOptions.value);
   }
 });
