@@ -36,7 +36,8 @@ export const useStripeStore = defineStore("stripe", () => {
   }
 
   async function getUserPaymentHistory() {
-    const data: any = await apiRequest.get(`stripe/get-user-payment-history`, "payment");
+    const group_id = router.currentRoute.value.params.group_id || 0;
+    const data: any = await apiRequest.get(`stripe/get-user-payment-history?group_id=${group_id}`, "payment");
     if (data.data.message) {
       // openNotification('success', data.data.message, '');
       return { success: true }
@@ -46,7 +47,8 @@ export const useStripeStore = defineStore("stripe", () => {
   }
   
   async function getUserGroupPaymentHistory() {
-    const data: any = await apiRequest.get(`stripe/get-user-group-payment-history`, "payment");
+    const group_id = router.currentRoute.value.params.group_id || 0;
+    const data: any = await apiRequest.get(`stripe/get-user-group-payment-history?group_id=${group_id}`, "payment");
     if (data.data.message) {
       // openNotification('success', data.data.message, '');
       return { success: true }
@@ -56,7 +58,8 @@ export const useStripeStore = defineStore("stripe", () => {
   }
 
   async function getGroupPaymentHistory() {
-    const data: any = await apiRequest.get(`stripe/get-group-payment-history`, "payment");
+    const group_id = router.currentRoute.value.params.group_id || 0;
+    const data: any = await apiRequest.get(`stripe/get-group-payment-history?group_id=${group_id}`, "payment");
     if (data.data.message) {
       // openNotification('success', data.data.message, '');
       return { success: true }
