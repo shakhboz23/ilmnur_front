@@ -29,7 +29,7 @@ body {
 input,
 textarea,
 select,
-.ant-select-selector {
+.ant-select-selector, .ant-picker {
   min-height: 50px !important;
   width: 100%;
   background: transparent;
@@ -43,6 +43,23 @@ select,
   ::placeholder {
     color: color(cb3) !important;
   }
+}
+
+label {
+  display: block;
+}
+
+.ant-picker {
+  padding: 0 !important;
+}
+
+.ant-picker-range-separator {
+  height: 30px;
+}
+
+.ant-select-selection-item {
+  display: flex;
+  align-items: center;
 }
 
 .ck-editor {

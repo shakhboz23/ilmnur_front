@@ -46,11 +46,14 @@ export const useLessonsStore = defineStore("lessons", () => {
     create.published = true;
     create.type = "module";
     console.log('cleared');
-    
+
   }
 
   async function getLessons() {
-    const data: any = await apiRequest.get(`lesson/${isLoading.store.category_id}`, "lessons");
+    const data: any = await apiRequest.get(`lesson?${isLoading.getQuery(router.currentRoute.value?.query)}`, "lessons");
+    if (data.status == 400) {
+      return store.all_lessons = [];
+    }
     store.all_lessons = data.data;
   }
 

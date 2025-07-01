@@ -87,6 +87,8 @@ function getTotalInfo(key, type) {
 
     if (prev == 0 && current > 0) {
         return '+100'; // oldingi oyda hech nima yo'q edi, bu oyda bor
+    } else if (current == 0 && prev > 0) {
+        return '-100'; // bu oyda hech nima yo'q edi, oldingi oyda bor
     } else if (prev == 0 && current == 0) {
         return '0'; // ikkala oyda ham nol
     }

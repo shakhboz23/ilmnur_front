@@ -34,7 +34,10 @@ export const useGroupsStore = defineStore("groups", () => {
   }
 
   async function getGroups() {
-    const data: any = await apiRequest.get(`group/${isLoading.store.category_id}`, "groups");
+    const data: any = await apiRequest.get(`group?${isLoading.getQuery(router.currentRoute.value?.query)}`, "groups");
+    if (data.status == 400) {
+      return store.groups = [];
+    }
     store.groups = data.data;
   }
 

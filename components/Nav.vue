@@ -54,8 +54,9 @@
         <p class="py-5">Haqiqatan ham tizimdan chiqmoqchimisiz?</p>
       </UIModal>
     </nav>
-    <a-drawer v-model:open="isLoading.store.isDrawer" class="custom-class right-drawer min-w-[300px]"
-      root-class-name="root-class-name" placement="right" :closable="false">
+    <a-drawer v-model:open="isLoading.store.isDrawer"
+      class="custom-class right-drawer md:min-w-[400px] min-w-[100vw] relative" root-class-name="root-class-name"
+      placement="right" :closable="false">
       <template #title>
         <div class="flex items-center justify-between">
           <h1>Filterlash</h1>
@@ -63,38 +64,78 @@
             src="@/assets/svg/icon/closex.svg" alt="">
         </div>
       </template>
-      <a-select class="w-full" v-model="time" show-search :placeholder="$t('calendar.time')">
-        <a-option v-for="item in time_list" :key="item" :label="item" :value="item">
-          <div class="flex items-center gap-2">
-            {{ item }}
-            <!-- <img v-if="time == item" src="@/assets/svg/course/markasread.svg" alt="" /> -->
-          </div>
-        </a-option>
-        <template #suffixIcon>
-          <img class="w-4" src="@/assets/svg/icon/arrow.svg" alt="" />
-        </template>
-      </a-select>
-      <ul class="py-3">
-        <li>
-          <div class="flex items-center justify-between py-2">
-            <p>Fanlar</p>
-            <img class="w-4" src="@/assets/svg/icon/arrow.svg" alt="" />
-          </div>
-          <ul class="space-y-2">
-            <li v-for="i in 3">
-              <a-checkbox>Ona tili</a-checkbox>
-            </li>
-          </ul>
-        </li>
-      </ul>
+      <div class="space-y-4">
+        <FloatingInput :id="'qidirish'" :maxValue="250" class="w-full" :type="'text'" v-model="isLoading.filter.title"
+          :label="'Qidirish'" placeholder="Qidirish" required />
+        <div class="">
+          <label class="block" for="createdAt">CreatedAt</label>
+          <a-range-picker class="" v-model:value="isLoading.filter.createdAt" />
+        </div>
+        <div>
+          <label for="categories">Categories</label>
+          <a-select id="categories" class="w-full" v-model:value="isLoading.filter.category_id"
+            :placeholder="$t('Select category')">
+            <a-select-option v-for="item in useCategory.store.category" :key="item" :value="item.id">
+              <div class="flex items-center gap-2">
+                <span>{{ item.icon }}</span>
+                <span>{{ item.title }}</span>
+              </div>
+            </a-select-option>
+            <template #suffixIcon>
+              <img class="w-4" src="@/assets/svg/icon/arrow.svg" alt="" />
+            </template>
+          </a-select>
+        </div>
+        <div>
+          <label for="categories">SubCategories</label>
+          <a-select id="categories" class="w-full" v-model:value="isLoading.filter.subcategory_id" mode="multiple" show-search
+            :placeholder="$t('Select subcategories')" :max-tag-count="2">
+            <a-select-option v-for="item in useCategory.store.subcategory" :key="item" :value="item.id">
+              <div class="flex items-center gap-2">
+                {{ item.title }}
+              </div>
+            </a-select-option>
+            <template #suffixIcon>
+              <img class="w-4" src="@/assets/svg/icon/arrow.svg" alt="" />
+            </template>
+          </a-select>
+        </div>
+        <div>
+          <label for="price">Price</label>
+          <a-slider id="price" v-model:value="isLoading.filter.price" range :marks="{
+            0: '0$',
+            26: '26$',
+            37: '37$',
+            100: {
+              style: {
+                color: '#f50',
+              },
+              label: '100$',
+            },
+          }">
+            <template #mark="{ label, point }">
+              <template v-if="point === 100">
+                <strong>{{ label }}</strong>
+              </template>
+              <template v-else>{{ label }}</template>
+            </template>
+          </a-slider>
+        </div>
+      </div>
+
+      <div class="space-y-4 text-center sticky bottom-0 backdrop-blur-sm -mx-6 p-6">
+        <button @click="isLoading.applyFilters" class="login_btn r_12 w-full">Apply filters</button>
+        <button class="font-medium c_main">Clear all filters</button>
+      </div>
     </a-drawer>
   </div>
 </template>
 
 <script setup>
-import { useLoadingStore } from '~/store';
+import { useCategoryStore, useLoadingStore } from '~/store';
 
 const isLoading = useLoadingStore();
+const useCategory = useCategoryStore();
 
 function logout() {
   isLoading.store.logout = true;

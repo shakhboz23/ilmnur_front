@@ -6,7 +6,8 @@ export interface LoadingType {
     isDrawer: boolean;
     middleware: boolean;
     pagination: Object;
-    category_id: number,
+    category_id: number[],
+    subcategory_id: number[],
     drawer: boolean,
     logout: boolean,
     analytics_id: number,

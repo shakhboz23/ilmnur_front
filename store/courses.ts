@@ -40,7 +40,10 @@ export const useCoursesStore = defineStore("courses", () => {
   }
 
   async function getCourses() {
-    const data: any = await apiRequest.get(`course/${isLoading.store.category_id}`, "courses");
+    const data: any = await apiRequest.get(`course?${isLoading.getQuery(router.currentRoute.value?.query)}`, "courses");
+    if (data.status == 400) {
+      return store.courses = [];
+    }
     store.courses = data.data;
   }
 

@@ -2,7 +2,10 @@
     <nav class="mb-5 overflow-hidden overflow-x-auto whitespace-nowrap removeScroll">
         <ul class="flex text-sm gap-2">
             <li v-for="i in useCategory.store.category" class="flex flex-col items-center space-y-1 pcursor">
-                <p class="flex items-center justify-center text-center bg_bg text-[32px] rounded-full p-2 min-w-[64px] max-w-[64px] max-h-[64px]">{{ i.icon }}</p>
+                <p @click="isLoading.filter.category_id = isLoading.filter.category_id == i.id ? '' : i.id"
+                    :class="$route.query.category_id == i.id ? 'bg_main' : 'bg_bg'"
+                    class="flex items-center justify-center text-center text-[32px] rounded-full p-2 min-w-[64px] max-w-[64px] max-h-[64px]">
+                    {{ i.icon }}</p>
                 <p>{{ i.title }}</p>
             </li>
         </ul>
@@ -18,6 +21,11 @@ const useCategory = useCategoryStore();
 const useCourses = useCoursesStore();
 const useLessons = useLessonsStore();
 const isLoading = useLoadingStore();
+const router = useRouter();
+
+watch(() => router.currentRoute.value, () => {
+    getData();
+})
 
 function getData() {
     useGroups.getGroups();
@@ -28,11 +36,11 @@ function getData() {
 onBeforeMount(() => {
     useCategory.getCategory();
     getData();
+    isLoading.filter.category_id = router.currentRoute.value.category_id;
 })
 
-watch(() => isLoading.store.category_id, () => {
-    console.log("Loading");
-    getData();
+watch(() => isLoading.filter.category_id, () => {
+    isLoading.applyFilters();
 })
 </script>
 

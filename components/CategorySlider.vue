@@ -12,11 +12,12 @@
                         <img loading="lazy" class="rotate-90" src="@/assets/svg/icon/arrow.svg" alt="">
                     </button>
                     <ul class="tabs">
-                        <button v-if="all" @click="setCategory(0)" class="duration-700 r_20 py-2 px-3 text-xs b_main"
-                            :class="isLoading.store.category_id == 0 ? 'bg_main c_white' : 'c_main'">All</button>
-                        <button v-show="category_id ? category_id == i.id : true" @click="setCategory(i)"
+                        <button v-if="all" @click="setCategory()" class="duration-700 r_20 py-2 px-3 text-xs b_main"
+                            :class="JSON.parse(router.currentRoute.value.query?.subcategory || '[]')?.length == 0 ? 'bg_main c_white' : 'c_main'">All</button>
+                        <button v-show="subcategory_id ? subcategory_id == i.id : true" @click="setCategory(i)"
                             v-for="i in category" class="duration-700 r_20 py-2 px-3 text-xs b_main"
-                            :class="isLoading.store.category_id == i.id ? 'bg_main c_white' : 'c_main'">{{ i.category ||
+                            :class="JSON.parse(router.currentRoute.value.query?.subcategory || '[]')?.includes(i.id) ? 'bg_main c_white' : 'c_main'">{{
+                                i.category ||
                                 i.title
                             }}</button>
                     </ul>
@@ -25,7 +26,7 @@
                     </button>
                 </div>
             </div>
-            <button @click="isLoading.store.isDrawer = true" class="w-9 h-9 r_8 full_flex bg_cf5">
+            <button @click="isLoading.store.isDrawer = true" class="w-9 h-9 r_8 min-w-fit full_flex bg_cf5">
                 <img loading="lazy" src="@/assets/svg/icon/filter.svg" alt="">
             </button>
         </div>
@@ -40,7 +41,7 @@ defineProps({
         type: Array,
         default: [],
     },
-    category_id: Number,
+    subcategory_id: Number,
     all: {
         type: Boolean,
         default: true,
@@ -63,27 +64,30 @@ const time_list = [
     "5:00",
 ];
 
-function setCategory(category) {
-    isLoading.store.category_id = category.id || 0
+function setCategory(subcategory) {
+    if (isLoading.store.subcategory_id?.includes(subcategory?.id)) {
+        isLoading.store.subcategory_id?.splice(isLoading.store.subcategory_id.indexOf(subcategory.id), 1);
+    } else if (subcategory?.id) {
+        isLoading.store.subcategory_id?.push(subcategory.id)
+    } else {
+        return;
+    }
     const query = router.currentRoute.value.query
-    console.log({
-        ...query,
-        category: category.category,
-    });
-    category == 0 ? router.push({
+    subcategory == 0 ? router.push({
         query: {
             ...query,
-            category: undefined
+            subcategory: undefined
         }
     }) : router.push({
         query: {
             ...query,
-            category: category.category || category.title,
+            subcategory: JSON.stringify(isLoading.store.subcategory_id),
         }
     });
 }
 
 onMounted(() => {
+    isLoading.store.subcategory_id = JSON.parse(router.currentRoute.value.query?.subcategory || "[]")
     const tabs = document.querySelectorAll(".stack-tab-container a.tab");
     const scrollRightArrow = document.querySelector(
         ".stack-tab-container .right-arrow"

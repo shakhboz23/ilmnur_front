@@ -3,7 +3,7 @@ import type { LoadingType } from "~/types/store";
 
 export const useLoadingStore = defineStore("loading", () => {
   const runtime = useRuntimeConfig();
-    const { openNotification } = useNotification();
+  const { openNotification } = useNotification();
   const baseURL: string = String(runtime.public.baseURL);
   const localBaseURL: string = String(runtime.public.localBaseURL);
   const router = useRouter();
@@ -31,11 +31,21 @@ export const useLoadingStore = defineStore("loading", () => {
       from: "",
       to: "",
     },
-    category_id: 0,
+    category_id: [],
+    subcategory_id: [],
     drawer: false,
     logout: false,
     analytics_id: 0,
   });
+
+  const filter: any = reactive({
+    title: '',
+    createdAt: [],
+    category_id: '',
+    subcategory: '',
+    subcategory_id: [],
+    price: [],
+  })
 
   const user: any = reactive({
     id: 0
@@ -49,6 +59,24 @@ export const useLoadingStore = defineStore("loading", () => {
     checkout: false,
   });
   checkCurrentUrl();
+
+  function applyFilters() {
+    const name = router.currentRoute.value.name;
+    const filterClone = JSON.parse(JSON.stringify(filter));
+    filterClone.price = JSON.stringify(filter.price)
+    filterClone.createdAt = JSON.stringify(filter.createdAt)
+    router.push({ name, query: filterClone })
+  }
+
+  function getQuery(queryData: any) {
+    let query = '';
+    for (let i in queryData) {
+      if (queryData[i]) {
+        query += i + '=' + queryData[i] + '&'
+      }
+    }
+    return query;
+  }
 
   function addLoading(type: string) {
     if (!store.loadingTypes?.includes(type)) {
@@ -111,10 +139,10 @@ export const useLoadingStore = defineStore("loading", () => {
   //     return newText;
   //   }
 
-    function copyLink(copyText: string, text: string) {
-      navigator.clipboard.writeText(copyText);
-      openNotification('success', text, '');
-    }
+  function copyLink(copyText: string, text: string) {
+    navigator.clipboard.writeText(copyText);
+    openNotification('success', text, '');
+  }
 
   function checkCurrentUrl() {
     const front_url =
@@ -151,5 +179,8 @@ export const useLoadingStore = defineStore("loading", () => {
     checkCurrentUrl,
     checkIsTelegramMiniApp,
     copyLink,
+    filter,
+    applyFilters,
+    getQuery,
   };
 });
