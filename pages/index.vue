@@ -10,7 +10,7 @@
             </li>
         </ul>
     </nav>
-    <CategorySlider :category="useCategory.store.subcategory" class="mb-5" />
+    <CategorySlider :category="useCategory.store.subcategory.filter(item => item.category_id == ($route.query.category_id || item.category_id))" class="mb-5" />
     <Tabs />
 </template>
 
