@@ -48,8 +48,10 @@ export const useCoursesStore = defineStore("courses", () => {
   }
 
   async function getByCourse() {
+    console.log(router.currentRoute.value.params.course_id, 45646);
+    
     const data: any = await apiRequest.get(
-      `lesson/getByCourse/${router.currentRoute.value.params.course_id}`,
+      `lesson/getByCourse/${router.currentRoute.value.params.course_id || 0}`,
       "getByCourse"
     );
     store.courses = data.data;
