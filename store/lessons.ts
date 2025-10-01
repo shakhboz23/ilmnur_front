@@ -6,6 +6,7 @@ import type { Create } from "~/types/store/lessons";
 
 export const useLessonsStore = defineStore("lessons", () => {
   const apiRequest = useApiRequest();
+    const { openNotification } = useNotification();
   const router = useRouter();
   const isLoading = useLoadingStore();
   const useCourses = useCoursesStore();
@@ -55,6 +56,16 @@ export const useLessonsStore = defineStore("lessons", () => {
       return store.all_lessons = [];
     }
     store.all_lessons = data.data;
+  }
+
+  async function markAsRead() {
+    const lesson_id: number = +router.currentRoute.value.params.lesson_id;
+    const data: any = await apiRequest.post(`reyting/markAsRead/${lesson_id}`, "markAsRead");
+    console.log(data, 230303);
+    if (data.status == 400) {
+    openNotification('error', data?.response?.data?.message, '');
+    }
+    // store.all_lessons = data.data;
   }
 
   async function getById() {
@@ -176,5 +187,6 @@ export const useLessonsStore = defineStore("lessons", () => {
     updateLesson,
     updateModule,
     deleteLesson,
+    markAsRead,
   };
 });

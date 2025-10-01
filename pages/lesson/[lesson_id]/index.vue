@@ -33,9 +33,13 @@
                 <div class="flex items-center justify-between mb-5">
                     <h1 class="text-xl font-semibold">{{ useLessons.store.lessons?.title }}</h1>
                     <div class="flex items-center gap-5 space-x-3">
-                        <button v-if="useLessons.store.lessons?.course?.user_id != isLoading.user?.id"
-                            class="b_main p-3 r_8">
-                            <img loading="lazy" class="stroke-[#FF852E]" src="@/assets/svg/course/markasread.svg"
+                        <button @click="useLessons.markAsRead"
+                            v-if="useLessons.store.lessons?.course?.user_id != isLoading.user?.id"
+                            class="b_main p-3 r_8"
+                            :class="useLessons.store.lessons?.course?.is_finished ? 'bg_main' : 'bg_white'">
+                            <img v-if="useLessons.store.lessons?.course?.is_finished" loading="lazy"
+                                class="stroke-[#FF852E]" src="@/assets/svg/course/markasread_white.svg" alt="">
+                            <img v-else loading="lazy" class="stroke-[#FF852E]" src="@/assets/svg/course/markasread.svg"
                                 alt="">
                         </button>
                         <img @click="isLoading.modal.create = true" class="h-[42px] pcursor" loading="lazy"
@@ -64,8 +68,7 @@
                             class="full_flex gap-2 px-5 py-2 min-h-fit r_8 w-full !border-none bg-transparent shadow-none truncate">
                             <img class="w-5 h-5" v-if="useLessons.store.lessons?.is_liked" loading="lazy"
                                 src="@/assets/svg/icon/a_star.svg" alt="">
-                            <img class="w-5 h-5" v-else loading="lazy" src="@/assets/svg/icon/star.svg"
-                                alt="">
+                            <img class="w-5 h-5" v-else loading="lazy" src="@/assets/svg/icon/star.svg" alt="">
                             <span>{{ useLessons.store.lessons?.course?.likes_count }}</span>
                         </a-button>
                     </li>

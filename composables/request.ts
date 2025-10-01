@@ -64,7 +64,8 @@ export const useApiRequest = () => {
         })
         .catch((err) => {
           isLoading.removeLoading(loadingType);
-          reject(err);
+          // reject(err);
+          resolve(err);
           if (err) {
             isLoading.store.errorMessage.message = err.response.data.message;
             console.log(err);

@@ -25,7 +25,7 @@ export const useStripeStore = defineStore("stripe", () => {
       course_id,
       amount: 250,
     }, "checkout");
-    if (data.data.message) {
+    if (data?.data?.message) {
       openNotification('success', data.data.message, '');
       return { success: true }
     } else {
