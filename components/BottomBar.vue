@@ -1,28 +1,39 @@
 <template>
     <div class="sc-bottom-bar">
-        <router-link to="/" class="sc-menu-item">
+        <router-link class="sc-menu-item" :to="i.url" v-for="i in sidebar" :key="i.id">
+            <img loading="lazy" class="w-5 h-5" :src="i.svg" alt="" />
+            <span class="duration-1000 opacity-0 text">{{ i.name }}</span>
+        </router-link>
+        <!-- <router-link to="/" class="sc-menu-item">
              <IconHome />
              <span>Asosiy</span>
-        </router-link>
-        <button @click="isLoading.store.drawer = true" to="/my_groups" class="sc-menu-item">
+        </router-link> -->
+        <!-- <button @click="isLoading.store.drawer = true" to="/my_groups" class="sc-menu-item">
             <IconPlus />
         </button>
         <router-link to="/settings" class="sc-menu-item">
             <IconProfile />
              <span>Profile</span>
-        </router-link>
+        </router-link> -->
         <!-- <a class="sc-nav-indicator" :style="{ left: menuPosition + 'px' }"></a> -->
     </div>
 </template>
 
 <script setup>
 import { useLoadingStore } from '~/store';
-
+import { sidebar } from "@/constants";
 
 const isLoading = useLoadingStore();
 </script>
 
 <style scoped>
+.router-link-active {
+    .text {
+        opacity: 1 !important;
+        color: #14191f;
+    }
+}
+
 :root {
     --primary-color: #0D6FFA;
     --accent-color: #49CE95;

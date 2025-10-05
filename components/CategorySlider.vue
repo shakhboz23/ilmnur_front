@@ -1,35 +1,33 @@
 <template>
-    <div>
-        <div class="flex items-center justify-between gap-4 w-full">
-            <div class="stack-tab-container w-full pr-6">
-                <div v-if="isLoading.isLoadingType('category')" class="flex gap-5">
-                    <button class="r_20 overflow-hidden" v-for="i in 12">
-                        <LoadingDiv class="w-20 h-full min-h-[34px] r_f" />
-                    </button>
-                </div>
-                <div v-else class="tab-bar whitespace-nowrap">
-                    <button class="left-arrow">
-                        <img loading="lazy" class="rotate-90" src="@/assets/svg/icon/arrow.svg" alt="">
-                    </button>
-                    <ul class="tabs">
-                        <button v-if="all" @click="setCategory()" class="duration-700 r_20 py-2 px-3 text-xs b_main"
-                            :class="JSON.parse(router.currentRoute.value.query?.subcategory || '[]')?.length == 0 ? 'bg_main c_white' : 'c_main'">All</button>
-                        <button v-show="subcategory_id ? subcategory_id == i.id : true" @click="setCategory(i)"
-                            v-for="i in category" class="duration-700 r_20 py-2 px-3 text-xs b_main"
-                            :class="JSON.parse(router.currentRoute.value.query?.subcategory || '[]')?.includes(i.id) ? 'bg_main c_white' : 'c_main'">{{
-                                i.category ||
-                                i.title
-                            }}</button>
-                    </ul>
-                    <button class="right-arrow active">
-                        <img loading="lazy" class="-rotate-90" src="@/assets/svg/icon/arrow.svg" alt="">
-                    </button>
-                </div>
+    <div class="flex items-center justify-between gap-4 w-full">
+        <div class="stack-tab-container xl:w-full w-[90%] pr-6">
+            <div v-if="isLoading.isLoadingType('category')" class="flex gap-5">
+                <button class="r_20 overflow-hidden" v-for="i in 12">
+                    <LoadingDiv class="w-20 h-full min-h-[34px] r_f" />
+                </button>
             </div>
-            <button @click="isLoading.store.isDrawer = true" class="w-9 h-9 r_8 min-w-fit full_flex bg_cf5">
-                <img loading="lazy" src="@/assets/svg/icon/filter.svg" alt="">
-            </button>
+            <div v-else class="tab-bar whitespace-nowrap">
+                <button class="left-arrow">
+                    <img loading="lazy" class="rotate-90" src="@/assets/svg/icon/arrow.svg" alt="">
+                </button>
+                <ul class="tabs">
+                    <button v-if="all" @click="setCategory()" class="duration-700 r_20 py-2 px-3 text-xs b_main"
+                        :class="JSON.parse(router.currentRoute.value.query?.subcategory || '[]')?.length == 0 ? 'bg_main c_white' : 'c_main'">All</button>
+                    <button v-show="subcategory_id ? subcategory_id == i.id : true" @click="setCategory(i)"
+                        v-for="i in category" class="duration-700 r_20 py-2 px-3 text-xs b_main"
+                        :class="JSON.parse(router.currentRoute.value.query?.subcategory || '[]')?.includes(i.id) ? 'bg_main c_white' : 'c_main'">{{
+                            i.category ||
+                            i.title
+                        }}</button>
+                </ul>
+                <button class="right-arrow active">
+                    <img loading="lazy" class="-rotate-90" src="@/assets/svg/icon/arrow.svg" alt="">
+                </button>
+            </div>
         </div>
+        <button @click="isLoading.store.isDrawer = true" class="w-9 h-9 r_8 min-w-fit full_flex bg_cf5">
+            <img loading="lazy" src="@/assets/svg/icon/filter.svg" alt="">
+        </button>
     </div>
 </template>
 
