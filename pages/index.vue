@@ -1,6 +1,6 @@
 <template>
-    <nav class="mb-5 overflow-hidden overflow-x-auto whitespace-nowrap removeScroll">
-        <ul class="flex text-sm gap-2">
+    <nav class="mb-5 md:mt-0 -mt-5 overflow-hidden overflow-x-auto whitespace-nowrap removeScroll">
+        <ul class="flex md:text-sm text-xs gap-2">
             <li v-for="i in useCategory.store.category" class="flex flex-col items-center space-y-1 pcursor">
                 <p @click="isLoading.filter.category_id = isLoading.filter.category_id == i.id ? '' : i.id"
                     :class="$route.query.category_id == i.id ? 'bg_main' : 'bg_bg'"

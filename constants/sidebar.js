@@ -37,14 +37,14 @@ export const sidebar = [
     // svgActive: dashboardActive,
     role: ["admin"],
   },
-  {
-    id: 1,
-    name: "Kategoriyalar",
-    url: "/categories",
-    svg: _category,
-    // svgActive: dashboardActive,
-    role: [],
-  },
+  // {
+  //   id: 1,
+  //   name: "Kategoriyalar",
+  //   url: "/categories",
+  //   svg: _category,
+  //   // svgActive: dashboardActive,
+  //   role: [],
+  // },
   {
     id: 1,
     name: "Tarix",

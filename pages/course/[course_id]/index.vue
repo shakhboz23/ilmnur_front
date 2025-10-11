@@ -1,8 +1,8 @@
 <template>
     <div>
         <nav>
-            <ul class="flex items-center justify-between">
-                <li @click="$router.back()" class="full_flex gap-4 pcursor">
+            <ul class="sm:flex items-center justify-between">
+                <li @click="$router.back()" class="sm:justify-center !justify-start full_flex gap-4 pcursor">
                     <img loading="lazy" src="@/assets/svg/icon/back_route.svg" alt="">
                     <span class="text-lg font-semibold c_c92">Orqaga</span>
                 </li>
@@ -144,9 +144,9 @@
                             <div class="flex gap-5 min-w-fit">
                                 <img v-if="i.type != 'module'" class="h-7 statistics" loading="lazy"
                                     src="@/assets/svg/course/statistics.svg" alt="">
-                                <img loading="lazy" v-if="!i.is_finished && i.is_viewed"
+                                <img loading="lazy" v-if="!i.is_finished && (i.is_viewed || index == 0)"
                                     src="@/assets/svg/news/show.svg" alt="">
-                                <img loading="lazy" v-if="checkIsFinished(i)" src="@/assets/svg/course/finished.svg"
+                                <img loading="lazy" v-else-if="checkIsFinished(i)" src="@/assets/svg/course/finished.svg"
                                     alt="">
                                 <img loading="lazy" v-else-if="!checkIsFinished(i) && !i.is_viewed"
                                     src="@/assets/svg/course/lock.svg" alt="">

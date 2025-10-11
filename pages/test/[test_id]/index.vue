@@ -379,7 +379,7 @@
                                     <a-button :loading="isLoading.isLoadingType('checkAnswer')"
                                         v-else-if="isNaN(useTests.store.checked_answers[useTests.store.slideStep]) && !useTests.store.checked_answers[useTests.store.slideStep]?.length"
                                         @click="() => { useTests.checkAnswer(useTests.test[useTests.store.slideStep - 1]?.id, useTests.store.slideStep) }"
-                                        class="bg_main px-[54px] py-3 min-h-fit r_50 text-white">Tekshirish</a-button>
+                                        class="bg_main px-[54px] min-h-fit r_50 text-white">Tekshirish</a-button>
                                     <button v-else @click="nextSlide('student')"
                                         class="bg_main px-[54px] py-3 r_50 text-white">Keyingisi</button>
                                 </div>
@@ -534,7 +534,7 @@
             :class="useTests.checkAnswerList(useTests.store.checked_answers[useTests.store.slideStep]) ? '!bg-[#EBFFDB]' : '!bg-[#FFDFE0]'"
             :placement="'bottom'" height="auto" :closable="false" :open="useTests.store.isChecked"
             @close="() => useTests.store.isChecked = false">
-            <ul v-if="useTests.store.checked_answers[useTests.store.slideStep]">
+            <ul class="mb-5" v-if="useTests.store.checked_answers[useTests.store.slideStep]">
                 <li class="space-y-10"
                     v-if="useTests.checkAnswerList(useTests.store.checked_answers[useTests.store.slideStep])">
                     <div class="flex items-center justify-between">
