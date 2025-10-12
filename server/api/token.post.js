@@ -17,5 +17,22 @@ export default defineEventHandler(async (event) => {
   const token = await at.toJwt()
   console.log(token);
 
+  // if (userRole === 'admin') {
+  //   token.addGrant({
+  //     room: roomName,
+  //     roomJoin: true,
+  //     canPublish: true,      // 🎥 foydalanuvchi o‘z mediasini (audio/video/screen) yuboradi
+  //     canSubscribe: true,    // 👂 boshqalarning streamlarini oladi
+  //     canPublishData: true,  // 💬 data (chat, reaction) yuboradi
+  //   });
+  // } else {
+  //   token.addGrant({
+  //     room: roomName,
+  //     roomJoin: true,
+  //     canPublish: false,      // 🔹 oddiy foydalanuvchi publish qilmaydi
+  //     canSubscribe: true,     // 🔹 lekin hammani eshita oladi
+  //   });
+  // }
+
   return { token }
 })
