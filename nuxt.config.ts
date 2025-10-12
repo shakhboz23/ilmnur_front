@@ -65,7 +65,9 @@ export default defineNuxtConfig({
       baseURL: process.env.BASE_URL,
       localBaseURL: process.env.LOCAL_BASE_URL,
       client_id: process.env.CLIENT_ID,
-      openaiApiKey: process.env.OPENAI_API_KEY
+      openaiApiKey: process.env.OPENAI_API_KEY,
+      LIVEKIT_API_KEY: process.env.LIVEKIT_API_KEY,
+      LIVEKIT_API_SECRET: process.env.LIVEKIT_API_SECRET,
     },
   },
 
