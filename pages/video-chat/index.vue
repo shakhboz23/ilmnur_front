@@ -68,7 +68,7 @@ async function joinRoom() {
 
         const publications = livekitRoom.localParticipant.videoTrackPublications;
         const firstPub = Array.from(publications.values())[0];
-        localTrack.value = firstPub?.videoTrack ?? null;
+        localTrack.value = firstPub?.videoTrack;
 
         // } else {
         // Oddiy user: faqat audio
