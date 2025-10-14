@@ -4,7 +4,7 @@
             class="w-full h-full min-h-[360px] r_12 !overflow-hidden" />
         <PageCard v-else-if="useGroups.store.groups?.groups?.length" :carddata="i"
             v-for="i in useGroups.store.groups?.groups" />
-        <section v-else class="text-center py-40">
+        <section v-else class="text-center py-40 col-span-4">
             Ma'lumotlar yo'q
         </section>
     </div>

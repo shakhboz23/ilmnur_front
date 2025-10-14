@@ -46,7 +46,7 @@
         </div>
       </div>
     </section>
-    <section v-else class="text-center py-40">
+    <section v-else class="text-center py-40 col-span-5">
       Ma'lumotlar yo'q
     </section>
   </div>

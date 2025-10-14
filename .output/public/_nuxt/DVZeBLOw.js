@@ -1,0 +1,1 @@
+import{_ as e}from"./CExilF0B.js";import{v as o}from"./9FXSS2zM.js";import{ac as r,z as s,a1 as a}from"./C2yfvEFB.js";import"./CzBub8Zb.js";import"./iTMiBzy2.js";import"./DwCirWFt.js";import"./DjexfbQk.js";const x={__name:"index",setup(p){return o().getGroupPaymentHistory(),(m,n)=>{const t=e;return a(),r("div",null,[s(t)])}}};export{x as default};
