@@ -12,10 +12,10 @@
                 </button>
                 <ul class="tabs">
                     <button v-if="all" @click="setCategory()" class="duration-700 r_20 py-2 px-3 text-xs b_main"
-                        :class="JSON.parse(router.currentRoute.value.query?.subcategory || '[]')?.length == 0 ? 'bg_main c_white' : 'c_main'">All</button>
+                        :class="JSON.parse(typeof router.currentRoute.value.query?.subcategory_id == 'string' ? router.currentRoute.value.query?.subcategory_id : '[]')?.length == 0 ? 'bg_main c_white' : 'c_main'">All</button>
                     <button v-show="subcategory_id ? subcategory_id == i.id : true" @click="setCategory(i)"
                         v-for="i in category" class="duration-700 r_20 py-2 px-3 text-xs b_main"
-                        :class="JSON.parse(router.currentRoute.value.query?.subcategory || '[]')?.includes(i.id) ? 'bg_main c_white' : 'c_main'">{{
+                        :class="JSON.parse(typeof router.currentRoute.value.query?.subcategory_id == 'string' ? router.currentRoute.value.query?.subcategory_id : '[]')?.includes(i.id) ? 'bg_main c_white' : 'c_main'">{{
                             i.category ||
                             i.title
                         }}</button>
@@ -62,30 +62,30 @@ const time_list = [
     "5:00",
 ];
 
-function setCategory(subcategory) {
-    if (isLoading.store.subcategory_id?.includes(subcategory?.id)) {
-        isLoading.store.subcategory_id?.splice(isLoading.store.subcategory_id.indexOf(subcategory.id), 1);
-    } else if (subcategory?.id) {
-        isLoading.store.subcategory_id?.push(subcategory.id)
+function setCategory(subcategory_id) {
+    if (isLoading.store.subcategory_id?.includes(subcategory_id?.id)) {
+        isLoading.store.subcategory_id?.splice(isLoading.store.subcategory_id.indexOf(subcategory_id.id), 1);
+    } else if (subcategory_id?.id) {
+        isLoading.store.subcategory_id?.push(subcategory_id.id)
     } else {
         return;
     }
     const query = router.currentRoute.value.query
-    subcategory == 0 ? router.push({
+    subcategory_id == 0 ? router.push({
         query: {
             ...query,
-            subcategory: undefined
+            subcategory_id: undefined
         }
     }) : router.push({
         query: {
             ...query,
-            subcategory: JSON.stringify(isLoading.store.subcategory_id),
+            subcategory_id: JSON.stringify(isLoading.store.subcategory_id),
         }
     });
 }
 
 onMounted(() => {
-    isLoading.store.subcategory_id = JSON.parse(router.currentRoute.value.query?.subcategory || "[]")
+    isLoading.store.subcategory_id = JSON.parse(router.currentRoute.value.query?.subcategory_id || "[]")
     const tabs = document.querySelectorAll(".stack-tab-container a.tab");
     const scrollRightArrow = document.querySelector(
         ".stack-tab-container .right-arrow"

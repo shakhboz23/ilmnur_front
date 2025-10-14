@@ -40,6 +40,7 @@ onBeforeMount(() => {
 })
 
 watch(() => isLoading.filter.category_id, () => {
+    isLoading.store.subcategory_id = [];
     isLoading.applyFilters();
 })
 </script>
