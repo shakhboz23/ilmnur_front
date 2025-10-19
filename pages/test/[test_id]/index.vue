@@ -1,72 +1,170 @@
 <template>
     <div class="p-5 bg-white">
         <div v-if="isLoading.isLoadingType('getById')" class="space-y-4">
-            {{ isLoading.store.error }}
             <LoadingDiv v-for="i in 10" class="w-full h-10" />
         </div>
         <div v-else-if="useTests.store.tests?.user_id == isLoading.user?.id">
             <nav class="flex items-center justify-between pb-5 w-full">
-                <div @click="$router.back()" class="flex items-center gap-2">
-                    <button class="r_8 bg_cf5 p-2">
-                        <img class="w-4 h-4" src="@/assets/svg/icon/back.svg" alt="">
-                    </button>
-                    <p>Edited just now</p>
-                </div>
-                <div class="flex items-center gap-2">
-                    <h1>Html questions</h1>
-                    <img class="w-4 h-4 rotate-[270deg]" src="@/assets/svg/icon/back.svg" alt="">
-                </div>
-                <div class="flex items-center gap-2">
-                    <button @click="isLoading.modal.create = true" class="bg-white rounded-md p-1.5 w-10">
-                        <img loading="lazy" class="mx-auto" src="@/assets/svg/icon/settings.svg" alt="" />
-                    </button>
-                    <button @click="store.importModal = true" class="flex items-center gap-2 b_black px-8 py-2 r_8">
-                        <img class="w-4" src="@/assets/svg/icon/import.svg" alt="">
-                        <p>Import</p>
-                    </button>
-                    <!-- <a-dropdown>
-                        <button class="flex items-center gap-2 b_black px-8 py-2 r_8">
+                <a-steps v-if="store.currentStep != 2" :current="store.currentStep" :items="[
+                    {
+                        title: 'Finished',
+                        description,
+                    },
+                    {
+                        title: 'In Progress',
+                        description,
+                        subTitle: 'Left 00:00:08',
+                    },
+                    {
+                        title: 'Waiting',
+                        description,
+                    },
+                ]"></a-steps>
+                <template v-else>
+                    <div @click="$router.back()" class="flex items-center gap-2">
+                        <button class="r_8 bg_cf5 p-2">
+                            <img class="w-4 h-4" src="@/assets/svg/icon/back.svg" alt="">
+                        </button>
+                        <p v-if="useTests.store.tests?.test_settings?.updatedAt">Edited
+                            {{ formatDate(useTests.store.tests?.test_settings?.updatedAt) }}</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="flex items-center gap-2">
+                            <img class="h-10 object-cover rounded-full"
+                                :src="useTests.store.tests?.lesson?.course?.cover"
+                                :alt="useTests.store.tests?.lesson?.course?.title"
+                                :title="useTests.store.tests?.lesson?.course?.title">
+                            <p>{{ useTests.store.tests?.lesson?.title }}</p>
+                        </div>
+                        <img class="w-4 h-4 rotate-[270deg]" src="@/assets/svg/icon/back.svg" alt="">
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button @click="isLoading.modal.create = true" class="bg-white rounded-md p-1.5 w-10">
+                            <img loading="lazy" class="mx-auto" src="@/assets/svg/icon/settings.svg" alt="" />
+                        </button>
+                        <button @click="store.importModal = true" class="flex items-center gap-2 b_black px-8 py-2 r_8">
                             <img class="w-4" src="@/assets/svg/icon/import.svg" alt="">
                             <p>Import</p>
                         </button>
-                        <template #overlay>
-                            <a-menu>
-                                <a-menu-item>
-                                    <label for="import_file"
-                                        class="flex items-center gap-2 bg-white p-1.5 rounded-md border_ced cursor-pointer">
-                                        <img loading="lazy" class="h-7 w-7" src="@/assets/svg/image/word.png" alt="" />
-                                        <p>WORD</p>
-                                    </label>
-                                </a-menu-item>
-                                <a-menu-item>
-                                    <label for="import_file"
-                                        class="flex items-center gap-2 bg-white p-1.5 rounded-md border_ced cursor-pointer">
-                                        <img loading="lazy" class="h-7 w-7" src="@/assets/svg/image/excel.png" alt="" />
-                                        <p>Excel</p>
-                                    </label>
-                                </a-menu-item>
-                            </a-menu>
-                        </template>
-</a-dropdown> -->
-                    <div class="file_input">
-                        <input @change="importFile" class="file_input" type="file" id="import_file" />
+                        <div class="file_input">
+                            <input @change="importFile" class="file_input" type="file" id="import_file" />
+                        </div>
+                        <button @click="useTests.createTest"
+                            class="flex items-center gap-1 b_main c_main px-8 py-2 r_8">
+                            <img loading="lazy" class="mx-auto w-5" src="@/assets/svg/icon/preview.svg" alt="" />
+                            Preview</button>
+                        <a-button :loading="isLoading.isLoadingType('createTest')" @click="useTests.createTest"
+                            class="bg_main c_white px-8 h-[42px] r_8">Yuklash</a-button>
                     </div>
-                    <button @click="useTests.createTest" class="flex items-center gap-1 b_main c_main px-8 py-2 r_8">
-                        <img loading="lazy" class="mx-auto w-5" src="@/assets/svg/icon/preview.svg" alt="" />
-                        Preview</button>
-                    <a-button :loading="isLoading.isLoadingType('createTest')" @click="useTests.createTest" class="bg_main c_white px-8 h-[42px] r_8">Yuklash</a-button>
+                </template>
+            </nav>
+            <section v-if="store.currentStep == 0">
+                <div class="mt-4 space-y-4">
+                    <div>
+                        <div class="full_flex space-y-2 min-h-[calc(100vh_-_150px)]">
+                            <ul v-if="store.innerStep == 0" class="flex gap-2 font-semibold">
+                                <button @click="useTests.test_settings.test_type = type"
+                                    v-for="type in testSettingsType" class="duration-700 r_20 py-2 px-3 text-lg b_main"
+                                    :class="useTests.test_settings.test_type == type ? 'bg_main c_white' : 'c_main'">{{
+                                        type
+                                    }}</button>
+                            </ul>
+
+                            <div v-else-if="store.innerStep == 1">
+                                <div class="space-y-2">
+                                    <label for="name">Boshlanish vaqti</label>
+                                    <div class="flex gap-2">
+                                        <a-date-picker class="w-full" v-model:value="useTests.test_settings.start_date"
+                                            placeholder="0000-00-00" />
+                                        <a-time-picker v-model:value="useTests.test_settings.start_date" format="HH:mm"
+                                            placeholder="00:00" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div v-else-if="store.innerStep == 2" class="space-y-2">
+                                <label for="name">Tugash vaqti</label>
+                                <div class="flex gap-2">
+                                    <a-date-picker class="w-full" v-model:value="useTests.test_settings.end_date"
+                                        placeholder="0000-00-00" />
+                                    <a-time-picker v-model:value="useTests.test_settings.end_date" format="HH:mm"
+                                        placeholder="00:00" />
+                                </div>
+                            </div>
+
+                            <div v-else-if="store.innerStep == 3" class="space-y-2">
+                                <label for="name">Test muddati</label>
+                                <div>
+                                    <a-time-picker v-model:value="useTests.test_settings.period" format="HH:mm"
+                                        value-format="HH:mm" placeholder="00:00" />
+                                </div>
+                            </div>
+
+                            <div v-else-if="store.innerStep == 4">
+                                <div class="space-y-3">
+                                    <h2>Saralash</h2>
+                                    <div class="py-2 space-x-3">
+                                        <label for="filter">Aralashtirish</label>
+                                        <a-switch id="filter" v-model:checked="useTests.test_settings.mix" />
+                                    </div>
+                                    <label for="sortnum">Saralash bosqichi</label>
+                                    <div class="space-y-4">
+                                        <div class="flex items-center gap-4"
+                                            v-for="(i, index) in useTests.store.test_step">
+                                            {{ index + 1 }}.
+                                            <a-select v-model:value="useTests.test_settings.sort_level[index][0]"
+                                                class="min-w-[80px] test_arrow w-full !h-[42px] sr_12" show-search
+                                                required>
+                                                <a-select-option v-for="i in useCategory.store.category" :value="i.id">
+                                                    {{ i.category }}</a-select-option>
+                                            </a-select>
+                                            <a-select v-model:value="useTests.test_settings.sort_level[index][1]"
+                                                class="min-w-[80px] test_arrow !h-[42px] sr_12" show-search required>
+                                                <a-select-option v-for="i in useTests.store.questions_count"
+                                                    :value="i">{{ i
+                                                    }}</a-select-option>
+                                            </a-select>
+                                            <a-select v-model:value="useTests.test_settings.sort_level[index][2]"
+                                                class="min-w-[80px] test_arrow !h-[42px] sr_12" show-search required>
+                                                <a-select-option v-for="i in useTests.store.questions_count"
+                                                    :value="i">{{ i
+                                                    }}</a-select-option>
+                                            </a-select>
+                                            <p v-if="useTests.test_settings.sort_level?.length != 1"
+                                                @click="addTestStep('remove', index)"
+                                                class="full_flex min-w-[50px] h-[50px] rounded-full border border-[#CCCCCC] cursor-pointer">
+                                                <img loading="lazy" src="@/assets/svg/icon/minus.svg" alt="" />
+                                            </p>
+                                            <p @click="addTestStep('add', index)"
+                                                v-if="useTests.store.test_step == index + 1"
+                                                class="full_flex min-w-[50px] h-[50px] rounded-full border border-[#CCCCCC] cursor-pointer">
+                                                <img loading="lazy" src="@/assets/svg/icon/plus.svg" alt="" />
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex justify-between">
+                            <button @click="prevInnerStep"
+                                class="b_main c_main px-8 py-2 rounded-full">Orqaga</button>
+                            <button @click="nextInnerStep"
+                                class="bg_main text-white px-8 py-2 rounded-full">Keyingi</button>
+                        </div>
+                    </div>
                 </div>
-            </nav>
-            <nav class="bg_bg py-6 -mx-5 px-7">
-                <ul class="flex flex-wrap gap-3">
-                    <li @click="useTests.store.slideStep = +index + 1" v-for="(_, index) in useTests.test"
-                        class="w-10 h-10 r_f full_flex text-sm pcursor"
-                        :class="useTests.store.slideStep == +index + 1 ? 'bg_main text-white' : 'bg_white'">{{ +index +
-                            1 }}
-                    </li>
-                </ul>
-            </nav>
-            <section>
+            </section>
+            <section v-else>
+                <nav class="bg_bg py-6 -mx-5 px-7">
+                    <ul class="flex flex-wrap gap-3">
+                        <li @click="useTests.store.slideStep = +index + 1" v-for="(_, index) in useTests.test"
+                            class="w-10 h-10 r_f full_flex text-sm pcursor"
+                            :class="useTests.store.slideStep == +index + 1 ? 'bg_main text-white' : 'bg_white'">{{
+                                +index +
+                                1 }}
+                        </li>
+                    </ul>
+                </nav>
                 <ClientOnly>
                     <ul class="flex items-center justify-between lg:max-w-[50vw] mx-auto my-6">
                         <a-select class="min-w-[200px]" v-if="useTests.test[useTests.store.slideStep - 1]"
@@ -179,8 +277,8 @@
                                         "O'chirish"
                                 }}</button>
 
-                                <button @click="useTests.createTest"
-                                    class="b_main c_main px-8 py-2 rounded-full">Yuklash</button>
+                                <!-- <button @click="useTests.createTest"
+                                    class="b_main c_main px-8 py-2 rounded-full">Yuklash</button> -->
                                 <button @click="nextSlide"
                                     class="bg_main text-white px-8 py-2 rounded-full">Keyingi</button>
                             </div>
@@ -345,8 +443,8 @@
                     <section v-else class="full_flex py-40">
                         <h1>Testlar topilmadi</h1>
                     </section>
-                    <!-- {{ useTests.store.checked_answers }} -->
-                    <footer v-if="Object.keys(useTests.test)?.length" class="w-full bg-white r_8 overflow-hidden">
+                    <footer v-if="Object.keys(useTests.test)?.length" class="w-full bg-white r_8 overflow-hidden"
+                        :class="useTests.store.true_answers[useTests.store.slideStep] ? 'fixed bottom-0' : ''">
                         <hr />
                         <ul class="flex items-center justify-around py-5">
                             <li class="md:!flex !hidden full_flex gap-3">
@@ -379,7 +477,7 @@
                                     <a-button :loading="isLoading.isLoadingType('checkAnswer')"
                                         v-else-if="isNaN(useTests.store.checked_answers[useTests.store.slideStep]) && !useTests.store.checked_answers[useTests.store.slideStep]?.length"
                                         @click="() => { useTests.checkAnswer(useTests.test[useTests.store.slideStep - 1]?.id, useTests.store.slideStep) }"
-                                        class="bg_main px-[54px] min-h-fit r_50 text-white">Tekshirish</a-button>
+                                        class="bg_main px-[54px] min-h-fit !py-3 r_50 text-white">Tekshirish</a-button>
                                     <button v-else @click="nextSlide('student')"
                                         class="bg_main px-[54px] py-3 r_50 text-white">Keyingisi</button>
                                 </div>
@@ -454,7 +552,8 @@
                     <ul class="flex gap-2 font-semibold">
                         <button @click="useTests.test_settings.test_type = type" v-for="type in testSettingsType"
                             class="duration-700 r_20 py-2 px-3 text-xs b_main"
-                            :class="useTests.test_settings.test_type == type ? 'bg_main c_white' : 'c_main'">{{ type }}</button>
+                            :class="useTests.test_settings.test_type == type ? 'bg_main c_white' : 'c_main'">{{ type
+                            }}</button>
                     </ul>
                 </div>
                 <div class="space-y-2">
@@ -605,6 +704,7 @@ import pen from "@/assets/svg/test/pen.svg"
 import calculator from "@/assets/svg/test/calculator.svg"
 import periodic from "@/assets/svg/test/periodic.svg"
 import { useCategoryStore, useLoadingStore, useTestsStore } from "~/store";
+import { formatDate, formatDurationFromSeconds } from "@/composables";
 import mammoth from "mammoth";
 
 const testBar = [time, pen, calculator, periodic]
@@ -635,9 +735,27 @@ useCategory.getCategory();
 
 const store = reactive({
     convertedContent: [],
+    currentStep: 0,
+    innerStep: 0,
     listKey: 0,
     importModal: false,
 })
+
+function prevInnerStep() {
+    if (store.innerStep == 0) {
+        
+    } else {
+        store.innerStep--;
+    }
+}
+function nextInnerStep() {
+    if (store.innerStep == 4) {
+        store.innerStep = 0;
+        store.currentStep = 2
+    } else {
+        store.innerStep++;
+    }
+}
 
 function handleModal(value) {
     if (value == "OK") {
