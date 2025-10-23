@@ -27,15 +27,14 @@ export function formatDate(date: Date): string {
 }
 
 export function formatDurationFromSeconds(seconds: number): string {
-  const hrs = Math.floor(seconds / 3600);
-  const mins = Math.floor((seconds % 3600) / 60);
-  const secs = Math.floor(seconds % 60);
+    const hrs = Math.floor(seconds / 3600);
+    const mins = Math.floor((seconds % 3600) / 60);
+    const secs = Math.floor(seconds % 60);
 
-  const paddedMins = hrs > 0 ? String(mins).padStart(2, '0') : String(mins);
-  const paddedSecs = String(secs).padStart(2, '0');
+    const paddedMins = hrs > 0 ? String(mins).padStart(2, '0') : String(mins);
+    const paddedSecs = String(secs).padStart(2, '0');
 
-  return hrs > 0
-    ? `${hrs}:${paddedMins}:${paddedSecs}`
-    : `${paddedMins}:${paddedSecs}`;
+    return hrs > 0
+        ? `${hrs}:${paddedMins}:${paddedSecs}`
+        : `${paddedMins}:${paddedSecs}`;
 }
-
