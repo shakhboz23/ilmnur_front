@@ -380,7 +380,7 @@
         </div>
       </section>
       <section v-else>
-        <nav class="bg_bg py-6 -mx-5 px-7">
+        <nav class="bg_bg py-6 -mx-5 px-7 mb-6">
           <ul class="flex flex-wrap gap-3">
             <li @click="useTests.store.slideStep = +index + 1" v-for="(_, index) in useTests.test"
               class="w-10 h-10 r_f full_flex text-sm pcursor" :class="useTests.store.slideStep == +index + 1 ? 'bg_main text-white' : 'bg_white'
@@ -390,7 +390,7 @@
           </ul>
         </nav>
         <ClientOnly>
-          <ul class="flex items-center justify-between lg:max-w-[50vw] mx-auto my-6">
+          <!-- <ul class="flex items-center justify-between lg:max-w-[50vw] mx-auto my-6">
             <a-select class="min-w-[200px]" v-if="useTests.test[useTests.store.slideStep - 1]"
               v-model:value="useTests.test[useTests.store.slideStep - 1].type" placeholder="Select a person"
               :options="testType"></a-select>
@@ -412,14 +412,11 @@
                           : "O'chirish"
                       }}
                     </a-menu-item>
-                    <!-- <a-menu-item>
-                                            Save as drift
-                                        </a-menu-item> -->
                   </a-menu>
                 </template>
               </a-dropdown>
             </div>
-          </ul>
+          </ul> -->
           <swiper @slider-move="changeSlide" :watchSlidesProgress="true" :slidesPerView="1" :spaceBetween="30"
             :pagination="{ clickable: true }" :modules="modules" :noSwiping="true" noSwipingClass="no-swiping"
             class="flex lg:max-w-[50vw] overflow-hidden">

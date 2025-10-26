@@ -2,7 +2,7 @@
     <nav class="lesson_tab tabnav -mt-8">
         <div>
             <a-tabs v-model:activeKey="activeKey" animated>
-                <a-tab-pane v-for="i in group_tabs" :key="i.id" :tab="i.name">
+                <a-tab-pane v-for="i in getGroupTabs" :key="i.id" :tab="i.name">
                     <component :is="getComponent(i)" />
                 </a-tab-pane>
             </a-tabs>
@@ -22,6 +22,9 @@
 <script setup>
 import { group_tabs } from "@/constants"
 import { useTabs } from "~/composables";
+import { useLoadingStore } from "~/store";
+
+const isLoading = useLoadingStore();
 const router = useRouter();
 const { tabsDrag } = useTabs()
 const activeKey = ref(1);
@@ -77,6 +80,16 @@ watch(activeKey, (newValue) => {
         });
     }
 });
+
+
+const getGroupTabs = computed(() => {
+    console.log(isLoading.user?.id, isLoading.store.owner_id);
+    
+    if (isLoading.user?.id === isLoading.store.owner_id) {
+        return group_tabs;
+    }
+    return group_tabs.filter(item => item.url != 'settings');
+})
 
 onMounted(() => {
     tabsDrag();

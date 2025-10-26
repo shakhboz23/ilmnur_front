@@ -7,11 +7,9 @@ export const useChatStore = defineStore("chat", () => {
     const isLoading = useLoadingStore();
     const router = useRouter();
     // const endPoint: string = isLoading.checkCurrentUrl();
-    const endPoint: string = "http://localhost:4000/";
-
     let socket: any;
     if (process.client) {
-        socket = io(endPoint, {
+        socket = io(isLoading.store.baseUrl, {
             reconnectionDelayMax: 10000000, // Maximum delay between reconnection attempts (milliseconds)
             reconnectionAttempts: 5,
             query: {

@@ -6,7 +6,7 @@ import type { Create } from "~/types/store/lessons";
 
 export const useLessonsStore = defineStore("lessons", () => {
   const apiRequest = useApiRequest();
-    const { openNotification } = useNotification();
+  const { openNotification } = useNotification();
   const router = useRouter();
   const isLoading = useLoadingStore();
   const useCourses = useCoursesStore();
@@ -63,7 +63,7 @@ export const useLessonsStore = defineStore("lessons", () => {
     const data: any = await apiRequest.post(`reyting/markAsRead/${lesson_id}`, "markAsRead");
     console.log(data, 230303);
     if (data.status == 400) {
-    openNotification('error', data?.response?.data?.message, '');
+      openNotification('error', data?.response?.data?.message, '');
     }
     // store.all_lessons = data.data;
   }
@@ -79,13 +79,14 @@ export const useLessonsStore = defineStore("lessons", () => {
 
   async function getByCourse(group_id?: number) {
     console.log(isLoading.store.category_id, 22222);
-    let category_id  = isLoading.store.category_id?.length ? isLoading.store.category_id : 0
-    
+    let category_id = isLoading.store.category_id?.length ? isLoading.store.category_id : 0
+
     const data: any = await apiRequest.get(
       `course/getByCourse/${router.currentRoute.value.params.group_id || group_id || 0}/${category_id || 0}/`,
       "getByCourse"
     );
-    store.courses = data.data;
+    store.courses = data.data?.courses;
+    isLoading.store.owner_id = data.data?.group?.user_id;
   }
 
   async function createLesson(published: boolean, is_create: string, type: boolean) {

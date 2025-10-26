@@ -11,4 +11,5 @@ export interface LoadingType {
     drawer: boolean,
     logout: boolean,
     analytics_id: number,
+    owner_id: number,
 }
