@@ -60,17 +60,18 @@
                       <p>WORD</p>
                     </label>
                   </a-menu-item>
-                  <a-menu-item>
+                  <!-- <a-menu-item>
                     <label for="import_file" class="flex items-center gap-2 p-1.5 rounded-md border_ced cursor-pointer">
                       <img loading="lazy" class="h-7 w-7" src="@/assets/svg/image/excel.png" alt="" />
                       <p>Excel</p>
                     </label>
-                  </a-menu-item>
+                  </a-menu-item> -->
                 </a-menu>
               </template>
             </a-dropdown>
             <div class="file_input">
-              <input @change="importFile" class="file_input" type="file" id="import_file" />
+              <input @change="importFile" class="file_input" type="file" id="import_file" accept=".doc, .docx" />
+              <!-- <input @change="importFile" class="file_input" type="file" id="import_file" accept=".doc, .docx, .xls, .xlsx" /> -->
             </div>
             <button @click="useTests.createTest" class="flex items-center gap-1 b_main c_main px-8 py-2 r_8">
               <img loading="lazy" class="mx-auto w-5" src="@/assets/svg/icon/preview.svg" alt="" />
@@ -174,6 +175,9 @@
                         class="p-3 border-2 border-gray-200 rounded-lg hover:border-primary">
                         60 min
                       </button>
+                    </div>
+                    <div class="flex items-center">
+                      <a-checkbox v-model:checked="checked">Unlimited</a-checkbox>
                     </div>
                   </div>
                 </div>
@@ -439,10 +443,14 @@
                     </ClientOnly>
                   </div>
                   <h2 class="font-medium mt-4">Resurslarni biriktiring</h2>
-                  <button class="full_flex gap-3 b_ced py-2 my-1 px-8 rounded-full">
+                  <label for="question_file_input" class="full_flex gap-3 b_ced py-2 my-1 px-8 rounded-full">
                     <img loading="lazy" src="@/assets/svg/group/upload.svg" alt="" />
                     <span>Fayl biriktirish</span>
-                  </button>
+                  </label>
+                  <div class="file_input">
+                    <input @change="(e) => handleImage(e, 'question', index)" id="question_file_input"
+                      class="file_input" type="file" accept="image/*">
+                  </div>
                 </div>
                 <hr />
                 <div class="px-2 py-4">
@@ -454,8 +462,8 @@
                       <Draggable class="dragArea list-group w-full" :v-model="useTests.test[index]?.variants"
                         @change="log" :key="store.listKey" ghost-class="ghost" handle=".drag-handle"
                         @move="disableSwiper" @end="enableSwiper" animation="300">
-                        <li v-for="(i, v_index) in useTests.test[index]?.variants">
-                          {{ useTests.test[index]?.variants[v_index] }}
+                        <li
+                          v-for="(i, v_index) in useTests.test[index]?.variants">
                           <div class="flex items-center gap-4 bg_cf5 px-4 mt-2 r_8 w-full"
                             :class="checkCurrentType(useTests.test[index].type, true)">
                             <a-checkbox v-if="useTests.test[index].type == 'variant'" :value="v_index"></a-checkbox>
@@ -470,7 +478,13 @@
                                 v-model:editorContent="useTests.test[index].variants[v_index]" :toolbar="false"
                                 :placeholder="'Javobni shu yerga yozing'" />
                             </ClientOnly>
-                            <img class="w-6 h-6" loading="lazy" src="@/assets/svg/group/upload.svg" alt="" />
+                            <label class="inline" :for="`anwer_file_input${index}${v_index}`">
+                              <img class="w-6 h-6" loading="lazy" src="@/assets/svg/group/upload.svg" alt="" />
+                            </label>
+                            <div class="file_input">
+                              <input @change="(e) => handleImage(e, 'variants', index, v_index)" class="file_input"
+                                type="file" :id="`anwer_file_input${index}${v_index}`" accept="image/*" />
+                            </div>
                             <!-- <img @mousemove="disableSwiper" @mouseleave="enableSwiper" class="w-6 h-6 drag-handle"
                               loading="lazy" src="@/assets/svg/icon/drag.svg" alt="" /> -->
                             <img v-if="useTests.test[index]?.variants?.length > 1"
@@ -480,7 +494,7 @@
                           <hr class="w-full" />
                         </li>
                       </Draggable>
-                      <li @click="addVariant(index)">
+                      <li v-if="useTests.test_settings.test_type != 'vocabulary'" @click="addVariant(index)">
                         <div class="full_flex bg_cf5 p-3 r_8 pcursor">
                           <img loading="lazy" src="@/assets/svg/icon/plus.svg" alt="" />
                         </div>
@@ -846,13 +860,13 @@
                 class="min-w-[80px] test_arrow !h-[42px] sr_12" show-search required>
                 <a-select-option v-for="i in useTests.store.questions_count" :value="i">{{
                   i
-                  }}</a-select-option>
+                }}</a-select-option>
               </a-select>
               <a-select v-model:value="useTests.test_settings.sort_level[index][2]"
                 class="min-w-[80px] test_arrow !h-[42px] sr_12" show-search required>
                 <a-select-option v-for="i in useTests.store.questions_count" :value="i">{{
                   i
-                  }}</a-select-option>
+                }}</a-select-option>
               </a-select>
               <p v-if="useTests.test_settings.sort_level?.length != 1" @click="addTestStep('remove', index)"
                 class="full_flex min-w-[50px] h-[50px] rounded-full border border-[#CCCCCC] cursor-pointer">
@@ -933,7 +947,7 @@ import time from "@/assets/svg/test/time.svg";
 import pen from "@/assets/svg/test/pen.svg";
 import calculator from "@/assets/svg/test/calculator.svg";
 import periodic from "@/assets/svg/test/periodic.svg";
-import { useCategoryStore, useLoadingStore, useTestsStore } from "~/store";
+import { useCategoryStore, useLoadingStore, useTestsStore, useUploadStore } from "~/store";
 import { formatDate, formatDurationFromSeconds } from "@/composables";
 import mammoth from "mammoth";
 
@@ -956,19 +970,21 @@ const testSettingsType = [{
   value: 'vocabulary',
   color: 'bg-green-100',
   icon: new URL('@/assets/svg/test/test_type/vocabulary.svg', import.meta.url).href
-}, {
-  label: "IELTS",
-  defination: "English proficiency test",
-  value: 'ielts',
-  color: 'bg-purple-100',
-  icon: new URL('@/assets/svg/test/test_type/ielts.svg', import.meta.url).href
-}, {
-  label: "Academic",
-  defination: "Subject-specific questions",
-  value: 'academic',
-  color: 'bg-orange-100',
-  icon: new URL('@/assets/svg/test/test_type/academic.svg', import.meta.url).href
-}];
+},
+  // {
+  //   label: "IELTS",
+  //   defination: "English proficiency test",
+  //   value: 'ielts',
+  //   color: 'bg-purple-100',
+  //   icon: new URL('@/assets/svg/test/test_type/ielts.svg', import.meta.url).href
+  // }, {
+  //   label: "Academic",
+  //   defination: "Subject-specific questions",
+  //   value: 'academic',
+  //   color: 'bg-orange-100',
+  //   icon: new URL('@/assets/svg/test/test_type/academic.svg', import.meta.url).href
+  // },
+];
 
 const testType = [
   { value: "variant", label: "Variantli" },
@@ -980,6 +996,7 @@ const testType = [
 const useTests = useTestsStore();
 const isLoading = useLoadingStore();
 const useCategory = useCategoryStore();
+const useUpload = useUploadStore();
 useTests.getByLesson();
 useCategory.getCategory();
 
@@ -1003,6 +1020,22 @@ function nextInnerStep() {
   } else {
     store.innerStep++;
   }
+}
+
+function handleImage(e, type, index, v_index) {
+  const file = e.target.files[0];
+
+  useUpload.create_url(file).then(res => {
+    console.log(res.url);
+
+    console.log(useTests.test[index].question);
+
+    if (type == 'question') {
+      useTests.test[index].question = useTests.test[index].question ? useTests.test[index].question + `<img src="${res?.url}" alt=""/>` : `<img src="${res?.url}" alt=""/>`
+    } else {
+      useTests.test[index][type][v_index] = useTests.test[index][type][v_index] ? useTests.test[index][type][v_index] + `<img src="${res?.url}" alt=""/>` : `<img src="${res?.url}" alt=""/>`
+    }
+  })
 }
 
 function handleModal(value) {
@@ -1074,7 +1107,7 @@ function convertMinutePeriod(e) {
 
 function addTestStep(type, index) {
   if (type == "add") {
-    useTests.test_settings.sort_level[index + 1] = [null, null, null];
+    useTests.test_settings.sort_level[index + 1] = [null];
     useTests.store.test_step += 1;
   } else {
     useTests.test_settings.sort_level.splice(index, 1);
@@ -1210,7 +1243,7 @@ function nextSlide(type) {
       if (!useTests.test[+useTests.store.slideStep]) {
         useTests.test[+useTests.store.slideStep] = {
           question: null,
-          variants: [null, null, null],
+          variants: [null],
           type: "variant",
           true_answer: [0],
         };

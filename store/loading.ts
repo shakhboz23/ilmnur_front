@@ -152,7 +152,7 @@ export const useLoadingStore = defineStore("loading", () => {
         : "";
     if (front_url.includes("localhost") || front_url.includes("demo")) {
       store.baseUrl = localBaseURL;
-      // store.baseUrl = baseURL;
+      store.baseUrl = baseURL;
     } else {
       store.baseUrl = baseURL;
     }

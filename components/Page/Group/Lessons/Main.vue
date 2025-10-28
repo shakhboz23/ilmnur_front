@@ -10,8 +10,8 @@
                 class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
                 <PageGroupLessonsCard :lessoncarddata="i" v-for="i in useLessons.store.courses" />
 
-                <div v-if="isLoading.user.id == isLoading.store.owner_id"
-                    @click="isLoading.modal.create = true" class="addbox addbox-h min-h-[360px]">Kurs qo'shish</div>
+                <div v-if="isLoading.user.id == isLoading.store.owner_id" @click="isLoading.modal.create = true"
+                    class="addbox addbox-h min-h-[360px]">Kurs qo'shish</div>
             </div>
             <div v-else class="full_flex py-20">
                 Ma'lumotlar topilmadi
@@ -60,6 +60,10 @@ watch(() => router.currentRoute.value.query.category, () => {
     if (!router.currentRoute.value.query.page) {
         useLessons.getByCourse();
     }
+})
+
+watch(() => router.currentRoute.value.query.subcategory_id, () => {
+    useLessons.getByCourse();
 })
 </script>
 

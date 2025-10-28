@@ -6,17 +6,17 @@
   <!-- <div>
     <a-tooltip v-if="type == 'fill' || type == 'customizable'" @click="addToEditor()" class="pcursor">
       <template #title>Add answer space</template>
-      ______
-    </a-tooltip>
-    <a-tooltip @click="undo()" class="pcursor">
-      <template #title>Undo</template>
-      🔙
-    </a-tooltip>
-    <a-tooltip @click="redo()" class="pcursor">
-      <template #title>Redo</template>
-      🔜
-    </a-tooltip>
-  </div> -->
+______
+</a-tooltip>
+<a-tooltip @click="undo()" class="pcursor">
+  <template #title>Undo</template>
+  🔙
+</a-tooltip>
+<a-tooltip @click="redo()" class="pcursor">
+  <template #title>Redo</template>
+  🔜
+</a-tooltip>
+</div> -->
 </template>
 
 <script setup>
@@ -75,7 +75,7 @@ function addToEditor() {
   }
   const l = +document.querySelectorAll('.fill-blank')?.length;
   console.log(l)
-  useTests.test[useTests.store.slideStep-1]?.variants.push(null);
+  useTests.test[useTests.store.slideStep - 1]?.variants.push(null);
   const letter = String.fromCharCode(65 + l); // A, B, C...
 
   model.change((writer) => {
@@ -109,6 +109,16 @@ const content = ref(props.editorContent || '');
 watch(content, (newValue) => {
   emit('update:editorContent', newValue);
 });
+
+watch(
+  () => props.editorContent,
+  (newValue) => {
+    if (newValue !== content.value) {
+      content.value = newValue
+      emit('update:editorContent', newValue);
+    }
+  }
+)
 
 // CKEditor'ni Vue komponentiga to'g'ri o'rnatish
 const editor = ClassicEditor;

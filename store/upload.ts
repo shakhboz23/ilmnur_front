@@ -24,6 +24,8 @@ export const useUploadStore = defineStore("upload", () => {
     } else {
       openNotification("Error uploading a file");
     }
+
+    return res;
   }
 
   return {

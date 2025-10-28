@@ -34,7 +34,7 @@ export const useTestsStore = defineStore("tests", () => {
   const test: any = reactive({
     0: {
       question: null,
-      variants: [null, null, null],
+      variants: [null],
       type: "variant",
       true_answer: [0],
     }
