@@ -18,7 +18,7 @@
             </div>
         </section>
         <!-- modal -->
-        <UIModal :isOpen="isLoading.modal.create" :title="'Kurs qo\'shish'" :loadingType="'createCourse'"
+        <UIModal v-if="!$route.query?.tab" :isOpen="isLoading.modal.create" :title="'Kurs qo\'shish'" :loadingType="'createCourse'"
             @update:isOpen="(value) => handleModal(value)">
             <ModalCreateCourse />
         </UIModal>

@@ -2,7 +2,7 @@
     <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
         <LoadingDiv v-if="isLoading.isLoadingType('groups')" v-for="i in 12"
             class="w-full h-full min-h-[360px] r_12 !overflow-hidden" />
-        <PageCard v-else-if="useGroups.store.groups?.groups?.length" :carddata="i"
+        <PageCard v-else-if="useGroups.store.groups?.groups?.length" :carddata="i" :editable="false"
             v-for="i in useGroups.store.groups?.groups" />
         <section v-else class="text-center py-40 col-span-4">
             Ma'lumotlar yo'q

@@ -462,8 +462,7 @@
                       <Draggable class="dragArea list-group w-full" :v-model="useTests.test[index]?.variants"
                         @change="log" :key="store.listKey" ghost-class="ghost" handle=".drag-handle"
                         @move="disableSwiper" @end="enableSwiper" animation="300">
-                        <li
-                          v-for="(i, v_index) in useTests.test[index]?.variants">
+                        <li v-for="(i, v_index) in useTests.test[index]?.variants">
                           <div class="flex items-center gap-4 bg_cf5 px-4 mt-2 r_8 w-full"
                             :class="checkCurrentType(useTests.test[index].type, true)">
                             <a-checkbox v-if="useTests.test[index].type == 'variant'" :value="v_index"></a-checkbox>
@@ -860,13 +859,13 @@
                 class="min-w-[80px] test_arrow !h-[42px] sr_12" show-search required>
                 <a-select-option v-for="i in useTests.store.questions_count" :value="i">{{
                   i
-                }}</a-select-option>
+                  }}</a-select-option>
               </a-select>
               <a-select v-model:value="useTests.test_settings.sort_level[index][2]"
                 class="min-w-[80px] test_arrow !h-[42px] sr_12" show-search required>
                 <a-select-option v-for="i in useTests.store.questions_count" :value="i">{{
                   i
-                }}</a-select-option>
+                  }}</a-select-option>
               </a-select>
               <p v-if="useTests.test_settings.sort_level?.length != 1" @click="addTestStep('remove', index)"
                 class="full_flex min-w-[50px] h-[50px] rounded-full border border-[#CCCCCC] cursor-pointer">
@@ -997,8 +996,6 @@ const useTests = useTestsStore();
 const isLoading = useLoadingStore();
 const useCategory = useCategoryStore();
 const useUpload = useUploadStore();
-useTests.getByLesson();
-useCategory.getCategory();
 
 const store = reactive({
   convertedContent: [],
@@ -1007,6 +1004,16 @@ const store = reactive({
   listKey: 0,
   importModal: false,
 });
+
+async function getModels() {
+  useCategory.getCategory();
+  await useTests.getByLesson();
+  if (useTests.store.tests?.test?.length) {
+    store.currentStep = 2;
+  }
+}
+
+getModels();
 
 function prevInnerStep() {
   if (store.innerStep == 0) {

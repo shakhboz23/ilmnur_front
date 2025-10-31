@@ -12,6 +12,7 @@ export const useAuthStore = defineStore("auth", () => {
     step: 0,
     code: '',
     changeEmailModal: false,
+    searchData: [],
   });
 
   const changepassword = reactive({
@@ -189,7 +190,7 @@ export const useAuthStore = defineStore("auth", () => {
 
   function changeEmail() {
     apiRequest
-      .put("user/change-email", {...login, code: store.code})
+      .put("user/change-email", { ...login, code: store.code })
       .then((res: any) => {
         console.log(res);
         if (res.status == 200) {
@@ -284,6 +285,14 @@ export const useAuthStore = defineStore("auth", () => {
       });
   }
 
+  async function searchUser(search: string) {
+    const res = await apiRequest
+      .get(`user/search/${search}/1`, 'searchUser')
+    console.log(res);
+    store.searchData = res.data?.data?.records;
+    return res.data?.data?.records;
+  }
+
   async function createUser() {
     apiRequest
       .post("user/register", user)
@@ -334,6 +343,7 @@ export const useAuthStore = defineStore("auth", () => {
     register,
     login,
     authLogin,
+    searchUser,
     authRegister,
     authActivateLink,
     forgotPassword,

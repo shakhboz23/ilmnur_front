@@ -59,8 +59,8 @@ export const useSubscriptionStore = defineStore("subscription", () => {
     const data: any = await apiRequest.post(
       "subscriptions/createSubscription",
       {
-        user_id: useAuth.profile.id,
-        role: 'student',
+        user_id: useAuth.user.id,
+        role: useAuth.user.role,
         course_ids,
       },
       "subscriptions"
