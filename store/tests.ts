@@ -189,6 +189,7 @@ export const useTestsStore = defineStore("tests", () => {
         test: tests,
       }, 'createTest')
       .then((res) => {
+        openNotification('success', '', 'Saved successfully');
         console.log(res);
       })
       .catch((err) => {

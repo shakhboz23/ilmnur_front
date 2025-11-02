@@ -34,10 +34,10 @@
             <nav class="flex items-center px-6 py-1.5 bg-white">
                 <div class="flex items-center justify-between w-full">
                     <div class="flex items-center gap-3">
-                        <img loading="lazy"  @click="routeToChat(undefined)" class="md:hidden block pcursor h-6" src="@/assets/svg/icon/back_route.svg"
+                        <img loading="lazy"  @click="routeToChat(undefined)" class="md:hidden block pcursor object-cover h-6" src="@/assets/svg/icon/back_route.svg"
                             alt="">
                         <div>
-                        <h1 class="c_c24">Barno Halilova</h1>
+                        <h1 class="c_c24">{{ useChat.store.chatgroups.find(item => item.id == $router.currentRoute.value.query.chat)?.course.title }}</h1>
                         <time class="text-sm c_c66">15 min ago</time>
                         </div>
                     </div> 
