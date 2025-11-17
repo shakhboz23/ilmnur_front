@@ -88,15 +88,15 @@ export const useLessonsStore = defineStore("lessons", () => {
     isLoading.store.owner_id = data.data?.group?.user_id;
   }
 
-  async function createLesson(published: boolean, is_create: string, type: boolean) {
+  async function createLesson(published: boolean, is_create: string, type: boolean, lesson_type: string, lesson_id: number) {
     create.published = published;
     if (type) {
       return updateLesson();
     }
-    create.lesson_id = router.currentRoute.value.query.lesson_id;
+    create.lesson_id = lesson_id || router.currentRoute.value.query.lesson_id;
     if (is_create == "create") {
-      create.course_id = router.currentRoute.value.params.lesson_id;
-      create.type = "lesson";
+      create.course_id = lesson_type == "module" ? router.currentRoute.value.params.course_id : router.currentRoute.value.params.lesson_id;
+      create.type = lesson_type || "lesson";
     } else {
       create.course_id = router.currentRoute.value.params.course_id;
     }

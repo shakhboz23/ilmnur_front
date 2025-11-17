@@ -101,7 +101,7 @@
                                     @click="$router.push(`/lesson/${$router.currentRoute.value.params.course_id}/create`)">
                                     <a href="javascript:;">Dars qo'shish</a>
                                 </a-menu-item>
-                                <a-menu-item @click="isLoading.modal.create = true; store.modalType = 'lesson'">
+                                <a-menu-item @click="isLoading.modal.create = true; isLoading.store.modalType = 'lesson'">
                                     <a href="javascript:;">Modul qo'shish</a>
                                 </a-menu-item>
                             </a-menu>
@@ -125,103 +125,11 @@
                 <LoadingDiv class="h-[110px] w-full" />
             </div>
             <!-- lessons -->
-            <ul v-if="!isLoading.isLoadingType('getByCourse')" class="mt-5">
-                <draggable :list="useCourses.store.courses.lessons" class="drag-area" group="lessons" :animation="200"
-                    handle=".drag-handle">
-                    <li v-for="(i, index) in useCourses.store.courses.lessons" class="duration-700 overflow-hidden"
-                        :style="store.active_id == i.id ? { height: `${52 * (i.lessons?.length ? i.lessons?.length + 1 : 1)}px` } : { height: '52px' }"
-                        :class="store.active_id == i.id ? `bg_bg r_8` : ''">
-                        <div @click="(e) => handleClick(e, i)"
-                            class="flex items-center pcursor gap-5 border-b border-[#EDEDED] py-3 px-4">
-                            <button v-if="isOwner()" class="drag-handle w-6">
-                                <img draggable="false" class="h-6 w-6 min-w-[24px]" src="@/assets/svg/icon/drag.svg"
-                                    alt="" />
-                            </button>
-                            <h1 class="w-full truncate">{{ i.title }}</h1>
-                            <p v-if="i.type == 'lesson'" class="min-w-fit">{{ formatDurationFromSeconds(i.duration || 0)
-                            }}</p>
-                            <p v-else class="min-w-fit">{{ calculateTotalDuration(index) }}</p>
-                            <div class="flex gap-5 min-w-fit">
-                                <img v-if="i.type != 'module'" class="h-7 statistics" loading="lazy"
-                                    src="@/assets/svg/course/statistics.svg" alt="">
-                                <img loading="lazy" v-if="!i.is_finished && (i.is_viewed || index == 0)"
-                                    src="@/assets/svg/news/show.svg" alt="">
-                                <img loading="lazy" v-else-if="checkIsFinished(i)" src="@/assets/svg/course/finished.svg"
-                                    alt="">
-                                <img loading="lazy" v-else-if="!checkIsFinished(i) && !i.is_viewed"
-                                    src="@/assets/svg/course/lock.svg" alt="">
-                            </div>
-                            <a-dropdown v-if="isOwner()">
-                                <div class="min-w-fit">
-                                    <img loading="lazy" class="threedot" src="@/assets/svg/icon/threedot.svg" alt="">
-                                </div>
-                                <template #overlay>
-                                    <a-menu>
-                                        <a-menu-item v-if="i.type == 'module'"
-                                            @click="$router.push(`/lesson/${$router.currentRoute.value.params.course_id}/create?lesson_id=${i.id}`)">
-                                            Dars qo'shish
-                                        </a-menu-item>
-                                        <a-menu-item @click="handleButton('edit', i)">
-                                            O'zgartirish
-                                        </a-menu-item>
-                                        <a-menu-item @click="handleButton('delete', i)">
-                                            O'chirish
-                                        </a-menu-item>
-                                    </a-menu>
-                                </template>
-                            </a-dropdown>
-                            <img loading="lazy" v-if="i.type == 'module'" class="w-5 h-5 duration-700 min-w-fit"
-                                :class="store.active_id == i.id ? 'rotate-180' : 'rotate-0'"
-                                src="@/assets/svg/icon/arrow.svg" alt="">
-                        </div>
-                        <ul>
-                            <draggable :list="useCourses.store.courses.lessons[index].lessons" class="drag-area"
-                                group="lessons" :animation="200" handle=".drag-handle">
-                                <li @click="e => handleClick(e, lesson)" v-for="(lesson, l_index) in i.lessons"
-                                    class="flex items-center pcursor gap-5 border-b border-[#EDEDED] py-3 h-[52px] px-4">
-                                    <button v-if="isOwner()" class="drag-handle w-6">
-                                        <img draggable="false" class="h-6 w-6 min-w-[24px]"
-                                            src="@/assets/svg/icon/drag.svg" alt="" />
-                                    </button>
-                                    <h1 class="w-full truncate">{{ lesson.title }}</h1>
-                                    <p class="min-w-fit">{{ formatDurationFromSeconds(lesson.duration) }}</p>
-                                    <div class="flex items-center gap-5 min-w-fit">
-                                        <img class="h-6 statistics" loading="lazy"
-                                            src="@/assets/svg/course/statistics.svg" alt="">
-                                        <img class="h-5" loading="lazy" v-if="!lesson.is_finished && lesson.is_viewed"
-                                            src="@/assets/svg/news/show.svg" alt="">
-                                        <img class="h-5" loading="lazy"
-                                            v-if="lesson.is_finished || (index == 0 && l_index == 0)"
-                                            src="@/assets/svg/course/finished.svg" alt="">
-                                        <img loading="lazy" v-else src="@/assets/svg/course/lock.svg" alt="">
-                                    </div>
-                                    <a-dropdown>
-                                        <div class="min-w-fit">
-                                            <img loading="lazy" class="threedot" src="@/assets/svg/icon/threedot.svg"
-                                                alt="">
-                                        </div>
-                                        <template #overlay>
-                                            <a-menu>
-                                                <a-menu-item @click="handleButton('edit', lesson)">
-                                                    <a href="javascript:;">O'zgartirish</a>
-                                                </a-menu-item>
-                                                <a-menu-item @click="handleButton('delete', lesson)">
-                                                    <a href="javascript:;">O'chirish</a>
-                                                </a-menu-item>
-                                            </a-menu>
-                                        </template>
-                                    </a-dropdown>
-                                </li>
-                            </draggable>
-                        </ul>
-                    </li>
-                </draggable>
-            </ul>
+            <LessonAccordion v-if="!isLoading.isLoadingType('getByCourse')" :lessons="useCourses.store.courses.lessons" />
             <div v-else class="space-y-1 mt-5">
                 <LoadingDiv v-for="_ in 5" class="h-9 w-full" />
             </div>
         </section>
-        <!-- useCourses.store.courses.courses -->
 
         <div v-if="!['completed'].includes(useCourses.store.courses?.course?.payment?.status) && !isOwner()"
             class="sticky sm:bottom-3 bottom-20 my-3 w-full bg_cf2 r_20 p-3">
@@ -241,7 +149,7 @@
         </div>
 
         <!-- modal -->
-        <UIModal v-if="store.modalType == 'lesson'" :isOpen="isLoading.modal.create" :loadingType="'createLesson'"
+        <UIModal v-if="isLoading.store.modalType == 'lesson'" :isOpen="isLoading.modal.create" :loadingType="'createLesson'"
             @update:isOpen="(value) => handleModal(value)">
             <div class="space-y-6">
                 <FloatingInput :id="'title'" :maxValue="50" class="w-full" :type="'text'"
@@ -255,7 +163,7 @@
             <ModalCreateCourse />
         </UIModal>
 
-        <UIModal v-if="store.modalType == 'lesson'" :isOpen="isLoading.modal.edit" :loadingType="'createLesson'"
+        <UIModal v-if="isLoading.store.modalType == 'lesson'" :isOpen="isLoading.modal.edit" :loadingType="'createLesson'"
             @update:isOpen="(value) => handleModal(value)">
             <div class="space-y-6">
                 <FloatingInput :id="'title'" :maxValue="50" class="w-full" :type="'text'"
@@ -263,7 +171,7 @@
                 <p class="c_red">{{ isLoading.store.errorMessage.message }}</p>
             </div>
         </UIModal>
-        <UIDeleteModal v-if="store.modalType == 'lesson'" :isOpen="isLoading.modal.delete" :loadingType="'deletegroup'"
+        <UIDeleteModal v-if="isLoading.store.modalType == 'lesson'" :isOpen="isLoading.modal.delete" :loadingType="'deletegroup'"
             @update:isOpen="(value) => handleModal(value)" />
         <UIDeleteModal v-else :isOpen="isLoading.modal.delete" :loadingType="'deletegroup'"
             @update:isOpen="(value) => handleModal(value, 'course')" />
@@ -302,17 +210,19 @@ const store = reactive({
 
 async function handleModal(value, modalType) {
     modalType = modalType || 'lesson'
+    console.log(modalType);
+
     if (value == "OK") {
         if (isLoading.modal.delete) {
-            if (modalType == 'lesson') {
+            if (modalType !== 'course') {
                 useLessons.deleteLesson();
             } else {
                 useCourses.deleteCourse();
             }
         } else if (isLoading.modal.create && !isLoading.modal.edit) {
-            useLessons.createLesson();
+            useLessons.createLesson(true, 'create', false, 'module', useLessons.store.lesson_id);
         } else {
-            if (modalType == 'lesson') {
+            if (modalType !== 'course') {
                 useLessons.updateModule();
             } else {
                 useCourses.updateCourse();
@@ -340,16 +250,16 @@ async function createCheckout() {
 }
 
 function handleButton(type, lesson, modalType) {
-    if (lesson.type == 'lesson') {
+    if (['lesson', 'module'].includes(lesson.type)) {
         useLessons.store.lesson_id = lesson?.id;
     } else {
         useCourses.create.group_id = useCourses.store.courses?.course?.group_id;
         useCourses.store.course_id = lesson;
     }
-    store.modalType = modalType || 'lesson';
     isLoading.modal[type] = true;
+    isLoading.store.modalType = modalType || 'lesson';
     if (type == 'edit') {
-        if (lesson.type == 'lesson') {
+        if (['lesson', 'module'].includes(lesson.type)) {
             router.push(`/lesson/${lesson.id}/update`)
         } else {
             for (let i in useCourses.create) {
@@ -380,44 +290,44 @@ function getFirstUnfinishedLessonId() {
     return null; // Barchasi finished bo‘lsa
 }
 
-function handleClick(e, lesson) {
-    store.lesson_id = lesson.id;
-    if (e.target.className.includes("statistics")) {
-        return useCourses.store.reytingModal = true;
-    } else if (e.target.className == "threedot") return;
-    if (lesson.type == 'module') {
-        store.active_id = store.active_id == lesson.id ? 0 : lesson.id
-    } else {
-        if (useCourses.store.courses?.course?.payment?.status == 'completed' || isOwner()) {
-            router.push(`/lesson/${lesson.id}`)
-        } else {
-            openNotification('warning', "Kurslarga obuna bo'lmagansiz", "Kursga qo'shilish tugmasini bosing")
-        }
-    }
-}
+// function handleClick(e, lesson) {
+//     store.lesson_id = lesson.id;
+//     if (e.target.className.includes("statistics")) {
+//         return useCourses.store.reytingModal = true;
+//     } else if (e.target.className == "threedot") return;
+//     if (lesson.type == 'module') {
+//         store.active_id = store.active_id == lesson.id ? 0 : lesson.id
+//     } else {
+//         if (useCourses.store.courses?.course?.payment?.status == 'completed' || isOwner()) {
+//             router.push(`/lesson/${lesson.id}`)
+//         } else {
+//             openNotification('warning', "Kurslarga obuna bo'lmagansiz", "Kursga qo'shilish tugmasini bosing")
+//         }
+//     }
+// }
 
-function checkIsFinished(data) {
-    if (data.type == "module") {
-        for (let lesson of data.lessons) {
-            if (!lesson.is_finished) {
-                return false;
-            }
-        }
-        return true;
-    } else {
-        return data.is_finished;
-    }
+// function checkIsFinished(data) {
+//     if (data.type == "module") {
+//         for (let lesson of data.lessons) {
+//             if (!lesson.is_finished) {
+//                 return false;
+//             }
+//         }
+//         return true;
+//     } else {
+//         return data.is_finished;
+//     }
 
-}
+// }
 
-function calculateTotalDuration(index) {
-    const lesson = useCourses.store.courses.lessons[index].lessons;
-    let s = 0;
-    for (let i of lesson) {
-        s = s + (i.duration || 0);
-    }
-    return formatDurationFromSeconds(s);
-}
+// function calculateTotalDuration(index) {
+//     const lesson = useCourses.store.courses.lessons[index].lessons;
+//     let s = 0;
+//     for (let i of lesson) {
+//         s = s + (i.duration || 0);
+//     }
+//     return formatDurationFromSeconds(s);
+// }
 
 watch(() => store.course_id, () => {
     router.push(`/course/${store.course_id}`)

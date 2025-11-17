@@ -58,6 +58,7 @@ export const useLoadingStore = defineStore("loading", () => {
     delete: false,
     analytics: false,
     checkout: false,
+    modalType: '',
   });
   checkCurrentUrl();
 
