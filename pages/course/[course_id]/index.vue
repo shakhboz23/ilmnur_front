@@ -218,7 +218,7 @@ async function handleModal(value, modalType) {
                 useLessons.deleteLesson();
             } else {
                 useCourses.deleteCourse();
-            }
+            } 
         } else if (isLoading.modal.create && !isLoading.modal.edit) {
             useLessons.createLesson(true, 'create', false, 'module', useLessons.store.lesson_id);
         } else {
