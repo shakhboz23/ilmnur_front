@@ -13,6 +13,7 @@ export const useAuthStore = defineStore("auth", () => {
     code: '',
     changeEmailModal: false,
     searchData: [],
+    users: [],
   });
 
   const changepassword = reactive({
@@ -306,6 +307,19 @@ export const useAuthStore = defineStore("auth", () => {
       });
   }
 
+   async function getUsers() {
+    apiRequest
+      .get("user/pagination/1/100", 'users')
+      .then((res: any) => {
+        if (res.data.statusCode == 200) {
+          store.users = res.data?.data;
+        }
+      })
+      .catch((err: any) => {
+        console.log(err);
+      });
+  }
+
   function updateProfile() {
     const formData = new FormData();
     for (let i in profile) {
@@ -344,6 +358,7 @@ export const useAuthStore = defineStore("auth", () => {
     login,
     authLogin,
     searchUser,
+    getUsers,
     authRegister,
     authActivateLink,
     forgotPassword,

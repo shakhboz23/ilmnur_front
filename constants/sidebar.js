@@ -20,6 +20,14 @@ export const sidebar = [
     // svgActive: dashboardActive,
     role: ["admin"],
   },
+   {
+    id: 1,
+    name: "Foydalanuvchilar",
+    url: "/users",
+    svg: _lessons,
+    // svgActive: dashboardActive,
+    role: ["admin"],
+  },
   {
     id: 1,
     name: "Lavhalar",
