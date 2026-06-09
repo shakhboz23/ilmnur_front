@@ -101,8 +101,12 @@
                                     @click="$router.push(`/lesson/${$router.currentRoute.value.params.course_id}/create`)">
                                     <a href="javascript:;">Dars qo'shish</a>
                                 </a-menu-item>
-                                <a-menu-item @click="isLoading.modal.create = true; isLoading.store.modalType = 'lesson'">
+                                <a-menu-item
+                                    @click="isLoading.modal.create = true; isLoading.store.modalType = 'lesson'">
                                     <a href="javascript:;">Modul qo'shish</a>
+                                </a-menu-item>
+                                <a-menu-item @click="isLoading.modal.create = true; isLoading.store.modalType = 'test'">
+                                    <a href="javascript:;">Test qo'shish</a>
                                 </a-menu-item>
                             </a-menu>
                         </template>
@@ -125,7 +129,8 @@
                 <LoadingDiv class="h-[110px] w-full" />
             </div>
             <!-- lessons -->
-            <LessonAccordion v-if="!isLoading.isLoadingType('getByCourse')" :lessons="useCourses.store.courses.lessons" />
+            <LessonAccordion v-if="!isLoading.isLoadingType('getByCourse')"
+                :lessons="useCourses.store.courses.lessons" />
             <div v-else class="space-y-1 mt-5">
                 <LoadingDiv v-for="_ in 5" class="h-9 w-full" />
             </div>
@@ -149,8 +154,8 @@
         </div>
 
         <!-- modal -->
-        <UIModal v-if="isLoading.store.modalType == 'lesson'" :isOpen="isLoading.modal.create" :loadingType="'createLesson'"
-            @update:isOpen="(value) => handleModal(value)">
+        <UIModal v-if="['lesson', 'test'].includes(isLoading.store.modalType)" :isOpen="isLoading.modal.create"
+            :loadingType="'createLesson'" @update:isOpen="(value) => handleModal(value)">
             <div class="space-y-6">
                 <FloatingInput :id="'title'" :maxValue="50" class="w-full" :type="'text'"
                     v-model="useLessons.create.title" :label="'Title'" required />
@@ -163,16 +168,16 @@
             <ModalCreateCourse />
         </UIModal>
 
-        <UIModal v-if="isLoading.store.modalType == 'lesson'" :isOpen="isLoading.modal.edit" :loadingType="'createLesson'"
-            @update:isOpen="(value) => handleModal(value)">
+        <UIModal v-if="['lesson', 'test'].includes(isLoading.store.modalType)" :isOpen="isLoading.modal.edit"
+            :loadingType="'createLesson'" @update:isOpen="(value) => handleModal(value)">
             <div class="space-y-6">
                 <FloatingInput :id="'title'" :maxValue="50" class="w-full" :type="'text'"
                     v-model="useLessons.create.title" :label="'Title'" required />
                 <p class="c_red">{{ isLoading.store.errorMessage.message }}</p>
             </div>
         </UIModal>
-        <UIDeleteModal v-if="isLoading.store.modalType == 'lesson'" :isOpen="isLoading.modal.delete" :loadingType="'deletegroup'"
-            @update:isOpen="(value) => handleModal(value)" />
+        <UIDeleteModal v-if="['lesson', 'test'].includes(isLoading.store.modalType)" :isOpen="isLoading.modal.delete"
+            :loadingType="'deletegroup'" @update:isOpen="(value) => handleModal(value)" />
         <UIDeleteModal v-else :isOpen="isLoading.modal.delete" :loadingType="'deletegroup'"
             @update:isOpen="(value) => handleModal(value, 'course')" />
 
@@ -218,9 +223,13 @@ async function handleModal(value, modalType) {
                 useLessons.deleteLesson();
             } else {
                 useCourses.deleteCourse();
-            } 
+            }
         } else if (isLoading.modal.create && !isLoading.modal.edit) {
-            useLessons.createLesson(true, 'create', false, 'module', useLessons.store.lesson_id);
+            if (isLoading.store.modalType == 'test') {
+                useLessons.createLesson(true, 'create', false, 'test', useLessons.store.lesson_id);
+            } else {
+                useLessons.createLesson(true, 'create', false, 'module', useLessons.store.lesson_id);
+            }
         } else {
             if (modalType !== 'course') {
                 useLessons.updateModule();

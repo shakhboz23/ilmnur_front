@@ -1,0 +1,4 @@
+const _imports_0 = "data:image/svg+xml,%3csvg%20width='24'%20height='24'%20viewBox='0%200%2024%2024'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cpath%20d='M14%2014V20L10%2022V14L4%205V3H20V5L14%2014ZM6.404%205L12%2013.394L17.596%205H6.404Z'%20fill='%23FF852E'/%3e%3c/svg%3e";
+
+export { _imports_0 as _ };
+//# sourceMappingURL=filter-GR5HalyB.mjs.map

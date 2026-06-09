@@ -95,8 +95,8 @@ export const useLessonsStore = defineStore("lessons", () => {
     }
     create.lesson_id = lesson_id || router.currentRoute.value.query.lesson_id;
     if (is_create == "create") {
-      create.course_id = lesson_type == "module" ? router.currentRoute.value.params.course_id : router.currentRoute.value.params.lesson_id;
-      create.type = lesson_type || "lesson";
+      create.course_id = ["module", "test"].includes(lesson_type) ? router.currentRoute.value.params.course_id : router.currentRoute.value.params.lesson_id;
+      create.type = lesson_type == 'test' ? 'lesson' : lesson_type || "lesson";
     } else {
       create.course_id = router.currentRoute.value.params.course_id;
     }
@@ -119,7 +119,10 @@ export const useLessonsStore = defineStore("lessons", () => {
     clearData();
     if (data.data.type == "lesson") {
       router.push(`/lesson/${data.data.id}`);
-    } else {
+    } else if (lesson_type == 'test') {
+      router.push(`/test/${data.data.id}`);
+    }
+    else {
       isLoading.modal.create = false;
       useCourses.getByCourse();
     }

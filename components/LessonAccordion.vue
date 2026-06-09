@@ -14,8 +14,9 @@
                             src="@/assets/svg/course/play.svg" alt="" />
                     </button>
                     <h1 class="w-full truncate">{{ i.title }}</h1>
+                    <img v-if="!i.content && i.type == 'lesson'" loading="lazy" class="h-7" src="@/assets/svg/course/question.svg" alt="">
                     <p v-if="i.type == 'lesson'" class="min-w-fit">{{ formatDurationFromSeconds(i.duration || 0)
-                        }}</p>
+                    }}</p>
                     <p v-else class="min-w-fit">{{ calculateTotalDuration(index) }}</p>
                     <div class="flex gap-5 min-w-fit">
                         <img v-if="i.type != 'module'" class="h-7 statistics" loading="lazy"
@@ -33,6 +34,10 @@
                         </div>
                         <template #overlay>
                             <a-menu>
+                             <a-menu-item v-if="i.type == 'test'"
+                                    @click="useLessons.store.lesson_id = i.id; isLoading.modal.create = true; isLoading.store.modalType = 'test'">
+                                    <a href="javascript:;">Test qo'shish</a>
+                                </a-menu-item>
                                 <a-menu-item v-if="i.type == 'module'"
                                     @click="useLessons.store.lesson_id = i.id; isLoading.modal.create = true; isLoading.store.modalType = 'lesson'">
                                     <a href="javascript:;">Modul qo'shish</a>
