@@ -98,7 +98,11 @@ function handleClick(e, lesson) {
         store.active_id = store.active_id == lesson.id ? 0 : lesson.id
     } else {
         if (useCourses.store.courses?.course?.payment?.status == 'completed' || isOwner()) {
-            router.push(`/lesson/${lesson.id}`)
+            if (!lesson.content) {
+                router.push(`/test/${lesson.id}`)
+            } else {
+                router.push(`/lesson/${lesson.id}`)
+            }
         } else {
             openNotification('warning', "Kurslarga obuna bo'lmagansiz", "Kursga qo'shilish tugmasini bosing")
         }

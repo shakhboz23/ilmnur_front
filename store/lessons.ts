@@ -117,12 +117,11 @@ export const useLessonsStore = defineStore("lessons", () => {
       "createLesson"
     );
     clearData();
-    if (data.data.type == "lesson") {
-      router.push(`/lesson/${data.data.id}`);
-    } else if (lesson_type == 'test') {
+    if (lesson_type == 'test') {
       router.push(`/test/${data.data.id}`);
-    }
-    else {
+    } else if (data.data.type == "lesson") {
+      router.push(`/lesson/${data.data.id}`);
+    } else {
       isLoading.modal.create = false;
       useCourses.getByCourse();
     }
