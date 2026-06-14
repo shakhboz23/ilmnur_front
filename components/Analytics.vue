@@ -94,9 +94,9 @@ function getTotalInfo(key, type) {
     }
 
     if (prev < current) {
-        return '+' + (prev / current * 100).toFixed(1);
+        return '+' + (prev / current * 100 || 0).toFixed(1);
     } else {
-        return '-' + (current / prev * 100).toFixed(1);
+        return '-' + (current / prev * 100 || 0).toFixed(1);
     }
 }
 </script>

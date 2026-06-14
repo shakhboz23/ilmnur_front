@@ -33,7 +33,7 @@
                     class="bg_main c_white mt-2 py-2 px-5 r_50">Go to
                     groups analytics</button>
             </div>
-            <div v-for="i in useGroups.store.groups?.groups" class="r_12 overflow-hidden bg_white pcursor relative">
+            <div v-for="i in useGroups.store.groups?.my_groups" class="r_12 overflow-hidden bg_white pcursor relative">
                 <a-dropdown v-if="i.user_id == isLoading.user.id">
                     <div class="!bg-white r_8 absolute right-2 top-2 py-1 threedot">
                         <img loading="lazy" class="rotate-90 h-5 threedot" src="@/assets/svg/icon/threedot.svg" alt="">
@@ -52,7 +52,7 @@
                         </a-menu>
                     </template>
                 </a-dropdown>
-                <img loading="lazy" class="aspect-video w-full object-cover" :src="i?.cover" alt="">
+                <img @click="$router.push(`/group/${i.id}`)" loading="lazy" class="aspect-video w-full object-cover" :src="i?.cover" alt="">
                 <ul class="space-y-1 p-2">
                     <li class="flex items-center justify-between gap-1">
                         <span>Views</span>

@@ -394,7 +394,7 @@
           </ul>
         </nav>
         <ClientOnly>
-          <!-- <ul class="flex items-center justify-between lg:max-w-[50vw] mx-auto my-6">
+          <ul class="flex items-center justify-between lg:max-w-[50vw] mx-auto my-6">
             <a-select class="min-w-[200px]" v-if="useTests.test[useTests.store.slideStep - 1]"
               v-model:value="useTests.test[useTests.store.slideStep - 1].type" placeholder="Select a person"
               :options="testType"></a-select>
@@ -420,7 +420,7 @@
                 </template>
               </a-dropdown>
             </div>
-          </ul> -->
+          </ul>
           <swiper @slider-move="changeSlide" :watchSlidesProgress="true" :slidesPerView="1" :spaceBetween="30"
             :pagination="{ clickable: true }" :modules="modules" :noSwiping="true" noSwipingClass="no-swiping"
             class="flex lg:max-w-[50vw] overflow-hidden">
@@ -606,7 +606,7 @@
                     <ClientOnly v-else>
                       <EditorTiptapEditor id="questionEditor" class="w-full min-w-[20vw] bg_cf5 r_8"
                         v-model="useTests.store.true_answers[useTests.store.slideStep]" :toolbar="false"
-                        :placeholder="'Savolingizni shu yerga yozing'" />
+                        :placeholder="'Javobingizni shu yerga yozing'" />
                     </ClientOnly>
                   </section>
                 </swiper-slide>
@@ -987,9 +987,9 @@ const testSettingsType = [{
 
 const testType = [
   { value: "variant", label: "Variantli" },
-  { value: "multiple", label: "Multiple choise" },
+  // { value: "multiple", label: "Multiple choise" },
   { value: "fill", label: "To‘ldiriladigan" },
-  { value: "customizable", label: "Moslashtiriladigan" },
+  // { value: "customizable", label: "Moslashtiriladigan" },
 ];
 
 const useTests = useTestsStore();
