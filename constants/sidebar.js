@@ -88,7 +88,7 @@ export const sidebar = [
   // {
   //   id: 1,
   //   name: "Yangiliklar",
-  //   url: "/",
+  //   url: "/",+998947223933
   //   svg: _news,
   //   // svgActive: dashboardActive,
   //   role: [],

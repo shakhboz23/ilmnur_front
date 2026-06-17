@@ -56,6 +56,9 @@ export default defineNuxtConfig({
           async: true,
           defer: true,
         },
+        {
+          src: 'https://telegram.org/js/telegram-web-app.js'
+        },
       ],
     },
   },

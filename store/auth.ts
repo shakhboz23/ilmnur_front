@@ -80,6 +80,22 @@ export const useAuthStore = defineStore("auth", () => {
   }
 
   function getUserFullInfo(is_check?: string) {
+    const tg = (window as any).Telegram?.WebApp;
+
+    if (tg?.initDataUnsafe?.user) {
+      apiRequest
+        .post(`user/${isLoading.user.id}`, tg.initData)
+        .then((res: any): void => {
+          isLoading.store.middleware = false;
+          isLoading.store.isLogin = true;
+          isLoading.user = res.data;
+          for (let i in res.data) {
+            profile[i] = res.data[i];
+          }
+        })
+        .catch((err: any) => console.log(err))
+      return;
+    }
     if (is_check == 'login') {
       if (isLoading.user.name) return;
     }
@@ -307,7 +323,7 @@ export const useAuthStore = defineStore("auth", () => {
       });
   }
 
-   async function getUsers() {
+  async function getUsers() {
     apiRequest
       .get("user/pagination/1/100", 'users')
       .then((res: any) => {
