@@ -84,7 +84,7 @@ export const useAuthStore = defineStore("auth", () => {
 
     if (tg?.initDataUnsafe?.user) {
       apiRequest
-        .post(`user/${isLoading.user.id}`, tg.initData)
+        .post(`user/telegram_info`, tg.initData)
         .then((res: any): void => {
           isLoading.store.middleware = false;
           isLoading.store.isLogin = true;
