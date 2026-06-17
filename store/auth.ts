@@ -81,8 +81,8 @@ export const useAuthStore = defineStore("auth", () => {
 
   function getUserFullInfo(is_check?: string) {
     const tg = (window as any).Telegram?.WebApp;
-
-    if (tg?.initDataUnsafe?.user) {
+    console.log(tg)
+    if (tg?.initData) {
       apiRequest
         .post(`user/telegram_info`, tg.initData)
         .then((res: any): void => {
