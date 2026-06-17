@@ -6,6 +6,10 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
   const isLoading = useLoadingStore();
   try {
     if (process.client) {
+      const tg = window?.Telegram?.WebApp;
+      if (tg?.initDataUnsafe?.user) {
+        useAuth.getUserFullInfo();
+      }
       console.log(to.name, '2233')
       const token = localStorage.getItem("token") || to.query.token;
       console.log(to.query.token && to.query.token != undefined && to.name == 'login', '2300');
