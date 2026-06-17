@@ -10,7 +10,8 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
       tg.ready();
       console.log(tg);
       console.log(window?.Telegram);
-      if (tg?.initDataUnsafe?.user) {
+      console.log(tg.initData());
+      if (tg?.initData) {
         useAuth.getUserFullInfo();
         return;
       }
