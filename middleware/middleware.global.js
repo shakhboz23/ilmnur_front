@@ -7,6 +7,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
   try {
     if (process.client) {
       const tg = window?.Telegram?.WebApp;
+      tg.ready();
       console.log(tg);
       console.log(window?.Telegram);
       if (tg?.initDataUnsafe?.user) {
