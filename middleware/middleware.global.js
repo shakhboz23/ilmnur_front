@@ -9,6 +9,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
       const tg = window?.Telegram?.WebApp;
       if (tg?.initDataUnsafe?.user) {
         useAuth.getUserFullInfo();
+        return;
       }
       console.log(to.name, '2233')
       const token = localStorage.getItem("token") || to.query.token;
