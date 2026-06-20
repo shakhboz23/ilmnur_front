@@ -82,18 +82,40 @@ export const useAuthStore = defineStore("auth", () => {
   function getUserFullInfo(is_check?: string) {
     const tg = (window as any).Telegram?.WebApp;
     console.log(tg)
+    const hash = window.location.hash;
+
+    // "#tgWebAppData=..." qismini olib tashlaymiz
+    const tgData: any = hash.replace(/^#\/?tgWebAppData=/, '');
+
+
+    // URLSearchParams ishlatamiz
+    const params = new URLSearchParams(tgData);
+    console.log(params);
+
+
+    const query_id = params.get('query_id');
+    console.log(query_id);
+
+
+    console.log(tgData);
     if (tg?.initData) {
       apiRequest
-        .post(`user/telegram_info`, tg.initData)
+        .post(`user/telegram_info`, tgData)
         .then((res: any): void => {
           isLoading.store.middleware = false;
           isLoading.store.isLogin = true;
-          isLoading.user = res.data;
-          for (let i in res.data) {
-            profile[i] = res.data[i];
+          isLoading.user = res.data?.data;
+          localStorage.setItem('token', res.data?.token);
+          for (let i in res.data?.data) {
+            profile[i] = res.data?.data[i];
           }
+          isLoading.removeLoading("getUserFullInfo");
         })
-        .catch((err: any) => console.log(err))
+        .catch((err: any) => {
+          isLoading.store.middleware = false;
+          isLoading.store.isLogin = false;
+          console.log(err)
+        })
       return;
     }
     if (is_check == 'login') {
