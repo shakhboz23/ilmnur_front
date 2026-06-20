@@ -81,26 +81,26 @@ export const useAuthStore = defineStore("auth", () => {
 
   function getUserFullInfo(is_check?: string) {
     const tg = (window as any).Telegram?.WebApp;
-    console.log(tg)
-    const hash = window.location.hash;
+    // console.log(tg)
+    // const hash = window.location.hash;
 
-    // "#tgWebAppData=..." qismini olib tashlaymiz
-    const tgData: any = hash.replace(/^#\/?tgWebAppData=/, '');
-
-
-    // URLSearchParams ishlatamiz
-    const params = new URLSearchParams(tgData);
-    console.log(params);
+    // // "#tgWebAppData=..." qismini olib tashlaymiz
+    // const tgData: any = hash.replace(/^#\/?tgWebAppData=/, '');
 
 
-    const query_id = params.get('query_id');
-    console.log(query_id);
+    // // URLSearchParams ishlatamiz
+    // const params = new URLSearchParams(tgData);
+    // console.log(params);
 
 
-    console.log(tgData);
+    // const query_id = params.get('query_id');
+    // console.log(query_id);
+
+
+    // console.log(tgData);
     if (tg?.initData) {
       apiRequest
-        .post(`user/telegram_info`, tgData)
+        .post(`user/telegram_info`, tg.initData)
         .then((res: any): void => {
           isLoading.store.middleware = false;
           isLoading.store.isLogin = true;
