@@ -18,7 +18,15 @@ export const sidebar = [
     url: "/",
     svg: _lessons,
     // svgActive: dashboardActive,
-    role: ["admin"],
+    role: [],
+  },
+  {
+    id: 1,
+    name: "Kurslar",
+    url: "/courses",
+    svg: _lessons,
+    // svgActive: dashboardActive,
+    role: [],
   },
    {
     id: 1,
@@ -75,7 +83,7 @@ export const sidebar = [
     url: "/my_groups",
     svg: _group,
     // svgActive: dashboardActive,
-    role: [],
+    role: ["admin"],
   },
   // {
   //   id: 1,
@@ -95,7 +103,7 @@ export const sidebar = [
   // },
   {
     id: 1,
-    name: "Sozlamalar",
+    name: "Profil",
     url: "/settings",
     svg: _settings,
     // svgActive: dashboardActive,

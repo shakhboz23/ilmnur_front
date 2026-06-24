@@ -60,7 +60,7 @@ export const useSubscriptionStore = defineStore("subscription", () => {
       "subscriptions/createSubscription",
       {
         user_id: useAuth.user.id,
-        role: useAuth.user.role,
+        role: isLoading.user.role,
         course_ids,
       },
       "subscriptions"

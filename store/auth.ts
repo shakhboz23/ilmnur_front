@@ -104,6 +104,7 @@ export const useAuthStore = defineStore("auth", () => {
         .then((res: any): void => {
           isLoading.store.middleware = false;
           isLoading.store.isLogin = true;
+          
           isLoading.user = res.data?.data;
           localStorage.setItem('token', res.data?.token);
           for (let i in res.data?.data) {
@@ -128,6 +129,7 @@ export const useAuthStore = defineStore("auth", () => {
         if (res.status == 200) {
           isLoading.store.middleware = false;
           isLoading.store.isLogin = true;
+          
           isLoading.user = res.data;
           for (let i in res.data) {
             profile[i] = res.data[i];

@@ -150,8 +150,8 @@
                     <!-- {{ useSubscription.store.course_ids }} -->
                     <div class="col-span-2 space-y-2">
                         <h1 class="font-bold">Role</h1>
-                        {{ useAuth.user.role }}
-                        <a-select class="w-full" v-model:value="useAuth.user.role" show-search
+                        {{ isLoading.user?.role }}
+                        <a-select class="w-full" v-model:value="isLoading.user?.role" show-search
                             placeholder="Select a person" :options="options" :filter-option="filterOption"
                             @focus="handleFocus" @blur="handleBlur" @change="handleChange"></a-select>
                     </div>

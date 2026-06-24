@@ -1,36 +1,27 @@
 <template>
     <div class="sc-bottom-bar">
-        <router-link class="sc-menu-item" :to="i.url" v-for="i in sidebar" :key="i.id">
-            <img loading="lazy" class="w-5 h-5" :src="i.svg" alt="" />
-            <span class="duration-1000 opacity-0 text">{{ i.name }}</span>
-        </router-link>
-        <!-- <router-link to="/" class="sc-menu-item">
-             <IconHome />
-             <span>Asosiy</span>
-        </router-link> -->
-        <!-- <button @click="isLoading.store.drawer = true" to="/my_groups" class="sc-menu-item">
-            <IconPlus />
-        </button>
-        <router-link to="/settings" class="sc-menu-item">
-            <IconProfile />
-             <span>Profile</span>
-        </router-link> -->
-        <!-- <a class="sc-nav-indicator" :style="{ left: menuPosition + 'px' }"></a> -->
+        <template v-for="i in sidebar">
+            <router-link v-if="!i.role?.length || i.role.includes(isLoading.user.role)" class="sc-menu-item" :to="i.url">
+                <img loading="lazy" class="w-5 h-5" :src="i.svg" alt="" />
+                <span class="duration-1000 text">{{ i.name }}</span>
+            </router-link>
+        </template>
     </div>
 </template>
 
 <script setup>
-import { useLoadingStore } from '~/store';
+import { useAuthStore, useLoadingStore } from '~/store';
 import { sidebar } from "@/constants";
 
 const isLoading = useLoadingStore();
+const useAuth = useAuthStore();
 </script>
 
 <style scoped>
 .router-link-active {
     .text {
         opacity: 1 !important;
-        color: #14191f;
+        color: #FF852E;
     }
 }
 
