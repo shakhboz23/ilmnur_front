@@ -34,13 +34,17 @@
 <script setup>
 import { useLoadingStore, useCategoryStore } from '~/store';
 
-defineProps({
+const props = defineProps({
     category: {
         type: Array,
         default: [],
     },
     subcategory_id: Number,
     all: {
+        type: Boolean,
+        default: true,
+    },
+    multiple: {
         type: Boolean,
         default: true,
     }
@@ -66,7 +70,11 @@ function setCategory(subcategory_id) {
     if (isLoading.store.subcategory_id?.includes(subcategory_id?.id)) {
         isLoading.store.subcategory_id?.splice(isLoading.store.subcategory_id.indexOf(subcategory_id.id), 1);
     } else if (subcategory_id?.id) {
-        isLoading.store.subcategory_id?.push(subcategory_id.id)
+        if (props.multiple) {
+            isLoading.store.subcategory_id?.push(subcategory_id.id)
+        } else {
+            isLoading.store.subcategory_id = [subcategory_id?.id]
+        }
     } else {
         return;
     }

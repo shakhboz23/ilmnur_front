@@ -1,190 +1,240 @@
 <template>
-    <main class="flex-1">
+  <main class="flex-1">
+    <!-- ====== DASHBOARD ====== -->
+    <div class="page active" id="page-dashboard">
+      <div class="mb-6">
+        <h2 class="text-xl font-bold">Xush kelibsiz, {{ useAuth.store.analytics?.name }}! 👋</h2>
+        <p class="text-sm text-gray-400 mt-1">Bu hafta 2 ta yangi test sizni kutmoqda.</p>
+      </div>
+      <CategorySlider :all="false" :category="useGroups.store.groups" :multiple="false" class="w-full" />
 
-      <!-- ====== DASHBOARD ====== -->
-      <div class="page active" id="page-dashboard">
-        <div class="mb-6">
-          <h2 class="text-xl font-bold">Xush kelibsiz, {{isLoading.user.name}}! 👋</h2>
-          <p class="text-sm text-gray-400 mt-1">Bu hafta 2 ta yangi test sizni kutmoqda.</p>
+      <!-- KPI -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 my-6">
+        <div class="bg-white rounded-2xl border border-gray-100 p-5 relative overflow-hidden">
+          <div class="w-10 h-10 rounded-xl bg-g-50 flex items-center justify-center mb-3">
+            <svg class="w-5 h-5 text-g-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M4 7h16M4 12h16M4 17h10" />
+            </svg>
+          </div>
+          <p class="text-2xl font-bold">{{ useAuth.store.analytics?.ratingBallStats?.currentBall }}</p>
+          <p class="text-xs text-gray-400 mt-1">Umumiy ball</p>
+          <p v-if="useAuth.store.analytics?.ratingBallStats?.difference"
+            :class="useAuth.store.analytics?.ratingBallStats?.difference > 0 ? 'c_green' : 'c_red'"
+            class="text-xs text-g-600 font-semibold mt-2">↑ {{ useAuth.store.analytics?.ratingBallStats?.difference }}
+            o'rin
+            {{ useAuth.store.analytics?.ratingBallStats?.status }}</p>
+          <p v-else class="text-xs text-g-600 font-semibold mt-2">O'zgarishsiz</p>
         </div>
-
-        <!-- KPI -->
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-          <div class="bg-white rounded-2xl border border-gray-100 p-5 relative overflow-hidden">
-            <div class="w-10 h-10 rounded-xl bg-g-50 flex items-center justify-center mb-3">
-              <svg class="w-5 h-5 text-g-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
-            </div>
-            <p class="text-2xl font-bold">87</p>
-            <p class="text-xs text-gray-400 mt-1">O'rtacha ball</p>
-            <p class="text-xs text-g-600 font-semibold mt-2 flex items-center gap-1">↑ +5 ball bu oy</p>
-            <span class="absolute right-2 -top-1 text-6xl font-bold opacity-5">∑</span>
+        <div class="bg-white rounded-2xl border border-gray-100 p-5 relative overflow-hidden">
+          <div class="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center mb-3">
+            <svg class="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path
+                d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6M18 9h1.5a2.5 2.5 0 0 0 0-5H18M4 22h16M6 9v13M18 9v13M12 5v17M9 5h6" />
+            </svg>
           </div>
-          <div class="bg-white rounded-2xl border border-gray-100 p-5 relative overflow-hidden">
-            <div class="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center mb-3">
-              <svg class="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6M18 9h1.5a2.5 2.5 0 0 0 0-5H18M4 22h16M6 9v13M18 9v13M12 5v17M9 5h6"/></svg>
-            </div>
-            <p class="text-2xl font-bold">#4</p>
-            <p class="text-xs text-gray-400 mt-1">Guruh reytingi</p>
-            <p class="text-xs text-g-600 font-semibold mt-2">↑ 2 o'rin ko'tarildi</p>
-          </div>
-          <div class="bg-white rounded-2xl border border-gray-100 p-5 relative overflow-hidden">
-            <div class="w-10 h-10 rounded-xl bg-g-50 flex items-center justify-center mb-3">
-              <svg class="w-5 h-5 text-g-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M10 14l2 2 4-4"/></svg>
-            </div>
-            <p class="text-2xl font-bold">92%</p>
-            <p class="text-xs text-gray-400 mt-1">Davomat</p>
-            <p class="text-xs text-g-600 font-semibold mt-2">↑ Yaxshi davom eting</p>
-          </div>
-          <div class="bg-white rounded-2xl border border-gray-100 p-5 relative overflow-hidden">
-            <div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center mb-3">
-              <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4"/></svg>
-            </div>
-            <p class="text-2xl font-bold">2</p>
-            <p class="text-xs text-gray-400 mt-1">Yangi testlar</p>
-            <p class="text-xs text-red-500 font-semibold mt-2">⏰ Eng yaqin: 2 kun</p>
-          </div>
+          <p class="text-2xl font-bold">#{{ useAuth.store.analytics?.ratingStats?.currentPosition }}</p>
+          <p class="text-xs text-gray-400 mt-1">Guruh reytingi</p>
+          <p v-if="useAuth.store.analytics?.ratingStats?.difference"
+            :class="useAuth.store.analytics?.ratingStats?.difference > 0 ? 'c_green' : 'c_red'"
+            class="text-xs text-g-600 font-semibold mt-2">↑ {{ useAuth.store.analytics?.ratingStats?.difference }} o'rin
+            {{ useAuth.store.analytics?.ratingStats?.status }}</p>
+          <p v-else class="text-xs text-g-600 font-semibold mt-2">O'zgarishsiz</p>
         </div>
+        <div class="bg-white rounded-2xl border border-gray-100 p-5 relative overflow-hidden">
+          <div class="w-10 h-10 rounded-xl bg-g-50 flex items-center justify-center mb-3">
+            <svg class="w-5 h-5 text-g-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <rect x="3" y="4" width="18" height="18" rx="2" />
+              <path d="M16 2v4M8 2v4M3 10h18M10 14l2 2 4-4" />
+            </svg>
+          </div>
+          <p class="text-2xl font-bold">92%</p>
+          <p class="text-xs text-gray-400 mt-1">Davomat</p>
+          <p class="text-xs text-g-600 font-semibold mt-2">↑ Yaxshi davom eting</p>
+        </div>
+        <div class="bg-white rounded-2xl border border-gray-100 p-5 relative overflow-hidden">
+          <div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center mb-3">
+            <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2" />
+              <rect x="9" y="3" width="6" height="4" rx="1" />
+              <path d="M9 12h6M9 16h4" />
+            </svg>
+          </div>
+          <p class="text-2xl font-bold">
+            {{ useAuth.store.analytics?.subscriptions?.course?.lessons?.reyting?.test_settings?.length }}</p>
+          <p class="text-xs text-gray-400 mt-1">Yangi testlar</p>
+          <p class="text-xs text-red-500 font-semibold mt-2">⏰ Eng yaqin: 2 kun</p>
+        </div>
+      </div>
 
-        <!-- Grid -->
-        <div class="grid grid-cols-1 xl:grid-cols-3 gap-5">
-          <div class="xl:col-span-2 space-y-5">
+      <!-- Grid -->
+      <div class="grid grid-cols-1 xl:grid-cols-3 gap-5">
+        <div class="xl:col-span-2 space-y-5">
 
-            <!-- Haftalik -->
-            <div class="bg-white rounded-2xl border border-gray-100 p-5">
-              <div class="flex items-center justify-between mb-4">
-                <h3 class="text-sm font-bold">Haftalik faollik</h3>
-                <span class="text-xs text-gray-400">Iyun 2026</span>
+          <!-- Haftalik -->
+          <div class="bg-white rounded-2xl border border-gray-100 p-5">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-sm font-bold">Haftalik faollik</h3>
+              <span class="text-xs text-gray-400">Iyun 2026</span>
+            </div>
+            <div class="flex items-end gap-2 h-24">
+              <div class="flex-1 flex flex-col items-center gap-1.5 h-full">
+                <div class="flex-1 w-full bg-g-50 rounded-md overflow-hidden flex items-end">
+                  <div class="w-full bg-g-300 rounded-md" style="height:45%"></div>
+                </div>
+                <span class="text-xs text-gray-400">Du</span>
               </div>
-              <div class="flex items-end gap-2 h-24">
-                <div class="flex-1 flex flex-col items-center gap-1.5 h-full">
-                  <div class="flex-1 w-full bg-g-50 rounded-md overflow-hidden flex items-end"><div class="w-full bg-g-300 rounded-md" style="height:45%"></div></div>
-                  <span class="text-xs text-gray-400">Du</span>
+              <div class="flex-1 flex flex-col items-center gap-1.5 h-full">
+                <div class="flex-1 w-full bg-g-50 rounded-md overflow-hidden flex items-end">
+                  <div class="w-full bg-g-300 rounded-md" style="height:70%"></div>
                 </div>
-                <div class="flex-1 flex flex-col items-center gap-1.5 h-full">
-                  <div class="flex-1 w-full bg-g-50 rounded-md overflow-hidden flex items-end"><div class="w-full bg-g-300 rounded-md" style="height:70%"></div></div>
-                  <span class="text-xs text-gray-400">Se</span>
+                <span class="text-xs text-gray-400">Se</span>
+              </div>
+              <div class="flex-1 flex flex-col items-center gap-1.5 h-full">
+                <div class="flex-1 w-full bg-g-50 rounded-md overflow-hidden flex items-end">
+                  <div class="w-full bg-g-300 rounded-md" style="height:42%"></div>
                 </div>
-                <div class="flex-1 flex flex-col items-center gap-1.5 h-full">
-                  <div class="flex-1 w-full bg-g-50 rounded-md overflow-hidden flex items-end"><div class="w-full bg-g-300 rounded-md" style="height:42%"></div></div>
-                  <span class="text-xs text-gray-400">Ch</span>
+                <span class="text-xs text-gray-400">Ch</span>
+              </div>
+              <div class="flex-1 flex flex-col items-center gap-1.5 h-full">
+                <div class="flex-1 w-full bg-g-50 rounded-md overflow-hidden flex items-end">
+                  <div class="w-full bg-g-300 rounded-md" style="height:88%"></div>
                 </div>
-                <div class="flex-1 flex flex-col items-center gap-1.5 h-full">
-                  <div class="flex-1 w-full bg-g-50 rounded-md overflow-hidden flex items-end"><div class="w-full bg-g-300 rounded-md" style="height:88%"></div></div>
-                  <span class="text-xs text-gray-400">Pa</span>
+                <span class="text-xs text-gray-400">Pa</span>
+              </div>
+              <div class="flex-1 flex flex-col items-center gap-1.5 h-full">
+                <div class="flex-1 w-full bg-g-50 rounded-md overflow-hidden flex items-end">
+                  <div class="w-full bg-g-300 rounded-md" style="height:60%"></div>
                 </div>
-                <div class="flex-1 flex flex-col items-center gap-1.5 h-full">
-                  <div class="flex-1 w-full bg-g-50 rounded-md overflow-hidden flex items-end"><div class="w-full bg-g-300 rounded-md" style="height:60%"></div></div>
-                  <span class="text-xs text-gray-400">Ju</span>
+                <span class="text-xs text-gray-400">Ju</span>
+              </div>
+              <div class="flex-1 flex flex-col items-center gap-1.5 h-full">
+                <div class="flex-1 w-full bg-g-50 rounded-md overflow-hidden flex items-end">
+                  <div class="w-full bg-g-300 rounded-md" style="height:30%"></div>
                 </div>
-                <div class="flex-1 flex flex-col items-center gap-1.5 h-full">
-                  <div class="flex-1 w-full bg-g-50 rounded-md overflow-hidden flex items-end"><div class="w-full bg-g-300 rounded-md" style="height:30%"></div></div>
-                  <span class="text-xs text-gray-400">Sh</span>
+                <span class="text-xs text-gray-400">Sh</span>
+              </div>
+              <div class="flex-1 flex flex-col items-center gap-1.5 h-full">
+                <div class="flex-1 w-full bg-g-50 rounded-md overflow-hidden flex items-end">
+                  <div class="w-full bg-g-600 rounded-md" style="height:94%"></div>
                 </div>
-                <div class="flex-1 flex flex-col items-center gap-1.5 h-full">
-                  <div class="flex-1 w-full bg-g-50 rounded-md overflow-hidden flex items-end"><div class="w-full bg-g-600 rounded-md" style="height:94%"></div></div>
-                  <span class="text-xs text-g-600 font-bold">Ya</span>
-                </div>
+                <span class="text-xs text-g-600 font-bold">Ya</span>
               </div>
             </div>
+          </div>
 
-            <!-- Navbatdagi testlar -->
-            <div class="bg-white rounded-2xl border border-gray-100 p-5">
-              <div class="flex items-center justify-between mb-4">
-                <h3 class="text-sm font-bold">Navbatdagi testlar</h3>
-                <button class="text-xs text-g-600 font-semibold hover:underline" data-page="testlar">Barchasi →</button>
-              </div>
-              <div class="flex items-center gap-3 p-3 rounded-xl border border-g-100 bg-g-50/50 mb-3">
+          <!-- Navbatdagi testlar -->
+          <div class="bg-white rounded-2xl border border-gray-100 p-5">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-sm font-bold">Navbatdagi testlar</h3>
+              <!-- <button class="text-xs text-g-600 font-semibold hover:underline" data-page="testlar">Barchasi →</button> -->
+              <router-link :to="`/group/${JSON.parse(route.query?.subcategory_id || '[0]')?.[0]}`"
+                class="text-xs text-g-600 font-semibold hover:underline">Barchasi →</router-link>
+            </div>
+            <template
+              v-if="(useAuth.store.analytics?.subscriptions?.map(item => item?.course?.lessons)?.flat() || [])?.length">
+              <div
+                v-for="test in (useAuth.store.analytics?.subscriptions?.map(item => item?.course?.lessons)?.flat() || [])"
+                :key="test.id" class="flex items-center gap-3 p-3 rounded-xl border border-g-100 bg-g-50/50 mb-3">
                 <div class="w-10 h-10 rounded-lg bg-g-50 flex items-center justify-center flex-shrink-0">
-                  <svg class="w-5 h-5 text-g-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9.5 14.5 11 16l3.5-3.5"/></svg>
+                  <svg class="w-5 h-5 text-g-600" fill="none" stroke="currentColor" stroke-width="2"
+                    viewBox="0 0 24 24">
+                    <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2" />
+                    <rect x="9" y="3" width="6" height="4" rx="1" />
+                    <path d="M9.5 14.5 11 16l3.5-3.5" />
+                  </svg>
                 </div>
                 <div class="flex-1">
                   <p class="text-sm font-semibold">Kvadrat tenglamalar</p>
-                  <p class="text-xs text-gray-400">Algebra-9A · 15 savol · 30 daqiqa</p>
+                  <p class="text-xs text-gray-400">{{ test.title }} · 15 savol · 30 daqiqa</p>
                 </div>
                 <span class="text-xs font-bold bg-amber-100 text-amber-700 px-2.5 py-1 rounded-full">2 kun</span>
               </div>
-              <div class="flex items-center gap-3 p-3 rounded-xl border border-gray-100">
-                <div class="w-10 h-10 rounded-lg bg-purple-50 flex items-center justify-center flex-shrink-0">
-                  <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="12 2 22 20 2 20"/></svg>
-                </div>
-                <div class="flex-1">
-                  <p class="text-sm font-semibold">Uchburchaklar xossalari</p>
-                  <p class="text-xs text-gray-400">Geometriya-9B · 12 savol · 25 daqiqa</p>
-                </div>
-                <span class="text-xs font-bold bg-g-50 text-g-600 px-2.5 py-1 rounded-full">5 kun</span>
+            </template>
+            <div v-else class="full_flex py-20">
+              Ma'lumotlar topilmadi
+            </div>
+          </div>
+        </div>
+
+        <!-- Right col -->
+        <div class="space-y-5">
+          <!-- Mini reyting -->
+          <div class="bg-white rounded-2xl border border-gray-100 p-5">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-sm font-bold">Guruh reytingi</h3>
+              <router-link :to="`/group/${JSON.parse(route.query?.subcategory_id || '[0]')?.[0]}?page=reyting`"
+                class="text-xs text-g-600 font-semibold hover:underline">Barchasi →</router-link>
+            </div>
+            <div v-if="useAuth.store.analytics?.rankings?.length" class="space-y-1">
+              <div v-for="user in useAuth.store.analytics?.rankings"
+                class="flex items-center gap-2.5 py-2 border-b border-gray-50">
+                <span class="text-xs text-gray-400 w-4 text-center font-semibold">{{ user.position }}</span>
+                <UIAvatar class="w-10 h-10 max-w-[40px] max-h-[40px]" :src="user?.user?.image" />
+                <!-- <div
+                  class="w-7 h-7 rounded-full bg-amber-50 border border-amber-200 flex items-center justify-center text-xs font-bold text-amber-700">
+                  {{ user?.user?.name?.[0] }}{{ user?.user?.surname?.[0] }}
+                </div> -->
+                <span class="text-sm flex-1">{{ user?.user?.name }} {{ user?.user?.surname }}</span>
+                <span class="text-sm font-bold">{{ user?.ball }}</span>
               </div>
+            </div>
+            <div v-else class="full_flex py-20">
+              Ma'lumotlar topilmadi
             </div>
           </div>
 
-          <!-- Right col -->
-          <div class="space-y-5">
-            <!-- Mini reyting -->
-            <div class="bg-white rounded-2xl border border-gray-100 p-5">
-              <div class="flex items-center justify-between mb-4">
-                <h3 class="text-sm font-bold">Guruh reytingi</h3>
-                <button class="text-xs text-g-600 font-semibold hover:underline" data-page="reyting">Barchasi →</button>
-              </div>
-              <div class="space-y-1">
-                <div class="flex items-center gap-2.5 py-2 border-b border-gray-50">
-                  <span class="text-xs text-gray-400 w-4 text-center font-semibold">1</span>
-                  <div class="w-7 h-7 rounded-full bg-amber-50 border border-amber-200 flex items-center justify-center text-xs font-bold text-amber-700">BT</div>
-                  <span class="text-sm flex-1">Bekzod T.</span>
-                  <span class="text-sm font-bold">98</span>
-                </div>
-                <div class="flex items-center gap-2.5 py-2 border-b border-gray-50">
-                  <span class="text-xs text-gray-400 w-4 text-center font-semibold">2</span>
-                  <div class="w-7 h-7 rounded-full bg-g-50 flex items-center justify-center text-xs font-bold text-g-600">NM</div>
-                  <span class="text-sm flex-1">Nodira M.</span>
-                  <span class="text-sm font-bold">95</span>
-                </div>
-                <div class="flex items-center gap-2.5 py-2 border-b border-gray-50">
-                  <span class="text-xs text-gray-400 w-4 text-center font-semibold">3</span>
-                  <div class="w-7 h-7 rounded-full bg-g-50 flex items-center justify-center text-xs font-bold text-g-600">SR</div>
-                  <span class="text-sm flex-1">Sevara R.</span>
-                  <span class="text-sm font-bold">91</span>
-                </div>
-                <div class="flex items-center gap-2.5 py-2 bg-g-50/60 rounded-lg px-2 -mx-2">
-                  <span class="text-xs text-g-600 w-4 text-center font-bold">5</span>
-                  <div class="w-7 h-7 rounded-full bg-g-100 flex items-center justify-center text-xs font-bold text-g-600">Siz</div>
-                  <span class="text-sm flex-1 font-bold text-g-600">Siz</span>
-                  <span class="text-sm font-bold text-g-600">85</span>
-                </div>
-              </div>
+          <!-- Davomat mini -->
+          <div class="bg-white rounded-2xl border border-gray-100 p-5">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-sm font-bold">Davomat — iyun</h3>
+              <button class="text-xs text-g-600 font-semibold hover:underline" data-page="davomat">Batafsil →</button>
             </div>
-
-            <!-- Davomat mini -->
-            <div class="bg-white rounded-2xl border border-gray-100 p-5">
-              <div class="flex items-center justify-between mb-4">
-                <h3 class="text-sm font-bold">Davomat — iyun</h3>
-                <button class="text-xs text-g-600 font-semibold hover:underline" data-page="davomat">Batafsil →</button>
-              </div>
-              <div class="flex flex-wrap gap-1.5">
-                <div class="w-7 h-7 rounded-md bg-g-50 text-g-800 flex items-center justify-center text-xs font-semibold">1</div>
-                <div class="w-7 h-7 rounded-md bg-g-50 text-g-800 flex items-center justify-center text-xs font-semibold">2</div>
-                <div class="w-7 h-7 rounded-md bg-g-50 text-g-800 flex items-center justify-center text-xs font-semibold">3</div>
-                <div class="w-7 h-7 rounded-md bg-g-50 text-g-800 flex items-center justify-center text-xs font-semibold">4</div>
-                <div class="w-7 h-7 rounded-md bg-amber-50 text-amber-700 flex items-center justify-center text-xs font-semibold">5</div>
-                <div class="w-7 h-7 rounded-md bg-g-50 text-g-800 flex items-center justify-center text-xs font-semibold">6</div>
-                <div class="w-7 h-7 rounded-md bg-g-50 text-g-800 flex items-center justify-center text-xs font-semibold">7</div>
-                <div class="w-7 h-7 rounded-md bg-g-50 text-g-800 flex items-center justify-center text-xs font-semibold">8</div>
-                <div class="w-7 h-7 rounded-md bg-red-50 text-red-600 flex items-center justify-center text-xs font-semibold">9</div>
-                <div class="w-7 h-7 rounded-md bg-g-50 text-g-800 flex items-center justify-center text-xs font-semibold">10</div>
-                <div class="w-7 h-7 rounded-md bg-g-50 text-g-800 flex items-center justify-center text-xs font-semibold">11</div>
-                <div class="w-7 h-7 rounded-md bg-g-50 text-g-800 flex items-center justify-center text-xs font-semibold">12</div>
-                <div class="w-7 h-7 rounded-md border-2 border-g-400 text-g-600 flex items-center justify-center text-xs font-bold">13</div>
-              </div>
-              <div class="flex gap-4 mt-3 flex-wrap">
-                <span class="flex items-center gap-1.5 text-xs text-gray-400"><span class="w-2 h-2 rounded-sm bg-g-400"></span>Keldi — 11</span>
-                <span class="flex items-center gap-1.5 text-xs text-gray-400"><span class="w-2 h-2 rounded-sm bg-amber-400"></span>Kechikdi — 1</span>
-                <span class="flex items-center gap-1.5 text-xs text-gray-400"><span class="w-2 h-2 rounded-sm bg-red-400"></span>Kelmadi — 1</span>
-              </div>
+            <div class="flex flex-wrap gap-1.5">
+              <div class="w-7 h-7 rounded-md bg-g-50 text-g-800 flex items-center justify-center text-xs font-semibold">
+                1</div>
+              <div class="w-7 h-7 rounded-md bg-g-50 text-g-800 flex items-center justify-center text-xs font-semibold">
+                2</div>
+              <div class="w-7 h-7 rounded-md bg-g-50 text-g-800 flex items-center justify-center text-xs font-semibold">
+                3</div>
+              <div class="w-7 h-7 rounded-md bg-g-50 text-g-800 flex items-center justify-center text-xs font-semibold">
+                4</div>
+              <div
+                class="w-7 h-7 rounded-md bg-amber-50 text-amber-700 flex items-center justify-center text-xs font-semibold">
+                5</div>
+              <div class="w-7 h-7 rounded-md bg-g-50 text-g-800 flex items-center justify-center text-xs font-semibold">
+                6</div>
+              <div class="w-7 h-7 rounded-md bg-g-50 text-g-800 flex items-center justify-center text-xs font-semibold">
+                7</div>
+              <div class="w-7 h-7 rounded-md bg-g-50 text-g-800 flex items-center justify-center text-xs font-semibold">
+                8</div>
+              <div
+                class="w-7 h-7 rounded-md bg-red-50 text-red-600 flex items-center justify-center text-xs font-semibold">
+                9</div>
+              <div class="w-7 h-7 rounded-md bg-g-50 text-g-800 flex items-center justify-center text-xs font-semibold">
+                10</div>
+              <div class="w-7 h-7 rounded-md bg-g-50 text-g-800 flex items-center justify-center text-xs font-semibold">
+                11</div>
+              <div class="w-7 h-7 rounded-md bg-g-50 text-g-800 flex items-center justify-center text-xs font-semibold">
+                12</div>
+              <div
+                class="w-7 h-7 rounded-md border-2 border-g-400 text-g-600 flex items-center justify-center text-xs font-bold">
+                13</div>
+            </div>
+            <div class="flex gap-4 mt-3 flex-wrap">
+              <span class="flex items-center gap-1.5 text-xs text-gray-400"><span
+                  class="w-2 h-2 rounded-sm bg-g-400"></span>Keldi — 11</span>
+              <span class="flex items-center gap-1.5 text-xs text-gray-400"><span
+                  class="w-2 h-2 rounded-sm bg-amber-400"></span>Kechikdi — 1</span>
+              <span class="flex items-center gap-1.5 text-xs text-gray-400"><span
+                  class="w-2 h-2 rounded-sm bg-red-400"></span>Kelmadi — 1</span>
             </div>
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- ====== GURUHLAR ====== -->
-      <!-- <div class="page" id="page-guruhlar">
+    <!-- ====== GURUHLAR ====== -->
+    <!-- <div class="page" id="page-guruhlar">
         <div class="mb-6"><h2 class="text-xl font-bold">Guruhlar</h2><p class="text-sm text-gray-400 mt-1">Siz a'zo bo'lgan barcha guruhlar</p></div>
         <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
           <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-md transition-shadow">
@@ -238,8 +288,8 @@
         </div>
       </div> -->
 
-      <!-- ====== TESTLAR ====== -->
-      <!-- <div class="page" id="page-testlar">
+    <!-- ====== TESTLAR ====== -->
+    <!-- <div class="page" id="page-testlar">
         <div class="mb-6"><h2 class="text-xl font-bold">Testlar</h2><p class="text-sm text-gray-400 mt-1">Joriy va tugagan testlar</p></div>
         <div class="flex gap-2 mb-5">
           <button class="ftab active px-4 py-2 rounded-lg text-sm font-semibold border transition-all">Barchasi</button>
@@ -296,8 +346,8 @@
         </div>
       </div> -->
 
-      <!-- ====== REYTING ====== -->
-      <!-- <div class="page" id="page-reyting">
+    <!-- ====== REYTING ====== -->
+    <!-- <div class="page" id="page-reyting">
         <div class="mb-6"><h2 class="text-xl font-bold">Reyting</h2><p class="text-sm text-gray-400 mt-1">Guruh bo'yicha — Iyun 2026</p></div>
         <div class="grid grid-cols-1 xl:grid-cols-3 gap-5">
           <div class="xl:col-span-2">
@@ -401,8 +451,8 @@
         </div>
       </div> -->
 
-      <!-- ====== DAVOMAT ====== -->
-      <!-- <div class="page" id="page-davomat">
+    <!-- ====== DAVOMAT ====== -->
+    <!-- <div class="page" id="page-davomat">
         <div class="mb-6"><h2 class="text-xl font-bold">Davomat</h2><p class="text-sm text-gray-400 mt-1">Iyun 2026 — barcha guruhlar bo'yicha</p></div>
         <div class="grid grid-cols-1 xl:grid-cols-3 gap-5">
           <div class="xl:col-span-2 bg-white rounded-2xl border border-gray-100 p-5">
@@ -510,14 +560,23 @@
         </div>
       </div> -->
 
-    </main>
+  </main>
 </template>
 
 <script setup>
-import { useAuthStore, useLoadingStore } from '~/store';
+import { useAuthStore, useGroupsStore, useLoadingStore } from '~/store';
 
 const isLoading = useLoadingStore();
 const useAuth = useAuthStore();
+const useGroups = useGroupsStore();
+const route = useRoute();
+const router = useRouter();
+onMounted(async () => {
+  await useGroups.getSubscribedGroups();
+  const subcategory_id = route.querysubcategory_id?.[0] ?? useGroups.store.groups?.[0]?.id;
+  useAuth.getUserAnalytics(subcategory_id);
+  router.push({ name: 'index', query: { subcategory_id: JSON.stringify([subcategory_id]) } })
+})
 </script>
 
 <style lang="scss" scoped></style>

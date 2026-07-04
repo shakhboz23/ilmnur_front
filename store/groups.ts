@@ -41,6 +41,14 @@ export const useGroupsStore = defineStore("groups", () => {
     store.groups = data.data;
   }
 
+  async function getSubscribedGroups() {
+    const data: any = await apiRequest.get(`group/subscribed-groups`, "groups");
+    if (data.status == 400) {
+      return store.groups = [];
+    }
+    store.groups = data.data;
+  }
+
   async function getGroupById() {
     const data: any = await apiRequest.get(`group/getById/${router.currentRoute.value.params.group_id}`, "groups");
     store.group = data.data;
@@ -105,5 +113,6 @@ export const useGroupsStore = defineStore("groups", () => {
     updateGroup,
     clearData,
     getAllAnalytics,
+    getSubscribedGroups,
   };
 });
