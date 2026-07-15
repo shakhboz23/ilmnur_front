@@ -4,6 +4,8 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
   const router = useRouter();
   const useAuth = useAuthStore();
   const isLoading = useLoadingStore();
+  console.log('go');
+  
   try {
     if (process.client) {
       const tg = window?.Telegram?.WebApp;

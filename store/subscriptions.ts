@@ -71,13 +71,13 @@ export const useSubscriptionStore = defineStore("subscription", () => {
   }
 
 
-  async function changeSubscriptionStatus(status: string) {
+  async function changeSubscriptionStatus(status: string, course_id: number) {
     const data: any = await apiRequest.post(
       "subscription_activity/create",
       {
         subscription_id: store.subscription_id,
         status,
-        course_id: isLoading.store.category_id,
+        course_id,
         date: store.currentDate,
       }
     );

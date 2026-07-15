@@ -82,7 +82,7 @@ export const useAuthStore = defineStore("auth", () => {
 
   function getUserFullInfo(is_check?: string) {
     const tg = (window as any).Telegram?.WebApp;
-    if (tg?.initData) {
+    if (tg?.initData && !isLoading.user?.name) {
       apiRequest
         .post(`user/telegram_info`, tg.initData)
         .then((res: any): void => {
@@ -107,44 +107,45 @@ export const useAuthStore = defineStore("auth", () => {
       if (isLoading.user.name) return;
     }
     isLoading.addLoading("getUserFullInfo");
-    apiRequest
-      .get(`user/${isLoading.user.id}`)
-      .then((res: any): void => {
-        if (res.status == 200) {
-          isLoading.store.middleware = false;
-          isLoading.store.isLogin = true;
+    if (!isLoading.user?.name)
+      apiRequest
+        .get(`user/${isLoading.user.id}`)
+        .then((res: any): void => {
+          if (res.status == 200) {
+            isLoading.store.middleware = false;
+            isLoading.store.isLogin = true;
 
-          isLoading.user = res.data;
-          for (let i in res.data) {
-            profile[i] = res.data[i];
+            isLoading.user = res.data;
+            for (let i in res.data) {
+              profile[i] = res.data[i];
+            }
+            //   isLoading.store.socket = io("http://localhost:4000", {
+            //     reconnectionDelayMax: 10000000, // Maximum delay between reconnection attempts (milliseconds)
+            //     reconnectionAttempts: 5,
+            //     query: {
+            //       id: isLoading.user?.data.id,
+            //     },
+            //   });
+            //   isLoading.user.current_role_step = 0;
+            //   isLoading.middleware.loading = false;
+            //   for (let i of isLoading.user?.data.role) {
+            //     isLoading.user.current_role_step += 1;
+            //     if (i.role == isLoading.user?.data.current_role) {
+            //       isLoading.user.current_role_data = i;
+            //       break;
+            //     }
+            //   }
+          } else {
+            isLoading.store.isLogin = false;
+            isLoading.store.middleware = false;
           }
-          //   isLoading.store.socket = io("http://localhost:4000", {
-          //     reconnectionDelayMax: 10000000, // Maximum delay between reconnection attempts (milliseconds)
-          //     reconnectionAttempts: 5,
-          //     query: {
-          //       id: isLoading.user?.data.id,
-          //     },
-          //   });
-          //   isLoading.user.current_role_step = 0;
-          //   isLoading.middleware.loading = false;
-          //   for (let i of isLoading.user?.data.role) {
-          //     isLoading.user.current_role_step += 1;
-          //     if (i.role == isLoading.user?.data.current_role) {
-          //       isLoading.user.current_role_data = i;
-          //       break;
-          //     }
-          //   }
-        } else {
-          isLoading.store.isLogin = false;
+          isLoading.removeLoading("getUserFullInfo");
+        })
+        .catch((err: any) => {
           isLoading.store.middleware = false;
-        }
-        isLoading.removeLoading("getUserFullInfo");
-      })
-      .catch((err: any) => {
-        isLoading.store.middleware = false;
-        isLoading.store.isLogin = false;
-        console.log(err);
-      });
+          isLoading.store.isLogin = false;
+          console.log(err);
+        });
   }
 
   function getUserAnalytics(group_id: number) {

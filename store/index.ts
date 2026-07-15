@@ -13,6 +13,7 @@ import { useWatchedStore } from './watched';
 import { useLikesStore } from './likes';
 import { useCommentsStore } from './comment';
 import { useStripeStore } from './stripe';
+import { useAttendanceStore } from './attendance';
 
 export {
     useLoadingStore,
@@ -30,4 +31,5 @@ export {
     useLikesStore,
     useCommentsStore,
     useStripeStore,
+    useAttendanceStore,
 }
