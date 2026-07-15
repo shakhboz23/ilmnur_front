@@ -36,7 +36,7 @@ export const group_tabs = [
   },
   {
     id: 6,
-    name: "Faollik",
+    name: "Davomat",
     url: "activity",
     component: "PageGroupActivityMain",
     role: [],

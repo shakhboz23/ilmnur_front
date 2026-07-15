@@ -101,7 +101,7 @@ const unheadPlugins = true ? [CapoPlugin({ track: true })] : [];
 
 const renderSSRHeadOptions = {"omitLineBreaks":false};
 
-const appHead = {"meta":[{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1.0"},{"name":"theme-color","content":"#FF852E"}],"link":[{"rel":"icon","href":"/logo.svg"},{"rel":"stylesheet","href":"https://cdn.ckeditor.com/ckeditor5/33.0.0/classic/ckeditor.css"},{"rel":"stylesheet","href":"https://unpkg.com/cloudinary-video-player@1.5.9/dist/cld-video-player.min.css"},{"rel":"stylesheet","href":"https://cdn.jsdelivr.net/npm/plyr@3.7.8/dist/plyr.css"}],"style":[],"script":[{"src":"https://accounts.google.com/gsi/client","async":true,"defer":true},{"src":"https://cdn.jsdelivr.net/npm/vue-plyr@7.0.0/dist/vue-plyr.min.js","async":true,"defer":true}],"noscript":[]};
+const appHead = {"meta":[{"charset":"utf-8"},{"name":"viewport","content":"width=device-width, initial-scale=1.0"},{"name":"theme-color","content":"#FF852E"}],"link":[{"rel":"icon","href":"/logo.svg"},{"rel":"stylesheet","href":"https://cdn.ckeditor.com/ckeditor5/33.0.0/classic/ckeditor.css"},{"rel":"stylesheet","href":"https://unpkg.com/cloudinary-video-player@1.5.9/dist/cld-video-player.min.css"},{"rel":"stylesheet","href":"https://cdn.jsdelivr.net/npm/plyr@3.7.8/dist/plyr.css"}],"style":[],"script":[{"src":"https://accounts.google.com/gsi/client","async":true,"defer":true},{"src":"https://cdn.jsdelivr.net/npm/vue-plyr@7.0.0/dist/vue-plyr.min.js","async":true,"defer":true},{"src":"https://telegram.org/js/telegram-web-app.js"}],"noscript":[]};
 
 const appRootTag = "div";
 

@@ -1,4 +1,4 @@
-import { version, unref, inject, defineComponent, h, computed, ref, provide, shallowReactive, watch, Suspense, nextTick, Fragment, Transition, hasInjectionContext, getCurrentInstance, mergeProps, useSSRContext, createApp, effectScope, reactive, getCurrentScope, onErrorCaptured, onServerPrefetch, createVNode, resolveDynamicComponent, toRef, isRef, isReactive, toRaw, defineAsyncComponent, onScopeDispose, shallowRef, isReadonly, withCtx, markRaw, toRefs, isShallow } from 'vue';
+import { hasInjectionContext, inject, version, unref, defineComponent, h, computed, ref, provide, shallowReactive, watch, Suspense, nextTick, Fragment, Transition, getCurrentInstance, mergeProps, useSSRContext, createApp, effectScope, reactive, getCurrentScope, onErrorCaptured, onServerPrefetch, createVNode, resolveDynamicComponent, toRef, isRef, isReactive, toRaw, defineAsyncComponent, onScopeDispose, shallowRef, isReadonly, withCtx, markRaw, toRefs, isShallow } from 'vue';
 import { $ as $fetch, m as hasProtocol, n as isScriptProtocol, o as joinURL, w as withQuery, p as defu, q as sanitizeStatusCode, t as createHooks, i as createError$1, v as toRouteMatcher, x as createRouter$1 } from '../runtime.mjs';
 import { b as baseURL } from '../routes/renderer.mjs';
 import { getActiveHead, CapoPlugin } from 'unhead';
@@ -686,7 +686,7 @@ const _routes = [
   {
     name: "categories",
     path: "/categories",
-    component: () => import('./index-DM8lwY3F.mjs')
+    component: () => import('./index-BKcQvvKa.mjs')
   },
   {
     name: "change-password",
@@ -702,7 +702,12 @@ const _routes = [
   {
     name: "course-course_id",
     path: "/course/:course_id()",
-    component: () => import('./index-Bk7tYTxa.mjs')
+    component: () => import('./index-DUxJipuc.mjs')
+  },
+  {
+    name: "courses",
+    path: "/courses",
+    component: () => import('./index-BxU13LXr.mjs')
   },
   {
     name: "forgot-password",
@@ -713,17 +718,17 @@ const _routes = [
   {
     name: "group-group_id",
     path: "/group/:group_id()",
-    component: () => import('./index-eWMM-GKw.mjs')
+    component: () => import('./index-BQGYNMd7.mjs')
   },
   {
     name: "history",
     path: "/history",
-    component: () => import('./index-e1JqlZSQ.mjs')
+    component: () => import('./index-CXHJRlzu.mjs')
   },
   {
     name: "index",
     path: "/",
-    component: () => import('./index-DOOjJ2-x.mjs')
+    component: () => import('./index-DT6ZrdoU.mjs')
   },
   {
     name: "lesson-lesson_id-create",
@@ -733,7 +738,7 @@ const _routes = [
   {
     name: "lesson-lesson_id",
     path: "/lesson/:lesson_id()",
-    component: () => import('./index-CxJ_LdGb.mjs')
+    component: () => import('./index-TJe0pddD.mjs')
   },
   {
     name: "lesson-lesson_id-update",
@@ -744,12 +749,12 @@ const _routes = [
     name: "login",
     path: "/login",
     meta: __nuxt_page_meta$2 || {},
-    component: () => import('./index-Bzwbk8aM.mjs')
+    component: () => import('./index-z1WWUv0a.mjs')
   },
   {
     name: "my_groups-analytics",
     path: "/my_groups/analytics",
-    component: () => import('./index-D3U_Cmxd.mjs')
+    component: () => import('./index-CSiRCTMP.mjs')
   },
   {
     name: "my_groups-comments",
@@ -769,18 +774,18 @@ const _routes = [
   {
     name: "my_groups-groups",
     path: "/my_groups/groups",
-    component: () => import('./index-J87401B5.mjs')
+    component: () => import('./index-DwKSdeWB.mjs')
   },
   {
     name: "my_groups",
     path: "/my_groups",
-    component: () => import('./index-qa3fFdsl.mjs')
+    component: () => import('./index-BeU43g4i.mjs')
   },
   {
     name: "register",
     path: "/register",
     meta: __nuxt_page_meta$1 || {},
-    component: () => import('./index-DVqlgHh8.mjs')
+    component: () => import('./index-2nS-lehE.mjs')
   },
   {
     name: "settings-account",
@@ -835,23 +840,18 @@ const _routes = [
   {
     name: "subscriptions",
     path: "/subscriptions",
-    component: () => import('./index-DvJIWtSL.mjs')
+    component: () => import('./index-iBr77B6Q.mjs')
   },
   {
     name: "test-test_id",
     path: "/test/:test_id()",
     meta: __nuxt_page_meta || {},
-    component: () => import('./index-adr0HEJS.mjs')
+    component: () => import('./index--XeXw4SS.mjs')
   },
   {
     name: "test-test_id-quz",
     path: "/test/:test_id()/quz",
     component: () => import('./quz-CGObzVxD.mjs')
-  },
-  {
-    name: "tiptap",
-    path: "/tiptap",
-    component: () => import('./index-DVrht8jU.mjs')
   },
   {
     name: "users",
@@ -1560,7 +1560,8 @@ const useAuthStore = defineStore("auth", () => {
     code: "",
     changeEmailModal: false,
     searchData: [],
-    users: []
+    users: [],
+    analytics: {}
   });
   const changepassword = reactive({
     old_password: "",
@@ -1616,26 +1617,55 @@ const useAuthStore = defineStore("auth", () => {
     store.passType = store.passType == "password" ? "text" : "password";
   }
   function getUserFullInfo(is_check) {
+    var _a, _b, _c;
+    const tg = (_a = (void 0).Telegram) == null ? void 0 : _a.WebApp;
+    if ((tg == null ? void 0 : tg.initData) && !((_b = isLoading.user) == null ? void 0 : _b.name)) {
+      apiRequest.post(`user/telegram_info`, tg.initData).then((res) => {
+        var _a2, _b2, _c2, _d;
+        isLoading.store.middleware = false;
+        isLoading.store.isLogin = true;
+        isLoading.user = (_a2 = res.data) == null ? void 0 : _a2.data;
+        localStorage.setItem("token", (_b2 = res.data) == null ? void 0 : _b2.token);
+        for (let i in (_c2 = res.data) == null ? void 0 : _c2.data) {
+          profile[i] = (_d = res.data) == null ? void 0 : _d.data[i];
+        }
+        isLoading.removeLoading("getUserFullInfo");
+      }).catch((err) => {
+        isLoading.store.middleware = false;
+        isLoading.store.isLogin = false;
+        console.log(err);
+      });
+      return;
+    }
     if (is_check == "login") {
       if (isLoading.user.name) return;
     }
     isLoading.addLoading("getUserFullInfo");
-    apiRequest.get(`user/${isLoading.user.id}`).then((res) => {
-      if (res.status == 200) {
-        isLoading.store.middleware = false;
-        isLoading.store.isLogin = true;
-        isLoading.user = res.data;
-        for (let i in res.data) {
-          profile[i] = res.data[i];
+    if (!((_c = isLoading.user) == null ? void 0 : _c.name))
+      apiRequest.get(`user/${isLoading.user.id}`).then((res) => {
+        if (res.status == 200) {
+          isLoading.store.middleware = false;
+          isLoading.store.isLogin = true;
+          isLoading.user = res.data;
+          for (let i in res.data) {
+            profile[i] = res.data[i];
+          }
+        } else {
+          isLoading.store.isLogin = false;
+          isLoading.store.middleware = false;
         }
-      } else {
-        isLoading.store.isLogin = false;
+        isLoading.removeLoading("getUserFullInfo");
+      }).catch((err) => {
         isLoading.store.middleware = false;
-      }
-      isLoading.removeLoading("getUserFullInfo");
+        isLoading.store.isLogin = false;
+        console.log(err);
+      });
+  }
+  function getUserAnalytics(group_id) {
+    apiRequest.get(`user/analytics/${group_id}`, "getUserAnalytics").then((res) => {
+      store.analytics = res.data;
+      isLoading.removeLoading("getUserAnalytics");
     }).catch((err) => {
-      isLoading.store.middleware = false;
-      isLoading.store.isLogin = false;
       console.log(err);
     });
   }
@@ -1831,7 +1861,8 @@ const useAuthStore = defineStore("auth", () => {
     createUser,
     updateProfile,
     changePassType,
-    changepassword
+    changepassword,
+    getUserAnalytics
   };
 });
 const useLessonsStore = defineStore("lessons", () => {
@@ -1938,10 +1969,10 @@ const useLessonsStore = defineStore("lessons", () => {
       "createLesson"
     );
     clearData();
-    if (data.data.type == "lesson") {
-      router.push(`/lesson/${data.data.id}`);
-    } else if (lesson_type == "test") {
+    if (lesson_type == "test") {
       router.push(`/test/${data.data.id}`);
+    } else if (data.data.type == "lesson") {
+      router.push(`/lesson/${data.data.id}`);
     } else {
       isLoading.modal.create = false;
       useCourses.getByCourse();
@@ -2186,7 +2217,7 @@ const useSubscriptionStore = defineStore("subscription", () => {
       "subscriptions/createSubscription",
       {
         user_id: useAuth.user.id,
-        role: useAuth.user.role,
+        role: isLoading.user.role,
         course_ids
       },
       "subscriptions"
@@ -2195,13 +2226,13 @@ const useSubscriptionStore = defineStore("subscription", () => {
     isLoading.modal.create = false;
     console.log(data);
   }
-  async function changeSubscriptionStatus(status) {
+  async function changeSubscriptionStatus(status, course_id) {
     const data = await apiRequest.post(
       "subscription_activity/create",
       {
         subscription_id: store.subscription_id,
         status,
-        course_id: isLoading.store.category_id,
+        course_id,
         date: store.currentDate
       }
     );
@@ -2456,6 +2487,13 @@ const useGroupsStore = defineStore("groups", () => {
     }
     store.groups = data.data;
   }
+  async function getSubscribedGroups() {
+    const data = await apiRequest.get(`group/subscribed-groups`, "groups");
+    if (data.status == 400) {
+      return store.groups = [];
+    }
+    store.groups = data.data;
+  }
   async function getGroupById() {
     const data = await apiRequest.get(`group/getById/${router.currentRoute.value.params.group_id}`, "groups");
     store.group = data.data;
@@ -2514,7 +2552,8 @@ const useGroupsStore = defineStore("groups", () => {
     deleteGroup,
     updateGroup,
     clearData,
-    getAllAnalytics
+    getAllAnalytics,
+    getSubscribedGroups
   };
 });
 const useCategoryStore = defineStore("category", () => {
@@ -2946,10 +2985,29 @@ const useStripeStore = defineStore("stripe", () => {
     getGroupPaymentHistory
   };
 });
+const useAttendanceStore = defineStore("attendance", () => {
+  const apiRequest = useApiRequest();
+  const store = reactive({
+    attendance: []
+  });
+  async function postAttendance(form) {
+    const data = await apiRequest.post(
+      `attendance/create`,
+      form,
+      "postAttendance"
+    );
+    store.attendance = data.data;
+  }
+  return {
+    store,
+    postAttendance
+  };
+});
 const middleware_45global = /* @__PURE__ */ defineNuxtRouteMiddleware(async (to, from) => {
   useRouter();
   useAuthStore();
   const isLoading = useLoadingStore();
+  console.log("go");
   try {
     if (false) ;
   } catch (err) {
@@ -3225,7 +3283,7 @@ const plugins = [
   i18n_sVHQBgnb3t
 ];
 const layouts = {
-  default: () => import('./default-YZFX51Kk.mjs')
+  default: () => import('./default-DqY9nbd9.mjs')
 };
 const LayoutLoader = defineComponent({
   name: "LayoutLoader",
@@ -3602,5 +3660,5 @@ let entry;
 }
 const entry$1 = (ssrContext) => entry(ssrContext);
 
-export { _export_sfc as _, navigateTo as a, useNuxtApp as b, useRuntimeConfig as c, resolveUnrefHeadInput as d, entry$1 as default, useLoadingStore as e, useCategoryStore as f, useAuthStore as g, useLessonsStore as h, injectHead as i, useCoursesStore as j, useStripeStore as k, useNotification as l, useReytingStore as m, nuxtLinkDefaults as n, useChatStore as o, useSubscriptionStore as p, useGroupsStore as q, resolveRouteObject as r, useWatchedStore as s, useCommentsStore as t, useRouter as u, useLikesStore as v, useTestsStore as w, useUploadStore as x };
+export { _export_sfc as _, navigateTo as a, useNuxtApp as b, useRuntimeConfig as c, resolveUnrefHeadInput as d, entry$1 as default, useLoadingStore as e, useCategoryStore as f, useAuthStore as g, useLessonsStore as h, injectHead as i, useCoursesStore as j, useStripeStore as k, useNotification as l, useReytingStore as m, nuxtLinkDefaults as n, useGroupsStore as o, useChatStore as p, useSubscriptionStore as q, resolveRouteObject as r, useAttendanceStore as s, useWatchedStore as t, useRouter as u, useRoute as v, useCommentsStore as w, useLikesStore as x, useTestsStore as y, useUploadStore as z };
 //# sourceMappingURL=server.mjs.map
