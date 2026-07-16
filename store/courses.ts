@@ -28,6 +28,7 @@ export const useCoursesStore = defineStore("courses", () => {
     group_id: router.currentRoute.value.params.group_id,
     subcategory_id: null,
     group_type: 'public',
+    attendance_days: [] as string[],
   });
 
   function clearData() {
@@ -35,6 +36,7 @@ export const useCoursesStore = defineStore("courses", () => {
       create[key] = create[key];
     });
     create.group_type = 'public';
+    create.attendance_days = [];
     store.course_id = 0;
     store.image = "";
   }
@@ -88,7 +90,9 @@ export const useCoursesStore = defineStore("courses", () => {
     create.group_id = router.currentRoute.value.params.group_id;
     const formData = new FormData();
     for (let i in create) {
-      if (create[i]) {
+      if (i === "attendance_days") {
+        formData.append(i, JSON.stringify(create[i]));
+      } else if (create[i]) {
         formData.append(i, create[i]);
       }
     }
@@ -108,7 +112,9 @@ export const useCoursesStore = defineStore("courses", () => {
     const formData = new FormData();
     console.log(create)
     for (let i in create) {
-      if (create[i]) {
+      if (i === "attendance_days") {
+        formData.append(i, JSON.stringify(create[i]));
+      } else if (create[i]) {
         formData.append(i, create[i]);
       }
     }

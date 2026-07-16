@@ -47,9 +47,9 @@
               <path d="M16 2v4M8 2v4M3 10h18M10 14l2 2 4-4" />
             </svg>
           </div>
-          <p class="text-2xl font-bold">92%</p>
+          <p class="text-2xl font-bold">{{getTotalAttendance}}%</p>
           <p class="text-xs text-gray-400 mt-1">Davomat</p>
-          <p class="text-xs text-g-600 font-semibold mt-2">↑ Yaxshi davom eting</p>
+          <!-- <p class="text-xs text-g-600 font-semibold mt-2">↑ Yaxshi davom eting</p> -->
         </div>
         <div class="bg-white rounded-2xl border border-gray-100 p-5 relative overflow-hidden">
           <div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center mb-3">
@@ -571,9 +571,21 @@ const useAuth = useAuthStore();
 const useGroups = useGroupsStore();
 const route = useRoute();
 const router = useRouter();
+console.log(route.query.subcategory_id, '=====================');
+
+const getTotalAttendance = computed(() => {
+  const groups = useGroups.store.groups ?? [];
+  const totalAttendance = groups.reduce((total, group) => {
+    return total + (group.attendance.percentage ?? 0);
+  }, 0);
+  return totalAttendance;
+});
+
 onMounted(async () => {
   await useGroups.getSubscribedGroups();
-  const subcategory_id = route.querysubcategory_id?.[0] ?? useGroups.store.groups?.[0]?.id;
+  console.log(JSON.parse(route.query.subcategory_id, '==============='));
+  
+  const subcategory_id = JSON.parse(route.query.subcategory_id ?? '[]')?.[0] ?? useGroups.store.groups?.[0]?.id;
   useAuth.getUserAnalytics(subcategory_id);
   router.push({ name: 'index', query: { subcategory_id: JSON.stringify([subcategory_id]) } })
 })

@@ -27,6 +27,17 @@
                 <FloatingInput :id="'discount'" :is_select="true" class="w-full" :type="'text'"
                     v-model="useCourses.create.discount" :label="'Discount'" required />
             </div>
+            <fieldset>
+                <legend class="mb-3 font-medium">Attendance days</legend>
+                <div class="flex flex-wrap gap-3">
+                    <label v-for="day in attendanceDays" :key="day"
+                        class="flex cursor-pointer items-center gap-2 rounded-lg border px-3 py-2"
+                        :class="useCourses.create.attendance_days.includes(day) ? 'border-[#5B5CE2] bg-[#F2F2FF]' : 'border-[#CCCCCC]'">
+                        <input v-model="useCourses.create.attendance_days" :value="day" type="checkbox" class="h-4 w-4" />
+                        <span>{{ day }}</span>
+                    </label>
+                </div>
+            </fieldset>
             <div class="grid gap-5">
                 <label @click="useCourses.create.group_type = 'private'" class="space-y-3 r_8 p-5 cursor-pointer"
                     :class="useCourses.create.group_type == 'private'
@@ -80,6 +91,18 @@ import { useCategoryStore, useCoursesStore, useLoadingStore } from '~/store';
 const useCourses = useCoursesStore();
 const isLoading = useLoadingStore();
 const useCategory = useCategoryStore();
+const attendanceDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+
+onBeforeMount(() => {
+    const attendanceDaysValue = useCourses.create.attendance_days;
+    if (Array.isArray(attendanceDaysValue)) return;
+
+    try {
+        useCourses.create.attendance_days = JSON.parse(attendanceDaysValue || "[]");
+    } catch {
+        useCourses.create.attendance_days = attendanceDaysValue ? attendanceDaysValue.split(",") : [];
+    }
+});
 
 function handleImage(e) {
     const file = e.target.files[0];
