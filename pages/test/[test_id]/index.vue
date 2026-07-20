@@ -60,12 +60,6 @@
                       <p>WORD</p>
                     </label>
                   </a-menu-item>
-                  <!-- <a-menu-item>
-                    <label for="import_file" class="flex items-center gap-2 p-1.5 rounded-md border_ced cursor-pointer">
-                      <img loading="lazy" class="h-7 w-7" src="@/assets/svg/image/excel.png" alt="" />
-                      <p>Excel</p>
-                    </label>
-                  </a-menu-item> -->
                 </a-menu>
               </template>
             </a-dropdown>
@@ -255,122 +249,6 @@
                   </div>
                 </div>
               </div>
-
-              <!-- <div v-else-if="store.innerStep == 1">
-                <div class="space-y-2">
-                  <label for="name">Boshlanish vaqti</label>
-                  <div class="flex gap-2">
-                    <a-date-picker
-                      class="w-full"
-                      v-model:value="useTests.test_settings.start_date"
-                      placeholder="0000-00-00"
-                    />
-                    <a-time-picker
-                      v-model:value="useTests.test_settings.start_date"
-                      format="HH:mm"
-                      placeholder="00:00"
-                    />
-                  </div>
-                </div>
-              </div> -->
-
-              <!-- <div v-else-if="store.innerStep == 2" class="space-y-2">
-                <label for="name">Tugash vaqti</label>
-                <div class="flex gap-2">
-                  <a-date-picker
-                    class="w-full"
-                    v-model:value="useTests.test_settings.end_date"
-                    placeholder="0000-00-00"
-                  />
-                  <a-time-picker
-                    v-model:value="useTests.test_settings.end_date"
-                    format="HH:mm"
-                    placeholder="00:00"
-                  />
-                </div>
-              </div> -->
-
-              <!-- <div v-else-if="store.innerStep == 3" class="space-y-2">
-                <label for="name">Test muddati</label>
-                <div>
-                  <a-time-picker
-                    v-model:value="useTests.test_settings.period"
-                    format="HH:mm"
-                    value-format="HH:mm"
-                    placeholder="00:00"
-                  />
-                </div>
-              </div> -->
-
-              <!-- <div v-else-if="store.innerStep == 4">
-                <div class="space-y-3">
-                  <h2>Saralash</h2>
-                  <div class="py-2 space-x-3">
-                    <label for="filter">Aralashtirish</label>
-                    <a-switch id="filter" v-model:checked="useTests.test_settings.mix" />
-                  </div>
-                  <label for="sortnum">Saralash bosqichi</label>
-                  <div class="space-y-4">
-                    <div
-                      class="flex items-center gap-4"
-                      v-for="(i, index) in useTests.store.test_step"
-                    >
-                      {{ index + 1 }}.
-                      <a-select
-                        v-model:value="useTests.test_settings.sort_level[index][0]"
-                        class="min-w-[80px] test_arrow w-full !h-[42px] sr_12"
-                        show-search
-                        required
-                      >
-                        <a-select-option
-                          v-for="i in useCategory.store.category"
-                          :value="i.id"
-                        >
-                          {{ i.category }}</a-select-option
-                        >
-                      </a-select>
-                      <a-select
-                        v-model:value="useTests.test_settings.sort_level[index][1]"
-                        class="min-w-[80px] test_arrow !h-[42px] sr_12"
-                        show-search
-                        required
-                      >
-                        <a-select-option
-                          v-for="i in useTests.store.questions_count"
-                          :value="i"
-                          >{{ i }}</a-select-option
-                        >
-                      </a-select>
-                      <a-select
-                        v-model:value="useTests.test_settings.sort_level[index][2]"
-                        class="min-w-[80px] test_arrow !h-[42px] sr_12"
-                        show-search
-                        required
-                      >
-                        <a-select-option
-                          v-for="i in useTests.store.questions_count"
-                          :value="i"
-                          >{{ i }}</a-select-option
-                        >
-                      </a-select>
-                      <p
-                        v-if="useTests.test_settings.sort_level?.length != 1"
-                        @click="addTestStep('remove', index)"
-                        class="full_flex min-w-[50px] h-[50px] rounded-full border border-[#CCCCCC] cursor-pointer"
-                      >
-                        <img loading="lazy" src="@/assets/svg/icon/minus.svg" alt="" />
-                      </p>
-                      <p
-                        @click="addTestStep('add', index)"
-                        v-if="useTests.store.test_step == index + 1"
-                        class="full_flex min-w-[50px] h-[50px] rounded-full border border-[#CCCCCC] cursor-pointer"
-                      >
-                        <img loading="lazy" src="@/assets/svg/icon/plus.svg" alt="" />
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div> -->
             </div>
             <div class="flex justify-between">
               <button @click="prevInnerStep" class="b_main c_main px-8 py-2 rounded-full">
@@ -425,10 +303,11 @@
             :pagination="{ clickable: true }" :modules="modules" :noSwiping="true" noSwipingClass="no-swiping"
             class="flex lg:max-w-[50vw] overflow-hidden">
             <swiper-slide :id="+index + 1" class="min-w-full" v-for="(i, index) in useTests.test">
-              <p class="flex gap-2 text-sm">
+              <p v-if="useTests.test_settings.test_type != 'pdf_file'" class="flex gap-2 text-sm">
                 <img src="@/assets/svg/icon/info.svg" alt="" />
                 <span>Question {{ +index + 1 }}</span>
               </p>
+
               <div class="relative">
                 <div v-if="
                   useTests.store.deletedTestList?.includes(useTests.store.slideStep)
@@ -436,7 +315,7 @@
                   deleted
                 </div>
                 <div class="px-2 py-2">
-                  <div>
+                  <div v-if="useTests.test_settings.test_type != 'pdf_file'">
                     <ClientOnly>
                       <EditorTiptapEditor id="questionEditor" class="r_8 bg_cf5" v-model="useTests.test[index].question"
                         :toolbar="false" :placeholder="'Savolingizni shu yerga yozing'" />
@@ -451,13 +330,19 @@
                     <input @change="(e) => handleImage(e, 'question', index)" id="question_file_input"
                       class="file_input" type="file" accept="image/*">
                   </div>
+
+                  <div>
+                    <label class="font-medium mt-4" for="questionCount">Savollar soni</label>
+                    <input id="questionCount" v-if="useTests.test_settings.test_type == 'pdf_file'" @input="handleCount"
+                      type="number">
+                  </div>
                 </div>
                 <hr />
                 <div class="px-2 py-4">
                   <h2 class="text-lg">Variantlar</h2>
                   <p class="mb-6 text-sm">To‘g‘ri javobni belgilang</p>
-                  <a-checkbox-group class="block w-full" @change="handleVariant(index)"
-                    v-model:value="useTests.test[index].true_answer">
+                  <a-checkbox-group v-if="useTests.test_settings.test_type != 'pdf_file'" class="block w-full"
+                    @change="handleVariant(index)" v-model:value="useTests.test[index].true_answer">
                     <ul class="min-h-fit r_8 w-full" :class="checkCurrentType(useTests.test[index].type, false)">
                       <Draggable class="dragArea list-group w-full" :v-model="useTests.test[index]?.variants"
                         @change="log" :key="store.listKey" ghost-class="ghost" handle=".drag-handle"
@@ -500,6 +385,34 @@
                       </li>
                     </ul>
                   </a-checkbox-group>
+                  <div v-else>
+                    <!-- variants -->
+                    <ul>
+                      <li v-for="(i, index) in useTests.test">
+                        {{ +index + 1 }}
+                        <a-select class="min-w-[200px]" v-if="useTests.test[+index]"
+                          v-model:value="useTests.test[+index].type" placeholder="Select a person"
+                          :options="testType"></a-select>
+
+                        <template v-if="useTests.test[+index].type == 'variant'">
+                          <div class="grid grid-cols-4 my-4 gap-4">
+                            <button @click="useTests.test[+index].variants[0] = 'A'"
+                              :class="useTests.test[+index].variants[0] == 'A' ? 'bg_main c_white' : 'c_main'"
+                              class="b_main p-5 rounded-lg">A</button>
+                            <button @click="useTests.test[+index].variants[0] = 'B'"
+                              :class="useTests.test[+index].variants[0] == 'B' ? 'bg_main c_white' : 'c_main'"
+                              class="b_main p-5 rounded-lg">B</button>
+                            <button @click="useTests.test[+index].variants[0] = 'C'"
+                              :class="useTests.test[+index].variants[0] == 'C' ? 'bg_main c_white' : 'c_main'"
+                              class="b_main p-5 rounded-lg">C</button>
+                            <button @click="useTests.test[+index].variants[0] = 'D'"
+                              :class="useTests.test[+index].variants[0] == 'D' ? 'bg_main c_white' : 'c_main'"
+                              class="b_main p-5 rounded-lg">D</button>
+                          </div>
+                        </template>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
               </div>
               <div class="flex gap-4 justify-end px-5 pt-2">
@@ -542,7 +455,32 @@
             </li>
           </ul>
         </nav>
-        <section class="bg-white md:mx-[100px] r_8 relative">
+        <section v-if="useTests.test_settings.test_type == 'pdf_file'">
+          <!-- {{useTests.store.tests.test}} -->
+          <iframe :src="useTests.store.tests.test?.[0]?.question + '#toolbar=0'" scrolling="no"
+            class="w-full h-[80vh]"></iframe>
+
+          <ul>
+            <li v-for="(i, index) in useTests.store.tests.test">
+              {{ +index + 1 }}
+              <div class="grid grid-cols-4 my-4 gap-4">
+                <button @click="useTests.store.tests.test[+index].variants[0] = 'A'"
+                  :class="useTests.store.tests.test[+index].variants[0] == 'A' ? 'bg_main c_white' : 'c_main'"
+                  class="b_main p-5 rounded-lg">A</button>
+                <button @click="useTests.store.tests.test[+index].variants[0] = 'B'"
+                  :class="useTests.store.tests.test[+index].variants[0] == 'B' ? 'bg_main c_white' : 'c_main'"
+                  class="b_main p-5 rounded-lg">B</button>
+                <button @click="useTests.store.tests.test[+index].variants[0] = 'C'"
+                  :class="useTests.store.tests.test[+index].variants[0] == 'C' ? 'bg_main c_white' : 'c_main'"
+                  class="b_main p-5 rounded-lg">C</button>
+                <button @click="useTests.store.tests.test[+index].variants[0] = 'D'"
+                  :class="useTests.store.tests.test[+index].variants[0] == 'D' ? 'bg_main c_white' : 'c_main'"
+                  class="b_main p-5 rounded-lg">D</button>
+              </div>
+            </li>
+          </ul>
+        </section>
+        <section v-else class="bg-white md:mx-[100px] r_8 relative">
           <section v-if="Object.keys(useTests.test)?.length" class="md:flex gap-7 items-start max-w-fit mx-auto md:p-8">
             <img loading="lazy" @click="$router.back()" class="md:-ml-[52px] md:mb-0 mb-4 pcursor"
               src="@/assets/svg/icon/closex.svg" alt="" />
@@ -733,6 +671,7 @@
             </ul>
           </footer>
         </section>
+
       </div>
       <section v-else class="bg-white">
         <section class="flex gap-7 items-start max-w-fit mx-auto p-8">
@@ -859,13 +798,13 @@
                 class="min-w-[80px] test_arrow !h-[42px] sr_12" show-search required>
                 <a-select-option v-for="i in useTests.store.questions_count" :value="i">{{
                   i
-                  }}</a-select-option>
+                }}</a-select-option>
               </a-select>
               <a-select v-model:value="useTests.test_settings.sort_level[index][2]"
                 class="min-w-[80px] test_arrow !h-[42px] sr_12" show-search required>
                 <a-select-option v-for="i in useTests.store.questions_count" :value="i">{{
                   i
-                  }}</a-select-option>
+                }}</a-select-option>
               </a-select>
               <p v-if="useTests.test_settings.sort_level?.length != 1" @click="addTestStep('remove', index)"
                 class="full_flex min-w-[50px] h-[50px] rounded-full border border-[#CCCCCC] cursor-pointer">
@@ -958,15 +897,21 @@ const editorData2 = ref("");
 const watchStep = ref("0");
 
 const testSettingsType = [{
-  label: "General Test",
-  defination: "Fully customizable",
+  label: "Umumiy test",
+  defination: "To'liq sozlanishi mumkin",
   value: 'general_test',
   color: 'bg-blue-100',
   icon: new URL('@/assets/svg/test/test_type/general_test.svg', import.meta.url).href
 }, {
-  label: "Vocabulary",
-  defination: "Auto generate variants",
+  label: "Lug'at",
+  defination: "Avtomatik ravishda variantlarni yaratadi",
   value: 'vocabulary',
+  color: 'bg-green-100',
+  icon: new URL('@/assets/svg/test/test_type/vocabulary.svg', import.meta.url).href
+}, {
+  label: "Pdf fayl",
+  defination: "Fayl yuklanadigan testlar",
+  value: 'pdf_file',
   color: 'bg-green-100',
   icon: new URL('@/assets/svg/test/test_type/vocabulary.svg', import.meta.url).href
 },
@@ -1015,6 +960,18 @@ async function getModels() {
 
 getModels();
 
+function handleCount(e) {
+  const count = +e.target.value;
+  for (let i = 0; i < count; i++) {
+    useTests.test[i] = {
+      question: null,
+      variants: [null],
+      type: "variant",
+      true_answer: [0],
+    };
+  }
+}
+
 function prevInnerStep() {
   if (store.innerStep == 0) {
   } else {
@@ -1033,11 +990,9 @@ function handleImage(e, type, index, v_index) {
   const file = e.target.files[0];
 
   useUpload.create_url(file).then(res => {
-    console.log(res.url);
-
-    console.log(useTests.test[index].question);
-
-    if (type == 'question') {
+    if (useTests.test_settings.test_type == 'pdf_file') {
+      useTests.test[0].question = res?.url;
+    } else if (type == 'question') {
       useTests.test[index].question = useTests.test[index].question ? useTests.test[index].question + `<img src="${res?.url}" alt=""/>` : `<img src="${res?.url}" alt=""/>`
     } else {
       useTests.test[index][type][v_index] = useTests.test[index][type][v_index] ? useTests.test[index][type][v_index] + `<img src="${res?.url}" alt=""/>` : `<img src="${res?.url}" alt=""/>`

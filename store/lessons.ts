@@ -84,7 +84,9 @@ export const useLessonsStore = defineStore("lessons", () => {
       `course/getByCourse/${router.currentRoute.value.params.group_id || group_id || 0}/${subcategory_id}`,
       "getByCourse"
     );
-    store.courses = data.data?.courses;
+    store.courses = data.data?.courses?.map((item: any) => {
+      return {...item, attendance_days: item?.attendance_days?.[0]?.attendance_day || []}
+    });
     isLoading.store.owner_id = data.data?.group?.user_id;
   }
 

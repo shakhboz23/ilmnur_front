@@ -148,7 +148,7 @@ export const useAuthStore = defineStore("auth", () => {
         });
   }
 
-  function getUserAnalytics(group_id: number) {
+  function getUserAnalytics(group_id: number, course_id: number) {
     apiRequest
       .get(`user/analytics/${group_id}`, 'getUserAnalytics')
       .then((res: any): void => {

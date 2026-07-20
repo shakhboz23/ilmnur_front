@@ -139,49 +139,21 @@ export const useTestsStore = defineStore("tests", () => {
       }
     }
     let lesson_id = +router.currentRoute.value.params.test_id;
-    let tests = []
+    let tests: any = []
     for (let i = 0; i < store.questions_count; i++) {
       try {
-        // const tempElement = document.createElement("div");
-        // tempElement.innerHTML = test[i].question;
-        // const imgElement = tempElement.querySelector("img")?.src;
-        // if (imgElement) {
-        //   const base64Data: any = imgElement.split(";base64,").pop();
-        //   const arrayBuffer = Uint8Array.from(atob(base64Data), (c) =>
-        //     c.charCodeAt(0)
-        //   ).buffer;
-        //   const file = new File([arrayBuffer], "file.png", {
-        //     type: "image/png",
-        //   });
-
-        //   const src = await useUpload.create_url(file);
-        //   tempElement.querySelector("img")!.src = src.url;
-        //   test[i].question = `${tempElement.innerHTML}`;
-        // }
-        // for (let variants in test[i].variants) {
-        // const tempElement = document.createElement("div");
-        // tempElement.innerHTML = test[i].variants[variants];
-        // const imgElement = tempElement.querySelector("img")?.src;
-        // if (imgElement) {
-        //   const base64Data: any = imgElement.split(";base64,").pop();
-        //   const arrayBuffer = Uint8Array.from(atob(base64Data), (c) =>
-        //     c.charCodeAt(0)
-        //   ).buffer;
-        // const file = new File([arrayBuffer], "file.png", {
-        //   type: "image/png",
-        // });
-
-        // const src = await useUpload.create_url(file);
-        // tempElement.querySelector("img")!.src = src.url;
-        // test[i].variants[variants] = `${tempElement.innerHTML}`;
-        // }
-        // }
         tests.push({ ...test[i], is_action: store.deletedTestList.includes(i + 1) ? "deleted" : test[i].is_action, true_answer: test.true_answer?.length ? test.true_answer : [0] });
       } catch (err) {
         console.log(err);
       }
     }
-    console.log(tests);
+
+    if (test_settings.test_type == 'pdf_file') {
+      tests = tests.map((item: any) => {
+        return { ...item, question: tests[0]?.question }
+      });
+    }
+
     await apiRequest
       .post(`tests/create`, {
         ...test_settings,

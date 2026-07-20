@@ -130,7 +130,7 @@
             </div>
             <!-- lessons -->
             <LessonAccordion v-if="!isLoading.isLoadingType('getByCourse')"
-                :lessons="useCourses.store.courses.lessons" />
+                :lessons="useCourses.store.courses?.lessons" />
             <div v-else class="space-y-1 mt-5">
                 <LoadingDiv v-for="_ in 5" class="h-9 w-full" />
             </div>

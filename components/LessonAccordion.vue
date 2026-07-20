@@ -60,8 +60,8 @@
                     </button>
                 </div>
                 <!-- Rekursiv chaqiruv: agar ichida darslar bo‘lsa -->
-                <LessonAccordion class="pl-3" v-if="store.active_id == i.id && i.lessons && i.lessons?.length"
-                    :lessons="i.lessons" />
+                <LessonAccordion class="pl-3" v-if="store.active_id == i.id && i?.lessons && i?.lessons?.length"
+                    :lessons="i?.lessons" />
             </li>
         </draggable>
     </ul>
@@ -137,9 +137,7 @@ function isOwner() {
 }
 
 function calculateTotalDuration(index) {
-    console.log(props.lessons[index].lessons);
-
-    const lesson = props.lessons[index].lessons || [];
+    const lesson = props?.lessons[index]?.lessons || [];
     console.log(lesson);
     let s = 0;
     for (let i of lesson) {
@@ -150,7 +148,7 @@ function calculateTotalDuration(index) {
 
 function checkIsFinished(data) {
     if (data.type == "module") {
-        for (let lesson of data.lessons) {
+        for (let lesson of data?.lessons) {
             if (!lesson.is_finished) {
                 return false;
             }

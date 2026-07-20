@@ -6,7 +6,39 @@
         <h2 class="text-xl font-bold">Xush kelibsiz, {{ useAuth.store.analytics?.name }}! 👋</h2>
         <p class="text-sm text-gray-400 mt-1">Bu hafta 2 ta yangi test sizni kutmoqda.</p>
       </div>
-      <CategorySlider :all="false" :category="useGroups.store.groups" :multiple="false" class="w-full" />
+      <div class="space-y-3">
+        <CategorySlider :all="false" :category="groups" :multiple="false" query-key="group_id" class="w-full" />
+        <!-- <div class="flex gap-3 overflow-x-auto pb-2 removeScroll pl-2">
+          <button v-for="item in selectedGroupCourses" :key="item.id" @click="selectCourse(item.id)" :class="selectedCourseId == item.id
+            ? 'bg-emerald-600 text-white shadow-lg scale-105'
+            : 'bg-white border hover:border-emerald-300'" class="min-w-[220px] transition-all rounded-2xl p-4 text-left">
+
+            <div class="flex items-center gap-3">
+              <div :class="selectedCourseId == item.id
+                ? 'bg-white/20'
+                : 'bg-emerald-50'" class="w-14 h-14 rounded-xl flex items-center justify-center">
+
+                <img v-if="item.cover" :src="item.cover" class="w-full h-full object-cover rounded-xl">
+
+                <svg v-else xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-emerald-600" fill="none"
+                  viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422A12.083 12.083 0 0121 20.055M12 14L5.84 10.578A12.083 12.083 0 003 20.055" />
+                </svg>
+              </div>
+
+              <div class="flex-1">
+                <h4 class="font-semibold text-sm">
+                  {{ item.title }}
+                </h4>
+              </div>
+            </div>
+
+          </button>
+        </div> -->
+        <!-- <CategorySlider v-if="selectedGroupCourses.length" :all="false" :category="selectedGroupCourses"
+          :multiple="false" query-key="course_id" :show-image="true" class="w-full" /> -->
+      </div>
 
       <!-- KPI -->
       <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 my-6">
@@ -47,7 +79,7 @@
               <path d="M16 2v4M8 2v4M3 10h18M10 14l2 2 4-4" />
             </svg>
           </div>
-          <p class="text-2xl font-bold">{{getTotalAttendance}}%</p>
+          <p class="text-2xl font-bold">{{ getTotalAttendance }}%</p>
           <p class="text-xs text-gray-400 mt-1">Davomat</p>
           <!-- <p class="text-xs text-g-600 font-semibold mt-2">↑ Yaxshi davom eting</p> -->
         </div>
@@ -60,7 +92,7 @@
             </svg>
           </div>
           <p class="text-2xl font-bold">
-            {{ useAuth.store.analytics?.subscriptions?.course?.lessons?.reyting?.test_settings?.length }}</p>
+            {{ selectedCourseLessons.length }}</p>
           <p class="text-xs text-gray-400 mt-1">Yangi testlar</p>
           <p class="text-xs text-red-500 font-semibold mt-2">⏰ Eng yaqin: 2 kun</p>
         </div>
@@ -127,14 +159,12 @@
             <div class="flex items-center justify-between mb-4">
               <h3 class="text-sm font-bold">Navbatdagi testlar</h3>
               <!-- <button class="text-xs text-g-600 font-semibold hover:underline" data-page="testlar">Barchasi →</button> -->
-              <router-link :to="`/group/${JSON.parse(route.query?.subcategory_id || '[0]')?.[0]}`"
+              <router-link :to="`/group/${selectedGroupId || 0}`"
                 class="text-xs text-g-600 font-semibold hover:underline">Barchasi →</router-link>
             </div>
-            <template
-              v-if="(useAuth.store.analytics?.subscriptions?.map(item => item?.course?.lessons)?.flat() || [])?.length">
-              <div
-                v-for="test in (useAuth.store.analytics?.subscriptions?.map(item => item?.course?.lessons)?.flat() || [])"
-                :key="test.id" class="flex items-center gap-3 p-3 rounded-xl border border-g-100 bg-g-50/50 mb-3">
+            <template v-if="selectedCourseLessons.length">
+              <div v-for="test in selectedCourseLessons" :key="test.id"
+                class="flex items-center gap-3 p-3 rounded-xl border border-g-100 bg-g-50/50 mb-3">
                 <div class="w-10 h-10 rounded-lg bg-g-50 flex items-center justify-center flex-shrink-0">
                   <svg class="w-5 h-5 text-g-600" fill="none" stroke="currentColor" stroke-width="2"
                     viewBox="0 0 24 24">
@@ -162,7 +192,7 @@
           <div class="bg-white rounded-2xl border border-gray-100 p-5">
             <div class="flex items-center justify-between mb-4">
               <h3 class="text-sm font-bold">Guruh reytingi</h3>
-              <router-link :to="`/group/${JSON.parse(route.query?.subcategory_id || '[0]')?.[0]}?page=reyting`"
+              <router-link :to="`/group/${selectedGroupId || 0}?page=reyting`"
                 class="text-xs text-g-600 font-semibold hover:underline">Barchasi →</router-link>
             </div>
             <div v-if="useAuth.store.analytics?.rankings?.length" class="space-y-1">
@@ -571,24 +601,54 @@ const useAuth = useAuthStore();
 const useGroups = useGroupsStore();
 const route = useRoute();
 const router = useRouter();
-console.log(route.query.subcategory_id, '=====================');
+const groups = computed(() => {
+  const data = useGroups.store.groups;
+  return Array.isArray(data) ? data : data?.groups || [];
+});
+const selectedGroupId = computed(() => JSON.parse(route.query.group_id || '[]')?.[0]);
+const selectedGroup = computed(() => groups.value.find(group => group.id == selectedGroupId.value));
+const analyticsCourses = computed(() => (useAuth.store.analytics?.subscriptions || [])
+  .map(subscription => subscription?.course || subscription)
+  .filter(Boolean));
+const selectedGroupCourses = computed(() => {
+  const groupCourses = selectedGroup.value?.course || selectedGroup.value?.subscriptions?.map(item => item?.course || item);
+  return groupCourses?.filter(Boolean) || analyticsCourses.value;
+});
+const selectedCourseId = computed(() => JSON.parse(route.query.course_id || '[]')?.[0]);
+const selectedCourse = computed(() => selectedGroupCourses.value.find(course => course.id == selectedCourseId.value));
+const selectedCourseLessons = computed(() => selectedCourse.value?.lessons || []);
 
 const getTotalAttendance = computed(() => {
-  const groups = useGroups.store.groups ?? [];
-  const totalAttendance = groups.reduce((total, group) => {
-    return total + (group.attendance.percentage ?? 0);
+  const totalAttendance = groups.value.reduce((total, group) => {
+    return total + (group.attendance?.percentage ?? 0);
   }, 0);
   return totalAttendance;
 });
+ 
+function selectCourse(courseId) {
+    // router.replace({ query: { ...route.query, course_id: JSON.stringify([courseId]) } });
+}
 
 onMounted(async () => {
   await useGroups.getSubscribedGroups();
-  console.log(JSON.parse(route.query.subcategory_id, '==============='));
-  
-  const subcategory_id = JSON.parse(route.query.subcategory_id ?? '[]')?.[0] ?? useGroups.store.groups?.[0]?.id;
-  useAuth.getUserAnalytics(subcategory_id);
-  router.push({ name: 'index', query: { subcategory_id: JSON.stringify([subcategory_id]) } })
+  const groupId = selectedGroupId.value ?? groups.value[0]?.id;
+
+  if (groupId) {
+    await router.replace({ query: { ...route.query, group_id: JSON.stringify([groupId]) } });
+  }
 })
+
+watch(selectedGroupId, (groupId) => {
+  if (groupId) useAuth.getUserAnalytics(groupId, selectedCourseId.value);
+});
+
+watch(selectedGroupCourses, (courses) => {
+  const courseId = selectedCourseId.value;
+
+  if (courses.length && !courses.some(course => course.id == courseId)) {
+    router.replace({ query: { ...route.query, course_id: JSON.stringify([courses[0].id]) } });
+  }
+}, { immediate: true });
 </script>
 
 <style lang="scss" scoped></style>

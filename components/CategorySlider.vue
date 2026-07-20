@@ -12,10 +12,12 @@
                 </button>
                 <ul class="tabs">
                     <button v-if="all" @click="setCategory()" class="duration-700 r_20 py-2 px-3 text-xs b_main"
-                        :class="JSON.parse(typeof router.currentRoute.value.query?.subcategory_id == 'string' ? router.currentRoute.value.query?.subcategory_id : '[]')?.length == 0 ? 'bg_main c_white' : 'c_main'">All</button>
+                        :class="selectedCategoryIds.length == 0 ? 'bg_main c_white' : 'c_main'">All</button>
                     <button v-show="subcategory_id ? subcategory_id == i.id : true" @click="setCategory(i)"
-                        v-for="i in category" class="duration-700 r_20 py-2 px-3 text-xs b_main"
-                        :class="JSON.parse(typeof router.currentRoute.value.query?.subcategory_id == 'string' ? router.currentRoute.value.query?.subcategory_id : '[]')?.includes(i.id) ? 'bg_main c_white' : 'c_main'">{{
+                        v-for="i in category" class="duration-700 r_20 py-2 px-3 text-xs b_main inline-flex items-center gap-2"
+                        :class="selectedCategoryIds.includes(i.id) ? 'bg_main c_white' : 'c_main'"><img
+                            v-if="showImage && i.cover" :src="i.cover" :alt="i.title || i.category"
+                            class="w-5 h-5 rounded-full object-cover ring-1 ring-current/20">{{
                             i.category ||
                             i.title
                         }}</button>
@@ -47,11 +49,30 @@ const props = defineProps({
     multiple: {
         type: Boolean,
         default: true,
+    },
+    queryKey: {
+        type: String,
+        default: 'subcategory_id',
+    },
+    showImage: {
+        type: Boolean,
+        default: false,
     }
 });
 const isLoading = useLoadingStore();
 const useCategory = useCategoryStore();
 const router = useRouter();
+const selectedCategoryIds = computed(() => {
+    const value = router.currentRoute.value.query?.[props.queryKey];
+    if (typeof value !== 'string') return [];
+
+    try {
+        const ids = JSON.parse(value);
+        return Array.isArray(ids) ? ids : [];
+    } catch {
+        return [];
+    }
+});
 
 
 const time_list = [
@@ -66,34 +87,30 @@ const time_list = [
     "5:00",
 ];
 
-function setCategory(subcategory_id) {
-    if (isLoading.store.subcategory_id?.includes(subcategory_id?.id)) {
-        isLoading.store.subcategory_id?.splice(isLoading.store.subcategory_id.indexOf(subcategory_id.id), 1);
-    } else if (subcategory_id?.id) {
-        if (props.multiple) {
-            isLoading.store.subcategory_id?.push(subcategory_id.id)
-        } else {
-            isLoading.store.subcategory_id = [subcategory_id?.id]
-        }
-    } else {
-        return;
+function setCategory(category) {
+    const id = category?.id;
+    let ids = [...selectedCategoryIds.value];
+
+    if (!id) ids = [];
+    else if (ids.includes(id)) ids.splice(ids.indexOf(id), 1);
+    else ids = props.multiple ? [...ids, id] : [id];
+
+    if (props.queryKey === 'subcategory_id') {
+        isLoading.store.subcategory_id = ids;
     }
-    const query = router.currentRoute.value.query
-    subcategory_id == 0 ? router.push({
+
+    router.push({
         query: {
-            ...query,
-            subcategory_id: undefined
-        }
-    }) : router.push({
-        query: {
-            ...query,
-            subcategory_id: JSON.stringify(isLoading.store.subcategory_id),
+            ...router.currentRoute.value.query,
+            [props.queryKey]: ids.length ? JSON.stringify(ids) : undefined,
         }
     });
 }
 
 onMounted(() => {
-    isLoading.store.subcategory_id = JSON.parse(router.currentRoute.value.query?.subcategory_id || "[]")
+    if (props.queryKey === 'subcategory_id') {
+        isLoading.store.subcategory_id = selectedCategoryIds.value;
+    }
     const tabs = document.querySelectorAll(".stack-tab-container a.tab");
     const scrollRightArrow = document.querySelector(
         ".stack-tab-container .right-arrow"

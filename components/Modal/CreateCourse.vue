@@ -29,11 +29,11 @@
             </div>
             <fieldset>
                 <legend class="mb-3 font-medium">Attendance days</legend>
-                <div class="flex flex-wrap gap-3">
+                <div class="grid grid-cols-4 gap-3">
                     <label v-for="day in attendanceDays" :key="day"
-                        class="flex cursor-pointer items-center gap-2 rounded-lg border px-3 py-2"
-                        :class="useCourses.create.attendance_days.includes(day) ? 'border-[#5B5CE2] bg-[#F2F2FF]' : 'border-[#CCCCCC]'">
-                        <input v-model="useCourses.create.attendance_days" :value="day" type="checkbox" class="h-4 w-4" />
+                        class="flex cursor-pointer items-center justify-center rounded-lg border px-3 py-2"
+                        :class="useCourses.create.attendance_days.includes(day) ? 'b_main bg_main c_white font-semibold' : 'border-[#CCCCCC]'">
+                        <input v-model="useCourses.create.attendance_days" :value="day" type="checkbox" class="h-0 w-0 overflow-hidden" />
                         <span>{{ day }}</span>
                     </label>
                 </div>
