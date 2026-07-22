@@ -3,7 +3,7 @@
     <NuxtLoadingIndicator height="4" color="#2a85ff" />
     <section class="space-y-8 bg-white rounded-lg p-6 text-center w-full max-w-[350px]">
       <router-link class="flex justify-center" to="/">
-        <img src="/logo.svg" alt="" />
+        <img src="/logo.png" alt="" />
       </router-link>
       <h1 class="_c07 text-2xl font-semibold">Create a new password</h1>
       <form class="space-y-5 text-center" @submit.prevent="useAuth.resetPassword">

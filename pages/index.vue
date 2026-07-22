@@ -4,7 +4,7 @@
     <div class="page active" id="page-dashboard">
       <div class="mb-6">
         <h2 class="text-xl font-bold">Xush kelibsiz, {{ useAuth.store.analytics?.name }}! 👋</h2>
-        <p class="text-sm text-gray-400 mt-1">Bu hafta 2 ta yangi test sizni kutmoqda.</p>
+        <p class="text-sm text-gray-400">Bu hafta 2 ta yangi test sizni kutmoqda.</p>
       </div>
       <div class="space-y-3">
         <CategorySlider :all="false" :category="groups" :multiple="false" query-key="group_id" class="w-full" />
@@ -41,60 +41,62 @@
       </div>
 
       <!-- KPI -->
-      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 my-6">
-        <div class="bg-white rounded-2xl border border-gray-100 p-5 relative overflow-hidden">
-          <div class="w-10 h-10 rounded-xl bg-g-50 flex items-center justify-center mb-3">
-            <svg class="w-5 h-5 text-g-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path d="M4 7h16M4 12h16M4 17h10" />
+      <div class="grid2 grid grid-cols-2 lg:grid-cols-4 gap-4 my-6">
+        <div class="card stat bg-white rounded-2xl border border-gray-100 p-5 relative overflow-hidden">
+          <div class="stat-icon bg-gold">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 20V10" />
+              <path d="M18 20V4" />
+              <path d="M6 20v-4" />
             </svg>
           </div>
-          <p class="text-2xl font-bold">{{ useAuth.store.analytics?.ratingBallStats?.currentBall }}</p>
-          <p class="text-xs text-gray-400 mt-1">Umumiy ball</p>
+          <p class="text-sm text-gray-400">Umumiy ball</p>
+          <p class="text-2xl font-bold">{{ useAuth.store.analytics?.ratingBallStats?.currentBall || 0 }}</p>
           <p v-if="useAuth.store.analytics?.ratingBallStats?.difference"
             :class="useAuth.store.analytics?.ratingBallStats?.difference > 0 ? 'c_green' : 'c_red'"
-            class="text-xs text-g-600 font-semibold mt-2">↑ {{ useAuth.store.analytics?.ratingBallStats?.difference }}
+            class="text-xs text-g-600 font-semibold">↑ {{ useAuth.store.analytics?.ratingBallStats?.difference }}
             o'rin
             {{ useAuth.store.analytics?.ratingBallStats?.status }}</p>
-          <p v-else class="text-xs text-g-600 font-semibold mt-2">O'zgarishsiz</p>
+          <p v-else class="text-xs text-g-600 font-semibold">O'zgarishsiz</p>
         </div>
-        <div class="bg-white rounded-2xl border border-gray-100 p-5 relative overflow-hidden">
-          <div class="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center mb-3">
-            <svg class="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path
-                d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6M18 9h1.5a2.5 2.5 0 0 0 0-5H18M4 22h16M6 9v13M18 9v13M12 5v17M9 5h6" />
+        <div class="card stat bg-white rounded-2xl border border-gray-100 p-5 relative overflow-hidden">
+          <div class="stat-icon bg-navy">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2l2.4 6.9H22l-5.8 4.3 2.2 7-6.4-4.6L5.6 20.2l2.2-7L2 8.9h7.6z" />
             </svg>
           </div>
-          <p class="text-2xl font-bold">#{{ useAuth.store.analytics?.ratingStats?.currentPosition }}</p>
-          <p class="text-xs text-gray-400 mt-1">Guruh reytingi</p>
+          <p class="text-sm text-gray-400">Guruh reytingi</p>
+          <p class="text-2xl font-bold">#{{ useAuth.store.analytics?.ratingStats?.currentPosition || 0 }}</p>
           <p v-if="useAuth.store.analytics?.ratingStats?.difference"
             :class="useAuth.store.analytics?.ratingStats?.difference > 0 ? 'c_green' : 'c_red'"
-            class="text-xs text-g-600 font-semibold mt-2">↑ {{ useAuth.store.analytics?.ratingStats?.difference }} o'rin
+            class="text-xs text-g-600 font-semibold">↑ {{ useAuth.store.analytics?.ratingStats?.difference }} o'rin
             {{ useAuth.store.analytics?.ratingStats?.status }}</p>
-          <p v-else class="text-xs text-g-600 font-semibold mt-2">O'zgarishsiz</p>
+          <p v-else class="text-xs text-g-600 font-semibold">O'zgarishsiz</p>
         </div>
-        <div class="bg-white rounded-2xl border border-gray-100 p-5 relative overflow-hidden">
-          <div class="w-10 h-10 rounded-xl bg-g-50 flex items-center justify-center mb-3">
-            <svg class="w-5 h-5 text-g-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <rect x="3" y="4" width="18" height="18" rx="2" />
-              <path d="M16 2v4M8 2v4M3 10h18M10 14l2 2 4-4" />
+        <div class="card stat bg-white rounded-2xl border border-gray-100 p-5 relative overflow-hidden">
+          <div class="stat-icon bg-teal">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="4" width="18" height="18" rx="3" />
+              <line x1="16" y1="2" x2="16" y2="6" />
+              <line x1="8" y1="2" x2="8" y2="6" />
+              <line x1="3" y1="10" x2="21" y2="10" />
             </svg>
           </div>
+          <p class="text-sm text-gray-400">Davomat</p>
           <p class="text-2xl font-bold">{{ getTotalAttendance }}%</p>
-          <p class="text-xs text-gray-400 mt-1">Davomat</p>
-          <!-- <p class="text-xs text-g-600 font-semibold mt-2">↑ Yaxshi davom eting</p> -->
+          <p class="text-xs text-g-600 font-semibold">Iyun oyi bo'yicha</p>
         </div>
-        <div class="bg-white rounded-2xl border border-gray-100 p-5 relative overflow-hidden">
-          <div class="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center mb-3">
-            <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-              <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2" />
-              <rect x="9" y="3" width="6" height="4" rx="1" />
-              <path d="M9 12h6M9 16h4" />
+        <div class="card stat bg-white rounded-2xl border border-gray-100 p-5 relative overflow-hidden">
+          <div class="stat-icon bg-coral">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 11l3 3L22 4" />
+              <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" />
             </svg>
           </div>
+          <p class="text-sm text-gray-400">Yangi testlar</p>
           <p class="text-2xl font-bold">
             {{ selectedCourseLessons.length }}</p>
-          <p class="text-xs text-gray-400 mt-1">Yangi testlar</p>
-          <p class="text-xs text-red-500 font-semibold mt-2">⏰ Eng yaqin: 2 kun</p>
+          <p class="text-xs text-red-500 font-semibold">⏰ Eng yaqin: 2 kun</p>
         </div>
       </div>
 
@@ -106,44 +108,44 @@
           <div class="bg-white rounded-2xl border border-gray-100 p-5">
             <div class="flex items-center justify-between mb-4">
               <h3 class="text-sm font-bold">Haftalik faollik</h3>
-              <span class="text-xs text-gray-400">Iyun 2026</span>
+              <span class="text-sm text-gray-400">Iyun 2026</span>
             </div>
             <div class="flex items-end gap-2 h-24">
               <div class="flex-1 flex flex-col items-center gap-1.5 h-full">
                 <div class="flex-1 w-full bg-g-50 rounded-md overflow-hidden flex items-end">
                   <div class="w-full bg-g-300 rounded-md" style="height:45%"></div>
                 </div>
-                <span class="text-xs text-gray-400">Du</span>
+                <span class="text-sm text-gray-400">Du</span>
               </div>
               <div class="flex-1 flex flex-col items-center gap-1.5 h-full">
                 <div class="flex-1 w-full bg-g-50 rounded-md overflow-hidden flex items-end">
                   <div class="w-full bg-g-300 rounded-md" style="height:70%"></div>
                 </div>
-                <span class="text-xs text-gray-400">Se</span>
+                <span class="text-sm text-gray-400">Se</span>
               </div>
               <div class="flex-1 flex flex-col items-center gap-1.5 h-full">
                 <div class="flex-1 w-full bg-g-50 rounded-md overflow-hidden flex items-end">
                   <div class="w-full bg-g-300 rounded-md" style="height:42%"></div>
                 </div>
-                <span class="text-xs text-gray-400">Ch</span>
+                <span class="text-sm text-gray-400">Ch</span>
               </div>
               <div class="flex-1 flex flex-col items-center gap-1.5 h-full">
                 <div class="flex-1 w-full bg-g-50 rounded-md overflow-hidden flex items-end">
                   <div class="w-full bg-g-300 rounded-md" style="height:88%"></div>
                 </div>
-                <span class="text-xs text-gray-400">Pa</span>
+                <span class="text-sm text-gray-400">Pa</span>
               </div>
               <div class="flex-1 flex flex-col items-center gap-1.5 h-full">
                 <div class="flex-1 w-full bg-g-50 rounded-md overflow-hidden flex items-end">
                   <div class="w-full bg-g-300 rounded-md" style="height:60%"></div>
                 </div>
-                <span class="text-xs text-gray-400">Ju</span>
+                <span class="text-sm text-gray-400">Ju</span>
               </div>
               <div class="flex-1 flex flex-col items-center gap-1.5 h-full">
                 <div class="flex-1 w-full bg-g-50 rounded-md overflow-hidden flex items-end">
                   <div class="w-full bg-g-300 rounded-md" style="height:30%"></div>
                 </div>
-                <span class="text-xs text-gray-400">Sh</span>
+                <span class="text-sm text-gray-400">Sh</span>
               </div>
               <div class="flex-1 flex flex-col items-center gap-1.5 h-full">
                 <div class="flex-1 w-full bg-g-50 rounded-md overflow-hidden flex items-end">
@@ -175,7 +177,7 @@
                 </div>
                 <div class="flex-1">
                   <p class="text-sm font-semibold">Kvadrat tenglamalar</p>
-                  <p class="text-xs text-gray-400">{{ test.title }} · 15 savol · 30 daqiqa</p>
+                  <p class="text-sm text-gray-400">{{ test.title }} · 15 savol · 30 daqiqa</p>
                 </div>
                 <span class="text-xs font-bold bg-amber-100 text-amber-700 px-2.5 py-1 rounded-full">2 kun</span>
               </div>
@@ -198,7 +200,7 @@
             <div v-if="useAuth.store.analytics?.rankings?.length" class="space-y-1">
               <div v-for="user in useAuth.store.analytics?.rankings"
                 class="flex items-center gap-2.5 py-2 border-b border-gray-50">
-                <span class="text-xs text-gray-400 w-4 text-center font-semibold">{{ user.position }}</span>
+                <span class="text-sm text-gray-400 w-4 text-center font-semibold">{{ user.position }}</span>
                 <UIAvatar class="w-10 h-10 max-w-[40px] max-h-[40px]" :src="user?.user?.image" />
                 <!-- <div
                   class="w-7 h-7 rounded-full bg-amber-50 border border-amber-200 flex items-center justify-center text-xs font-bold text-amber-700">
@@ -265,18 +267,18 @@
 
     <!-- ====== GURUHLAR ====== -->
     <!-- <div class="page" id="page-guruhlar">
-        <div class="mb-6"><h2 class="text-xl font-bold">Guruhlar</h2><p class="text-sm text-gray-400 mt-1">Siz a'zo bo'lgan barcha guruhlar</p></div>
+        <div class="mb-6"><h2 class="text-xl font-bold">Guruhlar</h2><p class="text-sm text-gray-400">Siz a'zo bo'lgan barcha guruhlar</p></div>
         <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
           <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden hover:shadow-md transition-shadow">
             <div class="h-20 bg-gradient-to-br from-purple-400 to-purple-700 flex items-center justify-center text-3xl">📐</div>
             <div class="p-4">
               <p class="font-bold text-base">Algebra-9A</p>
-              <p class="text-xs text-gray-400 mt-0.5 mb-3">O'qituvchi: Dilnoza Yusupova</p>
+              <p class="text-sm text-gray-400 mt-0.5 mb-3">O'qituvchi: Dilnoza Yusupova</p>
               <div class="flex items-center justify-between text-xs text-gray-500 mb-1">
                 <span>👥 24 o'quvchi</span>
                 <span class="bg-green-100 text-green-700 font-semibold px-2 py-0.5 rounded-full">Faol</span>
               </div>
-              <p class="text-xs text-gray-400">🕒 Sesh, Pay — 14:00</p>
+              <p class="text-sm text-gray-400">🕒 Sesh, Pay — 14:00</p>
             </div>
             <div class="flex items-center justify-between px-4 py-3 border-t border-gray-100">
               <span class="text-xs font-semibold bg-g-50 text-g-600 px-2.5 py-1 rounded-full">O'rtacha: 87 ball</span>
@@ -287,12 +289,12 @@
             <div class="h-20 bg-gradient-to-br from-g-300 to-g-600 flex items-center justify-center text-3xl">📏</div>
             <div class="p-4">
               <p class="font-bold text-base">Geometriya-9B</p>
-              <p class="text-xs text-gray-400 mt-0.5 mb-3">O'qituvchi: Sardor Aliyev</p>
+              <p class="text-sm text-gray-400 mt-0.5 mb-3">O'qituvchi: Sardor Aliyev</p>
               <div class="flex items-center justify-between text-xs text-gray-500 mb-1">
                 <span>👥 19 o'quvchi</span>
                 <span class="bg-green-100 text-green-700 font-semibold px-2 py-0.5 rounded-full">Faol</span>
               </div>
-              <p class="text-xs text-gray-400">🕒 Dush, Chor — 10:00</p>
+              <p class="text-sm text-gray-400">🕒 Dush, Chor — 10:00</p>
             </div>
             <div class="flex items-center justify-between px-4 py-3 border-t border-gray-100">
               <span class="text-xs font-semibold bg-g-50 text-g-600 px-2.5 py-1 rounded-full">O'rtacha: 91 ball</span>
@@ -303,12 +305,12 @@
             <div class="h-20 bg-gradient-to-br from-orange-400 to-red-600 flex items-center justify-center text-3xl">📈</div>
             <div class="p-4">
               <p class="font-bold text-base">Funksiyalar-10A</p>
-              <p class="text-xs text-gray-400 mt-0.5 mb-3">O'qituvchi: Dilnoza Yusupova</p>
+              <p class="text-sm text-gray-400 mt-0.5 mb-3">O'qituvchi: Dilnoza Yusupova</p>
               <div class="flex items-center justify-between text-xs text-gray-500 mb-1">
                 <span>👥 16 o'quvchi</span>
                 <span class="bg-amber-100 text-amber-700 font-semibold px-2 py-0.5 rounded-full">Tanaffusda</span>
               </div>
-              <p class="text-xs text-gray-400">🕒 Juma — 16:00</p>
+              <p class="text-sm text-gray-400">🕒 Juma — 16:00</p>
             </div>
             <div class="flex items-center justify-between px-4 py-3 border-t border-gray-100">
               <span class="text-xs font-semibold bg-g-50 text-g-600 px-2.5 py-1 rounded-full">O'rtacha: 79 ball</span>
@@ -320,7 +322,7 @@
 
     <!-- ====== TESTLAR ====== -->
     <!-- <div class="page" id="page-testlar">
-        <div class="mb-6"><h2 class="text-xl font-bold">Testlar</h2><p class="text-sm text-gray-400 mt-1">Joriy va tugagan testlar</p></div>
+        <div class="mb-6"><h2 class="text-xl font-bold">Testlar</h2><p class="text-sm text-gray-400">Joriy va tugagan testlar</p></div>
         <div class="flex gap-2 mb-5">
           <button class="ftab active px-4 py-2 rounded-lg text-sm font-semibold border transition-all">Barchasi</button>
           <button class="ftab px-4 py-2 rounded-lg text-sm font-semibold border border-gray-200 bg-white text-gray-500 transition-all hover:border-g-400 hover:text-g-600">Faol (2)</button>
@@ -335,7 +337,7 @@
               <span class="text-xs font-bold bg-amber-100 text-amber-700 px-2.5 py-1 rounded-full">Yangi</span>
             </div>
             <p class="font-bold text-sm mb-1">Kvadrat tenglamalar</p>
-            <p class="text-xs text-gray-400 mb-3">Algebra-9A · 15 ta savol</p>
+            <p class="text-sm text-gray-400 mb-3">Algebra-9A · 15 ta savol</p>
             <div class="flex gap-4 text-xs mb-4">
               <span class="text-red-500 font-bold">⏰ 2 kun qoldi</span>
               <span class="text-gray-400">⌛ 30 daqiqa</span>
@@ -350,7 +352,7 @@
               <span class="text-xs font-bold bg-amber-100 text-amber-700 px-2.5 py-1 rounded-full">Yangi</span>
             </div>
             <p class="font-bold text-sm mb-1">Uchburchaklar xossalari</p>
-            <p class="text-xs text-gray-400 mb-3">Geometriya-9B · 12 ta savol</p>
+            <p class="text-sm text-gray-400 mb-3">Geometriya-9B · 12 ta savol</p>
             <div class="flex gap-4 text-xs mb-4">
               <span class="text-gray-400">🕔 5 kun qoldi</span>
               <span class="text-gray-400">⌛ 25 daqiqa</span>
@@ -365,7 +367,7 @@
               <span class="text-xs font-bold bg-green-100 text-green-700 px-2.5 py-1 rounded-full">Tugagan</span>
             </div>
             <p class="font-bold text-sm mb-1">Chiziqli funksiyalar</p>
-            <p class="text-xs text-gray-400 mb-3">Funksiyalar-10A · 10 ta savol</p>
+            <p class="text-sm text-gray-400 mb-3">Funksiyalar-10A · 10 ta savol</p>
             <div class="flex gap-4 text-xs mb-2">
               <span class="text-gray-400">📅 14-iyun</span>
               <span class="text-g-600 font-bold">9/10 ball</span>
@@ -378,7 +380,7 @@
 
     <!-- ====== REYTING ====== -->
     <!-- <div class="page" id="page-reyting">
-        <div class="mb-6"><h2 class="text-xl font-bold">Reyting</h2><p class="text-sm text-gray-400 mt-1">Guruh bo'yicha — Iyun 2026</p></div>
+        <div class="mb-6"><h2 class="text-xl font-bold">Reyting</h2><p class="text-sm text-gray-400">Guruh bo'yicha — Iyun 2026</p></div>
         <div class="grid grid-cols-1 xl:grid-cols-3 gap-5">
           <div class="xl:col-span-2">
             Podium
@@ -387,19 +389,19 @@
                 <div class="flex flex-col items-center gap-2">
                   <div class="w-11 h-11 rounded-full bg-g-50 border-2 border-g-100 flex items-center justify-center text-sm font-bold text-g-600">NM</div>
                   <p class="text-xs font-bold">Nodira M.</p>
-                  <p class="text-xs text-gray-400">95 ball</p>
+                  <p class="text-sm text-gray-400">95 ball</p>
                   <div class="w-16 h-12 bg-gradient-to-b from-g-100 to-g-300 rounded-t-xl flex items-center justify-center text-base font-bold text-g-800">2</div>
                 </div>
                 <div class="flex flex-col items-center gap-2">
                   <div class="w-14 h-14 rounded-full bg-amber-50 border-2 border-amber-300 flex items-center justify-center text-base font-bold text-amber-700">BT</div>
                   <p class="text-sm font-bold">Bekzod T.</p>
-                  <p class="text-xs text-gray-400">98 ball</p>
+                  <p class="text-sm text-gray-400">98 ball</p>
                   <div class="w-16 h-16 bg-gradient-to-b from-yellow-300 to-amber-500 rounded-t-xl flex items-center justify-center text-lg font-bold text-amber-900">1</div>
                 </div>
                 <div class="flex flex-col items-center gap-2">
                   <div class="w-10 h-10 rounded-full bg-gray-100 border-2 border-gray-200 flex items-center justify-center text-xs font-bold text-gray-500">SR</div>
                   <p class="text-xs font-bold">Sevara R.</p>
-                  <p class="text-xs text-gray-400">91 ball</p>
+                  <p class="text-sm text-gray-400">91 ball</p>
                   <div class="w-16 h-9 bg-gradient-to-b from-gray-200 to-gray-300 rounded-t-xl flex items-center justify-center text-base font-bold text-gray-600">3</div>
                 </div>
               </div>
@@ -466,7 +468,7 @@
                   </svg>
                   <div class="absolute inset-0 flex flex-col items-center justify-center">
                     <span class="text-lg font-bold">85</span>
-                    <span class="text-xs text-gray-400">ball</span>
+                    <span class="text-sm text-gray-400">ball</span>
                   </div>
                 </div>
               </div>
@@ -483,7 +485,7 @@
 
     <!-- ====== DAVOMAT ====== -->
     <!-- <div class="page" id="page-davomat">
-        <div class="mb-6"><h2 class="text-xl font-bold">Davomat</h2><p class="text-sm text-gray-400 mt-1">Iyun 2026 — barcha guruhlar bo'yicha</p></div>
+        <div class="mb-6"><h2 class="text-xl font-bold">Davomat</h2><p class="text-sm text-gray-400">Iyun 2026 — barcha guruhlar bo'yicha</p></div>
         <div class="grid grid-cols-1 xl:grid-cols-3 gap-5">
           <div class="xl:col-span-2 bg-white rounded-2xl border border-gray-100 p-5">
             <div class="flex items-center justify-between mb-5">
@@ -551,7 +553,7 @@
                   </svg>
                   <div class="absolute inset-0 flex flex-col items-center justify-center">
                     <span class="text-lg font-bold">92%</span>
-                    <span class="text-xs text-gray-400">davomat</span>
+                    <span class="text-sm text-gray-400">davomat</span>
                   </div>
                 </div>
               </div>
@@ -566,22 +568,22 @@
               <div class="space-y-3">
                 <div class="flex items-center gap-3">
                   <div class="w-8 h-8 rounded-full bg-g-50 text-g-600 flex items-center justify-center text-sm flex-shrink-0">✓</div>
-                  <div class="flex-1"><p class="text-sm font-semibold">Algebra-9A</p><p class="text-xs text-gray-400">13-iyun, payshanba</p></div>
+                  <div class="flex-1"><p class="text-sm font-semibold">Algebra-9A</p><p class="text-sm text-gray-400">13-iyun, payshanba</p></div>
                   <span class="text-xs font-bold bg-green-100 text-green-700 px-2 py-0.5 rounded-full">Keldi</span>
                 </div>
                 <div class="flex items-center gap-3 border-t border-gray-50 pt-3">
                   <div class="w-8 h-8 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center text-sm flex-shrink-0">⏱</div>
-                  <div class="flex-1"><p class="text-sm font-semibold">Geometriya-9B</p><p class="text-xs text-gray-400">12-iyun, chorshanba</p></div>
+                  <div class="flex-1"><p class="text-sm font-semibold">Geometriya-9B</p><p class="text-sm text-gray-400">12-iyun, chorshanba</p></div>
                   <span class="text-xs font-bold bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full">Kechikdi</span>
                 </div>
                 <div class="flex items-center gap-3 border-t border-gray-50 pt-3">
                   <div class="w-8 h-8 rounded-full bg-red-50 text-red-500 flex items-center justify-center text-sm flex-shrink-0">✕</div>
-                  <div class="flex-1"><p class="text-sm font-semibold">Algebra-9A</p><p class="text-xs text-gray-400">9-iyun, payshanba</p></div>
+                  <div class="flex-1"><p class="text-sm font-semibold">Algebra-9A</p><p class="text-sm text-gray-400">9-iyun, payshanba</p></div>
                   <span class="text-xs font-bold bg-red-100 text-red-600 px-2 py-0.5 rounded-full">Kelmadi</span>
                 </div>
                 <div class="flex items-center gap-3 border-t border-gray-50 pt-3">
                   <div class="w-8 h-8 rounded-full bg-g-50 text-g-600 flex items-center justify-center text-sm flex-shrink-0">✓</div>
-                  <div class="flex-1"><p class="text-sm font-semibold">Funksiyalar-10A</p><p class="text-xs text-gray-400">7-iyun, juma</p></div>
+                  <div class="flex-1"><p class="text-sm font-semibold">Funksiyalar-10A</p><p class="text-sm text-gray-400">7-iyun, juma</p></div>
                   <span class="text-xs font-bold bg-green-100 text-green-700 px-2 py-0.5 rounded-full">Keldi</span>
                 </div>
               </div>
@@ -624,9 +626,9 @@ const getTotalAttendance = computed(() => {
   }, 0);
   return totalAttendance;
 });
- 
+
 function selectCourse(courseId) {
-    // router.replace({ query: { ...route.query, course_id: JSON.stringify([courseId]) } });
+  // router.replace({ query: { ...route.query, course_id: JSON.stringify([courseId]) } });
 }
 
 onMounted(async () => {
@@ -651,4 +653,67 @@ watch(selectedGroupCourses, (courses) => {
 }, { immediate: true });
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="css" scoped>
+/* ---------- stat grid ---------- */
+.grid2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  padding: 0 20px 6px;
+}
+
+.stat {
+  padding: 18px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.stat-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stat .label {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.stat .value {
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 22px;
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+}
+
+.stat .value .unit {
+  font-size: 12px;
+  font-family: var(--sans);
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.stat .sub {
+  font-size: 11.5px;
+  font-weight: 700;
+}
+
+.sub.up {
+  color: var(--teal);
+}
+
+.sub.warn {
+  color: var(--coral);
+}
+
+.sub.flat {
+  color: var(--muted);
+  font-weight: 600;
+}
+</style>

@@ -9,6 +9,25 @@
 @import "./swiper.scss";
 @import "./editor.scss";
 
+:root {
+  --paper: #FAF8F1;
+  --card: #FFFFFF;
+  --ink: #1E2235;
+  --ink-soft: #4B4F63;
+  --muted: #96917E;
+  --line: #EAE5D6;
+  --gold: #E0992E;
+  --gold-soft: #FBEDD3;
+  --teal: #2F8F7A;
+  --teal-soft: #DFEFE9;
+  --coral: #DD5C4A;
+  --coral-soft: #FBE3DE;
+  --navy-soft: #E7E8F1;
+  --serif: 'Iowan Old Style', 'Georgia', 'Times New Roman', serif;
+  --sans: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif;
+  --mono: 'IBM Plex Mono', 'SFMono-Regular', Menlo, Consolas, monospace;
+}
+
 html,
 body {
   margin: 0;
@@ -448,4 +467,25 @@ img {
 .spoiler:hover,
 .spoiler:focus {
   color: white;
+}
+
+
+.bg-gold {
+  background: var(--gold-soft);
+  color: var(--gold);
+}
+
+.bg-teal {
+  background: var(--teal-soft);
+  color: var(--teal);
+}
+
+.bg-coral {
+  background: var(--coral-soft);
+  color: var(--coral);
+}
+
+.bg-navy {
+  background: var(--navy-soft) !important;
+  color: var(--ink);
 }

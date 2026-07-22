@@ -31,7 +31,7 @@
       @close="isLoading.store.drawer = false">
       <template #title>
         <router-link to="/">
-          <img loading="lazy" class="min-w-fit" src="public/logo.svg" alt="">
+          <img loading="lazy" class="min-w-fit" src="public/logo.png" alt="">
         </router-link>
       </template>
       <Sidebar />

@@ -7,7 +7,7 @@
         </li>
         <li>
           <router-link to="/">
-            <img loading="lazy" class="min-w-fit" src="/logo.svg" alt="">
+            <img loading="lazy" class="min-w-fit h-16" src="/logo.png" alt="">
           </router-link>
         </li>
         <li class="md:block hidden bg_cf5 relative r_8 w-full">

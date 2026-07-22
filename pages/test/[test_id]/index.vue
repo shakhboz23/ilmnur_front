@@ -398,16 +398,16 @@
                           <div class="grid grid-cols-4 my-4 gap-4">
                             <button @click="useTests.test[+index].variants[0] = 'A'"
                               :class="useTests.test[+index].variants[0] == 'A' ? 'bg_main c_white' : 'c_main'"
-                              class="b_main p-5 rounded-lg">A</button>
+                              class="b_main px-5 py-2 rounded-lg">A</button>
                             <button @click="useTests.test[+index].variants[0] = 'B'"
                               :class="useTests.test[+index].variants[0] == 'B' ? 'bg_main c_white' : 'c_main'"
-                              class="b_main p-5 rounded-lg">B</button>
+                              class="b_main px-5 py-2 rounded-lg">B</button>
                             <button @click="useTests.test[+index].variants[0] = 'C'"
                               :class="useTests.test[+index].variants[0] == 'C' ? 'bg_main c_white' : 'c_main'"
-                              class="b_main p-5 rounded-lg">C</button>
+                              class="b_main px-5 py-2 rounded-lg">C</button>
                             <button @click="useTests.test[+index].variants[0] = 'D'"
                               :class="useTests.test[+index].variants[0] == 'D' ? 'bg_main c_white' : 'c_main'"
-                              class="b_main p-5 rounded-lg">D</button>
+                              class="b_main px-5 py-2 rounded-lg">D</button>
                           </div>
                         </template>
                       </li>
@@ -460,25 +460,45 @@
           <iframe :src="useTests.store.tests.test?.[0]?.question + '#toolbar=0'" scrolling="no"
             class="w-full h-[80vh]"></iframe>
 
-          <ul>
-            <li v-for="(i, index) in useTests.store.tests.test">
-              {{ +index + 1 }}
-              <div class="grid grid-cols-4 my-4 gap-4">
-                <button @click="useTests.store.tests.test[+index].variants[0] = 'A'"
-                  :class="useTests.store.tests.test[+index].variants[0] == 'A' ? 'bg_main c_white' : 'c_main'"
-                  class="b_main p-5 rounded-lg">A</button>
-                <button @click="useTests.store.tests.test[+index].variants[0] = 'B'"
-                  :class="useTests.store.tests.test[+index].variants[0] == 'B' ? 'bg_main c_white' : 'c_main'"
-                  class="b_main p-5 rounded-lg">B</button>
-                <button @click="useTests.store.tests.test[+index].variants[0] = 'C'"
-                  :class="useTests.store.tests.test[+index].variants[0] == 'C' ? 'bg_main c_white' : 'c_main'"
-                  class="b_main p-5 rounded-lg">C</button>
-                <button @click="useTests.store.tests.test[+index].variants[0] = 'D'"
-                  :class="useTests.store.tests.test[+index].variants[0] == 'D' ? 'bg_main c_white' : 'c_main'"
-                  class="b_main p-5 rounded-lg">D</button>
+          <ul class="space-y-2 my-4 mb-20">
+            <li class="b_c92 rounded-lg p-4" v-for="(i, index) in useTests.store.tests.test">
+              <span class="w-5 h-5 full_flex bg_main c_white rounded-md mb-2">{{ +index + 1 }}</span>
+              <div class="grid grid-cols-4 gap-4">
+              {{ index }}
+                <button @click="useTests.store.true_answers[+index+1] = 'A'"
+                  :class="useTests.store.true_answers[+index+1] == 'A' ? 'bg_main c_white' : 'c_main'"
+                  class="b_main px-5 py-2 rounded-lg">A</button>
+                <button @click="useTests.store.true_answers[+index+1] = 'B'"
+                  :class="useTests.store.true_answers[+index+1] == 'B' ? 'bg_main c_white' : 'c_main'"
+                  class="b_main px-5 py-2 rounded-lg">B</button>
+                <button @click="useTests.store.true_answers[+index+1] = 'C'"
+                  :class="useTests.store.true_answers[+index+1] == 'C' ? 'bg_main c_white' : 'c_main'"
+                  class="b_main px-5 py-2 rounded-lg">C</button>
+                <button @click="useTests.store.true_answers[+index+1] = 'D'"
+                  :class="useTests.store.true_answers[+index+1] == 'D' ? 'bg_main c_white' : 'c_main'"
+                  class="b_main px-5 py-2 rounded-lg">D</button>
               </div>
             </li>
           </ul>
+
+          <footer v-if="Object.keys(useTests.test)?.length" class="w-full bg-white r_8 overflow-hidden fixed bottom-0" ">
+            <hr />
+            <ul class=" flex items-center justify-around py-5">
+            <li class="md:!flex !hidden full_flex gap-3">
+              <img loading="lazy" src="@/assets/svg/test/help.svg" alt="" />
+              <p class="font-medium text-sm max-w-[112px] c_c65">
+                Muammo haqida xabar bering
+              </p>
+            </li>
+
+            <li>
+              <div>
+                <a-button :loading="isLoading.isLoadingType('checkAllAnswer')" @click="() => useTests.checkAllAnswers()"
+                  class="bg_main px-[54px] py-3 min-h-fit r_50 text-white">Yakunlash</a-button>
+              </div>
+            </li>
+            </ul>
+          </footer>
         </section>
         <section v-else class="bg-white md:mx-[100px] r_8 relative">
           <section v-if="Object.keys(useTests.test)?.length" class="md:flex gap-7 items-start max-w-fit mx-auto md:p-8">

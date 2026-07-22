@@ -4,7 +4,7 @@
         <section v-if="!useAuth.modal.sended" align-center class="bg-opacity-50 !rounded-lg max-w-[400px]">
             <section class="space-y-8 bg-white rounded-lg p-6 text-center _c07">
                 <router-link class="flex justify-center" to="/">
-                    <img src="/logo.svg" alt="" />
+                    <img src="/logo.png" alt="" />
                 </router-link>
                 <h1 class="_c07 text-2xl font-semibold">
                     Forgot Password
@@ -30,7 +30,7 @@
         <!-- Forgot -->
         <section v-if="useAuth.modal.sended" width="400" align-center class="bg-opacity-50 !rounded-lg max-w-[400px]">
             <router-link class="flex justify-center" to="/">
-                <img src="/logo.svg" alt="" />
+                <img src="/logo.png" alt="" />
             </router-link>
             <section class="space-y-8 bg-white rounded-lg p-6 text-center _c07">
                 <h1 class="_c07 text-2xl font-semibold">{{ $t("login.checkemail") }}</h1>
