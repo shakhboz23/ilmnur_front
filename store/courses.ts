@@ -107,14 +107,14 @@ export const useCoursesStore = defineStore("courses", () => {
     clearData();
   }
 
-  async function updateCourse() {
+  async function updateCourse(group_id: number) {
     create.group_id = +router.currentRoute.value.params.group_id || create.group_id;
     const formData = new FormData();
     console.log(create)
     for (let i in create) {
       if (i === "attendance_days") {
         formData.append(i, JSON.stringify(create[i]));
-      } else if (create[i]) {
+      } else if (create[i] || create[i] == 0) {
         formData.append(i, create[i]);
       }
     }

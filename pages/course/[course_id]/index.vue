@@ -38,7 +38,8 @@
                         <img src="@/assets/svg/news/time.svg" alt="">
                         <span>{{ formatDurationFromSeconds(useCourses.store.courses?.course?.total_duration) }}</span>
                     </button>
-                    <button class="flex items-center gap-2 text-sm font-medium py-2 px-4 bg_cf2 r_8">
+                    <button @click="store.membersModal = true"
+                        class="flex items-center gap-2 text-sm font-medium py-2 px-4 bg_cf2 r_8">
                         <img src="@/assets/svg/icon/members.svg" alt="">
                         <span>{{ useCourses.store.courses?.course?.subscriptions_count }} Azolar</span>
                     </button>
@@ -54,6 +55,19 @@
                     <button class="flex items-center gap-2 text-sm font-medium py-2 px-4 bg_cf2 r_8">
                         <img src="@/assets/svg/icon/a_star.svg" alt="">
                         <span>{{ useCourses.store.courses?.course?.likes_count }}</span>
+                    </button>
+                    <button @click="openTeacherModal"
+                        class="flex items-center gap-2 text-sm font-medium py-2 px-4 bg_cf2 r_8">
+                        <template v-if="useCourses.store.courses?.course?.teacher_id">
+                            <UIAvatar :src="useCourses.store.courses?.course?.teacher?.image" class="max-w-7 max-h-7" />
+                            {{ useCourses.store.courses?.course?.teacher?.name }}
+                            {{ useCourses.store.courses?.course?.teacher?.surname }}
+                        </template>
+                        <template>
+                            <img src="@/assets/svg/icon/a_star.svg" alt="">
+                            <div>O'qituvchi <span v-if="isLoading.user?.current_role == 'admin'">qo'shish</span><span
+                                    v-else>biriktirilmagan</span></div>
+                        </template>
                     </button>
                 </div>
                 <div class="flex justify-between items-center">
@@ -176,6 +190,63 @@
                 <p class="c_red">{{ isLoading.store.errorMessage.message }}</p>
             </div>
         </UIModal>
+
+        <UIModal v-if="isLoading.user?.current_role == 'admin'" :isOpen="store.addTeacherModal"
+            :loadingType="'createLesson'" @update:isOpen="(value) => handleModal(value, 'teacherModal')">
+            <div class="space-y-6">
+                <div class="space-y-6">
+                    <a-select id="categories" class="w-full" v-model:value="useCourses.create.teacher_id"
+                        :placeholder="$t('Select category')">
+                        <a-select-option v-for="user in useAuth.store.users?.records" :key="user" :value="user.id">
+                            <div class="flex items-center gap-2">
+                                <span>{{ user.name }} {{ user.surname }}</span>
+                            </div>
+                        </a-select-option>
+                        <template #suffixIcon>
+                            <img class="w-4" src="@/assets/svg/icon/arrow.svg" alt="" />
+                        </template>
+                    </a-select>
+                </div>
+            </div>
+        </UIModal>
+
+        <UIModal :isOpen="store.membersModal" :loadingType="'createLesson'"
+            @update:isOpen="() => store.membersModal = false">
+            <div class="space-y-6 mt-8">
+                <template v-if="isLoading.user?.current_role == 'admin'">
+                    <div class="flex items-center gap-2" v-if="store.addMember">
+                        <a-select id="categories" class="w-full" v-model:value="store.member_id"
+                            :placeholder="$t('Select category')">
+                            <a-select-option v-for="user in useAuth.store.users?.records" :key="user" :value="user.id">
+                                <div class="flex items-center gap-2">
+                                    <span>{{ user.name }} {{ user.surname }}</span>
+                                </div>
+                            </a-select-option>
+                            <template #suffixIcon>
+                                <img class="w-4" src="@/assets/svg/icon/arrow.svg" alt="" />
+                            </template>
+                        </a-select>
+                        <button @click="addMember"
+                            class="h-[46px] px-[56px] rounded-[10px] text-sm leading-4 bg_main text-white">
+                            +
+                        </button>
+                    </div>
+                    <button v-else @click="store.addMember = true"
+                        class="h-[46px] px-[56px] rounded-[10px] text-sm leading-4 bg_main text-white">
+                        + O'quvchi qo'shish
+                    </button>
+                </template>
+                <ul>
+                    <li v-for="{ user } in useCourses.store.courses?.course?.subscriptions" :key="user.id"
+                        class="flex items-center gap-2">
+                        <UIAvatar :src="user?.image" class="max-w-7 max-h-7" />
+                        <span>{{ user?.name }} {{ user?.surname }}</span>
+                    </li>
+                </ul>
+
+            </div>
+        </UIModal>
+
         <UIDeleteModal v-if="['lesson', 'test'].includes(isLoading.store.modalType)" :isOpen="isLoading.modal.delete"
             :loadingType="'deletegroup'" @update:isOpen="(value) => handleModal(value)" />
         <UIDeleteModal v-else :isOpen="isLoading.modal.delete" :loadingType="'deletegroup'"
@@ -191,7 +262,7 @@
 </template>
 
 <script setup>
-import { useLoadingStore, useCoursesStore, useLessonsStore, useCategoryStore, useStripeStore } from '~/store';
+import { useLoadingStore, useCoursesStore, useLessonsStore, useCategoryStore, useStripeStore, useAuthStore, useSubscriptionStore } from '~/store';
 import { VueDraggableNext as draggable } from "vue-draggable-next";
 import { formatDate, formatDurationFromSeconds } from "@/composables";
 import { useNotification } from "~/composables";
@@ -203,6 +274,8 @@ const useCourses = useCoursesStore();
 const useLessons = useLessonsStore();
 const useCategory = useCategoryStore();
 const useStripe = useStripeStore()
+const useAuth = useAuthStore();
+const useSubscription = useSubscriptionStore();
 
 const router = useRouter();
 
@@ -210,14 +283,34 @@ const store = reactive({
     active_id: 0,
     lesson_id: 0,
     modalType: '',
+    addTeacherModal: false,
+    membersModal: false,
+    addMember: false,
+    teacher_id: 0,
+    member_id: null,
     course_id: +router.currentRoute.value.params.course_id,
 })
+
+function openTeacherModal() {
+    for (let i in useCourses.store.courses?.course) {
+        console.log(i);
+
+        useCourses.create[i] = useCourses.store.courses?.course[i]
+    }
+
+    useCourses.store.course_id = useCourses.store.courses?.course.id;
+    store.addTeacherModal = true;
+}
 
 async function handleModal(value, modalType) {
     modalType = modalType || 'lesson'
     console.log(modalType);
 
     if (value == "OK") {
+        if (store.addTeacherModal) {
+            store.addTeacherModal = false;
+            return useCourses.updateCourse();
+        }
         if (isLoading.modal.delete) {
             if (modalType !== 'course') {
                 useLessons.deleteLesson();
@@ -240,6 +333,7 @@ async function handleModal(value, modalType) {
     } else {
         isLoading.modal.create = false;
         isLoading.modal.delete = false;
+        store.addTeacherModal = false;
         useCourses.clearData();
     }
 }
@@ -256,6 +350,14 @@ async function createCheckout() {
     if (res?.success) {
         await useCourses.getByCourse();
     }
+}
+
+async function addMember() {
+    useSubscription.store.course_ids = [useCourses.store.courses?.course]
+    console.log(useSubscription.store.course_ids);
+    
+    await useSubscription.createSubscribeUser({ user_id: store.member_id, role: 'student' });
+    await useCourses.getByCourse();
 }
 
 function handleButton(type, lesson, modalType) {
@@ -344,6 +446,7 @@ watch(() => store.course_id, () => {
 
 onBeforeMount(async () => {
     await useCourses.getByCourse();
+    await useAuth.getUsers();
     useLessons.getByCourse(useCourses.store.courses?.course?.group_id);
 })
 </script>

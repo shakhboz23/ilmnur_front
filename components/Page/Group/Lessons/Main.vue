@@ -9,8 +9,7 @@
             <div v-else-if="useLessons.store.courses?.length || isLoading.store.owner_id == isLoading.user.id"
                 class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
                 <PageGroupLessonsCard :lessoncarddata="i" v-for="i in useLessons.store.courses" />
-
-                <div v-if="isLoading.user.id == isLoading.store.owner_id" @click="isLoading.modal.create = true"
+                <div v-if="isLoading.user?.current_role == 'admin'" @click="isLoading.modal.create = true"
                     class="addbox addbox-h min-h-[360px]">Kurs qo'shish</div>
             </div>
             <div v-else class="full_flex py-20">

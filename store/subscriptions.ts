@@ -36,31 +36,30 @@ export const useSubscriptionStore = defineStore("subscription", () => {
     store.subscriptions = data.data;
   }
 
-  async function subscribeToGroup(course_id: number) {
-    const data: any = await apiRequest.post(
+  async function subscribeToGroup(course_id: number, user_id?: number) {
+    await apiRequest.post(
       "subscriptions/create",
       {
         role: 'student',
         course_id,
+        user_id,
       },
       "subscriptions"
     );
     useCourses.getUsersByGroupId();
     isLoading.modal.create = false;
-    console.log(data);
   }
 
-  async function createSubscribeUser() {
+  async function createSubscribeUser(data: any) {
     let course_ids: any = [];
     for (let i of store.course_ids) {
       course_ids.push(i.id);
     }
-    console.log(course_ids);
-    const data: any = await apiRequest.post(
+    data = await apiRequest.post(
       "subscriptions/createSubscription",
       {
-        user_id: useAuth.user.id,
-        role: isLoading.user.role,
+        user_id: data.user_id || useAuth.user.id,
+        role: data.role || isLoading.user.role,
         course_ids,
       },
       "subscriptions"

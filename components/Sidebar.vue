@@ -57,7 +57,7 @@
             </li>
             <li v-else>
                 <template v-for="i in sidebar">
-                    <router-link v-if="!i.role?.length || i.role.includes(isLoading.user.role)" :to="i.url" :key="i.id">
+                    <router-link v-if="!i.role?.length || i.role.includes(isLoading.user.current_role)" :to="i.url" :key="i.id">
                         <div
                             class="flex items-center hover:bg-[#FF852E] hover:bg-opacity-80 px-2 rounded-lg gap-2 h-12 cursor-pointer text-[#555555]">
                             <img loading="lazy" class="w-5 h-5" :src="i.svg" alt="" />
