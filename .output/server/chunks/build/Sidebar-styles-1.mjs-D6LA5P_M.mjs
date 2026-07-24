@@ -1,0 +1,4 @@
+const Sidebar_vue_vue_type_style_index_0_scoped_6604a60f_lang = '.router-link-active div[data-v-6604a60f]{background:#ff852e!important;color:#14191f}.router-link-activehover[data-v-6604a60f]{background:#ff852e}.active-link .active[data-v-6604a60f]{background:#ff852e!important;color:#14191f}.active-link div[data-v-6604a60f]{background:transparent!important;color:#14191f}.clip[data-v-6604a60f]{clip-path:path("M41.25 38.0962C44.0928 38.0962 47.657 37.7752 48.5785 35.0859C49.4991 32.3993 50 29.5084 50 26.4969C50 12.2609 38.8071 0.720459 25 0.720459C11.1929 0.720459 0 12.2609 0 26.4969C0 40.7328 11.1929 52.2733 25 52.2733C26.97 52.2733 28.8869 52.0383 30.7256 51.5941C33.0457 51.0336 33.75 48.2161 33.75 45.8291C33.75 41.5584 37.1079 38.0962 41.25 38.0962Z")}';
+
+export { Sidebar_vue_vue_type_style_index_0_scoped_6604a60f_lang as S };
+//# sourceMappingURL=Sidebar-styles-1.mjs-D6LA5P_M.mjs.map

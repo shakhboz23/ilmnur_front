@@ -1,0 +1,4 @@
+const _imports_3 = "data:image/svg+xml,%3csvg%20width='24'%20height='25'%20viewBox='0%200%2024%2025'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cpath%20d='M18%209.3728L12%2015.3728L6%209.3728'%20stroke='black'%20stroke-width='1.7'%20stroke-linecap='round'%20stroke-linejoin='round'/%3e%3c/svg%3e";
+
+export { _imports_3 as _ };
+//# sourceMappingURL=arrow-BRQWUfje.mjs.map
