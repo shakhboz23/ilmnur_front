@@ -8,7 +8,7 @@
     <div v-if="isLoading.isLoadingType('getById')" class="space-y-4">
       <LoadingDiv v-for="i in 10" class="w-full h-10" />
     </div>
-    <div v-else-if="useTests.store.tests?.user_id == isLoading.user?.id">
+    <div v-else-if="isLoading.user?.current_role == 'admin'">
       <nav class="flex items-center justify-between pb-5 w-full">
         <a-steps v-if="store.currentStep != 2" :current="store.currentStep" :items="[
           {
@@ -457,14 +457,13 @@
         </nav>
         <section v-if="useTests.test_settings.test_type == 'pdf_file'">
           <!-- {{useTests.store.tests.test}} -->
-          <iframe :src="useTests.store.tests.test?.[0]?.question + '#toolbar=0'" scrolling="no"
+          <iframe v-if="!$route.query.pdf" :src="useTests.store.tests.test?.[0]?.question + '#toolbar=0'" scrolling="no"
             class="w-full h-[80vh]"></iframe>
 
           <ul class="space-y-2 my-4 mb-20">
-            <li class="b_c92 rounded-lg p-4" v-for="(i, index) in useTests.store.tests.test">
-              <span class="w-5 h-5 full_flex bg_main c_white rounded-md mb-2">{{ +index + 1 }}</span>
-              <div class="grid grid-cols-4 gap-4">
-              {{ index }}
+            <li class="full_flex gap-4 w-full b_c92 rounded-lg p-4" v-for="(i, index) in useTests.store.tests.test">
+              <span class="min-w-5 h-5 p-1 full_flex bg_main c_white rounded-md mb-2">{{ +index + 1 }}</span>
+              <div class="grid grid-cols-4 gap-4 w-full">
                 <button @click="useTests.store.true_answers[+index+1] = 'A'"
                   :class="useTests.store.true_answers[+index+1] == 'A' ? 'bg_main c_white' : 'c_main'"
                   class="b_main px-5 py-2 rounded-lg">A</button>

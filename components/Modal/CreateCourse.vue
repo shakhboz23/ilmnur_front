@@ -38,6 +38,16 @@
                     </label>
                 </div>
             </fieldset>
+            <div class="space-y-2">
+                <label class="block text-sm font-medium">Kurs boshlanish sanasi</label>
+                <a-date-picker
+                    v-model:value="useCourses.create.start_date"
+                    class="w-full"
+                    format="DD/MM/YYYY"
+                    value-format="YYYY-MM-DD"
+                    placeholder="DD/MM/YYYY"
+                />
+            </div>
             <div class="grid gap-5">
                 <label @click="useCourses.create.group_type = 'private'" class="space-y-3 r_8 p-5 cursor-pointer"
                     :class="useCourses.create.group_type == 'private'

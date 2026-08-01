@@ -1,5 +1,5 @@
 <template>
-    <nav class="mb-5 md:mt-0 -mt-5 overflow-hidden overflow-x-auto whitespace-nowrap removeScroll">
+    <!-- <nav class="mb-5 md:mt-0 -mt-5 overflow-hidden overflow-x-auto whitespace-nowrap removeScroll">
         <ul class="flex md:text-sm text-xs gap-2">
             <li v-for="i in useCategory.store.category" class="flex flex-col items-center space-y-1 pcursor">
                 <p @click="isLoading.filter.category_id = isLoading.filter.category_id == i.id ? '' : i.id"
@@ -9,16 +9,21 @@
                 <p>{{ i.title }}</p>
             </li>
         </ul>
-    </nav>
-    
+    </nav> -->
+
     <CategorySlider
         :category="useCategory.store.subcategory.filter(item => item.category_id == ($route.query.category_id || item.category_id))"
         class="mb-5" />
-    <Tabs />
+    <component :editable="false" :is="InfiniteScroll" />
+
+    <!-- <Tabs /> -->
+
 </template>
 
 <script setup>
+
 import { useGroupsStore, useCategoryStore, useLessonsStore, useLoadingStore, useCoursesStore } from "@/store"
+const InfiniteScroll = resolveComponent('InfiniteScroll');
 const useGroups = useGroupsStore();
 const useCategory = useCategoryStore();
 const useCourses = useCoursesStore();

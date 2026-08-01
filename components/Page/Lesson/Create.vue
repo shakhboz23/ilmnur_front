@@ -92,6 +92,11 @@
                         <span>Fayl biriktirish</span>
                     </button>
                 </div>
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium">Kurs boshlanish sanasi</label>
+                    <a-date-picker v-model:value="useLessons.create.start_date" class="w-full" format="DD/MM/YYYY"
+                        value-format="YYYY-MM-DD" placeholder="DD/MM/YYYY" />
+                </div>
                 <div class="space-y-5 py-6">
                     <a-button :loading="isLoading.isLoadingType('createLesson')"
                         @click="useLessons.createLesson(true, 'create', $router.currentRoute.value.fullPath.includes('update'))"

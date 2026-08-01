@@ -1,6 +1,6 @@
 <template>
     <div class="w-full">
-        <nav class="w-full mb-4 space-y-3">
+        <!-- <nav class="w-full mb-4 space-y-3">
             <CategorySlider
                 :category_id="useCourses.store.users?.user?.role == 'teacher' ? useCourses.store.users?.user?.course_id : null"
                 :all="false" :category="useLessons.store.courses" class="w-full" />
@@ -14,10 +14,10 @@
                     Show result
                 </button>
             </div>
-        </nav>
+        </nav> -->
 
         <section class="space-y-4">
-            <a-date-picker v-model:value="useAttendance.store.currentDate" format="DD/MM/YYYY"
+            <a-date-picker :disabled="props.start_date" v-model:value="useAttendance.store.currentDate" format="DD/MM/YYYY"
                 :disabled-date="disabledDate"
                 class="!rounded-[10px] !h-[42px] !border-gray-200 hover:!border-gray-300" />
 
@@ -51,7 +51,7 @@
 
                             <td class="px-6 rounded-r-2xl">
                                 <div class="flex items-center gap-2 justify-end md:justify-end">
-                                    <button @click="setAttendanceStatus(2, i?.role, i?.user_id, i.course?.id, index)"
+                                    <button @click="setAttendanceStatus(2, i?.role, i?.user_id, index)"
                                         title="Bajarildi"
                                         :class="i.user.attendance?.[0]?.attendance == 2 ? 'bg-emerald-500 text-white hover:bg-emerald-500' : 'bg-emerald-50 hover:bg-emerald-100 text-emerald-500'"
                                         class="flex items-center justify-center w-10 h-8 rounded-lg px-3 bg-emerald-50 text-emerald-500 hover:scale-105 transition-all duration-150">
@@ -61,7 +61,7 @@
                                         </svg>
                                     </button>
 
-                                    <button @click="setAttendanceStatus(1, i?.role, i?.user_id, i.course?.id, index)"
+                                    <button @click="setAttendanceStatus(1, i?.role, i?.user_id, index)"
                                         title="Kutilmoqda"
                                         :class="i.user.attendance?.[0]?.attendance == 1 ? 'bg-amber-500 text-white hover:bg-amber-500' : 'bg-amber-50 hover:bg-amber-100 text-amber-500'"
                                         class="flex items-center justify-center w-10 h-8 rounded-lg px-3 bg-amber-50 text-amber-500 hover:scale-105 transition-all duration-150">
@@ -72,7 +72,7 @@
                                         </svg>
                                     </button>
 
-                                    <button @click="setAttendanceStatus(0, i?.role, i?.user_id, i.course?.id, index)"
+                                    <button @click="setAttendanceStatus(0, i?.role, i?.user_id, index)"
                                         title="Bekor qilingan"
                                         :class="i.user.attendance?.[0]?.attendance == 0 ? 'bg-rose-500 text-white hover:bg-rose-500' : 'bg-rose-50 hover:bg-rose-100 text-rose-500'"
                                         class="flex items-center justify-center w-10 h-8 rounded-lg px-3 bg-rose-50 text-rose-500 hover:scale-105 transition-all duration-150">
@@ -117,12 +117,28 @@
 import { useLoadingStore, useAttendanceStore, useLessonsStore, useCoursesStore } from '~/store';
 import dayjs from 'dayjs';
 
+const props = defineProps({
+    lesson_id: {
+        type: Number,
+        default: 0,
+    },
+    group_id: {
+        type: Number,
+        default: 0,
+    },
+    start_date: {
+        type: String,
+        default: null,
+    }
+})
+
 const router = useRouter();
 const isLoading = useLoadingStore();
 const useAttendance = useAttendanceStore();
 const useLessons = useLessonsStore();
 const useCourses = useCoursesStore();
-useCourses.getUsersByGroupId();
+useAttendance.store.currentDate = props.start_date ? dayjs(props.start_date) : dayjs(new Date());
+useCourses.getUsersByGroupId({ group_id: props.group_id, lesson_id: props.lesson_id });
 
 const store = reactive({
     is_show: false,
@@ -186,31 +202,32 @@ function activeChartLine(type) {
     }
 }
 
-function setAttendanceStatus(attendance, role, user_id, course_id, index) {
+function setAttendanceStatus(attendance, role, user_id, index) {
     useCourses.store.users[0].subscriptions[index].user.attendance = [{ attendance }];
-    useAttendance.postAttendance({ attendance, role, user_id, course_id });
-}
-
-function handleStatus(key, id, course_id) {
-    useAttendance.store.subscription_id = id;
-    useAttendance.changeSubscriptionStatus(key, course_id);
+    useAttendance.postAttendance({ attendance, role, user_id, lesson_id: props.lesson_id, date: useAttendance.store.currentDate });
 }
 
 const disabledDate = (current) => {
     return current && current > dayjs().endOf('day');
 };
 
-watch(() => useAttendance.store.currentDate, () => {
-    useCourses.getUsersByGroupId();
+watch(() => useAttendance.store.currentDate, async () => {
+    await useCourses.getUsersByGroupId({ group_id: props.group_id, lesson_id: props.lesson_id });
+    for (let i in useCourses.store.users?.[0]?.subscriptions) {
+        const attendance = useCourses.store.users?.[0]?.subscriptions[i]?.user?.attendance?.[0]?.attendance;
+        if (attendance !== undefined) {
+            useCourses.store.users[0].subscriptions[i].user.attendance = [{ attendance }];
+        }
+    }
 })
 
 watch(() => isLoading.store.category_id, () => {
-    useCourses.getUsersByGroupId();
+    useCourses.getUsersByGroupId({ group_id: props.group_id, lesson_id: props.lesson_id });
 })
 
 watch(() => router.currentRoute.value.query.page, () => {
     if (router.currentRoute.value.query.page == 'activity') {
-        useCourses.getUsersByGroupId();
+        useCourses.getUsersByGroupId({ group_id: props.group_id, lesson_id: props.lesson_id });
     }
 })
 </script>

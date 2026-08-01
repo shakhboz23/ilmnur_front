@@ -63,8 +63,8 @@
                             {{ useCourses.store.courses?.course?.teacher?.name }}
                             {{ useCourses.store.courses?.course?.teacher?.surname }}
                         </template>
-                        <template>
-                            <img src="@/assets/svg/icon/a_star.svg" alt="">
+                        <template v-else>
+                            <UIAvatar class="max-w-7 max-h-7" />
                             <div>O'qituvchi <span v-if="isLoading.user?.current_role == 'admin'">qo'shish</span><span
                                     v-else>biriktirilmagan</span></div>
                         </template>
@@ -174,6 +174,12 @@
                 <FloatingInput :id="'title'" :maxValue="50" class="w-full" :type="'text'"
                     v-model="useLessons.create.title" :label="'Title'" required />
                 <p class="c_red">{{ isLoading.store.errorMessage.message }}</p>
+
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium">Dars boshlanish sanasi</label>
+                    <a-date-picker v-model:value="useLessons.create.start_date" class="w-full" format="DD/MM/YYYY"
+                        value-format="YYYY-MM-DD" placeholder="DD/MM/YYYY" />
+                </div>
             </div>
         </UIModal>
 
@@ -188,6 +194,12 @@
                 <FloatingInput :id="'title'" :maxValue="50" class="w-full" :type="'text'"
                     v-model="useLessons.create.title" :label="'Title'" required />
                 <p class="c_red">{{ isLoading.store.errorMessage.message }}</p>
+
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium">Dars boshlanish sanasi</label>
+                    <a-date-picker v-model:value="useLessons.create.start_date" class="w-full" format="DD/MM/YYYY"
+                        value-format="YYYY-MM-DD" placeholder="DD/MM/YYYY" />
+                </div>
             </div>
         </UIModal>
 
@@ -339,7 +351,7 @@ async function handleModal(value, modalType) {
 }
 
 function isOwner() {
-    if (useCourses.store.courses?.course?.user_id == isLoading.user.id) {
+    if (useCourses.store.courses?.course?.user_id == isLoading.user.id && isLoading.user?.current_role == 'admin') {
         return true;
     }
     return false;
@@ -355,7 +367,7 @@ async function createCheckout() {
 async function addMember() {
     useSubscription.store.course_ids = [useCourses.store.courses?.course]
     console.log(useSubscription.store.course_ids);
-    
+
     await useSubscription.createSubscribeUser({ user_id: store.member_id, role: 'student' });
     await useCourses.getByCourse();
 }

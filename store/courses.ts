@@ -1,15 +1,15 @@
 import { useApiRequest } from "~/composables";
 import type { CoursesType } from "~/types/store";
 import { useLoadingStore } from "./loading";
-import { useSubscriptionStore } from "./subscriptions";
 import { useLessonsStore } from "./lessons";
+import { useAttendanceStore } from "./attendance";
 
 export const useCoursesStore = defineStore("courses", () => {
   const apiRequest = useApiRequest();
   const router = useRouter();
   const useLessons = useLessonsStore();
   const isLoading = useLoadingStore();
-  const useSubscription = useSubscriptionStore();
+  const useAttendance = useAttendanceStore();
 
   const store: CoursesType = reactive({
     courses: [],
@@ -29,6 +29,7 @@ export const useCoursesStore = defineStore("courses", () => {
     subcategory_id: null,
     group_type: 'public',
     attendance_days: [] as string[],
+    start_date: "",
   });
 
   function clearData() {
@@ -51,7 +52,7 @@ export const useCoursesStore = defineStore("courses", () => {
 
   async function getByCourse() {
     console.log(router.currentRoute.value.params.course_id, 45646);
-    
+
     const data: any = await apiRequest.get(
       `lesson/getByCourse/${router.currentRoute.value.params.course_id || 0}`,
       "getByCourse"
@@ -59,9 +60,9 @@ export const useCoursesStore = defineStore("courses", () => {
     store.courses = data.data;
   }
 
-  async function getUsersByGroupId() {
+  async function getUsersByGroupId(form?: { group_id?: number, lesson_id?: number }): Promise<void> {
     const data: any = await apiRequest.get(
-      `course/getUsersByGroupId/${router.currentRoute.value.params.group_id}?date=${useSubscription.store.currentDate}&course_id=${isLoading.store.category_id}&page=${router.currentRoute.value.query.page}`,
+      `course/getUsersByGroupId/${router.currentRoute.value.params.group_id || form?.group_id}?date=${useAttendance.store.currentDate}&course_id=${+router.currentRoute.value.params.course_id}&lesson_id=${form?.lesson_id || router.currentRoute.value.params.lesson_id}&page=${router.currentRoute.value.query.page}`,
       "course"
     );
     store.users = data.data;
@@ -110,6 +111,9 @@ export const useCoursesStore = defineStore("courses", () => {
   async function updateCourse(group_id: number) {
     create.group_id = +router.currentRoute.value.params.group_id || create.group_id;
     const formData = new FormData();
+    if (create.attendance_days.length && create.attendance_days[0].attendance_day) {
+      create.attendance_days = create.attendance_days[0].attendance_day;
+    }
     console.log(create)
     for (let i in create) {
       if (i === "attendance_days") {

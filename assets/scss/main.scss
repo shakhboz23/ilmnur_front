@@ -48,7 +48,8 @@ body {
 input,
 textarea,
 select,
-.ant-select-selector, .ant-picker {
+.ant-select-selector,
+.ant-picker {
   min-height: 50px !important;
   width: 100%;
   background: transparent;
@@ -488,4 +489,10 @@ img {
 .bg-navy {
   background: var(--navy-soft) !important;
   color: var(--ink);
+}
+
+.ant-modal-close {
+  position: static !important;
+  margin-left: calc(100% - 24px) !important;
+  margin-bottom: 16px !important;
 }

@@ -14,7 +14,7 @@
             :class="store.scrollY ? 'bottom-0' : '-bottom-40'">
             <ul>
                 <li v-if="activeKey == 1">
-                    <div v-if="useLessons.store.lessons?.course?.user_id != isLoading.user?.id">
+                    <div v-if="useLessons.store.lessons?.course?.user_id != isLoading.user?.id || isLoading.user?.current_role !== 'admin'">
                         <router-link v-if="useLessons.store.lessons?.course?.test_count"
                             :to="`/test/${$router.currentRoute.value.params.lesson_id}`" class="full_flex bg-white">
                             <button class="bg_main px-5 py-2 r_8 w-full text-white">Testni boshlash</button>
@@ -23,7 +23,7 @@
                             <button class="bg_main px-5 py-2 r_8 w-full text-white">Test mavjud emas</button>
                         </div>
                     </div>
-                    <div v-else-if="useLessons.store.lessons?.course?.user_id == isLoading.user?.id">
+                    <div v-else-if="useLessons.store.lessons?.course?.user_id == isLoading.user?.id && isLoading.user?.current_role == 'admin'">
                         <router-link :to="`/test/${$router.currentRoute.value.params.lesson_id}`"
                             class="full_flex bg-white">
                             <button class="bg_main px-5 py-2 r_8 w-full text-white">Test qo'shish</button>
