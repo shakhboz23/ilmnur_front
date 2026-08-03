@@ -223,9 +223,9 @@
         </UIModal>
 
         <UIModal :isOpen="store.membersModal" :loadingType="'createLesson'"
-            @update:isOpen="() => store.membersModal = false">
-            <div class="space-y-6 mt-8">
-                <template v-if="isLoading.user?.current_role == 'admin'">
+            @update:isOpen="() => store.membersModal = false" width="80vw">
+            <div class="space-y-6">
+                <div class="flex items-center justify-between" v-if="isLoading.user?.current_role == 'admin'">
                     <div class="flex items-center gap-2" v-if="store.addMember">
                         <a-select id="categories" class="w-full" v-model:value="store.member_id"
                             :placeholder="$t('Select category')">
@@ -247,14 +247,115 @@
                         class="h-[46px] px-[56px] rounded-[10px] text-sm leading-4 bg_main text-white">
                         + O'quvchi qo'shish
                     </button>
-                </template>
-                <ul>
-                    <li v-for="{ user } in useCourses.store.courses?.course?.subscriptions" :key="user.id"
-                        class="flex items-center gap-2">
-                        <UIAvatar :src="user?.image" class="max-w-7 max-h-7" />
-                        <span>{{ user?.name }} {{ user?.surname }}</span>
-                    </li>
-                </ul>
+
+                    <div class="flex items-center gap-2">
+                        <button onclick="changeMonth(-1)"
+                            class="btn-outline w-9 h-9 rounded-lg flex items-center justify-center">‹</button>
+                        <div class="chalk-dashed rounded-lg px-4 py-2 text-center min-w-[150px]">
+                            <div class="mono text-lg" id="monthLabel">{{ monthNames[0] }}</div>
+                        </div>
+                        <button onclick="changeMonth(1)"
+                            class="btn-outline w-9 h-9 rounded-lg flex items-center justify-center">›</button>
+                    </div>
+                </div>
+
+                <section class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8 no-print">
+                    <div class="b_main rounded-lg p-4">
+                        <p class="text-xs">Jami o'quvchilar</p>
+                        <p class="mono text-3xl mt-1" id="statTotal">0</p>
+                    </div>
+                    <div class="b_main rounded-lg p-4">
+                        <p class="text-xs">Bu oy yig'ilgan</p>
+                        <p class="mono text-3xl mt-1" id="statCollected">0</p>
+                    </div>
+                    <div class="b_main rounded-lg p-4">
+                        <p class="text-xs">Umumiy qarzdorlik</p>
+                        <p class="mono text-3xl mt-1" id="statDebt">0</p>
+                    </div>
+                    <div class="b_main rounded-lg p-4">
+                        <p class="text-xs">To'liq to'lagan</p>
+                        <p class="mono text-3xl mt-1" id="statPaidFull">0</p>
+                    </div>
+                </section>
+
+                <section class="flex xl:flex-nowrap flex-wrap-reverse items-center w-full gap-2 mb-4">
+                    <div class="w-full">
+                        <FloatingInput id="search" type="text" class="w-full" v-model="search" label="Search"
+                            required />
+                    </div>
+                    <div class="flex xl:flex-nowrap flex-wrap xl:w-auto w-full items-center justify-end gap-2">
+                        <a-select v-model="time" show-search :placeholder="$t('Select time')">
+                            <a-option v-for="item in ['Barchasi', 'Qarzdorlar', 'To\'langan']" :key="item" :label="item"
+                                :value="item">
+                                <div class="flex items-center gap-2">
+                                    {{ item }}
+                                </div>
+                            </a-option>
+                            <template #suffixIcon>
+                                <img class="w-4" src="@/assets/svg/icon/arrow.svg" alt="" />
+                            </template>
+                        </a-select>
+                        <button @click="store.addMember = true"
+                            class="h-[46px] px-[56px] whitespace-nowrap rounded-[10px] text-sm leading-4 bg_main text-white">
+                            + O'quvchi qo'shish
+                        </button>
+                        <button @click="store.addMember = true"
+                            class="h-[46px] px-[56px] rounded-[10px] text-sm leading-4 bg_main text-white">
+                            Export
+                        </button>
+                        <button @click="store.addMember = true"
+                            class="h-[46px] px-[56px] rounded-[10px] text-sm leading-4 bg_main text-white">
+                            Import
+                        </button>
+                    </div>
+                </section>
+
+                <table class="w-full overflow-hidden overscroll-x-auto">
+                    <thead>
+                        <tr class="whitespace-nowrap">
+                            <th class="text-left p-2">O'quvchi</th>
+                            <th class="text-left p-2">Telefon raqam</th>
+                            <th class="text-left p-2">Oylik to'lov</th>
+                            <th class="text-left p-2">To'langan</th>
+                            <th class="text-left p-2">Qolgan</th>
+                            <th class="text-left p-2">Davomat</th>
+                            <th class="text-left p-2">Holat</th>
+                            <th class="text-left p-2">A'zolik sanasi</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="{ user } in useCourses.store.courses?.course?.subscriptions" :key="user.id">
+                            <td class="p-2">
+                                <div class="flex items-center gap-2">
+                                    <UIAvatar :src="user?.image" class="max-w-7 max-h-7" />
+                                    <span>{{ user?.name }} {{ user?.surname }}</span>
+                                </div>
+                            </td>
+                            <td class="p-2">{{ user?.phone }}</td>
+                            <td class="p-2">{{ user?.payment }}</td>
+                            <td class="p-2">{{ user?.is_paid }}</td>
+                            <td class="p-2">{{ user?.rest }}</td>
+                            <td class="p-2">{{ user?.attendance }}</td>
+                            <td class="p-2">{{ user?.status }}</td>
+                            <td class="p-2">{{ formatDateToYYYYMMDD(user?.createdAt) }}</td>
+                            <td class="p-2">
+                                <div class="flex items-center gap-2">
+                                    <button v-if="isLoading.user?.current_role == 'admin'"
+                                        @click="store.member_id = user.id; handleButton('edit', useCourses.store.courses?.course?.id, 'member')"
+                                        class="b_main p-2 r_8">
+                                        <img class="w-5" loading="lazy" src="@/assets/svg/course/editpen.svg" alt="">
+                                    </button>
+                                    <button v-if="isLoading.user?.current_role == 'admin'"
+                                        @click="store.member_id = user.id; handleButton('delete', useCourses.store.courses?.course?.id, 'member')"
+                                        class="b_red p-2 r_8">
+                                        <img class="w-5" loading="lazy" src="@/assets/svg/icon/delete.svg" alt="">
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
 
             </div>
         </UIModal>
@@ -276,7 +377,7 @@
 <script setup>
 import { useLoadingStore, useCoursesStore, useLessonsStore, useCategoryStore, useStripeStore, useAuthStore, useSubscriptionStore } from '~/store';
 import { VueDraggableNext as draggable } from "vue-draggable-next";
-import { formatDate, formatDurationFromSeconds } from "@/composables";
+import { formatDate, formatDurationFromSeconds, formatDateToYYYYMMDD } from "@/composables";
 import { useNotification } from "~/composables";
 
 const { openNotification } = useNotification();
@@ -288,6 +389,7 @@ const useCategory = useCategoryStore();
 const useStripe = useStripeStore()
 const useAuth = useAuthStore();
 const useSubscription = useSubscriptionStore();
+const monthNames = ["Yanvar", "Fevral", "Mart", "Aprel", "May", "Iyun", "Iyul", "Avgust", "Sentabr", "Oktabr", "Noyabr", "Dekabr"];
 
 const router = useRouter();
 
