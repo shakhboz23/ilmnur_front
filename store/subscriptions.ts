@@ -61,6 +61,7 @@ export const useSubscriptionStore = defineStore("subscription", () => {
         user_id: data.user_id || useAuth.user.id,
         role: data.role || isLoading.user.role,
         course_ids,
+        start_date: data.start_date
       },
       "subscriptions"
     );

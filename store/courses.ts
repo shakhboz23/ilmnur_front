@@ -50,11 +50,21 @@ export const useCoursesStore = defineStore("courses", () => {
     store.courses = data.data;
   }
 
+  async function createPayment(data: any) {
+    const res: any = await apiRequest.post(`payment/create`, {...data}, "payments");
+    console.log(res);
+    
+    if (res.status == 201) {
+      getByCourse();
+    }
+
+  }
+
   async function getByCourse() {
     console.log(router.currentRoute.value.params.course_id, 45646);
-
+    const date: any = router.currentRoute.value.query?.date ? new Date(+router.currentRoute.value.query?.date) : null;
     const data: any = await apiRequest.get(
-      `lesson/getByCourse/${router.currentRoute.value.params.course_id || 0}`,
+      `lesson/getByCourse/${router.currentRoute.value.params.course_id || 0}?date=${date}`,
       "getByCourse"
     );
     store.courses = data.data;
@@ -161,5 +171,6 @@ export const useCoursesStore = defineStore("courses", () => {
     createCourse,
     updateCourse,
     deleteCourse,
+    createPayment,
   };
 });

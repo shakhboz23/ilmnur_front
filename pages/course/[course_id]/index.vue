@@ -226,36 +226,13 @@
             @update:isOpen="() => store.membersModal = false" width="80vw">
             <div class="space-y-6">
                 <div class="flex items-center justify-between" v-if="isLoading.user?.current_role == 'admin'">
-                    <div class="flex items-center gap-2" v-if="store.addMember">
-                        <a-select id="categories" class="w-full" v-model:value="store.member_id"
-                            :placeholder="$t('Select category')">
-                            <a-select-option v-for="user in useAuth.store.users?.records" :key="user" :value="user.id">
-                                <div class="flex items-center gap-2">
-                                    <span>{{ user.name }} {{ user.surname }}</span>
-                                </div>
-                            </a-select-option>
-                            <template #suffixIcon>
-                                <img class="w-4" src="@/assets/svg/icon/arrow.svg" alt="" />
-                            </template>
-                        </a-select>
-                        <button @click="addMember"
-                            class="h-[46px] px-[56px] rounded-[10px] text-sm leading-4 bg_main text-white">
-                            +
-                        </button>
-                    </div>
-                    <button v-else @click="store.addMember = true"
+                    <button @click="store.addMember = true"
                         class="h-[46px] px-[56px] rounded-[10px] text-sm leading-4 bg_main text-white">
                         + O'quvchi qo'shish
                     </button>
-
-                    <div class="flex items-center gap-2">
-                        <button onclick="changeMonth(-1)"
-                            class="btn-outline w-9 h-9 rounded-lg flex items-center justify-center">‹</button>
-                        <div class="chalk-dashed rounded-lg px-4 py-2 text-center min-w-[150px]">
-                            <div class="mono text-lg" id="monthLabel">{{ monthNames[0] }}</div>
-                        </div>
-                        <button onclick="changeMonth(1)"
-                            class="btn-outline w-9 h-9 rounded-lg flex items-center justify-center">›</button>
+                    {{ store.date }}
+                    <div class="w-min min-w-40">
+                        <DatePicker v-model:value="store.date" @change="onChange" picker="month" />
                     </div>
                 </div>
 
@@ -325,29 +302,29 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="{ user } in useCourses.store.courses?.course?.subscriptions" :key="user.id">
+                        <tr v-for="item in useCourses.store.courses?.course?.subscriptions" :key="item.id">
                             <td class="p-2">
                                 <div class="flex items-center gap-2">
-                                    <UIAvatar :src="user?.image" class="max-w-7 max-h-7" />
-                                    <span>{{ user?.name }} {{ user?.surname }}</span>
+                                    <UIAvatar :src="item.user?.image" class="max-w-7 max-h-7" />
+                                    <span>{{ item.user?.name }} {{ item.user?.surname }}</span>
                                 </div>
                             </td>
-                            <td class="p-2">{{ user?.phone }}</td>
-                            <td class="p-2">{{ user?.payment }}</td>
-                            <td class="p-2">{{ user?.is_paid }}</td>
-                            <td class="p-2">{{ user?.rest }}</td>
-                            <td class="p-2">{{ user?.attendance }}</td>
-                            <td class="p-2">{{ user?.status }}</td>
-                            <td class="p-2">{{ formatDateToYYYYMMDD(user?.createdAt) }}</td>
+                            <td class="p-2">{{ item.user?.phone }}</td>
+                            <td class="p-2">{{ item.user?.payments?.[0]?.monthly_payment }}</td>
+                            <td class="p-2">{{ item.user?.payments?.[0]?.amount }}</td>
+                            <td class="p-2">{{ item.user?.payments?.[0]?.debt }}</td>
+                            <td class="p-2">{{ item.user?.attendance }}</td>
+                            <td class="p-2">{{ item.user?.payments?.[0]?.status }}</td>
+                            <td class="p-2">{{ formatDateToYYYYMMDD(item?.start_date) }}</td>
                             <td class="p-2">
                                 <div class="flex items-center gap-2">
                                     <button v-if="isLoading.user?.current_role == 'admin'"
-                                        @click="store.member_id = user.id; handleButton('edit', useCourses.store.courses?.course?.id, 'member')"
+                                        @click="store.member_id = item.user.id; store.addPaymentModal = true"
                                         class="b_main p-2 r_8">
                                         <img class="w-5" loading="lazy" src="@/assets/svg/course/editpen.svg" alt="">
                                     </button>
                                     <button v-if="isLoading.user?.current_role == 'admin'"
-                                        @click="store.member_id = user.id; handleButton('delete', useCourses.store.courses?.course?.id, 'member')"
+                                        @click="store.member_id = item.user.id; handleButton('delete', useCourses.store.courses?.course?.id, 'member')"
                                         class="b_red p-2 r_8">
                                         <img class="w-5" loading="lazy" src="@/assets/svg/icon/delete.svg" alt="">
                                     </button>
@@ -371,6 +348,39 @@
             @update:isOpen="(value) => useCourses.store.reytingModal = false">
             <PageGroupReytingMain v-if="useCourses.store.reytingModal" :type="'lesson'" :lesson_id="store.lesson_id" />
         </UIModal>
+
+        <!-- modal -->
+        <UIModal class="!bg-white !min-h-fit" :title="''" :isOpen="store.addPaymentModal" :loadingType="'creategroup'"
+            @update:isOpen="(value) => handleModal(value, 'payment')">
+            <FloatingInput id="payment" :type="'number'" v-model="store.data.amount" label="Payment" required />
+        </UIModal>
+
+        <!-- modal -->
+        <UIModal class="!bg-white !min-h-fit" :title="''" :isOpen="store.addMember" :loadingType="'creategroup'"
+            @update:isOpen="(value) => handleModal(value, 'payment')">
+            <div class="space-y-6">
+                <div>
+                    <label for="member">O'quvchi</label>
+                    <a-select id="member" class="w-full" v-model:value="store.member_id"
+                        :placeholder="$t('Select category')">
+                        <a-select-option v-for="user in useAuth.store.users?.records" :key="user" :value="user.id">
+                            <div class="flex items-center gap-2">
+                                <span>{{ user.name }} {{ user.surname }}</span>
+                            </div>
+                        </a-select-option>
+                        <template #suffixIcon>
+                            <img class="w-4" src="@/assets/svg/icon/arrow.svg" alt="" />
+                        </template>
+                    </a-select>
+                </div>
+                <div>
+                    <label for="date">Kursga qo'shilsh sanasi</label>
+
+                    <a-date-picker id="date" v-model:value="store.start_date" format="DD/MM/YYYY"
+                        class="!rounded-[10px] !h-[42px] !border-gray-200 hover:!border-gray-300" />
+                </div>
+            </div>
+        </UIModal>
     </div>
 </template>
 
@@ -379,6 +389,7 @@ import { useLoadingStore, useCoursesStore, useLessonsStore, useCategoryStore, us
 import { VueDraggableNext as draggable } from "vue-draggable-next";
 import { formatDate, formatDurationFromSeconds, formatDateToYYYYMMDD } from "@/composables";
 import { useNotification } from "~/composables";
+import { DatePicker } from 'ant-design-vue';
 
 const { openNotification } = useNotification();
 
@@ -389,20 +400,28 @@ const useCategory = useCategoryStore();
 const useStripe = useStripeStore()
 const useAuth = useAuthStore();
 const useSubscription = useSubscriptionStore();
-const monthNames = ["Yanvar", "Fevral", "Mart", "Aprel", "May", "Iyun", "Iyul", "Avgust", "Sentabr", "Oktabr", "Noyabr", "Dekabr"];
 
 const router = useRouter();
 
 const store = reactive({
+    data: {
+        user_id: 0,
+        course_id: 0,
+        amount: 0,
+        comment: '',
+    },
+    date: null,
     active_id: 0,
     lesson_id: 0,
     modalType: '',
     addTeacherModal: false,
     membersModal: false,
+    addPaymentModal: false,
     addMember: false,
     teacher_id: 0,
     member_id: null,
     course_id: +router.currentRoute.value.params.course_id,
+    start_date: null,
 })
 
 function openTeacherModal() {
@@ -416,16 +435,35 @@ function openTeacherModal() {
     store.addTeacherModal = true;
 }
 
+function onChange(e) {
+    router.push({
+        query: {
+            date: e
+        }
+    });
+    useCourses.getByCourse();
+}
+
 async function handleModal(value, modalType) {
     modalType = modalType || 'lesson'
     console.log(modalType);
 
     if (value == "OK") {
-        if (store.addTeacherModal) {
+        if (store.addMember) {
+            addMember()
+        }
+        else if (store.addPaymentModal) {
+            store.addPaymentModal = false;
+            store.data.amount = +store.data.amount;
+            store.data.user_id = store.member_id;
+            store.data.course_id = useCourses.store.courses?.course?.id;
+            return useCourses.createPayment(store.data);
+        }
+        else if (store.addTeacherModal) {
             store.addTeacherModal = false;
             return useCourses.updateCourse();
         }
-        if (isLoading.modal.delete) {
+        else if (isLoading.modal.delete) {
             if (modalType !== 'course') {
                 useLessons.deleteLesson();
             } else {
@@ -447,7 +485,9 @@ async function handleModal(value, modalType) {
     } else {
         isLoading.modal.create = false;
         isLoading.modal.delete = false;
+        store.addPaymentModal = false;
         store.addTeacherModal = false;
+        store.addMember = false;
         useCourses.clearData();
     }
 }
@@ -468,9 +508,8 @@ async function createCheckout() {
 
 async function addMember() {
     useSubscription.store.course_ids = [useCourses.store.courses?.course]
-    console.log(useSubscription.store.course_ids);
 
-    await useSubscription.createSubscribeUser({ user_id: store.member_id, role: 'student' });
+    await useSubscription.createSubscribeUser({ user_id: store.member_id, role: 'student', start_date: store.start_date });
     await useCourses.getByCourse();
 }
 
