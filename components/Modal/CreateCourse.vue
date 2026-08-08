@@ -22,9 +22,9 @@
                 </a-select-option>
             </a-select>
             <div class="grid grid-cols-2 gap-5">
-                <FloatingInput :id="'price'" :is_select="true" class="w-full" :type="'text'"
+                <FloatingInput :id="'price'" :is_select="true" class="w-full" type="number"
                     v-model="useCourses.create.price" :label="'Price'" required />
-                <FloatingInput :id="'discount'" :is_select="true" class="w-full" :type="'text'"
+                <FloatingInput :id="'discount'" :is_select="true" class="w-full" type="number"
                     v-model="useCourses.create.discount" :label="'Discount'" required />
             </div>
             <fieldset>
