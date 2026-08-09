@@ -15,7 +15,7 @@
             <a-textarea v-model:value="useCourses.create.description" placeholder="Description"
                 :auto-size="{ minRows: 2, maxRows: 10 }" />
             <a-select class="w-full" v-model:value="useCourses.create.subcategory_id" show-search
-                placeholder="Select a person" :filter-option="filterOption" @focus="handleFocus" @blur="handleBlur"
+                placeholder="Kategoriyani tanlang" :filter-option="filterOption" @focus="handleFocus" @blur="handleBlur"
                 @change="handleChange">
                 <a-select-option v-for="i in useCategory.store.subcategory" :value="i.id">
                     {{ i.title }}

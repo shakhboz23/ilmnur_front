@@ -7,13 +7,10 @@
             <template #overlay>
                 <a-menu>
                     <a-menu-item @click="handleButton('edit', lessoncarddata.id)">
-                        <a href="javascript:;">Edit</a>
+                        <a href="javascript:;">Tahrirlash</a>
                     </a-menu-item>
                     <a-menu-item @click="handleButton('delete', lessoncarddata.id)">
-                        <a href="javascript:;">Delete</a>
-                    </a-menu-item>
-                    <a-menu-item>
-                        <a href="javascript:;">3rd menu item</a>
+                        <a href="javascript:;">O'chirisih</a>
                     </a-menu-item>
                 </a-menu>
             </template>
@@ -30,13 +27,13 @@
                     <span class="c_main">{{ lessoncarddata.likes_count }}</span>
                 </li>
                 <li class="font-semibold">
-                    ${{ lessoncarddata.price }}
+                    {{ lessoncarddata.price }} UZS
                 </li>
             </ul>
             <a-progress class="w-full" stroke-color="#FF852E"
                 :percent="lessoncarddata.finished_count * 100 / lessoncarddata.lessons_count" :size="3" />
             <p class="text-sm !-mt-2 pb-3">{{ lessoncarddata.finished_count }}/{{ lessoncarddata.lessons_count }}
-                completed
+                tugatilgan
             </p>
             <div class="flex items-center text-sm pt-2 pcursor border-t border-t-[#FF852E]">
                 <div class="flex items-center -space-x-2 w-[80%] py-2 overflow-hidden overflow-x-auto removeScroll">

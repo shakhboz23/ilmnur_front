@@ -1,7 +1,10 @@
 import axios from "axios";
 import { useLoadingStore } from "@/store";
+import { useNotification } from "~/composables";
+
 export const useApiRequest = () => {
   const isLoading: any = useLoadingStore();
+  const { openNotification } = useNotification();
   // isLoading.checkCurrentUrl();
   // const { start, finish } = useLoadingIndicator();
   const endPoint: string = isLoading.checkCurrentUrl();
@@ -37,6 +40,7 @@ export const useApiRequest = () => {
           .catch((err) => {
             isLoading.removeLoading(loadingType);
             console.log(err);
+            openNotification('error', 'Xatolik yuz berdi', err.response?.data?.message.join('<br/>'));
             // if (err.response?.status == 401) {
             //   isLoading.store.isLogin = false;
             // }
@@ -63,6 +67,7 @@ export const useApiRequest = () => {
           resolve(res);
         })
         .catch((err) => {
+          openNotification('error', 'Xatolik yuz berdi', err.response?.data?.message.join('<br/>'));
           isLoading.removeLoading(loadingType);
           reject(err);
           if (err) {
@@ -86,6 +91,7 @@ export const useApiRequest = () => {
           resolve(res);
         })
         .catch((err) => {
+          openNotification('error', 'Xatolik yuz berdi', err.response?.data?.message.join('<br/>'));
           isLoading.removeLoading(loadingType);
           isLoading.store.errorMessage.message = err.response.data.message;
           console.log(err);
@@ -107,6 +113,7 @@ export const useApiRequest = () => {
           resolve(res);
         })
         .catch((err) => {
+          openNotification('error', 'Xatolik yuz berdi', err.response?.data?.message.join('<br/>'));
           isLoading.removeLoading(loadingType);
           isLoading.store.errorMessage.message = err.response.data.message;
           console.log(err);

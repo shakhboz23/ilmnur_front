@@ -5,8 +5,12 @@ export const useNotification = () => {
   const openNotification = (type: NotificationType, message: string, description: string) => {
     notification[type]({
       message,
-      description,
+      // description,
+      description: h('div', {
+        innerHTML: description,
+      }),
       placement: 'topRight',
+
     });
   };
 

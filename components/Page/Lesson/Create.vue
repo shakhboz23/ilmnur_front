@@ -4,7 +4,7 @@
             <h1 class="h-16 -mt-5 full_flex !justify-start text-xl font-semibold border-b border-[#EDEDED]">Mavzuni
                 yaratishni boshlang:</h1>
             <div class="max-h-[calc(100vh_-_225px)] overflow-y-auto overflow-hidden">
-                <section v-if="useLessons.store.create.video" class="space-y-5">
+                <section v-if="useLessons.store.create.video" class="space-y-5 p-4">
                     <!-- <video src=""></video> -->
                     <div class="w-full h-[312px] bg-black r_8">
                         <video capture v-if="useLessons.store.create.video" class="w-full h-[312px] bg-black r_8"
@@ -17,7 +17,7 @@
                     <h1 class="px-5 text-xl font-semibold">{{ useLessons.create.title }}</h1>
                     <p class="px-5" v-html="useLessons.create.content"></p>
                 </section>
-                <section v-else class="space-y-5">
+                <section v-else class="space-y-5 p-4">
                     <div class="w-full h-[312px] bg-black r_8">
                         <div v-if="useLessons.create.youtube"
                             class="w-full md:h-[312px] h-[200px] r_8 rounded-lg overflow-hidden">
@@ -41,13 +41,13 @@
                             <div class="bg_cf3 w-20 h-20 full_flex r_f">
                                 <img loading="lazy" src="@/assets/svg/group/text.svg" alt="">
                             </div>
-                            <p>Title</p>
+                            <p>Sarlavha</p>
                         </li>
                         <li @click="openModal('text')" class="space-y-4 pcursor">
                             <div class="bg_cf3 w-20 h-20 full_flex r_f">
                                 <img loading="lazy" src="@/assets/svg/group/text.svg" alt="">
                             </div>
-                            <p>Tekst</p>
+                            <p>Kontent</p>
                         </li>
                         <!-- <li @click="openModal('image')" class="space-y-4 pcursor">
                             <div class="bg_cf3 w-20 h-20 full_flex r_f">
@@ -70,11 +70,11 @@
                     </li>
                     <li @click="openModal('title')" class="full_flex flex-col h-[120px] b_ced space-y-2 pcursor">
                         <img loading="lazy" src="@/assets/svg/group/text.svg" alt="">
-                        <p>Title</p>
+                        <p>Sarlavha</p>
                     </li>
                     <li @click="openModal('text')" class="full_flex flex-col h-[120px] b_ced space-y-2 pcursor">
                         <img loading="lazy" src="@/assets/svg/group/text.svg" alt="">
-                        <p>Tekst</p>
+                        <p>Kontent</p>
                     </li>
                     <!-- <li @click="openModal('image')" class="full_flex flex-col h-[120px] b_ced space-y-2 pcursor">
                         <img loading="lazy" src="@/assets/svg/group/image.svg" alt="">
@@ -124,11 +124,8 @@
         </div>
         <div v-else-if="store.file_type == 'text'" class="mt-10">
             <ClientOnly>
-                <EditorTiptapEditor class="r_8 bg_cf5" :toolbar="false" v-model="useLessons.store.create.content"
-                    :placeholder="'Savolingizni shu yerga yozing'" />
-
-                <!-- <CKEditor class="minh_80" v-model:editorContent="useLessons.store.create.content" :toolbar="true"
-                    :placeholder="'Savolingizni shu yerga yozing'" /> -->
+                <EditorTiptapEditor class="r_8 bg_cf5 min-h-20" :toolbar="false"
+                    v-model="useLessons.store.create.content" :placeholder="'Kontent...'" />
             </ClientOnly>
         </div>
         <div v-else>

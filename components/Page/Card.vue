@@ -30,7 +30,7 @@
                     <span class="c_main">{{ carddata.likes_count }}</span>
                 </li>
                 <li class="font-semibold">
-                    ${{ carddata.low_price }} - ${{ carddata.high_price }}
+                    {{ carddata.low_price }} - {{ carddata.high_price }} UZS
                 </li>
             </ul>
             <div class="flex flex-wrap whitespace-nowrap gap-2">

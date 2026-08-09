@@ -83,7 +83,7 @@
               <div id="quiz-steps-container" class="w-[650px] bg-white rounded-2xl shadow-lg p-8">
                 <div v-if="store.innerStep == 0" id="step-1" class="step-content">
                   <h3 class="text-xl font-semibold text-gray-800 mb-6">
-                    Select Quiz Type
+                    Test turini tanlang
                   </h3>
                   <div class="grid grid-cols-2 gap-4">
                     <div @click="useTests.test_settings.test_type = i.value" v-for="i in testSettingsType"
@@ -104,53 +104,53 @@
 
                 <div v-if="store.innerStep == 1" id="step-2" class="step-content">
                   <h3 class="text-xl font-semibold text-gray-800 mb-6">
-                    Set Start Time (Optional)
+                    Boshlanish vaqtini belgilang (Ixtiyoriy)
                   </h3>
                   <div class="space-y-4">
                     <div>
-                      <label class="block text-sm font-medium text-gray-700 mb-2">Start Date</label>
+                      <label class="block text-sm font-medium text-gray-700 mb-2">Boshlanish sanasi</label>
                       <a-date-picker class="w-full" v-model:value="useTests.test_settings.start_date"
                         placeholder="0000-00-00" />
                     </div>
                     <div>
-                      <label class="block text-sm font-medium text-gray-700 mb-2">Start Time</label>
+                      <label class="block text-sm font-medium text-gray-700 mb-2">Boshlanish vaqti</label>
                       <a-time-picker v-model:value="useTests.test_settings.start_date" format="HH:mm"
                         placeholder="00:00" />
                     </div>
                     <div class="flex items-center">
-                      <a-checkbox v-model:checked="checked">Start immediately</a-checkbox>
+                      <a-checkbox v-model:checked="checked">Darhol boshlanish</a-checkbox>
                     </div>
                   </div>
                 </div>
 
                 <div v-if="store.innerStep == 2" id="step-3" class="step-content">
                   <h3 class="text-xl font-semibold text-gray-800 mb-6">
-                    Set End Time (Optional)
+                    Tugash vaqtini belgilang (Ixtiyoriy)
                   </h3>
                   <div class="space-y-4">
                     <div>
-                      <label class="block text-sm font-medium text-gray-700 mb-2">End Date</label>
+                      <label class="block text-sm font-medium text-gray-700 mb-2">Tugash sanasi</label>
                       <a-date-picker class="w-full" v-model:value="useTests.test_settings.end_date"
                         placeholder="0000-00-00" />
                     </div>
                     <div>
-                      <label class="block text-sm font-medium text-gray-700 mb-2">End Time</label>
+                      <label class="block text-sm font-medium text-gray-700 mb-2">Tugash vaqti</label>
                       <a-time-picker v-model:value="useTests.test_settings.end_date" format="HH:mm"
                         placeholder="00:00" />
                     </div>
                     <div class="flex items-center">
-                      <a-checkbox v-model:checked="checked">No end time limit</a-checkbox>
+                      <a-checkbox v-model:checked="checked">Tugash vaqti cheklovi yo'q</a-checkbox>
                     </div>
                   </div>
                 </div>
 
                 <div v-if="store.innerStep == 3" id="step-4" class="step-content">
                   <h3 class="text-xl font-semibold text-gray-800 mb-6">
-                    Test Duration (Optional)
+                    Test davomiyligi (Ixtiyoriy)
                   </h3>
                   <div class="space-y-4">
                     <div>
-                      <label class="block text-sm font-medium text-gray-700 mb-2">Duration in Minutes</label>
+                      <label class="block text-sm font-medium text-gray-700 mb-2">Minutlarda</label>
                       <input @input="convertMinutePeriod" type="number" placeholder="60"
                         class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" />
                     </div>
@@ -171,17 +171,17 @@
                       </button>
                     </div>
                     <div class="flex items-center">
-                      <a-checkbox v-model:checked="checked">Unlimited</a-checkbox>
+                      <a-checkbox v-model:checked="checked">Cheksiz</a-checkbox>
                     </div>
                   </div>
                 </div>
 
                 <div v-if="store.innerStep == 4" id="step-5" class="step-content">
-                  <h3 class="text-xl font-semibold text-gray-800 mb-6">Quiz Questions</h3>
+                  <h3 class="text-xl font-semibold text-gray-800 mb-6">Test savollari</h3>
                   <div id="questions-container" class="space-y-6">
                     <div class="question-card border border-gray-200 rounded-lg p-6">
                       <div class="flex justify-between items-start mb-4">
-                        <h4 class="font-semibold text-gray-800">Question 1</h4>
+                        <h4 class="font-semibold text-gray-800">Savol 1</h4>
                         <button class="text-red-500 hover:text-red-700">
                           <i data-fa-i2svg=""><svg class="svg-inline--fa fa-trash" aria-hidden="true" focusable="false"
                               data-prefix="fas" data-icon="trash" role="img" xmlns="http://www.w3.org/2000/svg"
@@ -198,7 +198,7 @@
                         <input type="text" placeholder="Option A"
                           class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" />
                         <input type="text" placeholder="Option B"
-                          class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" />
+                   ``       class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" />
                         <input type="text" placeholder="Option C"
                           class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" />
                         <input type="text" placeholder="Option D"
@@ -464,17 +464,17 @@
             <li class="full_flex gap-4 w-full b_c92 rounded-lg p-4" v-for="(i, index) in useTests.store.tests.test">
               <span class="min-w-5 h-5 p-1 full_flex bg_main c_white rounded-md mb-2">{{ +index + 1 }}</span>
               <div class="grid grid-cols-4 gap-4 w-full">
-                <button @click="useTests.store.true_answers[+index+1] = 'A'"
-                  :class="useTests.store.true_answers[+index+1] == 'A' ? 'bg_main c_white' : 'c_main'"
+                <button @click="useTests.store.true_answers[+index + 1] = 'A'"
+                  :class="useTests.store.true_answers[+index + 1] == 'A' ? 'bg_main c_white' : 'c_main'"
                   class="b_main px-5 py-2 rounded-lg">A</button>
-                <button @click="useTests.store.true_answers[+index+1] = 'B'"
-                  :class="useTests.store.true_answers[+index+1] == 'B' ? 'bg_main c_white' : 'c_main'"
+                <button @click="useTests.store.true_answers[+index + 1] = 'B'"
+                  :class="useTests.store.true_answers[+index + 1] == 'B' ? 'bg_main c_white' : 'c_main'"
                   class="b_main px-5 py-2 rounded-lg">B</button>
-                <button @click="useTests.store.true_answers[+index+1] = 'C'"
-                  :class="useTests.store.true_answers[+index+1] == 'C' ? 'bg_main c_white' : 'c_main'"
+                <button @click="useTests.store.true_answers[+index + 1] = 'C'"
+                  :class="useTests.store.true_answers[+index + 1] == 'C' ? 'bg_main c_white' : 'c_main'"
                   class="b_main px-5 py-2 rounded-lg">C</button>
-                <button @click="useTests.store.true_answers[+index+1] = 'D'"
-                  :class="useTests.store.true_answers[+index+1] == 'D' ? 'bg_main c_white' : 'c_main'"
+                <button @click="useTests.store.true_answers[+index + 1] = 'D'"
+                  :class="useTests.store.true_answers[+index + 1] == 'D' ? 'bg_main c_white' : 'c_main'"
                   class="b_main px-5 py-2 rounded-lg">D</button>
               </div>
             </li>
