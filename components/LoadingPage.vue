@@ -1,6 +1,6 @@
 <template>
-  <div class="min-h-screen max-h-screen min-w-screen full_flex">
-    <img loading="lazy"  src="/logo.png" alt="" />
+  <div class="min-h-screen !max-h-screen min-w-screen full_flex">
+    <img class="max-h-screen" loading="lazy"  src="/logo.png" alt="" />
   </div>
 </template>
 

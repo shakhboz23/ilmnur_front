@@ -130,14 +130,14 @@ export const useLessonsStore = defineStore("lessons", () => {
     }
   }
 
-  async function updateLesson() {
-    const lesson_id = router.currentRoute.value.params.lesson_id;
+  async function updateLesson(is_redirect?: boolean) {
+    const lesson_id = router.currentRoute.value.params.lesson_id || store.lesson_id;
     const formData = new FormData();
     if (create.youtube) {
       create.video = '';
     }
     for (let i in create) {
-      if (create[i]) {
+      if (create[i] || typeof create[i] == 'boolean') {
         formData.append(i, create[i]);
       }
     }
@@ -147,7 +147,9 @@ export const useLessonsStore = defineStore("lessons", () => {
       "createLesson"
     );
     clearData();
-    router.push(`/lesson/${data.data.id}`);
+    if (is_redirect !== false) {
+      router.push(`/lesson/${data.data.id}`);
+    }
   }
 
   async function updateModule() {
