@@ -136,6 +136,7 @@ export const useLessonsStore = defineStore("lessons", () => {
     if (create.youtube) {
       create.video = '';
     }
+    
     for (let i in create) {
       if (create[i] || typeof create[i] == 'boolean') {
         formData.append(i, create[i]);

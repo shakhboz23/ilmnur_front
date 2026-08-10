@@ -407,7 +407,7 @@
 
     <!-- add event -->
     <a-modal v-model:open="store.add_event" align-center
-      class="lg:min-w-[780px] md:min-w-[calc(100vw_-_40px)] min-w-screen bg-opacity-50npm run de !rounded-lg">
+      class="lg:min-w-[780px] md:min-w-[calc(100vw_-_40px)] min-w-screen bg-opacity-50 run de !rounded-lg">
       <form @submit.prevent="handleSubmit" class="space-y-5">
         <h1 class="text-2xl pb-2 font-semibold _c07">
           <span v-if="$t('nav.uz') != 'uz'">
