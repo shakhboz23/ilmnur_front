@@ -333,7 +333,7 @@
                   </label>
                   <div class="file_input">
                     <input @change="(e) => handleImage(e, 'question', index)" id="question_file_input"
-                      class="file_input" type="file" accept="image/*">
+                      class="file_input" type="file" :accept="useTests.test_settings.test_type == 'pdf_file' ? 'application/pdf' : 'image/*'">
                   </div>
 
                   <div>
