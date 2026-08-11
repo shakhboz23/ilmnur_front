@@ -197,8 +197,8 @@
                       <div class="space-y-2">
                         <input type="text" placeholder="Option A"
                           class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" />
-                        <input type="text" placeholder="Option B"
-                   ``       class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" />
+                        <input type="text" placeholder="Option B" ``
+                          class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" />
                         <input type="text" placeholder="Option C"
                           class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" />
                         <input type="text" placeholder="Option D"
@@ -263,7 +263,7 @@
       </section>
       <section v-else>
         <nav class="bg_bg py-6 -mx-5 px-7 mb-6">
-          <ul class="flex flex-wrap gap-3">
+          <ul v-if="useTests.test_settings.test_type != 'pdf_file'" class="flex flex-wrap gap-3">
             <li @click="useTests.store.slideStep = +index + 1" v-for="(_, index) in useTests.test"
               class="w-10 h-10 r_f full_flex text-sm pcursor" :class="useTests.store.slideStep == +index + 1 ? 'bg_main text-white' : 'bg_white'
                 ">
@@ -302,7 +302,8 @@
           <swiper @slider-move="changeSlide" :watchSlidesProgress="true" :slidesPerView="1" :spaceBetween="30"
             :pagination="{ clickable: true }" :modules="modules" :noSwiping="true" noSwipingClass="no-swiping"
             class="flex lg:max-w-[50vw] overflow-hidden">
-            <swiper-slide :id="+index + 1" class="min-w-full" v-for="(i, index) in useTests.test">
+            <swiper-slide :id="+index + 1" class="min-w-full"
+              v-for="(i, index) in (useTests.test_settings.test_type != 'pdf_file' ? useTests.test : [useTests.test?.[0]])">
               <p v-if="useTests.test_settings.test_type != 'pdf_file'" class="flex gap-2 text-sm">
                 <img src="@/assets/svg/icon/info.svg" alt="" />
                 <span>Question {{ +index + 1 }}</span>
@@ -321,6 +322,10 @@
                         :toolbar="false" :placeholder="'Savolingizni shu yerga yozing'" />
                     </ClientOnly>
                   </div>
+                  <a :href="useTests.test[index]?.question" target="_blank" rel="noopener noreferrer" class="bg_ccc p-4 rounded-lg full_flex gap-4" v-else-if="useTests.test[index]?.question">
+                    <img loading="lazy" src="@/assets/svg/test/uploadfile.svg" alt="" />
+                    <span>Faylni ochish</span>
+                  </a>
                   <h2 class="font-medium mt-4">Resurslarni biriktiring</h2>
                   <label for="question_file_input" class="full_flex gap-3 b_ced py-2 my-1 px-8 rounded-full">
                     <img loading="lazy" src="@/assets/svg/group/upload.svg" alt="" />
@@ -506,7 +511,8 @@
             <div>
               <nav class="min-w-[50vw]">
                 <ul class="flex flex-wrap gap-3">
-                  <li @click="useTests.store.slideStep = +index + 1" v-for="(_, index) in useTests.test"
+                  <li v-if="useTests.test_settings.test_type != 'pdf_file'"
+                    @click="useTests.store.slideStep = +index + 1" v-for="(_, index) in useTests.test"
                     class="w-6 h-6 r_f full_flex text-sm text-white pcursor"
                     :class="useTests.store.slideStep == +index + 1 ? 'bg_main' : 'bg_cee'">
                     {{ +index + 1 }}
@@ -524,7 +530,8 @@
               <swiper @slider-move="changeSlide" :watchSlidesProgress="true" :slidesPerView="1" :spaceBetween="30"
                 :pagination="{ clickable: true }" :modules="modules"
                 class="flex lg:max-w-[50vw] max-w-[75vw] overflow-hidden">
-                <swiper-slide :id="+index + 1" class="min-w-full" v-for="(i, index) in useTests.test">
+                <swiper-slide :id="+index + 1" class="min-w-full"
+                  v-for="(i, index) in (useTests.test_settings.test_type != 'pdf_file' ? useTests.test : [useTests.test?.[0]])">
                   <section
                     class="max-h-[calc(100vh_-_300px)] min-h-[calc(100vh_-_300px)] overflow-y-auto mt-10 space-y-3 max-w-fit mx-auto">
                     <h1 class="flex gap-1 font-bold text-2xl break-words">
@@ -1012,9 +1019,9 @@ function handleImage(e, type, index, v_index) {
     if (useTests.test_settings.test_type == 'pdf_file') {
       useTests.test[0].question = res?.url;
     } else if (type == 'question') {
-      useTests.test[index].question = useTests.test[index].question ? useTests.test[index].question + `<img src="${res?.url}" alt=""/>` : `<img src="${res?.url}" alt=""/>`
+      useTests.test[index].question = useTests.test[index]?.question ? useTests.test[index]?.question + `<img src="${res?.url}" alt=""/>` : `<img src="${res?.url}" alt=""/>`
     } else {
-      useTests.test[index][type][v_index] = useTests.test[index][type][v_index] ? useTests.test[index][type][v_index] + `<img src="${res?.url}" alt=""/>` : `<img src="${res?.url}" alt=""/>`
+      useTests.test[index][type][v_index] = useTests.test[index][type]?.[v_index] ? useTests.test[index][type][v_index] + `<img src="${res?.url}" alt=""/>` : `<img src="${res?.url}" alt=""/>`
     }
   })
 }
