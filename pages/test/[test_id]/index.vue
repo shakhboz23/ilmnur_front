@@ -359,7 +359,7 @@
                             :class="checkCurrentType(useTests.test[index].type, true)">
                             <a-checkbox v-if="useTests.test[index].type == 'variant'" :value="v_index"></a-checkbox>
                             <p class="border duration-700 w-6 h-6 full_flex r_4 text-sm font-medium" :class="useTests.store.true_answers[+index] == variant
-                              ? 'orange border-[#FF852E]'
+                              ? 'bg-navy-soft border-navy text-navy'
                               : 'border-[#EDEDED]'
                               ">
                               {{ generateAlphabet(v_index) }}
@@ -559,12 +559,12 @@
                       <li @click="selectedAnswer(+index, variant, i.type, 1)" v-for="(variant, v_index) in i.variants"
                         class="flex gap-8 items-center border duration-700 pl-3 pr-5 py-[10px] max-w-fit r_10" :class="useTests.store.true_answers[+index + 1] &&
                           useTests.store.true_answers[+index + 1][0] == variant
-                          ? 'orange border-[#FF852E]'
+                          ? 'bg-navy-soft border-navy'
                           : 'border-[#E1E1E1]'
                           ">
                         <p class="border duration-700 w-6 h-6 full_flex r_4 text-sm font-medium" :class="useTests.store.true_answers[+index + 1] &&
                           useTests.store.true_answers[+index + 1][0] == variant
-                          ? 'orange border-[#FF852E]'
+                          ? 'bg-navy-soft border-navy text-navy'
                           : 'border-[#EDEDED]'
                           ">
                           {{ generateAlphabet(v_index) }}
@@ -633,7 +633,7 @@
                               {{ useTests.store.testResBall[0] }}%
                             </p>
                           </li>
-                          <li class="space-y-3 text-[#FF852E]">
+                          <li class="space-y-3 text-[#E0992E]">
                             <div class="flex items-center gap-3">
                               <img loading="lazy" src="@/assets/svg/test/ball.svg" alt="" />
                               <p>Ball</p>

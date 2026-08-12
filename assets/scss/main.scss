@@ -16,13 +16,16 @@
   --ink-soft: #4B4F63;
   --muted: #96917E;
   --line: #EAE5D6;
+  --navy: #16224B;
+  --navy-dark: #0F1836;
+  --navy-soft: #E7E8F1;
   --gold: #E0992E;
+  --gold-dark: #B87F1E;
   --gold-soft: #FBEDD3;
   --teal: #2F8F7A;
   --teal-soft: #DFEFE9;
   --coral: #DD5C4A;
   --coral-soft: #FBE3DE;
-  --navy-soft: #E7E8F1;
   --serif: 'Iowan Old Style', 'Georgia', 'Times New Roman', serif;
   --sans: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif;
   --mono: 'IBM Plex Mono', 'SFMono-Regular', Menlo, Consolas, monospace;
@@ -32,7 +35,7 @@ html,
 body {
   margin: 0;
   padding: 0;
-  background: color(bg);
+  background: var(--paper);
 
   &::-webkit-scrollbar {
     width: 10px;
@@ -202,26 +205,26 @@ img {
 
   // Animated
   background-image: repeating-linear-gradient(0deg,
-      var(--#FF852E),
-      var(--#FF852E) 10px,
+      var(--navy),
+      var(--navy) 10px,
       transparent 10px,
       transparent 20px),
     // left
     repeating-linear-gradient(90deg,
-      var(--#FF852E),
-      var(--#FF852E) 10px,
+      var(--navy),
+      var(--navy) 10px,
       transparent 10px,
       transparent 20px),
     // top
     repeating-linear-gradient(180deg,
-      var(--#FF852E),
-      var(--#FF852E) 10px,
+      var(--navy),
+      var(--navy) 10px,
       transparent 10px,
       transparent 20px),
     // right
     repeating-linear-gradient(270deg,
-      var(--#FF852E),
-      var(--#FF852E) 10px,
+      var(--navy),
+      var(--navy) 10px,
       transparent 10px,
       transparent 20px) // bottom
   ;
@@ -273,7 +276,7 @@ img {
 .plyr--video .plyr__control:hover,
 .plyr--video .plyr__control[aria-expanded=true],
 .plyr__control--overlaid {
-  background: #FF852E !important;
+  background: var(--navy) !important;
 }
 
 .plyr input {
@@ -281,7 +284,7 @@ img {
 }
 
 .plyr--full-ui input[type=range] {
-  color: #FF852E !important;
+  color: var(--navy) !important;
 }
 
 // youtube
@@ -412,7 +415,7 @@ img {
   display: inline-block;
   text-align: center;
   margin-right: 5px;
-  border: 1px solid #FF852E;
+  border: 1px solid var(--navy);
   border-radius: 4px;
   padding: 5px;
   // height: 24px;

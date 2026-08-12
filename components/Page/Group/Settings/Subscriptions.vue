@@ -12,7 +12,7 @@
                   <p class="font-medium capitalize">{{ i.price == 0 ? 'Free' : i.price + ' UZS/' +
                     'MONTH' }}</p>
                 </div>
-                <p class="_c2a lowercase c_blue">{{ i.members }} Members</p>
+                <p class="_c2a lowercase c_main">{{ i.members }} Members</p>
                 <button v-if="i.is_current" class="px-6 py-2 h-9 bg-[#6FCF97] text-white font-bold r_8">
                   Current price
                 </button>

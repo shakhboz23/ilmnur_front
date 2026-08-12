@@ -21,7 +21,7 @@ const useAuth = useAuthStore();
 .router-link-active {
     .text {
         opacity: 1 !important;
-        color: #FF852E;
+        color: var(--navy);
     }
 }
 

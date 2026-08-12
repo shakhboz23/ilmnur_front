@@ -128,7 +128,7 @@
                 </div>
                 <pre class="whitespace-pre-line mt-1 mb-2 text-sm c_c66">{{ useCourses.store.courses?.course?.description }}
         </pre>
-                <a-progress class="w-full" stroke-color="#FF852E"
+                <a-progress class="w-full" stroke-color="#16224B"
                     :percent="useCourses.store.courses?.course?.finished_count * 100 / useCourses.store.courses?.course?.lessons_count"
                     status="active" :size="3" />
                 <div class="flex items-center gap-2 my-2">

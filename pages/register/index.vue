@@ -15,7 +15,7 @@
       </div>
       <!-- <form @submit.prevent="useAuth.authRegister" class="space-y-6 text-sm"> -->
       <div class="pt-8 space-y-6 grid">
-        <router-link class="c_main max-w-fit mx-auto  border-b border-[#FF852E] text-end font-medium" to="/login">
+        <router-link class="c_main max-w-fit mx-auto  border-b border-navy text-end font-medium" to="/login">
           Oldin ro'yhatdan o'tganmisiz?
         </router-link>
       </div>

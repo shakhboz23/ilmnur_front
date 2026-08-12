@@ -19,7 +19,7 @@
         <li class="md:!flex !hidden">
           <a-dropdown>
             <div class="full_flex gap-2">
-              <button class="full_flex h-10 w-10 bg_cf9 rf"><img loading="lazy" src="@/assets/svg/nav/daily.svg"
+              <button class="full_flex h-10 w-10 bg_cf9 rf hover:bg-navy-soft transition-colors"><img loading="lazy" src="@/assets/svg/nav/daily.svg"
                   alt=""></button>
               <span>0</span>
             </div>
@@ -33,19 +33,19 @@
           </a-dropdown>
         </li>
         <li>
-          <button class="full_flex h-10 w-10 bg_cf9 rf"><img loading="lazy" src="@/assets/svg/nav/notification.svg"
+          <button class="full_flex h-10 w-10 bg_cf9 rf hover:bg-navy-soft transition-colors"><img loading="lazy" src="@/assets/svg/nav/notification.svg"
               alt=""></button>
         </li>
         <li>
-          <button @click="logout" class="full_flex h-10 w-10 bg_cf9 rf"><img loading="lazy"
+          <button @click="logout" class="full_flex h-10 w-10 bg_cf9 rf hover:bg-navy-soft transition-colors"><img loading="lazy"
               src="@/assets/svg/nav/logout.svg" alt=""></button>
         </li>
       </ul>
       <div v-else class="full_flex gap-5">
-        <router-link class="b_cbb px-8 py-3 rounded-full" to="/login">
+        <router-link class="border border-navy text-navy hover:bg-navy-soft transition-colors px-8 py-3 rounded-full" to="/login">
           Kirish
         </router-link>
-        <router-link class="md:block hidden bg_main text-white px-8 py-3 rounded-full" to="/register">
+        <router-link class="md:block hidden bg_main hover:bg-navy-dark transition-colors text-white px-8 py-3 rounded-full" to="/register">
           Hisob yaratish
         </router-link>
       </div>

@@ -1,5 +1,63 @@
 @import "./colors.scss";
 
+// Global AntD brand theming (navy) — keep all antd controls in sync with app brand
+.ant-btn-primary {
+  background: var(--navy);
+  border-color: var(--navy);
+
+  &:hover,
+  &:focus {
+    background: var(--navy-dark) !important;
+    border-color: var(--navy-dark) !important;
+  }
+}
+
+.ant-select:not(.ant-select-disabled):hover .ant-select-selector,
+.ant-select-focused .ant-select-selector,
+.ant-picker:hover,
+.ant-picker-focused,
+.ant-input:hover,
+.ant-input:focus,
+.ant-input-affix-wrapper:hover,
+.ant-input-affix-wrapper-focused {
+  border-color: var(--navy) !important;
+  box-shadow: none !important;
+}
+
+.ant-switch-checked {
+  background: var(--navy) !important;
+}
+
+.ant-radio-checked .ant-radio-inner,
+.ant-checkbox-checked .ant-checkbox-inner {
+  background-color: var(--navy) !important;
+  border-color: var(--navy) !important;
+}
+
+.ant-slider-track {
+  background-color: var(--navy) !important;
+}
+
+.ant-slider-handle::after {
+  box-shadow: 0 0 0 2px var(--navy) !important;
+}
+
+.ant-dropdown-menu-item:hover,
+.ant-select-item-option-active:not(.ant-select-item-option-disabled),
+.ant-select-item-option-selected:not(.ant-select-item-option-disabled) {
+  background-color: var(--navy-soft) !important;
+}
+
+.ant-picker-cell-in-view.ant-picker-cell-selected .ant-picker-cell-inner,
+.ant-picker-cell-in-view.ant-picker-cell-range-start .ant-picker-cell-inner,
+.ant-picker-cell-in-view.ant-picker-cell-range-end .ant-picker-cell-inner {
+  background: var(--navy) !important;
+}
+
+.ant-picker-cell-in-view.ant-picker-cell-in-range::before {
+  background: var(--navy-soft) !important;
+}
+
 .ant-tabs-content-holder {
   overflow: hidden;
 
@@ -73,10 +131,6 @@
     border-radius: 10px;
     height: 40px;
     font-weight: 600;
-  }
-
-  .ant-btn-primary {
-    background: #ff852e;
   }
 
   .ant-btn-default {

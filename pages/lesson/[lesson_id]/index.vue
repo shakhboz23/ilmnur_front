@@ -38,8 +38,8 @@
                             class="b_main p-3 r_8"
                             :class="useLessons.store.lessons?.course?.is_finished ? 'bg_main' : 'bg_white'">
                             <img v-if="useLessons.store.lessons?.course?.is_finished" loading="lazy"
-                                class="stroke-[#FF852E]" src="@/assets/svg/course/markasread_white.svg" alt="">
-                            <img v-else loading="lazy" class="stroke-[#FF852E]" src="@/assets/svg/course/markasread.svg"
+                                class="stroke-navy" src="@/assets/svg/course/markasread_white.svg" alt="">
+                            <img v-else loading="lazy" class="stroke-navy" src="@/assets/svg/course/markasread.svg"
                                 alt="">
                         </button>
                         <img @click="isLoading.modal.create = true" class="h-[42px] pcursor" loading="lazy"

@@ -30,7 +30,7 @@
             <li v-if="$router.currentRoute.value.path.includes('my_groups')">
                 <router-link :to="i.url" v-for="i in group_sidebar" :key="i.id">
                     <div
-                        class="flex items-center hover:bg-[#FF852E] hover:bg-opacity-80 px-2 rounded-lg gap-2 h-12 cursor-pointer text-[#555555]">
+                        class="flex items-center hover:bg-navy-soft px-2 rounded-lg gap-2 h-12 cursor-pointer text-ink-soft">
                         <img loading="lazy" class="w-5 h-5" :src="i.svg" alt="" />
                         <p>{{ i.name }}</p>
                     </div>
@@ -39,7 +39,7 @@
             <li v-else-if="$router.currentRoute.value.path.includes('settings')">
                 <router-link :to="i.url" v-for="i in settings_sidebar" :key="i.id">
                     <div
-                        class="flex items-center hover:bg-[#FF852E] hover:bg-opacity-80 px-2 rounded-lg gap-2 h-12 cursor-pointer text-[#555555]">
+                        class="flex items-center hover:bg-navy-soft px-2 rounded-lg gap-2 h-12 cursor-pointer text-ink-soft">
                         <img loading="lazy" class="w-5 h-5" :src="i.svg" alt="" />
                         <p>{{ i.name }}</p>
                     </div>
@@ -49,7 +49,7 @@
                 <router-link class="active-link" :to="{ query: { ...$route.query, tab: i.url } }"
                     v-for="i in group_settings" :key="i.id">
                     <div :class="{ 'active': $route.query.tab == i.url }"
-                        class="flex items-center hover:bg-[#FF852E] hover:bg-opacity-80 px-2 rounded-lg gap-2 h-12 cursor-pointer text-[#555555]">
+                        class="flex items-center hover:bg-navy-soft px-2 rounded-lg gap-2 h-12 cursor-pointer text-ink-soft">
                         <img loading="lazy" class="w-5 h-5" :src="i.svg" alt="" />
                         <p>{{ i.name }}</p>
                     </div>
@@ -59,7 +59,7 @@
                 <template v-for="i in sidebar">
                     <router-link v-if="!i.role?.length || i.role.includes(isLoading.user.current_role)" :to="i.url" :key="i.id">
                         <div
-                            class="flex items-center hover:bg-[#FF852E] hover:bg-opacity-80 px-2 rounded-lg gap-2 h-12 cursor-pointer text-[#555555]">
+                            class="flex items-center hover:bg-navy-soft px-2 rounded-lg gap-2 h-12 cursor-pointer text-ink-soft">
                             <img loading="lazy" class="w-5 h-5" :src="i.svg" alt="" />
                             <p>{{ i.name }}</p>
                         </div>
@@ -101,23 +101,23 @@ watch(() => router.currentRoute.value, () => {
 <style lang="scss" scoped>
 .router-link-active {
     div {
-        background: #FF852E !important;
-        color: #14191f;
+        background: var(--navy) !important;
+        color: #ffffff;
     }
 
     &hover {
-        background: #FF852E;
+        background: var(--navy);
     }
 }
 
 .active-link .active {
-    background: #FF852E !important;
-    color: #14191f;
+    background: var(--navy) !important;
+    color: #ffffff;
 }
 
 .active-link div {
     background: transparent !important;
-    color: #14191f;
+    color: var(--ink);
 }
 
 .clip {

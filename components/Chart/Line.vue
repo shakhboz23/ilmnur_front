@@ -22,7 +22,7 @@ defineProps({
                     show: false,
                 },
             },
-            colors: ["#2A85FF", "#f23636", "#39CF3F"],
+            colors: ["#16224B", "#f23636", "#39CF3F"],
             yaxis: {
                 tickAmount: 4,
                 // labels: {

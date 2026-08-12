@@ -24,18 +24,18 @@
             <ul class="flex items-center gap-2 text-sm">
                 <li class="full_flex gap-1">
                     <img loading="lazy" src="@/assets/svg/icon/a_star.svg" alt="">
-                    <span class="c_main">{{ lessoncarddata.likes_count }}</span>
+                    <span class="c_gold font-semibold">{{ lessoncarddata.likes_count }}</span>
                 </li>
                 <li class="font-semibold">
                     {{ lessoncarddata.price }} UZS
                 </li>
             </ul>
-            <a-progress class="w-full" stroke-color="#FF852E"
+            <a-progress class="w-full" stroke-color="#16224B"
                 :percent="lessoncarddata.finished_count * 100 / lessoncarddata.lessons_count" :size="3" />
             <p class="text-sm !-mt-2 pb-3">{{ lessoncarddata.finished_count }}/{{ lessoncarddata.lessons_count }}
                 tugatilgan
             </p>
-            <div class="flex items-center text-sm pt-2 pcursor border-t border-t-[#FF852E]">
+            <div class="flex items-center text-sm pt-2 pcursor border-t border-navy">
                 <div class="flex items-center -space-x-2 w-[80%] py-2 overflow-hidden overflow-x-auto removeScroll">
                     <img loading="lazy" v-for="i in 16" class="h-7 w-7 min-w-[28px] r_f object-cover"
                         src="https://natureconservancy-h.assetsadobe.com/is/image/content/dam/tnc/nature/en/photos/w/o/WOPA160517_D056-resized.jpg?crop=864%2C0%2C1728%2C2304&wid=600&hei=800&scl=2.88"

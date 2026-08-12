@@ -52,7 +52,7 @@
             <div class="pt-2 space-y-6 grid">
               <p class="sm:w-[284px] text-[#323232] text-sm mx-auto text-center">
                 Davom etish orqali
-                <span class="c_main border-b border-[#FF852E]">Foydalanish shartlari</span>
+                <span class="c_main border-b border-navy">Foydalanish shartlari</span>
                 ga roziligingizni bildirasiz.
               </p>
             </div>

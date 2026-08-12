@@ -31,14 +31,14 @@
                                             </li>
                                             <li class="font-normal space-x-2">
                                                 <span>{{ i?.role }}</span>
-                                                <span class="c_blue font-medium">5.0</span>
+                                                <span class="c_gold font-medium">5.0</span>
                                             </li>
                                         </ul>
                                     </div>
                                 </th>
                                 <td class="px-6 py-5">
                                     <div class="flex flex-col gap-1 w-fit">
-                                        <button class="bg-[#13C1B7] text-white px-4 rounded-full">
+                                        <button class="bg-[#2F8F7A] text-white px-4 rounded-full">
                                             {{ i.course?.title }}
                                         </button>
                                     </div>

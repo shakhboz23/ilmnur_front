@@ -25,7 +25,7 @@
             <button class="bg_main font-semibold py-2 px-6 r_8 h-10">Ko'rish</button>
         </div>
         <div class="px-3 space-y-1 w-full">
-            <a-progress class="w-full" stroke-color="#FF852E" :percent="45" :size="3" />
+            <a-progress class="w-full" stroke-color="#16224B" :percent="45" :size="3" />
             <p class="text-sm !-mt-2 pb-3">3/10 completed</p>
         </div>
     </div>

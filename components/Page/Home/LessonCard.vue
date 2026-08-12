@@ -20,7 +20,7 @@
             <ul class="flex items-center gap-2 text-sm">
                 <li class="full_flex gap-1">
                     <img loading="lazy" src="@/assets/svg/icon/a_star.svg" alt="" />
-                    <span class="c_main">355</span>
+                    <span class="c_gold font-semibold">355</span>
                 </li>
                 <li class="font-semibold">
                     ${{ lessoncard.low_price }}

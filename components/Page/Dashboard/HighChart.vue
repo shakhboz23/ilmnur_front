@@ -97,7 +97,7 @@ const chartOptions = ref({
   //   verticalAlign: 'top',
   //   borderWidth: 0
   // },
-  colors: ['#027DFC', '#FF852E', '#06C', '#036', '#000'],
+  colors: ['#16224B', '#E0992E', '#2F8F7A', '#DD5C4A', '#4B4F63'],
   plotOptions: {
     series: {
       cursor: 'pointer',

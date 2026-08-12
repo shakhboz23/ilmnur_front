@@ -548,7 +548,7 @@ export default {
         }
 
         .column-resize-handle {
-            background-color: #FF852E;
+            background-color: #16224B;
             bottom: -2px;
             pointer-events: none;
             position: absolute;
