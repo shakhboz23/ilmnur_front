@@ -322,7 +322,8 @@
                         :toolbar="false" :placeholder="'Savolingizni shu yerga yozing'" />
                     </ClientOnly>
                   </div>
-                  <a :href="useTests.test[index]?.question" target="_blank" rel="noopener noreferrer" class="bg_ccc p-4 rounded-lg full_flex gap-4" v-else-if="useTests.test[index]?.question">
+                  <a :href="useTests.test[index]?.question" target="_blank" rel="noopener noreferrer"
+                    class="bg_ccc p-4 rounded-lg full_flex gap-4" v-else-if="useTests.test[index]?.question">
                     <img loading="lazy" src="@/assets/svg/test/uploadfile.svg" alt="" />
                     <span>Faylni ochish</span>
                   </a>
@@ -333,7 +334,8 @@
                   </label>
                   <div class="file_input">
                     <input @change="(e) => handleImage(e, 'question', index)" id="question_file_input"
-                      class="file_input" type="file" :accept="useTests.test_settings.test_type == 'pdf_file' ? 'application/pdf' : 'image/*'">
+                      class="file_input" type="file"
+                      :accept="useTests.test_settings.test_type == 'pdf_file' ? 'application/pdf' : 'image/*'">
                   </div>
 
                   <div>
@@ -415,6 +417,13 @@
                               class="b_main px-5 py-2 rounded-lg">D</button>
                           </div>
                         </template>
+                        <template v-else>
+                          <ClientOnly>
+                            <EditorTiptapEditor id="answerEditor" class="w-full bg_cf5 r_8 my-4"
+                              v-model="useTests.test[+index].variants[0]" :toolbar="false"
+                              :placeholder="'To‘g‘ri javobni shu yerga yozing'" />
+                          </ClientOnly>
+                        </template>
                       </li>
                     </ul>
                   </div>
@@ -468,7 +477,7 @@
           <ul class="space-y-2 my-4 mb-20">
             <li class="full_flex gap-4 w-full b_c92 rounded-lg p-4" v-for="(i, index) in useTests.store.tests.test">
               <span class="min-w-5 h-5 p-1 full_flex bg_main c_white rounded-md mb-2">{{ +index + 1 }}</span>
-              <div class="grid grid-cols-4 gap-4 w-full">
+              <div v-if="i.type == 'variant'" class="grid grid-cols-4 gap-4 w-full">
                 <button @click="useTests.store.true_answers[+index + 1] = 'A'"
                   :class="useTests.store.true_answers[+index + 1] == 'A' ? 'bg_main c_white' : 'c_main'"
                   class="b_main px-5 py-2 rounded-lg">A</button>
@@ -481,6 +490,13 @@
                 <button @click="useTests.store.true_answers[+index + 1] = 'D'"
                   :class="useTests.store.true_answers[+index + 1] == 'D' ? 'bg_main c_white' : 'c_main'"
                   class="b_main px-5 py-2 rounded-lg">D</button>
+              </div>
+              <div v-else-if="i.type == 'fill'" class="w-full">
+                <ClientOnly>
+                  <EditorTiptapEditor id="answerEditor" class="w-full bg_cf5 r_8 my-4 min-h-20"
+                    v-model="useTests.store.true_answers[+index + 1]" :toolbar="false"
+                    :placeholder="'To‘g‘ri javobni shu yerga yozing'" />
+                </ClientOnly>
               </div>
             </li>
           </ul>
@@ -988,14 +1004,22 @@ getModels();
 
 function handleCount(e) {
   const count = +e.target.value;
+  const existingKeys = Object.keys(useTests.test).map(Number);
+  const maxKey = existingKeys.length ? Math.max(...existingKeys) : -1;
   for (let i = 0; i < count; i++) {
-    useTests.test[i] = {
-      question: null,
-      variants: [null],
-      type: "variant",
-      true_answer: [0],
-    };
+    if (!useTests.test[i]) {
+      useTests.test[i] = {
+        question: null,
+        variants: [null],
+        type: "variant",
+        true_answer: [0],
+      };
+    }
   }
+  for (let i = count; i <= maxKey; i++) {
+    delete useTests.test[i];
+  }
+  useTests.store.questions_count = count;
 }
 
 function prevInnerStep() {
@@ -1292,7 +1316,7 @@ watch(
 watch(
   () => useTests.test[useTests.store.slideStep - 1],
   () => {
-    if (watchStep.value != 0) {
+    if (watchStep.value != 0 && useTests.test?.[useTests.store.slideStep - 1]) {
       useTests.test[useTests.store.slideStep - 1].is_action = "edited";
     }
     watchStep.value++;

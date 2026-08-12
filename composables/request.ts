@@ -40,7 +40,7 @@ export const useApiRequest = () => {
           .catch((err) => {
             isLoading.removeLoading(loadingType);
             console.log(err);
-            openNotification('error', 'Xatolik yuz berdi', err.response?.data?.message.join('<br/>'));
+            openNotification('error', 'Xatolik yuz berdi', getErrResponse(err.response?.data?.message));
             // if (err.response?.status == 401) {
             //   isLoading.store.isLogin = false;
             // }
@@ -67,7 +67,7 @@ export const useApiRequest = () => {
           resolve(res);
         })
         .catch((err) => {
-          openNotification('error', 'Xatolik yuz berdi', err.response?.data?.message.join('<br/>'));
+          openNotification('error', 'Xatolik yuz berdi', getErrResponse(err.response?.data?.message));
           isLoading.removeLoading(loadingType);
           reject(err);
           if (err) {
@@ -91,7 +91,7 @@ export const useApiRequest = () => {
           resolve(res);
         })
         .catch((err) => {
-          openNotification('error', 'Xatolik yuz berdi', err.response?.data?.message.join('<br/>'));
+          openNotification('error', 'Xatolik yuz berdi', getErrResponse(err.response?.data?.message));
           isLoading.removeLoading(loadingType);
           isLoading.store.errorMessage.message = err.response.data.message;
           console.log(err);
@@ -113,13 +113,17 @@ export const useApiRequest = () => {
           resolve(res);
         })
         .catch((err) => {
-          openNotification('error', 'Xatolik yuz berdi', err.response?.data?.message.join('<br/>'));
+          openNotification('error', 'Xatolik yuz berdi', getErrResponse(err.response?.data?.message));
           isLoading.removeLoading(loadingType);
           isLoading.store.errorMessage.message = err.response.data.message;
           console.log(err);
           reject(err);
         });
     });
+  }
+
+  function getErrResponse(err: any) {
+    return Array.isArray(err) ? err.join('<br/>') : err;
   }
 
   return {
