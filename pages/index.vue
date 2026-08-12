@@ -4,7 +4,9 @@
     <div class="page active" id="page-dashboard">
       <div class="mb-6">
         <h2 class="text-xl font-bold">Xush kelibsiz, {{ useAuth.store.analytics?.name }}! 👋</h2>
-        <p class="text-sm text-gray-400">Bu hafta 2 ta yangi test sizni kutmoqda.</p>
+        <p v-if="testsThisWeekCount" class="text-sm text-gray-400">Bu hafta {{ testsThisWeekCount }} ta yangi test
+          sizni kutmoqda.</p>
+        <p v-else class="text-sm text-gray-400">Hozircha yangi testlar yo'q.</p>
       </div>
       <div class="space-y-3">
         <CategorySlider :all="false" :category="groups" :multiple="false" query-key="group_id" class="w-full" />
@@ -51,12 +53,10 @@
             </svg>
           </div>
           <p class="text-sm text-gray-400">Umumiy ball</p>
-          <p class="text-2xl font-bold">{{ useAuth.store.analytics?.ratingBallStats?.currentBall || 0 }}</p>
-          <p v-if="useAuth.store.analytics?.ratingBallStats?.difference"
-            :class="useAuth.store.analytics?.ratingBallStats?.difference > 0 ? 'c_green' : 'c_red'"
-            class="text-xs text-g-600 font-semibold">↑ {{ useAuth.store.analytics?.ratingBallStats?.difference }}
-            o'rin
-            {{ useAuth.store.analytics?.ratingBallStats?.status }}</p>
+          <p class="text-2xl font-bold">{{ ratingBall.currentBall || 0 }}</p>
+          <p v-if="ratingBall.difference" :class="statusClass(ratingBall.status)"
+            class="text-xs font-semibold">{{ statusArrow(ratingBall.status) }} {{ ratingBall.difference }}
+            ball {{ ratingBall.status }}</p>
           <p v-else class="text-xs text-g-600 font-semibold">O'zgarishsiz</p>
         </div>
         <div class="card stat bg-white rounded-2xl border border-gray-100 p-5 relative overflow-hidden">
@@ -66,11 +66,10 @@
             </svg>
           </div>
           <p class="text-sm text-gray-400">Guruh reytingi</p>
-          <p class="text-2xl font-bold">#{{ useAuth.store.analytics?.ratingStats?.currentPosition || 0 }}</p>
-          <p v-if="useAuth.store.analytics?.ratingStats?.difference"
-            :class="useAuth.store.analytics?.ratingStats?.difference > 0 ? 'c_green' : 'c_red'"
-            class="text-xs text-g-600 font-semibold">↑ {{ useAuth.store.analytics?.ratingStats?.difference }} o'rin
-            {{ useAuth.store.analytics?.ratingStats?.status }}</p>
+          <p class="text-2xl font-bold">#{{ ratingPosition.currentPosition || 0 }}</p>
+          <p v-if="ratingPosition.difference" :class="statusClass(ratingPosition.status)"
+            class="text-xs font-semibold">{{ statusArrow(ratingPosition.status) }} {{ ratingPosition.difference }}
+            o'rin {{ ratingPosition.status }}</p>
           <p v-else class="text-xs text-g-600 font-semibold">O'zgarishsiz</p>
         </div>
         <div class="card stat bg-white rounded-2xl border border-gray-100 p-5 relative overflow-hidden">
@@ -83,8 +82,8 @@
             </svg>
           </div>
           <p class="text-sm text-gray-400">Davomat</p>
-          <p class="text-2xl font-bold">{{ getTotalAttendance }}%</p>
-          <p class="text-xs text-g-600 font-semibold">Iyun oyi bo'yicha</p>
+          <p class="text-2xl font-bold">{{ attendanceStats.percentage ?? 0 }}%</p>
+          <p class="text-xs text-g-600 font-semibold">{{ monthLabel }} bo'yicha</p>
         </div>
         <div class="card stat bg-white rounded-2xl border border-gray-100 p-5 relative overflow-hidden">
           <div class="stat-icon bg-coral">
@@ -95,8 +94,9 @@
           </div>
           <p class="text-sm text-gray-400">Yangi testlar</p>
           <p class="text-2xl font-bold">
-            {{ selectedCourseLessons.length }}</p>
-          <p class="text-xs text-red-500 font-semibold">⏰ Eng yaqin: 2 kun</p>
+            {{ upcomingTests.length }}</p>
+          <p v-if="nearestTest" class="text-xs text-red-500 font-semibold">⏰ Eng yaqin: {{ daysUntil(nearestTest.start_date) }}</p>
+          <p v-else class="text-xs text-gray-400 font-semibold">Testlar yo'q</p>
         </div>
       </div>
 
@@ -108,51 +108,19 @@
           <div class="bg-white rounded-2xl border border-gray-100 p-5">
             <div class="flex items-center justify-between mb-4">
               <h3 class="text-sm font-bold">Haftalik faollik</h3>
-              <span class="text-sm text-gray-400">Iyun 2026</span>
+              <span class="text-sm text-gray-400">{{ monthLabel }}</span>
             </div>
-            <div class="flex items-end gap-2 h-24">
-              <div class="flex-1 flex flex-col items-center gap-1.5 h-full">
+            <div v-if="weeklyActivity.length" class="flex items-end gap-2 h-24">
+              <div v-for="day in weeklyActivity" :key="day.date" class="flex-1 flex flex-col items-center gap-1.5 h-full">
                 <div class="flex-1 w-full bg-g-50 rounded-md overflow-hidden flex items-end">
-                  <div class="w-full bg-g-300 rounded-md" style="height:45%"></div>
+                  <div v-if="day.scheduled" class="w-full rounded-md transition-all" :class="weeklyBarClass(day)"
+                    :style="{ height: (day.status === 'upcoming' ? 12 : day.intensity) + '%' }"></div>
                 </div>
-                <span class="text-sm text-gray-400">Du</span>
+                <span :class="day.date === todayKey ? 'text-xs text-g-600 font-bold' : 'text-sm text-gray-400'">{{ day.label }}</span>
               </div>
-              <div class="flex-1 flex flex-col items-center gap-1.5 h-full">
-                <div class="flex-1 w-full bg-g-50 rounded-md overflow-hidden flex items-end">
-                  <div class="w-full bg-g-300 rounded-md" style="height:70%"></div>
-                </div>
-                <span class="text-sm text-gray-400">Se</span>
-              </div>
-              <div class="flex-1 flex flex-col items-center gap-1.5 h-full">
-                <div class="flex-1 w-full bg-g-50 rounded-md overflow-hidden flex items-end">
-                  <div class="w-full bg-g-300 rounded-md" style="height:42%"></div>
-                </div>
-                <span class="text-sm text-gray-400">Ch</span>
-              </div>
-              <div class="flex-1 flex flex-col items-center gap-1.5 h-full">
-                <div class="flex-1 w-full bg-g-50 rounded-md overflow-hidden flex items-end">
-                  <div class="w-full bg-g-300 rounded-md" style="height:88%"></div>
-                </div>
-                <span class="text-sm text-gray-400">Pa</span>
-              </div>
-              <div class="flex-1 flex flex-col items-center gap-1.5 h-full">
-                <div class="flex-1 w-full bg-g-50 rounded-md overflow-hidden flex items-end">
-                  <div class="w-full bg-g-300 rounded-md" style="height:60%"></div>
-                </div>
-                <span class="text-sm text-gray-400">Ju</span>
-              </div>
-              <div class="flex-1 flex flex-col items-center gap-1.5 h-full">
-                <div class="flex-1 w-full bg-g-50 rounded-md overflow-hidden flex items-end">
-                  <div class="w-full bg-g-300 rounded-md" style="height:30%"></div>
-                </div>
-                <span class="text-sm text-gray-400">Sh</span>
-              </div>
-              <div class="flex-1 flex flex-col items-center gap-1.5 h-full">
-                <div class="flex-1 w-full bg-g-50 rounded-md overflow-hidden flex items-end">
-                  <div class="w-full bg-g-600 rounded-md" style="height:94%"></div>
-                </div>
-                <span class="text-xs text-g-600 font-bold">Ya</span>
-              </div>
+            </div>
+            <div v-else class="full_flex py-10 text-sm text-gray-400">
+              Ma'lumotlar topilmadi
             </div>
           </div>
 
@@ -164,8 +132,8 @@
               <router-link :to="`/group/${selectedGroupId || 0}`"
                 class="text-xs text-g-600 font-semibold hover:underline">Barchasi →</router-link>
             </div>
-            <template v-if="selectedCourseLessons.length">
-              <div v-for="test in selectedCourseLessons" :key="test.id"
+            <template v-if="upcomingTests.length">
+              <div v-for="test in upcomingTests.slice(0, 6)" :key="test.id"
                 class="flex items-center gap-3 p-3 rounded-xl border border-g-100 bg-g-50/50 mb-3">
                 <div class="w-10 h-10 rounded-lg bg-g-50 flex items-center justify-center flex-shrink-0">
                   <svg class="w-5 h-5 text-g-600" fill="none" stroke="currentColor" stroke-width="2"
@@ -176,11 +144,14 @@
                   </svg>
                 </div>
                 <div class="flex-1">
-                  <p class="text-sm font-semibold">Kvadrat tenglamalar</p>
-                  <p class="text-sm text-gray-400">{{ test.title }} · 15 savol · 30 daqiqa</p>
+                  <p class="text-sm font-semibold">{{ test.lesson_title }}</p>
+                  <p class="text-sm text-gray-400">{{ test.course_title }} · {{ test.question_count }} savol<template
+                      v-if="test.duration"> · {{ test.duration }} daqiqa</template></p>
                 </div>
-                <span class="text-xs font-bold bg-amber-100 text-amber-700 px-2.5 py-1 rounded-full">2 kun</span>
+                <span class="text-xs font-bold px-2.5 py-1 rounded-full flex-shrink-0"
+                  :class="testBadgeClass(test.start_date)">{{ daysUntil(test.start_date) }}</span>
               </div>
+              
             </template>
             <div v-else class="full_flex py-20">
               Ma'lumotlar topilmadi
@@ -197,16 +168,14 @@
               <router-link :to="`/group/${selectedGroupId || 0}?page=reyting`"
                 class="text-xs text-g-600 font-semibold hover:underline">Barchasi →</router-link>
             </div>
-            <div v-if="useAuth.store.analytics?.rankings?.length" class="space-y-1">
-              <div v-for="user in useAuth.store.analytics?.rankings"
-                class="flex items-center gap-2.5 py-2 border-b border-gray-50">
+            <div v-if="rankings.length" class="space-y-1">
+              <div v-for="user in rankings" :key="user?.user?.id"
+                class="flex items-center gap-2.5 py-2 border-b border-gray-50 rounded-lg px-2 -mx-2"
+                :class="isCurrentUser(user) ? 'bg-g-50' : ''">
                 <span class="text-sm text-gray-400 w-4 text-center font-semibold">{{ user.position }}</span>
                 <UIAvatar class="w-10 h-10 max-w-[40px] max-h-[40px]" :src="user?.user?.image" />
-                <!-- <div
-                  class="w-7 h-7 rounded-full bg-amber-50 border border-amber-200 flex items-center justify-center text-xs font-bold text-amber-700">
-                  {{ user?.user?.name?.[0] }}{{ user?.user?.surname?.[0] }}
-                </div> -->
-                <span class="text-sm flex-1">{{ user?.user?.name }} {{ user?.user?.surname }}</span>
+                <span class="text-sm flex-1" :class="isCurrentUser(user) ? 'font-bold text-g-700' : ''">{{ user?.user?.name }} {{ user?.user?.surname }}<template
+                    v-if="isCurrentUser(user)"> (Siz)</template></span>
                 <span class="text-sm font-bold">{{ user?.ball }}</span>
               </div>
             </div>
@@ -218,47 +187,34 @@
           <!-- Davomat mini -->
           <div class="bg-white rounded-2xl border border-gray-100 p-5">
             <div class="flex items-center justify-between mb-4">
-              <h3 class="text-sm font-bold">Davomat — iyun</h3>
-              <button class="text-xs text-g-600 font-semibold hover:underline" data-page="davomat">Batafsil →</button>
+              <h3 class="text-sm font-bold">Davomat — {{ monthLabel }}</h3>
+              <router-link :to="`/group/${selectedGroupId || 0}?page=activity`"
+                class="text-xs text-g-600 font-semibold hover:underline">Batafsil →</router-link>
             </div>
-            <div class="flex flex-wrap gap-1.5">
-              <div class="w-7 h-7 rounded-md bg-g-50 text-g-800 flex items-center justify-center text-xs font-semibold">
-                1</div>
-              <div class="w-7 h-7 rounded-md bg-g-50 text-g-800 flex items-center justify-center text-xs font-semibold">
-                2</div>
-              <div class="w-7 h-7 rounded-md bg-g-50 text-g-800 flex items-center justify-center text-xs font-semibold">
-                3</div>
-              <div class="w-7 h-7 rounded-md bg-g-50 text-g-800 flex items-center justify-center text-xs font-semibold">
-                4</div>
-              <div
-                class="w-7 h-7 rounded-md bg-amber-50 text-amber-700 flex items-center justify-center text-xs font-semibold">
-                5</div>
-              <div class="w-7 h-7 rounded-md bg-g-50 text-g-800 flex items-center justify-center text-xs font-semibold">
-                6</div>
-              <div class="w-7 h-7 rounded-md bg-g-50 text-g-800 flex items-center justify-center text-xs font-semibold">
-                7</div>
-              <div class="w-7 h-7 rounded-md bg-g-50 text-g-800 flex items-center justify-center text-xs font-semibold">
-                8</div>
-              <div
-                class="w-7 h-7 rounded-md bg-red-50 text-red-600 flex items-center justify-center text-xs font-semibold">
-                9</div>
-              <div class="w-7 h-7 rounded-md bg-g-50 text-g-800 flex items-center justify-center text-xs font-semibold">
-                10</div>
-              <div class="w-7 h-7 rounded-md bg-g-50 text-g-800 flex items-center justify-center text-xs font-semibold">
-                11</div>
-              <div class="w-7 h-7 rounded-md bg-g-50 text-g-800 flex items-center justify-center text-xs font-semibold">
-                12</div>
-              <div
-                class="w-7 h-7 rounded-md border-2 border-g-400 text-g-600 flex items-center justify-center text-xs font-bold">
-                13</div>
-            </div>
-            <div class="flex gap-4 mt-3 flex-wrap">
-              <span class="flex items-center gap-1.5 text-xs text-gray-400"><span
-                  class="w-2 h-2 rounded-sm bg-g-400"></span>Keldi — 11</span>
-              <span class="flex items-center gap-1.5 text-xs text-gray-400"><span
-                  class="w-2 h-2 rounded-sm bg-amber-400"></span>Kechikdi — 1</span>
-              <span class="flex items-center gap-1.5 text-xs text-gray-400"><span
-                  class="w-2 h-2 rounded-sm bg-red-400"></span>Kelmadi — 1</span>
+            <template v-if="attendanceStats.calendar?.length">
+              <div class="grid grid-cols-7 gap-2 mb-2">
+                <div v-for="d in weekDayLabels" :key="d" class="text-center text-xs font-bold text-gray-400 uppercase">
+                  {{ d }}</div>
+              </div>
+              <div class="grid grid-cols-7 gap-1.5">
+                <div v-for="n in calendarLeadingBlanks" :key="`blank-${n}`" class="invisible aspect-square"></div>
+                <div v-for="d in attendanceStats.calendar" :key="d.date"
+                  class="aspect-square rounded-md flex items-center justify-center text-xs font-semibold"
+                  :class="calendarDayClass(d)">
+                  {{ d.day }}
+                </div>
+              </div>
+              <div class="flex gap-4 mt-3 flex-wrap">
+                <span class="flex items-center gap-1.5 text-xs text-gray-400"><span
+                    class="w-2 h-2 rounded-sm bg-g-400"></span>Keldi — {{ attendanceStats.present || 0 }}</span>
+                <span class="flex items-center gap-1.5 text-xs text-gray-400"><span
+                    class="w-2 h-2 rounded-sm bg-amber-400"></span>Kechikdi — {{ attendanceStats.late || 0 }}</span>
+                <span class="flex items-center gap-1.5 text-xs text-gray-400"><span
+                    class="w-2 h-2 rounded-sm bg-red-400"></span>Kelmadi — {{ attendanceStats.absent || 0 }}</span>
+              </div>
+            </template>
+            <div v-else class="full_flex py-20">
+              Ma'lumotlar topilmadi
             </div>
           </div>
         </div>
@@ -609,26 +565,93 @@ const groups = computed(() => {
 });
 const selectedGroupId = computed(() => JSON.parse(route.query.group_id || '[]')?.[0]);
 const selectedGroup = computed(() => groups.value.find(group => group.id == selectedGroupId.value));
-const analyticsCourses = computed(() => (useAuth.store.analytics?.subscriptions || [])
-  .map(subscription => subscription?.course || subscription)
-  .filter(Boolean));
-const selectedGroupCourses = computed(() => {
-  const groupCourses = selectedGroup.value?.course || selectedGroup.value?.subscriptions?.map(item => item?.course || item);
-  return groupCourses?.filter(Boolean) || analyticsCourses.value;
-});
-const selectedCourseId = computed(() => JSON.parse(route.query.course_id || '[]')?.[0]);
-const selectedCourse = computed(() => selectedGroupCourses.value.find(course => course.id == selectedCourseId.value));
-const selectedCourseLessons = computed(() => selectedCourse.value?.lessons || []);
 
-const getTotalAttendance = computed(() => {
-  const totalAttendance = groups.value.reduce((total, group) => {
-    return total + (group.attendance?.percentage ?? 0);
-  }, 0);
-  return totalAttendance;
+const analytics = computed(() => useAuth.store.analytics || {});
+const ratingBall = computed(() => analytics.value.ratingBallStats || {});
+const ratingPosition = computed(() => analytics.value.ratingStats || {});
+const attendanceStats = computed(() => analytics.value.attendanceStats || {});
+const weeklyActivity = computed(() => analytics.value.weeklyActivity || []);
+const upcomingTests = computed(() => analytics.value.upcomingTests || []);
+const rankings = computed(() => analytics.value.rankings || []);
+
+const nearestTest = computed(() => upcomingTests.value[0] || null);
+const testsThisWeekCount = computed(() => {
+  const now = Date.now();
+  const weekMs = 7 * 24 * 60 * 60 * 1000;
+  return upcomingTests.value.filter(test => {
+    const diff = new Date(test.start_date).getTime() - now;
+    return diff >= 0 && diff <= weekMs;
+  }).length;
 });
 
-function selectCourse(courseId) {
-  // router.replace({ query: { ...route.query, course_id: JSON.stringify([courseId]) } });
+const monthNames = ["Yanvar", "Fevral", "Mart", "Aprel", "May", "Iyun", "Iyul", "Avgust", "Sentabr", "Oktabr", "Noyabr", "Dekabr"];
+const monthLabel = computed(() => {
+  const { year, month } = attendanceStats.value;
+  return month ? `${monthNames[month - 1]} ${year}` : '';
+});
+const weekDayLabels = ['Du', 'Se', 'Ch', 'Pa', 'Ju', 'Sh', 'Ya'];
+const calendarLeadingBlanks = computed(() => {
+  const { year, month } = attendanceStats.value;
+  if (!year || !month) return 0;
+  const firstDay = new Date(year, month - 1, 1).getDay(); // 0 = Sun .. 6 = Sat
+  return (firstDay + 6) % 7; // shift to Monday-start
+});
+
+function pad(value) {
+  return String(value).padStart(2, '0');
+}
+const todayKey = computed(() => {
+  const now = new Date();
+  return `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
+});
+
+function isCurrentUser(rankingUser) {
+  return rankingUser?.user?.id === isLoading.user?.id;
+}
+
+function statusArrow(status) {
+  if (status === "ko'tarildi" || status === 'oshdi' || status === 'yangi') return '↑';
+  if (status === 'tushdi' || status === 'kamaydi') return '↓';
+  return '';
+}
+function statusClass(status) {
+  if (status === "ko'tarildi" || status === 'oshdi' || status === 'yangi') return 'c_green';
+  if (status === 'tushdi' || status === 'kamaydi') return 'c_red';
+  return 'text-g-600';
+}
+
+function weeklyBarClass(day) {
+  if (day.status === 'present') return 'bg-g-600';
+  if (day.status === 'late') return 'bg-amber-400';
+  if (day.status === 'absent') return 'bg-red-400';
+  if (day.status === 'upcoming') return 'bg-g-100';
+  return '';
+}
+
+function calendarDayClass(day) {
+  const classes = [];
+  if (day.status === 'present') classes.push('bg-g-50 text-g-800');
+  else if (day.status === 'late') classes.push('bg-amber-50 text-amber-700');
+  else if (day.status === 'absent') classes.push('bg-red-50 text-red-600');
+  else if (day.status === 'upcoming') classes.push('text-gray-300');
+  else classes.push('text-gray-200');
+  if (day.date === todayKey.value) classes.push('border-2 border-g-400 font-bold');
+  return classes;
+}
+
+function testBadgeClass(startDate) {
+  const diffDays = Math.round((new Date(startDate).setHours(0, 0, 0, 0) - new Date().setHours(0, 0, 0, 0)) / 86400000);
+  if (diffDays <= 1) return 'bg-red-100 text-red-600';
+  if (diffDays <= 3) return 'bg-amber-100 text-amber-700';
+  return 'bg-g-100 text-g-600';
+}
+
+function daysUntil(dateStr) {
+  if (!dateStr) return '';
+  const diffDays = Math.round((new Date(dateStr).setHours(0, 0, 0, 0) - new Date().setHours(0, 0, 0, 0)) / 86400000);
+  if (diffDays <= 0) return 'Bugun';
+  if (diffDays === 1) return 'Ertaga';
+  return `${diffDays} kun`;
 }
 
 onMounted(async () => {
@@ -641,15 +664,7 @@ onMounted(async () => {
 })
 
 watch(selectedGroupId, (groupId) => {
-  if (groupId) useAuth.getUserAnalytics(groupId, selectedCourseId.value);
-});
-
-watch(selectedGroupCourses, (courses) => {
-  const courseId = selectedCourseId.value;
-
-  if (courses.length && !courses.some(course => course.id == courseId)) {
-    router.replace({ query: { ...route.query, course_id: JSON.stringify([courses[0].id]) } });
-  }
+  if (groupId) useAuth.getUserAnalytics(groupId);
 }, { immediate: true });
 </script>
 

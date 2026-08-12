@@ -1,0 +1,28 @@
+import { _ as __nuxt_component_1 } from './client-only-Db1Q_2tj.mjs';
+import { useSSRContext, ref } from 'vue';
+import { ssrRenderComponent } from 'vue/server-renderer';
+
+const _sfc_main = {
+  __name: "VideoReader",
+  __ssrInlineRender: true,
+  props: {
+    url: String
+  },
+  setup(__props) {
+    ref(null);
+    return (_ctx, _push, _parent, _attrs) => {
+      const _component_ClientOnly = __nuxt_component_1;
+      _push(ssrRenderComponent(_component_ClientOnly, _attrs, {}, _parent));
+    };
+  }
+};
+const _sfc_setup = _sfc_main.setup;
+_sfc_main.setup = (props, ctx) => {
+  const ssrContext = useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/VideoReader.vue");
+  return _sfc_setup ? _sfc_setup(props, ctx) : void 0;
+};
+const _imports_0 = "data:image/svg+xml,%3csvg%20width='20'%20height='20'%20viewBox='0%200%2020%2020'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cpath%20d='M7.15489%206.86394L9.31989%202.50394C9.38291%202.37776%209.47984%202.27163%209.5998%202.19745C9.71976%202.12328%209.85802%202.08398%209.99906%202.08398C10.1401%202.08398%2010.2784%202.12328%2010.3983%202.19745C10.5183%202.27163%2010.6152%202.37776%2010.6782%202.50394L12.8432%206.86394L17.6832%207.56727C17.8228%207.58663%2017.9542%207.64485%2018.0623%207.73528C18.1704%207.82571%2018.2509%207.94472%2018.2946%208.07871C18.3383%208.2127%2018.3435%208.35628%2018.3095%208.49306C18.2755%208.62984%2018.2037%208.75432%2018.1024%208.85227L14.6007%2012.2439L15.4274%2017.0356C15.5332%2017.6506%2014.8832%2018.1189%2014.3274%2017.8289L9.99906%2015.5656L5.66989%2017.8289C5.11489%2018.1198%204.46489%2017.6506%204.57073%2017.0348L5.39739%2012.2431L1.89573%208.85144C1.79488%208.75342%201.72356%208.62907%201.68986%208.49253C1.65617%208.35599%201.66145%208.21274%201.70512%208.07906C1.74878%207.94537%201.82907%207.82662%201.93687%207.7363C2.04466%207.64597%202.17563%207.5877%202.31489%207.5681L7.15489%206.86394Z'%20stroke='%23FF852E'%20stroke-width='1.5'%20stroke-linecap='round'%20stroke-linejoin='round'/%3e%3c/svg%3e";
+
+export { _imports_0 as _, _sfc_main as a };
+//# sourceMappingURL=star-XO2JF98c.mjs.map
