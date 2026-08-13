@@ -9,7 +9,7 @@
       <LoadingDiv v-for="i in 10" class="w-full h-10" />
     </div>
     <div v-else-if="isLoading.user?.current_role == 'admin'">
-      <nav class="flex items-center justify-between pb-5 w-full">
+      <nav class="flex boredr border-red-500 fixed top-0 left-0 p-4 z-20 bg-white items-center justify-between pb-5 w-full">
         <a-steps v-if="store.currentStep != 2" :current="store.currentStep" :items="[
           {
             title: 'Finished',
@@ -272,7 +272,7 @@
           </ul>
         </nav>
         <ClientOnly>
-          <ul class="flex items-center justify-between lg:max-w-[50vw] mx-auto my-6">
+          <ul v-if="useTests.test_settings.test_type != 'pdf_file'" class="flex items-center justify-between lg:max-w-[50vw] mx-auto my-6">
             <a-select class="min-w-[200px]" v-if="useTests.test[useTests.store.slideStep - 1]"
               v-model:value="useTests.test[useTests.store.slideStep - 1].type" placeholder="Select a person"
               :options="testType"></a-select>
@@ -429,7 +429,7 @@
                   </div>
                 </div>
               </div>
-              <div class="flex gap-4 justify-end px-5 pt-2">
+              <div v-if="useTests.test_settings.test_type != 'pdf_file'" class="flex gap-4 justify-end px-5 pt-2">
                 <button @click="useTests.deleteTest" class="bg_red c_white px-8 py-2 rounded-full">
                   {{
                     useTests.store.deletedTestList?.includes(useTests.store.slideStep)
