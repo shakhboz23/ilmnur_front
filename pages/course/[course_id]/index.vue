@@ -225,12 +225,12 @@
         <UIModal :isOpen="store.membersModal" :loadingType="'createLesson'"
             @update:isOpen="() => store.membersModal = false" width="80vw">
             <div class="space-y-6">
-                <div class="flex items-center justify-between" v-if="isLoading.user?.current_role == 'admin'">
+                <div class="flex flex-wrap items-center justify-between gap-2"
+                    v-if="isLoading.user?.current_role == 'admin'">
                     <button @click="store.addMember = true"
-                        class="h-[46px] px-[56px] rounded-[10px] text-sm leading-4 bg_main text-white">
+                        class="h-[46px] px-6 sm:px-10 lg:px-[56px] whitespace-nowrap rounded-[10px] text-sm leading-4 bg_main text-white">
                         + O'quvchi qo'shish
                     </button>
-                    {{ store.date }}
                     <div class="w-min min-w-40">
                         <DatePicker v-model:value="store.date" @change="onChange" picker="month" />
                     </div>
@@ -273,66 +273,64 @@
                             </template>
                         </a-select>
                         <button @click="store.addMember = true"
-                            class="h-[46px] px-[56px] whitespace-nowrap rounded-[10px] text-sm leading-4 bg_main text-white">
-                            + O'quvchi qo'shish
-                        </button>
-                        <button @click="store.addMember = true"
-                            class="h-[46px] px-[56px] rounded-[10px] text-sm leading-4 bg_main text-white">
+                            class="h-[46px] px-6 sm:px-10 lg:px-[56px] whitespace-nowrap rounded-[10px] text-sm leading-4 bg_main text-white">
                             Export
                         </button>
                         <button @click="store.addMember = true"
-                            class="h-[46px] px-[56px] rounded-[10px] text-sm leading-4 bg_main text-white">
+                            class="h-[46px] px-6 sm:px-10 lg:px-[56px] whitespace-nowrap rounded-[10px] text-sm leading-4 bg_main text-white">
                             Import
                         </button>
                     </div>
                 </section>
 
-                <table class="w-full overflow-hidden overscroll-x-auto">
-                    <thead>
-                        <tr class="whitespace-nowrap">
-                            <th class="text-left p-2">O'quvchi</th>
-                            <th class="text-left p-2">Telefon raqam</th>
-                            <th class="text-left p-2">Oylik to'lov</th>
-                            <th class="text-left p-2">To'langan</th>
-                            <th class="text-left p-2">Qolgan</th>
-                            <th class="text-left p-2">Davomat</th>
-                            <th class="text-left p-2">Holat</th>
-                            <th class="text-left p-2">A'zolik sanasi</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="item in useCourses.store.courses?.course?.subscriptions" :key="item.id">
-                            <td class="p-2">
-                                <div class="flex items-center gap-2">
-                                    <UIAvatar :src="item.user?.image" class="max-w-7 max-h-7" />
-                                    <span>{{ item.user?.name }} {{ item.user?.surname }}</span>
-                                </div>
-                            </td>
-                            <td class="p-2">{{ item.user?.phone }}</td>
-                            <td class="p-2">{{ item.user?.payments?.[0]?.monthly_payment }}</td>
-                            <td class="p-2">{{ item.user?.payments?.[0]?.amount }}</td>
-                            <td class="p-2">{{ item.user?.payments?.[0]?.debt }}</td>
-                            <td class="p-2">{{ item.user?.attendance }}</td>
-                            <td class="p-2">{{ item.user?.payments?.[0]?.status }}</td>
-                            <td class="p-2">{{ formatDateToYYYYMMDD(item?.start_date) }}</td>
-                            <td class="p-2">
-                                <div class="flex items-center gap-2">
-                                    <button v-if="isLoading.user?.current_role == 'admin'"
-                                        @click="store.member_id = item.user.id; store.addPaymentModal = true"
-                                        class="b_main p-2 r_8">
-                                        <img class="w-5" loading="lazy" src="@/assets/svg/course/editpen.svg" alt="">
-                                    </button>
-                                    <button v-if="isLoading.user?.current_role == 'admin'"
-                                        @click="store.member_id = item.user.id; handleButton('delete', useCourses.store.courses?.course?.id, 'member')"
-                                        class="b_red p-2 r_8">
-                                        <img class="w-5" loading="lazy" src="@/assets/svg/icon/delete.svg" alt="">
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="w-full overflow-x-auto">
+                    <table class="w-full min-w-[900px]">
+                        <thead>
+                            <tr class="whitespace-nowrap">
+                                <th class="text-left p-2">O'quvchi</th>
+                                <th class="text-left p-2">Telefon raqam</th>
+                                <th class="text-left p-2">Oylik to'lov</th>
+                                <th class="text-left p-2">To'langan</th>
+                                <th class="text-left p-2">Qolgan</th>
+                                <th class="text-left p-2">Davomat</th>
+                                <th class="text-left p-2">Holat</th>
+                                <th class="text-left p-2">A'zolik sanasi</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="item in useCourses.store.courses?.course?.subscriptions" :key="item.id">
+                                <td class="p-2 whitespace-nowrap">
+                                    <div class="flex items-center gap-2">
+                                        <UIAvatar :src="item.user?.image" class="max-w-7 max-h-7" />
+                                        <span>{{ item.user?.name }} {{ item.user?.surname }}</span>
+                                    </div>
+                                </td>
+                                <td class="p-2 whitespace-nowrap">{{ item.user?.phone }}</td>
+                                <td class="p-2 whitespace-nowrap">{{ item.user?.payments?.[0]?.monthly_payment }}</td>
+                                <td class="p-2 whitespace-nowrap">{{ item.user?.payments?.[0]?.amount }}</td>
+                                <td class="p-2 whitespace-nowrap">{{ item.user?.payments?.[0]?.debt }}</td>
+                                <td class="p-2 whitespace-nowrap">{{ item.user?.attendance }}</td>
+                                <td class="p-2 whitespace-nowrap">{{ item.user?.payments?.[0]?.status }}</td>
+                                <td class="p-2 whitespace-nowrap">{{ formatDateToYYYYMMDD(item?.start_date) }}</td>
+                                <td class="p-2">
+                                    <div class="flex items-center gap-2">
+                                        <button v-if="isLoading.user?.current_role == 'admin'"
+                                            @click="store.member_id = item.user.id; store.addPaymentModal = true"
+                                            class="b_main p-2 r_8 min-w-5">
+                                            <img class="w-5" loading="lazy" src="@/assets/svg/course/editpen.svg" alt="">
+                                        </button>
+                                        <button v-if="isLoading.user?.current_role == 'admin'"
+                                            @click="store.member_id = item.user.id; store.deleteMemberModal = true"
+                                            class="b_red p-2 r_8 min-w-5">
+                                            <img class="w-5" loading="lazy" src="@/assets/svg/icon/delete.svg" alt="">
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
 
             </div>
         </UIModal>
@@ -341,6 +339,10 @@
             :loadingType="'deletegroup'" @update:isOpen="(value) => handleModal(value)" />
         <UIDeleteModal v-else :isOpen="isLoading.modal.delete" :loadingType="'deletegroup'"
             @update:isOpen="(value) => handleModal(value, 'course')" />
+
+        <!-- modal -->
+        <UIDeleteModal :isOpen="store.deleteMemberModal" :loadingType="'deleteSubscription'"
+            @update:isOpen="(value) => handleDeleteMember(value)" />
 
         <!-- modal -->
         <UIModal class="!bg-white !min-h-fit" :title="''" :isOpen="useCourses.store.reytingModal"
@@ -356,7 +358,7 @@
         </UIModal>
 
         <!-- modal -->
-        <UIModal class="!bg-white !min-h-fit" :title="''" :isOpen="store.addMember" :loadingType="'creategroup'"
+        <UIModal class="!bg-white !min-h-fit" :title="''" :isOpen="store.addMember" :loadingType="'subscriptions'"
             @update:isOpen="(value) => handleModal(value, 'payment')">
             <div class="space-y-6">
                 <div>
@@ -374,7 +376,7 @@
                     </a-select>
                 </div>
                 <div>
-                    <label for="date">Kursga qo'shilsh sanasi</label>
+                    <label for="date">Kursga qo'shilish sanasi</label>
 
                     <a-date-picker id="date" v-model:value="store.start_date" format="DD/MM/YYYY"
                         class="!rounded-[10px] !h-[42px] !border-gray-200 hover:!border-gray-300" />
@@ -418,6 +420,7 @@ const store = reactive({
     membersModal: false,
     addPaymentModal: false,
     addMember: false,
+    deleteMemberModal: false,
     teacher_id: 0,
     member_id: null,
     course_id: +router.currentRoute.value.params.course_id,
@@ -450,7 +453,7 @@ async function handleModal(value, modalType) {
 
     if (value == "OK") {
         if (store.addMember) {
-            addMember()
+            await addMember()
         }
         else if (store.addPaymentModal) {
             store.addPaymentModal = false;
@@ -511,6 +514,15 @@ async function addMember() {
 
     await useSubscription.createSubscribeUser({ user_id: store.member_id, role: 'student', start_date: store.start_date });
     await useCourses.getByCourse();
+    store.addMember = false;
+}
+
+async function handleDeleteMember(value) {
+    if (value == "OK") {
+        await useSubscription.deleteSubscription(useCourses.store.courses?.course?.id, store.member_id);
+    }
+    store.deleteMemberModal = false;
+    store.member_id = null;
 }
 
 function handleButton(type, lesson, modalType) {

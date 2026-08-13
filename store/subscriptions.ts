@@ -71,6 +71,14 @@ export const useSubscriptionStore = defineStore("subscription", () => {
   }
 
 
+  async function deleteSubscription(course_id: number, user_id: number) {
+    await apiRequest.delete_req(
+      `subscriptions/deleteSubscription/${course_id}/${user_id}`,
+      "deleteSubscription"
+    );
+    useCourses.getByCourse();
+  }
+
   async function changeSubscriptionStatus(status: string, course_id: number) {
     const data: any = await apiRequest.post(
       "subscription_activity/create",
@@ -93,5 +101,6 @@ export const useSubscriptionStore = defineStore("subscription", () => {
     createSubscribeUser,
     subscribeToGroup,
     changeSubscriptionStatus,
+    deleteSubscription,
   };
 });

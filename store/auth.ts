@@ -172,7 +172,6 @@ export const useAuthStore = defineStore("auth", () => {
         isLoading.store.error = '';
         localStorage.setItem("token", res.data?.token);
         getUserFullInfo('login');
-        isLoading.store.isLogin = true;
         if (res.data.statusCode == 200) {
           router.push("/");
         }
