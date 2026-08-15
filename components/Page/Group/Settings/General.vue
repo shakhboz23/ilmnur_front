@@ -72,9 +72,9 @@
                     <div class="space-y-2 w-full">
                         <label for="initials" class="_ca1 text-xs">Rang</label>
                         <div>
-                            <a-select class="w-full" v-model="useGroups.create.color" placeholder="Rangni tanlang"
+                            <a-select v-model="useGroups.create.color" placeholder="Rangni tanlang"
                                 <a-option :key="i" :label="i" :value="i" v-for="i in colors_list"
-                                    @click="useGroups.create.color = i" class="h-10 bg-[#009e5d] r_8"
+                                    @click="useGroups.create.color = i" class="h-10 bg-[#009e5d] r_8 w-full"
                                     :style="`background: ${i}`">{{ i }}</a-option>
                                 <template #suffixIcon>
                                     <img class="w-4" src="@/assets/svg/icon/arrow.svg" alt="" />
