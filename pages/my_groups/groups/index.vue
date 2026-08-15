@@ -23,8 +23,8 @@
                 </div>
             </label>
             <FloatingInput :id="'title'" :maxValue="50" class="w-full" :type="'text'" v-model="useGroups.create.title"
-                :label="'Title'" required />
-            <a-textarea v-model:value="useGroups.create.description" placeholder="Description"
+                :label="'Sarlavha'" required />
+            <a-textarea v-model:value="useGroups.create.description" placeholder="Tavsif"
                 :auto-size="{ minRows: 2, maxRows: 10 }" />
             <div class="grid gap-5">
                 <label @click="useGroups.create.group_type = 'private'" class="space-y-3 r_8 p-5 cursor-pointer" :class="useGroups.create.group_type == 'private'
@@ -39,12 +39,12 @@
                                 " id="private" class="rounded-full w-5" type="radio" name="type" />
                         <div class="full_flex gap-1 capitalize font-medium">
                             <!-- <img src="@/assets/svg/members/private.svg" alt="" /> -->
-                            Private
+                            Yopiq
                         </div>
                     </div>
                     <p>
-                        Only members can see who's in the group and what they post. Content is hidden from search
-                        engines.
+                        Faqat a'zolar guruhda kimlar borligini va nima joylaganini ko'ra oladi. Kontent qidiruv
+                        tizimlaridan yashiriladi.
                     </p>
                 </label>
                 <label @click="useGroups.create.group_type = 'public'" class="space-y-3 r_8 p-5 cursor-pointer" :class="useGroups.create.group_type == 'private'
@@ -56,11 +56,11 @@
                             " id="public" class="rounded-full w-5" type="radio" name="type" />
                         <div class="full_flex gap-1 capitalize font-medium">
                             <!-- <img src="@/assets/svg/members/public.svg" alt="" /> -->
-                            Public
+                            Ochiq
                         </div>
                     </div>
                     <p>
-                        Anyone can see who's in the group and what they post. Content is discoverable by search engines.
+                        Har kim guruhda kimlar borligini va nima joylaganini ko'ra oladi. Kontent qidiruv tizimlarida ko'rinadi.
                     </p>
                 </label>
             </div>

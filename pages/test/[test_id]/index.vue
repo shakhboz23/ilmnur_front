@@ -50,7 +50,7 @@
             <a-dropdown>
               <button class="flex items-center gap-2 b_black px-8 py-2 r_8">
                 <img class="w-4" src="@/assets/svg/icon/import.svg" alt="" />
-                <p>Import</p>
+                <p>Import qilish</p>
               </button>
               <template #overlay>
                 <a-menu>
@@ -69,7 +69,7 @@
             </div>
             <button @click="useTests.createTest" class="flex items-center gap-1 b_main c_main px-8 py-2 r_8">
               <img loading="lazy" class="mx-auto w-5" src="@/assets/svg/icon/preview.svg" alt="" />
-              Preview
+              Oldindan ko'rish
             </button>
             <a-button :loading="isLoading.isLoadingType('createTest')" @click="useTests.createTest"
               class="bg_main c_white px-8 h-[42px] r_8">Yuklash</a-button>
@@ -192,16 +192,16 @@
                             </svg></i>
                         </button>
                       </div>
-                      <textarea placeholder="Enter your question here..."
+                      <textarea placeholder="Savolingizni shu yerga kiriting..."
                         class="w-full p-3 border border-gray-300 rounded-lg mb-4 focus:ring-2 focus:ring-primary focus:border-primary"></textarea>
                       <div class="space-y-2">
-                        <input type="text" placeholder="Option A"
+                        <input type="text" placeholder="A varianti"
                           class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" />
-                        <input type="text" placeholder="Option B" ``
+                        <input type="text" placeholder="B varianti"
                           class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" />
-                        <input type="text" placeholder="Option C"
+                        <input type="text" placeholder="C varianti"
                           class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" />
-                        <input type="text" placeholder="Option D"
+                        <input type="text" placeholder="D varianti"
                           class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" />
                       </div>
                     </div>
@@ -213,17 +213,17 @@
                         <path fill="currentColor"
                           d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z">
                         </path>
-                      </svg></i>Add Question
+                      </svg></i>Savol qo'shish
                   </button>
                 </div>
 
                 <div id="step-6" class="step-content hidden">
-                  <h3 class="text-xl font-semibold text-gray-800 mb-6">Quiz Settings</h3>
+                  <h3 class="text-xl font-semibold text-gray-800 mb-6">Test sozlamalari</h3>
                   <div class="space-y-6">
                     <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
                       <div>
-                        <h4 class="font-semibold text-gray-800">Mixed Questions</h4>
-                        <p class="text-gray-600 text-sm">Randomize question order</p>
+                        <h4 class="font-semibold text-gray-800">Aralash savollar</h4>
+                        <p class="text-gray-600 text-sm">Savollar tartibini tasodifiylashtirish</p>
                       </div>
                       <label class="relative inline-flex items-center cursor-pointer">
                         <input type="checkbox" class="sr-only peer" />
@@ -234,9 +234,9 @@
                     </div>
                     <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
                       <div>
-                        <h4 class="font-semibold text-gray-800">Show Results</h4>
+                        <h4 class="font-semibold text-gray-800">Natijalarni ko'rsatish</h4>
                         <p class="text-gray-600 text-sm">
-                          Display results after completion
+                          Yakunlangandan so'ng natijalarni ko'rsatish
                         </p>
                       </div>
                       <label class="relative inline-flex items-center cursor-pointer">
@@ -274,11 +274,11 @@
         <ClientOnly>
           <ul v-if="useTests.test_settings.test_type != 'pdf_file'" class="flex items-center justify-between lg:max-w-[50vw] mx-auto my-6">
             <a-select class="min-w-[200px]" v-if="useTests.test[useTests.store.slideStep - 1]"
-              v-model:value="useTests.test[useTests.store.slideStep - 1].type" placeholder="Select a person"
+              v-model:value="useTests.test[useTests.store.slideStep - 1].type" placeholder="Turini tanlang"
               :options="testType"></a-select>
             <div class="flex gap-4">
               <div class="space-x-2 block">
-                <label for="Required" class="">Required</label>
+                <label for="Required" class="">Majburiy</label>
                 <a-switch id="Required" v-model:checked="checked" />
               </div>
               <a-dropdown>
@@ -398,7 +398,7 @@
                       <li v-for="(i, index) in useTests.test">
                         {{ +index + 1 }}
                         <a-select class="min-w-[200px]" v-if="useTests.test[+index]"
-                          v-model:value="useTests.test[+index].type" placeholder="Select a person"
+                          v-model:value="useTests.test[+index].type" placeholder="Turini tanlang"
                           :options="testType"></a-select>
 
                         <template v-if="useTests.test[+index].type == 'variant'">

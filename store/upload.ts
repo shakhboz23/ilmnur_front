@@ -8,7 +8,7 @@ export const useUploadStore = defineStore("upload", () => {
   const openNotification = (res: any) => {
     notification.destroy();
     notification.open({
-      message: "Notification Title",
+      message: "Bildirishnoma",
       description: res,
     });
   };
@@ -19,10 +19,10 @@ export const useUploadStore = defineStore("upload", () => {
     const res: any = await apiRequest.post("tests/create_url", formData);
     console.log(res);
     if (res.data.statusCode == 200) {
-      openNotification("Uploaded successfully");
+      openNotification("Muvaffaqiyatli yuklandi");
       return res.data.data;
     } else {
-      openNotification("Error uploading a file");
+      openNotification("Faylni yuklashda xatolik yuz berdi");
     }
 
     return res;

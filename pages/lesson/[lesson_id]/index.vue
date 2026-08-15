@@ -57,7 +57,7 @@
                             :src="useLessons.store.lessons?.course?.cover" alt="">
                         <ul>
                             <li class="text-sm font-bold">{{ useLessons.store.lessons?.course?.title }}</li>
-                            <li class="text-xs">{{ useLessons.store.lessons?.course?.subscriptions_count }} subscribers
+                            <li class="text-xs">{{ useLessons.store.lessons?.course?.subscriptions_count }} obunachi
                             </li>
                         </ul>
                     </li>

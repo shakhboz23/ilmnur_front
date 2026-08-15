@@ -1,12 +1,12 @@
 <template>
     <main>
         <section v-if="useAuth.store.step == 0" class="space-y-8">
-            <h1 class="_c07 text-2xl font-semibold">Change email</h1>
-            <p>We'll send you an email to verify your new email.</p>
+            <h1 class="_c07 text-2xl font-semibold">Emailni o'zgartirish</h1>
+            <p>Yangi emailingizni tasdiqlash uchun sizga xat yuboramiz.</p>
             <form class="space-y-5 text-center" @submit.prevent="useAuth.resetPassword">
                 <FloatingInput id="email" type="email"
                     v-model="useAuth.login.email"
-                    label="New email" required />
+                    label="Yangi email" required />
 
                 <p v-if="
                     useAuth.store.passwordError?.length &&
@@ -19,7 +19,7 @@
                     <div class="w-full">
                         <FloatingInput id="password" :type="useAuth.store.passType"
                             v-model="useAuth.login.password"
-                            label="Password" required />
+                            label="Parol" required />
                     </div>
                     <img loading="lazy" v-if="useAuth.store.passType == 'password'" @click="useAuth.changePassType"
                         class="absolute top-0 right-0 p-4 cursor-pointer" src="@/assets/svg/icon/show.svg" alt="" />
@@ -38,12 +38,12 @@
             </form>
         </section>
         <section v-else-if="useAuth.store.step == 1" class="space-y-8">
-            <h1 class="_c07 text-2xl font-semibold">Verify your email</h1>
-            <p>We'll sent you an otp code to verify your new email.</p>
+            <h1 class="_c07 text-2xl font-semibold">Emailingizni tasdiqlang</h1>
+            <p>Yangi emailingizni tasdiqlash uchun sizga bir martalik kod yuboramiz.</p>
             <form class="space-y-5 text-center" @submit.prevent="useAuth.resetPassword">
                 <FloatingInput id="code" type="text"
                     v-model="useAuth.store.code"
-                    label="Code" required />
+                    label="Kod" required />
 
                 <!-- <p v-if="
                     useAuth.store.passwordError?.length &&

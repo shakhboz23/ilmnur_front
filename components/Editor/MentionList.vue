@@ -11,7 +11,7 @@
         </button>
       </template>
       <div class="item" v-else>
-        No result
+        Natija topilmadi
       </div>
     </div>
   </template>

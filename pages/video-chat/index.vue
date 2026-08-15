@@ -22,8 +22,8 @@ const room = ref<Room>();
 const localTrack = ref<LocalVideoTrack>();
 const remoteTracksMap: Ref<Map<string, TrackInfo>> = ref(new Map());
 
-let participantName = ref('Participant' + Math.floor(Math.random() * 100));
-let roomName = ref('Test Room');
+let participantName = ref('Ishtirokchi' + Math.floor(Math.random() * 100));
+let roomName = ref('Test xona');
 
 async function joinRoom() {
     // Initialize a new Room object
@@ -125,18 +125,18 @@ async function getToken(roomName: string, participantName: string) {
 <template>
     <div v-if="!room" id="join">
         <div id="join-dialog">
-            <h2>Join a Video Room</h2>
+            <h2>Video xonaga qo'shilish</h2>
             <form @submit.prevent="joinRoom">
                 <div>
-                    <label for="participant-name">Participant</label>
+                    <label for="participant-name">Ishtirokchi</label>
                     <input v-model="participantName" id="participant-name" class="form-control" type="text" required />
                 </div>
                 <div>
-                    <label for="room-name">Room</label>
+                    <label for="room-name">Xona</label>
                     <input v-model="roomName" id="room-name" class="form-control" type="text" required />
                 </div>
                 <button class="btn btn-lg btn-success" type="submit" :disabled="!roomName || !participantName">
-                    Join!
+                    Qo'shilish!
                 </button>
             </form>
         </div>
@@ -144,7 +144,7 @@ async function getToken(roomName: string, participantName: string) {
     <div v-else id="room">
         <div id="room-header">
             <h2 id="room-title">{{ roomName }}</h2>
-            <button class="btn btn-danger" id="leave-room-button" @click="leaveRoom">Leave Room</button>
+            <button class="btn btn-danger" id="leave-room-button" @click="leaveRoom">Xonadan chiqish</button>
         </div>
         <div id="layout-container">
             <VideoComponent v-if="localTrack" :track="localTrack" :participantIdentity="participantName"

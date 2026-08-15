@@ -3,72 +3,72 @@
         <div v-if="editable" class="control-group">
             <div v-if="toolbar" class="button-group">
                 <button @click="addImage">
-                    Set image
+                    Rasm qo'yish
                 </button>
                 <button @click="editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()">
-                    Insert table
+                    Jadval qo'shish
                 </button>
                 <button
                     @click="editor.chain().focus().insertContent(tableHTML, { parseOptions: { preserveWhitespace: false } }).run()">
-                    Insert HTML table
+                    HTML jadval qo'shish
                 </button>
                 <button @click="editor.chain().focus().addColumnBefore().run()"
                     :disabled="!editor.can().addColumnBefore()">
-                    Add column before
+                    Oldiga ustun qo'shish
                 </button>
                 <button @click="editor.chain().focus().addColumnAfter().run()"
                     :disabled="!editor.can().addColumnAfter()">
-                    Add column after
+                    Keyiniga ustun qo'shish
                 </button>
                 <button @click="editor.chain().focus().deleteColumn().run()" :disabled="!editor.can().deleteColumn()">
-                    Delete column
+                    Ustunni o'chirish
                 </button>
                 <button @click="editor.chain().focus().addRowBefore().run()" :disabled="!editor.can().addRowBefore()">
-                    Add row before
+                    Oldiga qator qo'shish
                 </button>
                 <button @click="editor.chain().focus().addRowAfter().run()" :disabled="!editor.can().addRowAfter()">
-                    Add row after
+                    Keyiniga qator qo'shish
                 </button>
                 <button @click="editor.chain().focus().deleteRow().run()" :disabled="!editor.can().deleteRow()">
-                    Delete row
+                    Qatorni o'chirish
                 </button>
                 <button @click="editor.chain().focus().deleteTable().run()" :disabled="!editor.can().deleteTable()">
-                    Delete table
+                    Jadvalni o'chirish
                 </button>
                 <button @click="editor.chain().focus().mergeCells().run()" :disabled="!editor.can().mergeCells()">
-                    Merge cells
+                    Katakchalarni birlashtirish
                 </button>
                 <button @click="editor.chain().focus().splitCell().run()" :disabled="!editor.can().splitCell()">
-                    Split cell
+                    Katakchani ajratish
                 </button>
                 <button @click="editor.chain().focus().toggleHeaderColumn().run()"
                     :disabled="!editor.can().toggleHeaderColumn()">
-                    Toggle header column
+                    Sarlavha ustunini almashtirish
                 </button>
                 <button @click="editor.chain().focus().toggleHeaderRow().run()"
                     :disabled="!editor.can().toggleHeaderRow()">
-                    Toggle header row
+                    Sarlavha qatorini almashtirish
                 </button>
                 <button @click="editor.chain().focus().toggleHeaderCell().run()"
                     :disabled="!editor.can().toggleHeaderCell()">
-                    Toggle header cell
+                    Sarlavha katakchasini almashtirish
                 </button>
                 <button @click="editor.chain().focus().mergeOrSplit().run()" :disabled="!editor.can().mergeOrSplit()">
-                    Merge or split
+                    Birlashtirish yoki ajratish
                 </button>
                 <button @click="editor.chain().focus().setCellAttribute('backgroundColor', '#FAF594').run()"
                     :disabled="!editor.can().setCellAttribute('backgroundColor', '#FAF594')">
-                    Set cell attribute
+                    Katakcha xossasini o'rnatish
                 </button>
                 <button @click="editor.chain().focus().fixTables().run()" :disabled="!editor.can().fixTables()">
-                    Fix tables
+                    Jadvallarni tuzatish
                 </button>
                 <button @click="editor.chain().focus().goToNextCell().run()" :disabled="!editor.can().goToNextCell()">
-                    Go to next cell
+                    Keyingi katakchaga o'tish
                 </button>
                 <button @click="editor.chain().focus().goToPreviousCell().run()"
                     :disabled="!editor.can().goToPreviousCell()">
-                    Go to previous cell
+                    Oldingi katakchaga o'tish
                 </button>
             </div>
         </div>
@@ -76,19 +76,19 @@
             <div class="bubble-menu">
                 <button @click="editor.chain().focus().toggleBold().run()"
                     :class="{ 'is-active': editor.isActive('bold') }">
-                    Bold
+                    Qalin
                 </button>
                 <button @click="editor.chain().focus().toggleItalic().run()"
                     :class="{ 'is-active': editor.isActive('italic') }">
-                    Italic
+                    Qiya
                 </button>
                 <button @click="editor.chain().focus().toggleStrike().run()"
                     :class="{ 'is-active': editor.isActive('strike') }">
-                    Strike
+                    Chizilgan
                 </button>
                 <button @click="editor.chain().focus().toggleSpoiler().run()"
                     :class="{ 'is-active': editor.isActive('spoiler') }">
-                    Spoiler
+                    Spoyler
                 </button>
             </div>
         </bubble-menu>

@@ -7,31 +7,31 @@
         </div>
         <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5" v-else>
             <div class="bg_white b_cf5 r_12 p-5">
-                <h1 class="text-lg font-semibold">Groups analytics</h1>
-                <p>Current subscribers</p>
+                <h1 class="text-lg font-semibold">Guruhlar analitikasi</h1>
+                <p>Joriy obunachilar</p>
                 <span class="inline-block mb-7 text-xl font-semibold bg_cf5 px-2 r_50">{{
                     useGroups.store.groups?.summary?.length ? useGroups.store.groups?.summary[0]?.users_count : 0
                     }}</span>
                 <hr>
-                <h2 class="mt-2 font-semibold text-lg">Summary</h2>
-                <p class="c_c92">Last 28 days</p>
+                <h2 class="mt-2 font-semibold text-lg">Xulosa</h2>
+                <p class="c_c92">So'nggi 28 kun</p>
                 <ul class="space-y-2 mt-2">
                     <li class="flex items-center justify-between gap-1">
-                        <span>Views</span>
+                        <span>Ko'rishlar</span>
                         <span class="inline-block bg_cf5 px-2 r_50">{{ useGroups.store.groups?.summary?.length ?
                             useGroups.store.groups?.summary[0]?.watched_count : 0 }}</span>
                     </li>
                     <li class="flex items-center justify-between gap-1">
-                        <span>Likes</span>
+                        <span>Yoqtirishlar</span>
                         <span class="inline-block bg_cf5 px-2 r_50">{{ useGroups.store.groups?.summary?.length ?
                             useGroups.store.groups?.summary[0]?.likes_count : 0 }}</span>
                     </li>
                 </ul>
-                <h2 class="mt-2 font-semibold text-lg">Top videos</h2>
-                <p><span class="c_c92">Last 48 hours</span> · Views</p>
+                <h2 class="mt-2 font-semibold text-lg">Eng ko'p ko'rilgan videolar</h2>
+                <p><span class="c_c92">So'nggi 48 soat</span> · Ko'rishlar</p>
                 <button @click="() => { isLoading.modal.analytics = true; isLoading.store.analytics_id = 0 }"
-                    class="bg_main c_white mt-2 py-2 px-5 r_50">Go to
-                    groups analytics</button>
+                    class="bg_main c_white mt-2 py-2 px-5 r_50">Guruhlar
+                    analitikasiga o'tish</button>
             </div>
             <div v-for="i in useGroups.store.groups?.my_groups" class="r_12 overflow-hidden bg_white pcursor relative">
                 <a-dropdown v-if="i.user_id == isLoading.user.id">
@@ -41,13 +41,10 @@
                     <template #overlay>
                         <a-menu>
                             <a-menu-item @click="handleButton('edit', i.id)">
-                                <a href="javascript:;">Edit</a>
+                                <a href="javascript:;">Tahrirlash</a>
                             </a-menu-item>
                             <a-menu-item @click="handleButton('delete', i.id)">
-                                <a href="javascript:;">Delete</a>
-                            </a-menu-item>
-                            <a-menu-item>
-                                <a href="javascript:;">3rd menu item</a>
+                                <a href="javascript:;">O'chirish</a>
                             </a-menu-item>
                         </a-menu>
                     </template>
@@ -55,25 +52,25 @@
                 <img @click="$router.push(`/group/${i.id}`)" loading="lazy" class="aspect-video w-full object-cover" :src="i?.cover" alt="">
                 <ul class="space-y-1 p-2">
                     <li class="flex items-center justify-between gap-1">
-                        <span>Views</span>
+                        <span>Ko'rishlar</span>
                         <span class="inline-block bg_cf5 px-2 r_50">{{ i.watched_count }}</span>
                     </li>
                     <li class="flex items-center justify-between gap-1">
-                        <span>Likes</span>
+                        <span>Yoqtirishlar</span>
                         <span class="inline-block bg_cf5 px-2 r_50">{{ i.likes_count }}</span>
                     </li>
                     <li>
                         <button @click="() => { isLoading.modal.analytics = true; isLoading.store.analytics_id = i.id }"
-                            class="bg_main c_white py-2 px-5 r_50">Go to course analytics</button>
+                            class="bg_main c_white py-2 px-5 r_50">Kurs analitikasiga o'tish</button>
                     </li>
                     <li>
-                        <button class="bg_main c_white py-2 px-5 r_50">See comments (0)</button>
+                        <button class="bg_main c_white py-2 px-5 r_50">Izohlarni ko'rish (0)</button>
                     </li>
                 </ul>
             </div>
             <div @click="isLoading.modal.create = true" class="flex flex-col justify-center items-center gap-2 text-center b_cf5 r_12 min-h-[380px]">
-                <p>Create your new group to start a conversation and get feedback from your community.</p>
-                <button class="bg_main c_white py-2 px-5 r_50">Create a new group</button>
+                <p>Muloqotni boshlash va hamjamiyatingizdan fikr-mulohaza olish uchun yangi guruh yarating.</p>
+                <button class="bg_main c_white py-2 px-5 r_50">Yangi guruh yaratish</button>
             </div>
         </div>
     </div>
@@ -90,8 +87,8 @@
                 </div>
             </label>
             <FloatingInput :id="'title'" :maxValue="50" class="w-full" :type="'text'" v-model="useGroups.create.title"
-                :label="'Title'" required />
-            <a-textarea v-model:value="useGroups.create.description" placeholder="Description"
+                :label="'Nomi'" required />
+            <a-textarea v-model:value="useGroups.create.description" placeholder="Tavsif"
                 :auto-size="{ minRows: 2, maxRows: 10 }" />
             <div class="grid gap-5">
                 <label @click="useGroups.create.group_type = 'private'" class="space-y-3 r_8 p-5 cursor-pointer" :class="useGroups.create.group_type == 'private'
@@ -106,12 +103,12 @@
                                 " id="private" class="rounded-full w-5" type="radio" name="type" />
                         <div class="full_flex gap-1 capitalize font-medium">
                             <!-- <img src="@/assets/svg/members/private.svg" alt="" /> -->
-                            Private
+                            Yopiq
                         </div>
                     </div>
                     <p>
-                        Only members can see who's in the group and what they post. Content is hidden from search
-                        engines.
+                        Faqat a'zolar guruhdagilarni va ularning postlarini ko'ra oladi. Kontent qidiruv
+                        tizimlaridan yashiriladi.
                     </p>
                 </label>
                 <label @click="useGroups.create.group_type = 'public'" class="space-y-3 r_8 p-5 cursor-pointer" :class="useGroups.create.group_type == 'private'
@@ -123,11 +120,11 @@
                             " id="public" class="rounded-full w-5" type="radio" name="type" />
                         <div class="full_flex gap-1 capitalize font-medium">
                             <!-- <img src="@/assets/svg/members/public.svg" alt="" /> -->
-                            Public
+                            Ochiq
                         </div>
                     </div>
                     <p>
-                        Anyone can see who's in the group and what they post. Content is discoverable by search engines.
+                        Har kim guruhdagilarni va ularning postlarini ko'ra oladi. Kontent qidiruv tizimlarida topilishi mumkin.
                     </p>
                 </label>
             </div>
@@ -157,7 +154,7 @@
             <div class="flex items-center justify-between border-b pb-4 -mx-4 px-4">
                 <h1 class="font-semibold">
                     {{ useWatched.store.watched?.watched[useWatched.store.currentIndex].watchedList?.records?.length }}
-                    Watched
+                    ta ko'rgan
                 </h1>
             </div>
             <div
@@ -165,7 +162,7 @@
                 <ul class="overflow-auto max-h-[300px]">
                     <li v-for="i in useWatched.store.watched?.watched[useWatched.store.currentIndex].watchedList?.records" :key="i.id"
                         class="flex items-center gap-4 w-full py-2">
-                        <img class="h-10 w-10 rounded-full object-cover" :src="i.user?.image" title="user" />
+                        <img class="h-10 w-10 rounded-full object-cover" :src="i.user?.image" title="foydalanuvchi" />
                         <div class="space-y-1 w-[65%]">
                             <h1 class="truncate font-semibold">
                                 {{ i.user?.name }} {{ i.user?.surname }}
@@ -180,8 +177,7 @@
                 </p> -->
                         </div>
                         <button class="full_flex gap-[10px] min-w-fit uppercase b_main c_main r_8 px-6 py-2">
-                            chat
-                            <!-- <img src="@/assets/svg/chat_x.svg" alt="" /> -->
+                            suhbat
                         </button>
                     </li>
                     <!-- <button @click="load" v-if="!isLoading.isLoadingType('getLikes') &&
@@ -193,7 +189,7 @@
                 </ul>
             </div>
             <div v-else-if="!useWatched.store.watched?.watched[useWatched.store.currentIndex]?.watchedList?.pagination?.total_count && !isLoading.isLoadingType('getLikes')" class="full_flex py-5">
-                No likes yet
+                Hali yoqtirishlar yo'q
             </div>
             <div v-if="isLoading.isLoadingType('getLikes')" class="my-2 text-center chat_loading">
                 <svg aria-hidden="true"

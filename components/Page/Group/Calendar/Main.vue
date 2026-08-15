@@ -35,7 +35,7 @@
         </div>
         <button @click="store.add_event = true"
           class="h-[46px] px-[56px] rounded-[10px] text-sm leading-4 bg-[#16224B] text-white">
-          + Add event
+          + Tadbir qo'shish
         </button>
       </div>
     </nav>
@@ -57,7 +57,7 @@
               <div v-for="(i, index) in +date[1]" :key="i" :class="index % 2 != 0 ? 'ml-[15px]' : ''"
                 class="flex items-center justify-center bg-[#DD5C4A1A] h-6 w-6 rounded-full">
                 <a-tooltip
-                  content="<div><time class='text-sm leading-4'>14:00</time> <p class='text-[#16224B] text-sm font-medium leading-4'>Summer Teambuilding </p></div>"
+                  content="<div><time class='text-sm leading-4'>14:00</time> <p class='text-[#16224B] text-sm font-medium leading-4'>Yozgi jamoa quruvchi tadbiri </p></div>"
                   raw-content placement="top">
                   <img loading="lazy" src="@/assets/svg/calendar/case.svg" alt="" />
                 </a-tooltip>
@@ -73,25 +73,25 @@
             <div class="flex justify-center items-center bg-[#FDF8E9] h-6 w-6 rounded-full">
               <img loading="lazy" class="h-4 w-4" src="@/assets/svg/calendar/event.svg" alt="" />
             </div>
-            <p class="text-sm leading-[15px] font-medium">Appointment</p>
+            <p class="text-sm leading-[15px] font-medium">Uchrashuv</p>
           </div>
           <div class="flex gap-[8px] items-center">
             <div class="flex justify-center items-center bg-[#16224B1A] h-6 w-6 rounded-full">
               <img loading="lazy" src="@/assets/svg/calendar/birthday.svg" alt="" />
             </div>
-            <p class="text-sm leading-[15px] font-medium">Event</p>
+            <p class="text-sm leading-[15px] font-medium">Tadbir</p>
           </div>
           <div class="flex gap-[8px] items-center">
             <div class="flex justify-center items-center bg-[#DD5C4A1A] h-6 w-6 rounded-full">
               <img loading="lazy" src="@/assets/svg/calendar/case.svg" alt="" />
             </div>
-            <p class="text-sm leading-[15px] font-medium">Case deadline</p>
+            <p class="text-sm leading-[15px] font-medium">Muddat</p>
           </div>
           <div class="flex gap-[8px] items-center">
             <div class="flex justify-center items-center bg-[#2F8F7A1A] h-6 w-6 rounded-full">
               <img loading="lazy" src="@/assets/svg/calendar/birthday.svg" alt="" />
             </div>
-            <p class="text-sm leading-[15px] font-medium">Birthday</p>
+            <p class="text-sm leading-[15px] font-medium">Tug'ilgan kun</p>
           </div>
         </div>
       </section>
@@ -119,18 +119,18 @@
           </div>
           <div class="bg-[#F4F3F9] rounded-lg px-5 py-8">
             <h1 class="text-[11px] font-bold leading-[11px] uppercase mb-4">
-              Show calendar by
+              Kalendarni ko'rsatish
             </h1>
             <div class="flex items-center gap-4">
               <button class="flex items-center justify-center border border-[#16224B] rounded-2xl h-8 px-[14px]">
-                Day
+                Kun
               </button>
               <button
                 class="flex items-center justify-center border border-[#16224B] bg-[#16224B] text-white rounded-2xl h-8 px-[14px]">
-                Week
+                Hafta
               </button>
               <button class="flex items-center justify-center border border-[#16224B] rounded-2xl h-8 px-[14px]">
-                Month
+                Oy
               </button>
             </div>
           </div>
@@ -140,25 +140,25 @@
               <div class="flex justify-center items-center bg-[#FDF8E9] h-6 w-6 rounded-full">
                 <img loading="lazy" class="h-4 w-4" src="@/assets/svg/calendar/event.svg" alt="" />
               </div>
-              <p class="text-sm leading-[15px] font-medium">Appointment</p>
+              <p class="text-sm leading-[15px] font-medium">Uchrashuv</p>
             </div>
             <div class="flex gap-[8px] items-center">
               <div class="flex justify-center items-center bg-[#16224B1A] h-6 w-6 rounded-full">
                 <img loading="lazy" src="@/assets/svg/calendar/birthday.svg" alt="" />
               </div>
-              <p class="text-sm leading-[15px] font-medium">Event</p>
+              <p class="text-sm leading-[15px] font-medium">Tadbir</p>
             </div>
             <div class="flex gap-[8px] items-center">
               <div class="flex justify-center items-center bg-[#DD5C4A1A] h-6 w-6 rounded-full">
                 <img loading="lazy" src="@/assets/svg/calendar/birthday.svg" alt="" />
               </div>
-              <p class="text-sm leading-[15px] font-medium">Case deadline</p>
+              <p class="text-sm leading-[15px] font-medium">Muddat</p>
             </div>
             <div class="flex gap-[8px] items-center">
               <div class="flex justify-center items-center bg-[#2F8F7A1A] h-6 w-6 rounded-full">
                 <img loading="lazy" src="@/assets/svg/calendar/case.svg" alt="" />
               </div>
-              <p class="text-sm leading-[15px] font-medium">Birthday</p>
+              <p class="text-sm leading-[15px] font-medium">Tug'ilgan kun</p>
             </div>
           </div>
         </div>
@@ -168,7 +168,7 @@
           </ul>
           <div class="flex gap-[14px] overflow-hidden overflow-x-auto min-w-full max-w-[calc(100vh_-_490px)]">
             <div v-for="i in 7" :key="i" class="bg-[#F4F3F9] font-medium rounded-lg py-[10px] w-[200px] h-full">
-              <h1 class="text-sm leading-[15px] px-[10px] opacity-40">Mon</h1>
+              <h1 class="text-sm leading-[15px] px-[10px] opacity-40">Du</h1>
               <p class="text-2xl leading-7 px-[10px] mt-1 mb-[22px]">
                 {{ i + 6 }}
               </p>
@@ -178,7 +178,7 @@
                 <div>
                   <img loading="lazy" src="@/assets/svg/calendar/birthday.svg" alt="" />
                   <p class="text-xs mt-2 leading-[14px] whitespace-nowrap truncate w-[85%] font-medium">
-                    Jack Johnson birthday text text text
+                    Jasur Aliyevning tug'ilgan kuni
                   </p>
                 </div>
               </div>
@@ -187,7 +187,7 @@
                 <div>
                   <img loading="lazy" src="@/assets/svg/calendar/case.svg" alt="" />
                   <p class="text-xs mt-2 leading-[14px] whitespace-nowrap truncate w-[85%] font-medium">
-                    This is a name of the case
+                    Tadbir nomi
                   </p>
                   <p class="text-[#16224B] mt-[6px] text-sm leading-[14px] font-medium">
                     #00253
@@ -410,18 +410,10 @@
       class="lg:min-w-[780px] md:min-w-[calc(100vw_-_40px)] min-w-screen bg-opacity-50 run de !rounded-lg">
       <form @submit.prevent="handleSubmit" class="space-y-5">
         <h1 class="text-2xl pb-2 font-semibold _c07">
-          <span v-if="$t('nav.uz') != 'uz'">
-            <span v-if="store.editEventModal"> {{ $t("edit") }}</span>
-            <span v-else> {{ $t("add") }}</span>
-          </span>
-          {{ $t("calendar.event") }}
-          <span class="lowercase" v-if="$t('nav.uz') == 'uz'">
-            <span v-if="store.editEventModal"> {{ $t("edit") }}</span>
-            <span v-else> {{ $t("add") }}</span>
-          </span>
+          {{ store.editEventModal ? "Tadbirni tahrirlash" : "Tadbir qo'shish" }}
         </h1>
         <div>
-          <FloatingInput v-model="store.title" @input="handleInput('input')" :label="$t('title')" required />
+          <FloatingInput v-model="store.title" @input="handleInput('input')" label="Nomi" required />
           <p class="text-end mt-1 _ca1 text-sm">
             <!-- {{ create?.title?.length }}/50 -->
           </p>
@@ -436,7 +428,7 @@
             </a-date-picker>
           </div>
           <div class="w-full">
-            <a-select class="w-full" @change="checkIsActive" v-model="create.time" :placeholder="$t('calendar.time')">
+            <a-select class="w-full" @change="checkIsActive" v-model="create.time" placeholder="Vaqtni tanlang">
               <a-option v-for="item in time_list" :key="item" :label="item" :value="item">
                 <div class="flex items-center gap-2">
                   {{ item }}
@@ -450,11 +442,11 @@
           </div>
           <div class="w-full md:col-span-1 col-span-2">
             <a-select class="w-full" @change="checkIsActive" v-model="create.duration"
-              :placeholder="$t('calendar.duration')">
-              <a-option v-for="item in 48" :key="item / 2" :label="item / 2 + (item / 2 == 1 ? ' hour' : ' hours')"
+              placeholder="Davomiylikni tanlang">
+              <a-option v-for="item in 48" :key="item / 2" :label="item / 2 + ' soat'"
                 :value="item / 2">
                 <div class="flex items-center gap-2">
-                  {{ item / 2 }} {{ item / 2 == 1 ? "hour" : "hours" }}
+                  {{ item / 2 }} soat
                   <img v-if="create.duration == item / 2" src="@/assets/svg/course/markasread.svg" alt="" />
                 </div>
               </a-option>
@@ -477,10 +469,10 @@
             </a-select>
           </div>
         </div>
-        <a-checkbox v-model:checked="store.recurring">Recurring event</a-checkbox>
+        <a-checkbox v-model:checked="store.recurring">Takrorlanuvchi tadbir</a-checkbox>
         <div v-if="store.recurring">
           <div class="flex items-center gap-5">
-            <p>Repeat every</p>
+            <p>Har necha marta takrorlansin</p>
             <a-select v-model="create.repeat_number" filterable class="!w-20">
               <a-option v-for="item in repeat_data[create.repeat]" :key="item" :label="item" :value="item">
                 <div class="flex items-center gap-2">
@@ -499,22 +491,22 @@
             </a-select>
           </div>
           <div class="mt-6" v-if="create.repeat == 'month' || create.repeat == 'week'">
-            <p>Repeat on</p>
+            <p>Qaysi kunlarda takrorlansin</p>
             <div class="flex items-center gap-0">
               <a-checkbox v-for="i in repeat_on" :label="i" />
             </div>
           </div>
           <div class="mt-6">
-            <p>End</p>
+            <p>Tugash</p>
             <div class="!space-y-6 mt-4">
               <label for="never" class="flex items-center gap-4">
                 <input class="w-5" type="radio" name="end" id="never" />
-                <p>Never</p>
+                <p>Hech qachon</p>
               </label>
               <label for="on" class="flex items-center gap-4">
                 <input class="w-5" type="radio" name="end" id="on" />
                 <p class="flex items-center">
-                  <span class="block min-w-[60px]">On</span>
+                  <span class="block min-w-[60px]">Sanada</span>
                   <a-date-picker @change="checkIsActive" v-model="create.date" type="date"
                     class="!min-w-full !p-0 -mt-2" placeholder="Feb 23, 2024" format="MMM DD, YYYY" />
                 </p>
@@ -522,9 +514,9 @@
               <label for="after" class="flex items-center gap-4">
                 <input class="w-5" type="radio" name="end" id="after" />
                 <p class="flex items-center">
-                  <span class="block min-w-[60px]">After</span>
+                  <span class="block min-w-[60px]">Necha martadan keyin</span>
                   <input type="number" class="w-20" />
-                  <span class="block ml-2">occurrences</span>
+                  <span class="block ml-2">marta</span>
                 </p>
               </label>
             </div>
@@ -532,7 +524,7 @@
         </div>
         <div class="flex md:flex-row flex-col md:items-center gap-4">
           <div>
-            <label class="_ca1 block mb-2 text-xs" for="location">Location</label>
+            <label class="_ca1 block mb-2 text-xs" for="location">Joylashuv</label>
             <a-dropdown class="dropdown !h-[50px] b_ccc rounded-xl px-3 !w-full">
               <div class="flex items-center justify-between w-full min-w-[132px]">
                 <div class="flex items-center !md:w-[132px] !w-full gap-2">
@@ -576,17 +568,17 @@
           </div>
           <div class="w-full">
             <label class="_ca1 block mb-2 text-xs" for="location">{{
-              create.location?.label != "Link"
-                ? create.location?.label + " link"
+              create.location?.label != "Havola"
+                ? create.location?.label + " havolasi"
                 : create.location?.label
             }}</label>
             <input v-model="create.location_value" type="text" class="!font-[400]"
-              :placeholder="$t('calendar.enterurl')" />
+              placeholder="Havolani kiriting" />
           </div>
         </div>
         <div>
           <textarea @input="handleInput('textarea')" id="write_message" v-model="create.description"
-            class="h-[90px] text-sm w-full rounded-[4px]" :placeholder="$t('description')"></textarea>
+            class="h-[90px] text-sm w-full rounded-[4px]" placeholder="Tavsif"></textarea>
           <p class="text-end mt-2 _ca1 text-sm">
             {{ create.description?.length }}/300
           </p>
@@ -596,7 +588,7 @@
             <label v-if="!isLoading.store?.croppedImage" for="add_photo_event"
               class="full_flex flex-col gap-1 cursor-pointer _c2a bg_cf2 rounded-xl font-medium text-sm sm:h-[188px] h-[164px] w-[366px] max-w-full">
               <img src="@/assets/svg/icon/img_upload.svg" alt="" />
-              <p class="c_main">Upload cover image</p>
+              <p class="c_main">Muqova rasmini yuklash</p>
               <p class="c_ca1 text-xs font-medium">1460 x 752 px</p>
             </label>
             <label class="relative imagelabel" v-else for="add_photo_event">
@@ -610,20 +602,20 @@
           </div>
           <div class="py-5 space-y-5 w-full">
             <div class="w-full">
-              <label class="_ca1 text-xs" for="access">Who can attend this event</label>
-              <a-select class="block w-full mt-2" v-model="create.access" placeholder="Select">
-                <a-option v-for="item in access_list" :key="item.value" :label="$t(`calendar.${item.label}`)"
+              <label class="_ca1 text-xs" for="access">Bu tadbirda kim ishtirok eta oladi</label>
+              <a-select class="block w-full mt-2" v-model="create.access" placeholder="Tanlang">
+                <a-option v-for="item in access_list" :key="item.value" :label="item.label"
                   :value="item.value" :disabled="item.disabled">
                   <div class="flex items-center gap-2">
-                    {{ $t(`calendar.${item.label}`) }}
+                    {{ item.label }}
                     <img v-if="create.access == item.value" src="@/assets/svg/course/markasread.svg" alt="" />
                   </div>
                 </a-option>
               </a-select>
             </div>
             <div v-if="create.access == 'level'">
-              <label class="_ca1 text-xs" for="access">{{ $t("calendar.levelstart") }}</label>
-              <a-select class="block w-full mt-2 el_select" v-model="create.access_value" placeholder="Select">
+              <label class="_ca1 text-xs" for="access">Boshlanish darajasi</label>
+              <a-select class="block w-full mt-2 el_select" v-model="create.access_value" placeholder="Tanlang">
                 <a-option v-for="item in 9" :key="item" :label="item" :value="item">
                   <div class="flex items-center gap-2">
                     {{ item }}
@@ -632,7 +624,7 @@
                 </a-option>
               </a-select>
             </div>
-            <a-checkbox v-model:checked="create.remind">Remind members by email 1 day before</a-checkbox>
+            <a-checkbox v-model:checked="create.remind">A'zolarga tadbirdan 1 kun oldin email orqali eslatish</a-checkbox>
           </div>
           <div class="file_input">
             <input @change="handleAddedPhoto" id="add_photo_event" type="file" accept="image/*" />
@@ -641,18 +633,18 @@
         <div class="flex items-center justify-between sm:pt-3 !sm:mt-8 !mt-5 text-sm font-semibold whitespace-nowrap">
           <button v-loading="isLoading.isLoadingType('deleteEvent')" v-if="store.editEventModal" type="button"
             @click="store.deleteModal = true" class="uppercase h-10 px-6 rounded-lg _ceb">
-            {{ $t("calendar.delete") }}
+            O'chirish
           </button>
           <div class="flex justify-end w-full gap-3">
             <button type="button" @click="store.add_event = false" class="uppercase h-10 px-6 rounded-lg _ca1">
-              {{ $t("cancel") }}
+              Bekor qilish
             </button>
             <button :type="isLoading.isLoadingType('addEvents') ? 'button' : 'submit'"
               :class="store.is_active ? 'b_cbc _c07' : 'b_ce0 _ca1'" @click="reposrtToAdmins"
               class="uppercase h-10 px-6 rounded-lg" v-loading="isLoading.isLoadingType('addEvents')">
               <span v-if="store.editEventModal">
-                {{ $t("save") }}</span>
-              <span v-else> {{ $t("add") }}</span>
+                Saqlash</span>
+              <span v-else> Qo'shish</span>
             </button>
           </div>
         </div>
@@ -673,20 +665,20 @@ import link from "@/assets/svg/calendar/link.svg";
 const isLoading = useLoadingStore();
 const isMount = ref(false);
 const cal = new Calendar(1); // weeks starting on Monday 1  // https://www.npmjs.com/package/calendar
-const weeks = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+const weeks = ["Du", "Se", "Ch", "Pa", "Ju", "Sh", "Ya"];
 const months = [
-  "January",
-  "February",
-  "March",
-  "April",
+  "Yanvar",
+  "Fevral",
+  "Mart",
+  "Aprel",
   "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
+  "Iyun",
+  "Iyul",
+  "Avgust",
+  "Sentabr",
+  "Oktabr",
+  "Noyabr",
+  "Dekabr",
 ];
 const store = reactive({
   add_event: false,
@@ -777,15 +769,15 @@ const time_list = [
 
 const access_list = [
   {
-    label: "all",
+    label: "Hammasi",
     value: "all",
   },
   {
-    label: "level",
+    label: "Daraja",
     value: "level",
   },
   {
-    label: "course",
+    label: "Kurs",
     value: "course",
   },
 ];
@@ -800,11 +792,11 @@ const location_list = [
     value: meet,
   },
   {
-    label: "Address",
+    label: "Manzil",
     value: address,
   },
   {
-    label: "Link",
+    label: "Havola",
     value: link,
   },
 ];

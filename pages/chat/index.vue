@@ -2,11 +2,11 @@
     <div>
         <nav class="flex justify-between">
             <div class="flex gap-10">
-                <h1>Preparing for the holiday</h1>
+                <h1>Bayramga tayyorgarlik</h1>
                 <p><span class="inline-block w-4 h-4 rounded-full bg_red white"></span> 02:22:09</p>
             </div>
             <div>
-                template list
+                shablonlar ro'yxati
             </div>
             <div>
                 <p>+23</p>
@@ -50,7 +50,7 @@
         </footer>
     </div>
     <div>
-        <h2>Agora Video Call</h2>
+        <h2>Agora video qo'ng'irog'i</h2>
         <form @submit.prevent="joinChannel">
             <label>App ID:</label>
             <input v-model="options.appid" type="text" required />

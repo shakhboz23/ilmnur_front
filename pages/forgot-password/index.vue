@@ -7,13 +7,13 @@
                     <img src="/logo.png" alt="" />
                 </router-link>
                 <h1 class="_c07 text-2xl font-semibold">
-                    Forgot Password
+                    Parolni unutdingizmi
                 </h1>
                 <p class="!mt-4">
-                    Enter your email address and we'll send you a link to reset your password.
+                    Email manzilingizni kiriting, biz sizga parolni tiklash havolasini yuboramiz.
                 </p>
                 <form @submit.prevent="useAuth.forgotPassword" class="space-y-5">
-                    <input v-model="useAuth.login.email" autofocus type="email" :placeholder="$t('Email')"
+                    <input v-model="useAuth.login.email" autofocus type="email" placeholder="Email"
                         required />
                     <p v-if="useAuth.store.errorMessage" class="text-start text-red-600 font-medium">
                         {{ useAuth.store.errorMessage }}
@@ -21,7 +21,7 @@
                     <button :type="isLoading.isLoadingType('activate') ? 'button' : 'submit'"
                         v-loading="isLoading.isLoadingType('resend')" class="rounded-full px-5 py-2 black_24"
                         :class="useAuth.login.email ? 'b_main c_main' : 'b_ccc c_ccc'">
-                        {{ $t("Email me") }}
+                        Havola yuborish
                     </button>
                 </form>
             </section>
@@ -33,13 +33,13 @@
                 <img src="/logo.png" alt="" />
             </router-link>
             <section class="space-y-8 bg-white rounded-lg p-6 text-center _c07">
-                <h1 class="_c07 text-2xl font-semibold">{{ $t("login.checkemail") }}</h1>
+                <h1 class="_c07 text-2xl font-semibold">Emailingizni tekshiring</h1>
                 <p class="!mt-4">
-                    {{ $t("login.wesentreset") }}
+                    Biz sizga parolni tiklash havolasini yubordik.
                 </p>
                 <button @click="login" v-loading="isLoading.isLoadingType('activate')"
                     class="b_cbc _c07 font-semibold w-full rounded-[4px]">
-                    {{ $t("login.backtologin") }}
+                    Kirish sahifasiga qaytish
                 </button>
             </section>
         </section>

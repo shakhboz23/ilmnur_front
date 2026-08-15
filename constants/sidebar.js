@@ -114,7 +114,7 @@ export const sidebar = [
 export const group_sidebar = [
   {
     id: 1,
-    name: "Dashboard",
+    name: "Boshqaruv paneli",
     url: "/my_groups",
     svg: _lessons,
     // svgActive: dashboardActive,
@@ -122,7 +122,7 @@ export const group_sidebar = [
   },
   {
     id: 1,
-    name: "Groups",
+    name: "Guruhlar",
     url: "/my_groups/groups",
     svg: _lessons,
     // svgActive: dashboardActive,
@@ -130,7 +130,7 @@ export const group_sidebar = [
   },
   {
     id: 1,
-    name: "Analytics",
+    name: "Analitika",
     url: "/my_groups/analytics",
     svg: _lessons,
     // svgActive: dashboardActive,
@@ -146,7 +146,7 @@ export const group_sidebar = [
   // },
   {
     id: 1,
-    name: "Earn",
+    name: "Daromad",
     url: "/my_groups/earn",
     svg: _lessons,
     // svgActive: dashboardActive,
@@ -157,7 +157,7 @@ export const group_sidebar = [
 export const settings_sidebar = [
   {
     id: 1,
-    name: "Profile",
+    name: "Profil",
     url: "/settings",
     svg: _lessons,
     // svgActive: dashboardActive,
@@ -165,7 +165,7 @@ export const settings_sidebar = [
   },
   {
     id: 1,
-    name: "Account",
+    name: "Akkaunt",
     url: "/settings/account",
     svg: _lessons,
     // svgActive: dashboardActive,
@@ -173,7 +173,7 @@ export const settings_sidebar = [
   },
   {
     id: 1,
-    name: "Password",
+    name: "Parol",
     url: "/settings/password",
     svg: _lessons,
     // svgActive: dashboardActive,
@@ -213,7 +213,7 @@ export const settings_sidebar = [
   // },
   {
     id: 1,
-    name: "Payment methods",
+    name: "To'lov usullari",
     url: "/settings/payment",
     svg: _lessons,
     // svgActive: dashboardActive,
@@ -221,7 +221,7 @@ export const settings_sidebar = [
   },
   {
     id: 1,
-    name: "Payment history",
+    name: "To'lovlar tarixi",
     url: "/settings/payment-history",
     svg: _lessons,
     // svgActive: dashboardActive,
@@ -233,7 +233,7 @@ export const settings_sidebar = [
 export const group_settings_sidebar = [
   {
     id: 1,
-    name: "Dashboard",
+    name: "Boshqaruv paneli",
     url: "?tab=dashboard",
     svg: _lessons,
     // svgActive: dashboardActive,
@@ -252,7 +252,7 @@ export const group_settings_sidebar = [
 export const group_settings = [
   {
     id: 1,
-    name: "Dashboard",
+    name: "Boshqaruv paneli",
     url: "dashboard",
     svg: _lessons,
     // svgActive: dashboardActive,
@@ -260,7 +260,7 @@ export const group_settings = [
   },
   {
     id: 1,
-    name: "Courses",
+    name: "Kurslar",
     url: "courses",
     svg: _lessons,
     // svgActive: dashboardActive,
@@ -268,7 +268,7 @@ export const group_settings = [
   },
   {
     id: 1,
-    name: "Payouts",
+    name: "To'lovlar",
     url: "payouts",
     svg: _lessons,
     // svgActive: dashboardActive,
@@ -276,7 +276,7 @@ export const group_settings = [
   },
   {
     id: 1,
-    name: "Invite",
+    name: "Taklif qilish",
     url: "invite",
     svg: _lessons,
     // svgActive: dashboardActive,
@@ -284,14 +284,14 @@ export const group_settings = [
   },
   {
     id: 1,
-    name: "General",
+    name: "Umumiy",
     url: "general",
     svg: _lessons,
     // svgActive: dashboardActive,
     role: [],
   },
   {
-    id: 1, name: "Subscriptions",
+    id: 1, name: "Obunalar",
     url: "subscriptions",
     svg: _lessons,
     // svgActive: dashboardActive, 
@@ -312,7 +312,7 @@ export const group_settings = [
   //   role: [],
   // },
   {
-    id: 1, name: "Analytics",
+    id: 1, name: "Analitika",
     url: "analytics",
     svg: _lessons,
     // svgActive: dashboardActive, 
@@ -333,7 +333,7 @@ export const group_settings = [
   //   role: [],
   // },
   {
-    id: 1, name: "Payments",
+    id: 1, name: "To'lovlar",
     url: "payments",
     svg: _lessons,
     // svgActive: dashboardActive, 

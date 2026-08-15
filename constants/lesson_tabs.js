@@ -1,28 +1,28 @@
 export const lesson_tabs = [
   {
     id: 1,
-    name: "Lectures",
+    name: "Ma'ruzalar",
     url: "/",
     component: "PageLessonLectures",
     role: [],
   },
   {
     id: 2,
-    name: "Overview",
+    name: "Umumiy ma'lumot",
     url: "/",
     component: "PageLessonOverview",
     role: [],
   },
   {
     id: 3,
-    name: "Comments",
+    name: "Izohlar",
     url: "/",
     component: "PageLessonComments",
     role: [],
   },
   {
     id: 4,
-    name: "Similar courses",
+    name: "O'xshash kurslar",
     url: "/",
     component: "PageLessonSimilarCourses",
     role: [],

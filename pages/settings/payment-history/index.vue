@@ -6,8 +6,8 @@
                 <div id="page-header" class="mb-8">
                     <div class="flex items-center justify-between">
                         <div>
-                            <h1 class="text-3xl font-bold text-gray-900">Payment History</h1>
-                            <p class="mt-2 text-gray-600">Track all your course purchases and payment details</p>
+                            <h1 class="text-3xl font-bold text-gray-900">To'lovlar tarixi</h1>
+                            <p class="mt-2 text-gray-600">Barcha kurs xaridlaringiz va to'lov tafsilotlarini kuzating</p>
                         </div>
                         <div v-if="useStripe.store.paymentHistory?.payment?.length" class="flex items-center space-x-3">
                             <button
@@ -20,7 +20,7 @@
                                             d="M288 32c0-17.7-14.3-32-32-32s-32 14.3-32 32V274.7l-73.4-73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l128 128c12.5 12.5 32.8 12.5 45.3 0l128-128c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L288 274.7V32zM64 352c-35.3 0-64 28.7-64 64v32c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V416c0-35.3-28.7-64-64-64H346.5l-45.3 45.3c-25 25-65.5 25-90.5 0L165.5 352H64zm368 56a24 24 0 1 1 0 48 24 24 0 1 1 0-48z">
                                         </path>
                                     </svg></i>
-                                Export
+                                Yuklab olish
                             </button>
                             <button
                                 class="bg-primary text-white rounded-lg px-4 py-2 text-sm font-medium bg-blue-600 flex items-center">
@@ -32,14 +32,14 @@
                                             d="M3.9 54.9C10.5 40.9 24.5 32 40 32H472c15.5 0 29.5 8.9 36.1 22.9s4.6 30.5-5.2 42.5L320 320.9V448c0 12.1-6.8 23.2-17.7 28.6s-23.8 4.3-33.5-3l-64-48c-8.1-6-12.8-15.5-12.8-25.6V320.9L9 97.3C-.7 85.4-2.8 68.8 3.9 54.9z">
                                         </path>
                                     </svg></i>
-                                Filter
+                                Filtr
                             </button>
                         </div>
                     </div>
                 </div>
                 <div v-if="!useStripe.store.paymentHistory?.payment?.length" class="full_flex flex-col gap-4 _c07 h-[180px] r_8">
                     <img src="@/assets/svg/icon/card.svg" alt="">
-                    {{ $t("You have no payments.") }}
+                    Sizda to'lovlar mavjud emas.
                 </div>
                 <section v-else>
                     <div id="stats-overview" class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
@@ -49,7 +49,7 @@
                                     <img class="w-5" src="@/assets/svg/payment/dollar.svg" alt="">
                                 </div>
                                 <div class="ml-4">
-                                    <p class="text-sm font-medium text-gray-600">Total Spent</p>
+                                    <p class="text-sm font-medium text-gray-600">Jami sarflangan</p>
                                     <p class="text-2xl font-bold text-gray-900">${{useStripe.store.paymentHistory?.total?.total_payment}}</p>
                                 </div>
                             </div>
@@ -61,7 +61,7 @@
                                     <img class="w-5" src="@/assets/svg/payment/course.svg" alt="">
                                 </div>
                                 <div class="ml-4">
-                                    <p class="text-sm font-medium text-gray-600">Courses Purchased</p>
+                                    <p class="text-sm font-medium text-gray-600">Sotib olingan kurslar</p>
                                     <p class="text-2xl font-bold text-gray-900">{{useStripe.store.paymentHistory?.total?.purchased_courses_count}}</p>
                                 </div>
                             </div>
@@ -73,7 +73,7 @@
                                     <img class="w-5" src="@/assets/svg/payment/month.svg" alt="">
                                 </div>
                                 <div class="ml-4">
-                                    <p class="text-sm font-medium text-gray-600">This Month</p>
+                                    <p class="text-sm font-medium text-gray-600">Shu oy</p>
                                     <p class="text-2xl font-bold text-gray-900">${{useStripe.store.paymentHistory?.total?.total_monthly_payment}}</p>
                                 </div>
                             </div>
@@ -85,7 +85,7 @@
                                     <img class="w-5" src="@/assets/svg/payment/rating.svg" alt="">
                                 </div>
                                 <div class="ml-4">
-                                    <p class="text-sm font-medium text-gray-600">Avg Rating</p>
+                                    <p class="text-sm font-medium text-gray-600">O'rtacha reyting</p>
                                     <p class="text-2xl font-bold text-gray-900">4.8</p>
                                 </div>
                             </div>
@@ -95,10 +95,10 @@
                     <div id="payment-table-section" class="bg-white rounded-xl shadow-sm border">
                         <div class="px-6 py-4 border-b border-gray-200">
                             <div class="flex items-center justify-between">
-                                <h2 class="text-lg font-semibold text-gray-900">Recent Transactions</h2>
+                                <h2 class="text-lg font-semibold text-gray-900">So'nggi tranzaksiyalar</h2>
                                 <div class="flex items-center space-x-3">
                                     <div class="relative">
-                                        <input type="text" placeholder="Search transactions..."
+                                        <input type="text" placeholder="Tranzaksiyalarni qidirish..."
                                             class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:border-transparent">
                                         <i class="absolute left-3 top-3 text-gray-400 text-sm" data-fa-i2svg=""><svg
                                                 class="svg-inline--fa fa-magnifying-glass" aria-hidden="true"
@@ -120,22 +120,22 @@
                                     <tr>
                                         <th
                                             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Course</th>
+                                            Kurs</th>
                                         <th
                                             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Date</th>
+                                            Sana</th>
                                         <th
                                             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Amount</th>
+                                            Summa</th>
                                         <th
                                             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Status</th>
+                                            Holat</th>
                                         <th
                                             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Method</th>
+                                            Usul</th>
                                         <th
                                             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                            Actions</th>
+                                            Amallar</th>
                                     </tr>
                                 </thead>
                                 <tbody class="bg-white divide-y divide-gray-200">
@@ -150,7 +150,6 @@
                                                     <div class="text-sm font-medium text-gray-900">
                                                         {{ history.course?.title }}
                                                     </div>
-                                                    <div class="text-sm text-gray-500">Web Development</div>
                                                 </div>
                                             </div>
                                         </td>
@@ -211,13 +210,13 @@
                         <div id="pagination" class="px-6 py-4 border-t border-gray-200">
                             <div class="flex items-center justify-between">
                                 <div class="flex items-center text-sm text-gray-700 gap-1">
-                                    Showing <span class="font-medium">1</span> to <span class="font-medium">4</span> of
-                                    <span class="font-medium">12</span> results
+                                    <span class="font-medium">1</span> dan <span class="font-medium">4</span> gacha,
+                                    jami <span class="font-medium">12</span> ta natija
                                 </div>
                                 <div class="flex items-center space-x-2">
                                     <button
                                         class="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50">
-                                        Previous
+                                        Oldingi
                                     </button>
                                     <button
                                         class="px-3 py-2 text-sm font-medium text-white bg-primary border border-primary rounded-md">
@@ -233,7 +232,7 @@
                                     </button>
                                     <button
                                         class="px-3 py-2 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-md hover:bg-gray-50">
-                                        Next
+                                        Keyingi
                                     </button>
                                 </div>
                             </div>
@@ -244,14 +243,14 @@
                             <div class="flex items-center justify-between">
                                 <div class="flex items-center">
                                     <h2 class="text-xl font-bold text-primary">IlmNur</h2>
-                                    <p class="ml-4 text-sm text-gray-500">© 2025 All rights reserved.</p>
+                                    <p class="ml-4 text-sm text-gray-500">© 2025 Barcha huquqlar himoyalangan.</p>
                                 </div>
                                 <div class="flex items-center space-x-6">
-                                    <span class="text-gray-500 hover:text-primary text-sm cursor-pointer">Privacy
-                                        Policy</span>
-                                    <span class="text-gray-500 hover:text-primary text-sm cursor-pointer">Terms of
-                                        Service</span>
-                                    <span class="text-gray-500 hover:text-primary text-sm cursor-pointer">Support</span>
+                                    <span class="text-gray-500 hover:text-primary text-sm cursor-pointer">Maxfiylik
+                                        siyosati</span>
+                                    <span class="text-gray-500 hover:text-primary text-sm cursor-pointer">Foydalanish
+                                        shartlari</span>
+                                    <span class="text-gray-500 hover:text-primary text-sm cursor-pointer">Yordam</span>
                                 </div>
                             </div>
                         </div>

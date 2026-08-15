@@ -38,20 +38,20 @@
                         <img v-if="useLessons.store.lessons?.is_liked" loading="lazy"
                             src="@/assets/svg/icon/star_white.svg" alt="">
                         <img v-else loading="lazy" src="@/assets/svg/icon/star.svg" alt="">
-                        <span class="max-w-full truncate">Like</span>
+                        <span class="max-w-full truncate">Yoqtirish</span>
                     </a-button>
                     <a-button :loading="isLoading.isLoadingType('subscribe')"
                         @click="useCourses.subscribeCourse(lesson_course?.id)"
                         class="px-5 py-2 r_8 w-full min-h-fit truncate"
                         :class="useLessons.store.lessons?.course?.is_subscribed ? 'bg_main c_white' : 'b_main c_main'">{{
                             lesson_course?.is_subscribed
-                                ? 'Subscribed' : 'Subscribe' }}</a-button>
+                                ? 'Obuna bo\'lingan' : 'Obuna bo\'lish' }}</a-button>
                 </li>
                 <li v-else-if="activeKey == 3" class="flex items-end justify-between gap-4 ">
                     <img loading="lazy" src="@/assets/svg/chat/upload.svg" alt="">
                     <!-- <input type="text" class="w-full !px-0 border-none" placeholder="Write a comment"> -->
                     <EditorTiptapEditor class="w-[80%] -ml-4 -mb-2" v-model="useComments.store.comment.text"
-                        :toolbar="false" :placeholder="'Write a comment...'" />
+                        :toolbar="false" :placeholder="'Izoh yozing...'" />
                     <a-dropdown trigger="click" placement="top">
                         <div class="pcursor">
                             <img loading="lazy" src="@/assets/svg/chat/smile.svg" alt="">

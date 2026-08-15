@@ -7,13 +7,10 @@
             <template #overlay>
                 <a-menu>
                     <a-menu-item @click="handleButton('edit', carddata.id)">
-                        <a href="javascript:;">Edit</a>
+                        <a href="javascript:;">Tahrirlash</a>
                     </a-menu-item>
                     <a-menu-item @click="handleButton('delete', carddata.id)">
-                        <a href="javascript:;">Delete</a>
-                    </a-menu-item>
-                    <a-menu-item>
-                        <a href="javascript:;">3rd menu item</a>
+                        <a href="javascript:;">O'chirish</a>
                     </a-menu-item>
                 </a-menu>
             </template>

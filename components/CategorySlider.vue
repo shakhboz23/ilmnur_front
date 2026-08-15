@@ -12,7 +12,7 @@
                 </button>
                 <ul class="tabs">
                     <button v-if="all" @click="setCategory()" class="duration-700 r_20 py-2 px-3 text-xs b_main"
-                        :class="selectedCategoryIds.length == 0 ? 'bg_main c_white' : 'c_main'">All</button>
+                        :class="selectedCategoryIds.length == 0 ? 'bg_main c_white' : 'c_main'">Barchasi</button>
                     <button v-show="subcategory_id ? subcategory_id == i.id : true" @click="setCategory(i)"
                         v-for="i in category" class="duration-700 r_20 py-2 px-3 text-xs b_main inline-flex items-center gap-2"
                         :class="selectedCategoryIds.includes(i.id) ? 'bg_main c_white' : 'c_main'"><img

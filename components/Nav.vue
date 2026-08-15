@@ -68,13 +68,13 @@
         <FloatingInput :id="'qidirish'" :maxValue="250" class="w-full" :type="'text'" v-model="isLoading.filter.title"
           :label="'Qidirish'" placeholder="Qidirish" required />
         <div class="">
-          <label class="block" for="createdAt">CreatedAt</label>
+          <label class="block" for="createdAt">Yaratilgan sana</label>
           <a-range-picker class="" v-model:value="isLoading.filter.createdAt" />
         </div>
         <div>
-          <label for="categories">Categories</label>
+          <label for="categories">Kategoriyalar</label>
           <a-select id="categories" class="w-full" v-model:value="isLoading.filter.category_id"
-            :placeholder="$t('Select category')">
+            placeholder="Kategoriyani tanlang">
             <a-select-option v-for="item in useCategory.store.category" :key="item" :value="item.id">
               <div class="flex items-center gap-2">
                 <span>{{ item.icon }}</span>
@@ -87,9 +87,9 @@
           </a-select>
         </div>
         <div>
-          <label for="categories">SubCategories</label>
+          <label for="categories">Subkategoriyalar</label>
           <a-select id="categories" class="w-full" v-model:value="isLoading.filter.subcategory_id" mode="multiple" show-search
-            :placeholder="$t('Select subcategories')" :max-tag-count="2">
+            placeholder="Subkategoriyalarni tanlang" :max-tag-count="2">
             <a-select-option v-for="item in useCategory.store.subcategory" :key="item" :value="item.id">
               <div class="flex items-center gap-2">
                 {{ item.title }}
@@ -101,7 +101,7 @@
           </a-select>
         </div>
         <div>
-          <label for="price">Price</label>
+          <label for="price">Narx</label>
           <a-slider id="price" v-model:value="isLoading.filter.price" range :marks="{
             0: '0$',
             26: '26$',
@@ -124,8 +124,8 @@
       </div>
 
       <div class="space-y-4 text-center sticky bottom-0 backdrop-blur-sm -mx-6 p-6">
-        <button @click="isLoading.applyFilters" class="login_btn r_12 w-full">Apply filters</button>
-        <button class="font-medium c_main">Clear all filters</button>
+        <button @click="isLoading.applyFilters" class="login_btn r_12 w-full">Filtrlarni qo'llash</button>
+        <button class="font-medium c_main">Barcha filtrlarni tozalash</button>
       </div>
     </a-drawer>
   </div>
@@ -153,7 +153,7 @@ try {
     Notification.requestPermission().then(permission => {
       if (permission === 'granted') {
         console.log('Notification permission granted.');
-        showNotification("Notification permission granted");
+        showNotification("Bildirishnomalarga ruxsat berildi");
       }
     });
   }
@@ -164,8 +164,8 @@ try {
     }
   }
 
-  showNotification('New Video Uploaded!', {
-    body: 'Check out our latest video on JavaScript tips.',
+  showNotification('Yangi video yuklandi!', {
+    body: 'JavaScript maslahatlari bo\'yicha eng so\'nggi videoni ko\'ring.',
     // icon: 'https://ilmnur.online/icon.png', // image for the notification
     tag: 'new-video', // prevents stacking multiple notifications with same tag
   });

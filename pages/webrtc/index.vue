@@ -1,6 +1,6 @@
 <template>
   <div class="p-4">
-    <h1 class="text-xl font-bold mb-4">👥 Group Video Chat</h1>
+    <h1 class="text-xl font-bold mb-4">👥 Guruh video chat</h1>
 
     <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
       <video ref="localVideo" autoplay playsinline muted class="border rounded"></video>
@@ -10,8 +10,8 @@
     </div>
 
     <div class="mt-4 flex gap-2">
-      <input v-model="roomId" placeholder="Room ID" class="border p-2 rounded" />
-      <button @click="joinRoom" class="px-4 py-2 bg-green-600 text-white rounded">Join Room</button>
+      <input v-model="roomId" placeholder="Xona ID" class="border p-2 rounded" />
+      <button @click="joinRoom" class="px-4 py-2 bg-green-600 text-white rounded">Xonaga qo'shilish</button>
     </div>
   </div>
 </template>

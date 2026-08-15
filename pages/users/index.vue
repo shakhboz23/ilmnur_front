@@ -7,23 +7,23 @@
                         <div class="flex items-center">
                             <input id="table-checkbox-45" type="checkbox" value=""
                                 class="w-4 h-4 border border-default-medium rounded-xs bg-neutral-secondary-medium focus:ring-2 focus:ring-brand-soft">
-                            <label for="table-checkbox-45" class="sr-only">Table checkbox</label>
+                            <label for="table-checkbox-45" class="sr-only">Jadval katagi</label>
                         </div>
                     </th>
                     <th scope="col" class="px-6 py-3 font-medium">
-                        Name
+                        Ism
                     </th>
                     <th scope="col" class="px-6 py-3 font-medium">
-                        Is active
+                        Faol
                     </th>
                     <th scope="col" class="px-6 py-3 font-medium">
-                        Role
+                        Rol
                     </th>
                     <th scope="col" class="px-6 py-3 font-medium">
-                        Registered
+                        Ro'yxatdan o'tgan
                     </th>
                     <th scope="col" class="px-6 py-3 font-medium">
-                        Action
+                        Amal
                     </th>
                 </tr>
             </thead>
@@ -34,7 +34,7 @@
                         <div class="flex items-center">
                             <input id="table-checkbox-46" type="checkbox" value=""
                                 class="w-4 h-4 border border-default-medium rounded-xs bg-neutral-secondary-medium focus:ring-2 focus:ring-brand-soft">
-                            <label for="table-checkbox-46" class="sr-only">Table checkbox</label>
+                            <label for="table-checkbox-46" class="sr-only">Jadval katagi</label>
                         </div>
                     </td>
                     <th scope="row" class="flex items-center px-6 py-4 text-heading whitespace-nowrap">
@@ -54,7 +54,7 @@
                         {{ formatDate(user.createdAt) }}
                     </td>
                     <td class="px-6 py-4">
-                        <a href="#" class="font-medium text-fg-brand hover:underline">Edit user</a>
+                        <a href="#" class="font-medium text-fg-brand hover:underline">Foydalanuvchini tahrirlash</a>
                     </td>
                 </tr>
             </tbody>

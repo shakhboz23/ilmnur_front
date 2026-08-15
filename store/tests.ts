@@ -161,7 +161,7 @@ export const useTestsStore = defineStore("tests", () => {
         test: tests,
       }, 'createTest')
       .then((res) => {
-        openNotification('success', '', 'Saved successfully');
+        openNotification('success', '', "Muvaffaqiyatli saqlandi");
         router.push(`/course/${store.tests?.lesson?.course_id}`)
       })
       .catch((err) => {

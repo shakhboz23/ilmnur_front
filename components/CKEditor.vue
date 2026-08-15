@@ -195,7 +195,7 @@ function InsertFillBlank(editor) {
     const view = new editor.ui.button.ButtonView(locale);
 
     view.set({
-      label: "Insert Blank",
+      label: "Bo'sh joy kiritish",
       tooltip: true,
     });
 

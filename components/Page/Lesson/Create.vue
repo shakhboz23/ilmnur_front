@@ -11,7 +11,7 @@
                             controls>
                             <source :src="useLessons.store.create.video" type="video/mp4">
                             <source :src="useLessons.store.create.video" type="video/ogg">
-                            Your browser does not support the video tag.
+                            Brauzeringiz video formatini qo'llab-quvvatlamaydi.
                         </video>
                     </div>
                     <h1 class="px-5 text-xl font-semibold">{{ useLessons.create.title }}</h1>
@@ -120,7 +120,7 @@
                 </div>
             </label>
             <FloatingInput :id="'youtube'" :maxValue="200" class="w-full mt-3 block" type="link"
-                v-model="useLessons.create.youtube" :label="'Youtube link'" required />
+                v-model="useLessons.create.youtube" :label="'Youtube havolasi'" required />
         </div>
         <div v-else-if="store.file_type == 'text'" class="mt-10">
             <ClientOnly>
@@ -130,7 +130,7 @@
         </div>
         <div v-else>
             <FloatingInput :id="'title'" :maxValue="50" class="w-full" type="text"
-                v-model="useLessons.store.create.title" :label="'Title'" required />
+                v-model="useLessons.store.create.title" :label="'Sarlavha'" required />
         </div>
         <div class="file_input">
             <input @change="handleVideo" id="file_input" class="file_input" type="file">

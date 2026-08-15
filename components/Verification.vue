@@ -1,17 +1,17 @@
 <template>
     <el-dialog v-model="useAuth.modal.verification" width="400" align-center class="bg-opacity-50 !rounded-lg">
         <section class="space-y-8 bg-white rounded-lg p-6 text-center _c07">
-            <h1 class="_c07 text-2xl font-semibold">We sent you a code</h1>
+            <h1 class="_c07 text-2xl font-semibold">Sizga kod yubordik</h1>
             <p class="!mt-4">
-                Enter it below to verify {{ useAuth.verification.email }}
+                {{ useAuth.verification.email }} manzilini tasdiqlash uchun kodni pastga kiriting
             </p>
             <form @submit.prevent="useAuth.authVerify" class="space-y-5">
                 <input v-model="useAuth.verification.verify_code" autofocus type="number"
-                    placeholder="Verification code" required />
+                    placeholder="Tasdiqlash kodi" required />
                 <button :type="isLoading.isLoadingType('activate') ? 'button' : 'submit'"
                     v-loading="isLoading.isLoadingType('activate')" class="font-semibold w-full rounded-[4px]" :class="useAuth.verification.verify_code ? 'b_cbc _c07' : 'b_ce0 _ca1'
                         ">
-                    Verify
+                    Tasdiqlash
                 </button>
                 <!-- store.errorMessage -->
                 <p class="text-start text-red-600 font-medium">
@@ -20,18 +20,18 @@
             </form>
             <div class="space-y-5">
                 <p class="text-xs">
-                    Didn't get the email?
+                    Email kelmadimi?
                     <button type="button" @click="useAuth.authResend" class="_c2a font-medium hover:underline">
-                        Resend it
+                        Qayta yuborish
                     </button>
-                    or
+                    yoki
                     <button type="button" @click="
                         () => {
                             useAuth.modal.verification = false;
                             useAuth.modal.register = true;
                         }
                     " class="_c2a font-medium hover:underline">
-                        Use a different email
+                        Boshqa email ishlatish
                     </button>
                 </p>
             </div>

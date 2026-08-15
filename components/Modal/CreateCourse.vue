@@ -11,8 +11,8 @@
                 </div>
             </label>
             <FloatingInput :id="'title'" :maxValue="50" class="w-full" :type="'text'" v-model="useCourses.create.title"
-                :label="'Title'" required />
-            <a-textarea v-model:value="useCourses.create.description" placeholder="Description"
+                :label="'Sarlavha'" required />
+            <a-textarea v-model:value="useCourses.create.description" placeholder="Tavsif"
                 :auto-size="{ minRows: 2, maxRows: 10 }" />
             <a-select class="w-full" v-model:value="useCourses.create.subcategory_id" show-search
                 placeholder="Kategoriyani tanlang" :filter-option="filterOption" @focus="handleFocus" @blur="handleBlur"
@@ -23,18 +23,18 @@
             </a-select>
             <div class="grid grid-cols-2 gap-5">
                 <FloatingInput :id="'price'" :is_select="true" class="w-full" type="number"
-                    v-model="useCourses.create.price" :label="'Price'" required />
+                    v-model="useCourses.create.price" :label="'Narxi'" required />
                 <FloatingInput :id="'discount'" :is_select="true" class="w-full" type="number"
-                    v-model="useCourses.create.discount" :label="'Discount'" required />
+                    v-model="useCourses.create.discount" :label="'Chegirma'" required />
             </div>
             <fieldset>
-                <legend class="mb-3 font-medium">Attendance days</legend>
+                <legend class="mb-3 font-medium">Dars kunlari</legend>
                 <div class="grid grid-cols-4 gap-3">
                     <label v-for="day in attendanceDays" :key="day"
                         class="flex cursor-pointer items-center justify-center rounded-lg border px-3 py-2"
                         :class="useCourses.create.attendance_days.includes(day) ? 'b_main bg_main c_white font-semibold' : 'border-[#CCCCCC]'">
                         <input v-model="useCourses.create.attendance_days" :value="day" type="checkbox" class="h-0 w-0 overflow-hidden" />
-                        <span>{{ day }}</span>
+                        <span>{{ dayLabels[day] }}</span>
                     </label>
                 </div>
             </fieldset>
@@ -62,12 +62,12 @@
                                 " id="private" class="rounded-full w-5" type="radio" name="type" />
                         <div class="full_flex gap-1 capitalize font-medium">
                             <!-- <img src="@/assets/svg/members/private.svg" alt="" /> -->
-                            Private
+                            Yopiq
                         </div>
                     </div>
                     <p>
-                        Only members can see who's in the group and what they post. Content is hidden from search
-                        engines.
+                        Faqat a'zolar guruhda kimlar borligini va ular nima joylashtirganini ko'ra oladi. Kontent
+                        qidiruv tizimlaridan yashirin bo'ladi.
                     </p>
                 </label>
                 <label @click="useCourses.create.group_type = 'public'" class="space-y-3 r_8 p-5 cursor-pointer" :class="useCourses.create.group_type == 'private'
@@ -79,12 +79,12 @@
                             " id="public" class="rounded-full w-5" type="radio" name="type" />
                         <div class="full_flex gap-1 capitalize font-medium">
                             <!-- <img src="@/assets/svg/members/public.svg" alt="" /> -->
-                            Public
+                            Ochiq
                         </div>
                     </div>
                     <p>
-                        Anyone can see who's in the group and what they post. Content is discoverable by search
-                        engines.
+                        Har kim guruhda kimlar borligini va ular nima joylashtirganini ko'ra oladi. Kontent qidiruv
+                        tizimlarida topiladi.
                     </p>
                 </label>
             </div>
@@ -102,6 +102,15 @@ const useCourses = useCoursesStore();
 const isLoading = useLoadingStore();
 const useCategory = useCategoryStore();
 const attendanceDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+const dayLabels = {
+    Mon: "Du",
+    Tue: "Se",
+    Wed: "Ch",
+    Thu: "Pa",
+    Fri: "Ju",
+    Sat: "Sh",
+    Sun: "Ya",
+};
 
 onBeforeMount(() => {
     const attendanceDaysValue = useCourses.create.attendance_days;

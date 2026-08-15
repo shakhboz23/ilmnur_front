@@ -1,6 +1,6 @@
 <template>
     <div>
-        developing...
+        Ishlab chiqilmoqda...
     </div>
 </template>
 

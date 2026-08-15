@@ -4,19 +4,19 @@
             <ul class="text-sm text-white space-y-3">
                 <li class="flex items-center gap-3">
                     <img loading="lazy"  src="@/assets/svg/lesson/lesson.svg" alt="">
-                    <span>{{lesson_course?.lesson_count}} Lesson</span>
+                    <span>{{lesson_course?.lesson_count}} ta dars</span>
                 </li>
                 <li class="flex items-center gap-3">
                     <img loading="lazy"  src="@/assets/svg/lesson/lectures.svg" alt="">
-                    <span>{{lesson_course?.lecture_count}} Lectures</span>
+                    <span>{{lesson_course?.lecture_count}} ta ma'ruza</span>
                 </li>
                 <li class="flex items-center gap-3">
                     <img loading="lazy"  src="@/assets/svg/lesson/total.svg" alt="">
-                    <span>{{lesson_course?.total_duration}}s total lenghts</span>
+                    <span>{{lesson_course?.total_duration}}s umumiy davomiylik</span>
                 </li>
                 <li class="flex items-center gap-3">
                     <img loading="lazy"  src="@/assets/svg/lesson/lang.svg" alt="">
-                    <span>English</span>
+                    <span>Ingliz tili</span>
                 </li>
             </ul>
         </nav>

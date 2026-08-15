@@ -18,7 +18,7 @@
           <slot v-if="isLoading.store.isLogin || ['login', 'verify-email'].includes($router.currentRoute.value.name)" />
           <div v-else class="full_flex h-[calc(100dvh_-_242px)] py-20">
             <router-link to="/login">
-              <button class="bg_main text-white px-6 py-1 rounded-full">Login</button>
+              <button class="bg_main text-white px-6 py-1 rounded-full">Kirish</button>
             </router-link>
           </div>
         </main>

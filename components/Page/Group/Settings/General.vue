@@ -11,11 +11,11 @@
                 </div>
                 <label for="upload_icon" v-else class="h-[60px] w-[60px] bg_cf2 r_8"></label>
                 <div class="space-y-1">
-                    <p class="font-semibold">Icon</p>
-                    <p class="text-xs">Recommended:</p>
+                    <p class="font-semibold">Belgi</p>
+                    <p class="text-xs">Tavsiya etiladi:</p>
                     <p class="text-xs pb-2">128x128</p>
                     <label class="b_main c_main px-3 r_8 uppercase py-2.5 full_flex" for="upload_icon">
-                        change
+                        o'zgartirish
                     </label>
                 </div>
                 <div class="file_input">
@@ -35,11 +35,11 @@
                 <label for="upload_cover" v-else
                     class="md:h-[144px] h-[105px] md:w-[271px] w-[195px] bg_cf2 r_8"></label>
                 <div class="space-y-1">
-                    <p class="font-semibold">Cover</p>
-                    <p class="text-xs">Recommended:</p>
+                    <p class="font-semibold">Muqova</p>
+                    <p class="text-xs">Tavsiya etiladi:</p>
                     <p class="text-xs pb-2">1084x576</p>
                     <label class="b_main c_main px-3 r_8 uppercase py-2.5 full_flex" for="upload_cover">
-                        change
+                        o'zgartirish
                     </label>
                     <div class="file_input">
                         <input @change="handleImage" id="upload_cover" class="file_input" type="file" accept="image/*">
@@ -53,26 +53,26 @@
         </div>
         <div class="space-y-5">
             <FloatingInput :id="'name'" :maxValue="50" class="w-full" type="text" v-model="useGroups.create.title"
-                :label="'Group name'" required />
+                :label="'Guruh nomi'" required />
 
             <!-- <FloatingInput :id="'url'" class="w-full" type="text" v-model="useGroups.create.url"
                 :label="'Url'" required /> -->
 
             <div class="space-y-2">
-                <label for="description" class="_ca1 text-xs">Description</label>
+                <label for="description" class="_ca1 text-xs">Tavsif</label>
                 <a-textarea id="description" v-model:value="useGroups.create.description"
-                    placeholder="Write a description" :auto-size="{ minRows: 2, maxRows: 10 }" />
+                    placeholder="Tavsif kiriting" :auto-size="{ minRows: 2, maxRows: 10 }" />
             </div>
 
             <div class="grid md:grid-cols-2 md:gap-20 items-end gap-4">
                 <FloatingInput disabled="true" :id="'initials'" class="w-full" type="text"
-                    v-model="useGroups.store.group.title" :label="'Initials'" required />
+                    v-model="useGroups.store.group.title" :label="'Bosh harflar'" required />
                 <div class="flex gap-3 items-end">
                     <p class="h-10 min-w-[40px] r_8" :style="`background: #000`"></p>
                     <div class="space-y-2 w-full">
-                        <label for="initials" class="_ca1 text-xs">Color</label>
+                        <label for="initials" class="_ca1 text-xs">Rang</label>
                         <div>
-                            <a-select class="w-full" v-model="useGroups.create.color" placeholder="Select">
+                            <a-select class="w-full" v-model="useGroups.create.color" placeholder="Rangni tanlang"
                                 <a-option :key="i" :label="i" :value="i" v-for="i in colors_list"
                                     @click="useGroups.create.color = i" class="h-10 bg-[#009e5d] r_8"
                                     :style="`background: ${i}`">{{ i }}</a-option>
@@ -96,12 +96,12 @@
                             " id="private" class="rounded-full w-5" type="radio" name="type" />
                         <div class="full_flex gap-1 capitalize font-medium">
                             <!-- <img src="@/assets/svg/members/private.svg" alt="" /> -->
-                            Private
+                            Yopiq
                         </div>
                     </div>
                     <p>
-                        Only members can see who's in the group and what they post. Content is hidden from search
-                        engines.
+                        Faqat a'zolar guruhda kimlar borligini va ular nima joylashtirganini ko'ra oladi. Kontent
+                        qidiruv tizimlaridan yashirin bo'ladi.
                     </p>
                 </label>
                 <label @click="useGroups.create.group_type = 'public'" class="space-y-3 r_8 p-5 cursor-pointer" :class="useGroups.create.group_type == 'private'
@@ -113,17 +113,18 @@
                             " id="public" class="rounded-full w-5" type="radio" name="type" />
                         <div class="full_flex gap-1 capitalize font-medium">
                             <!-- <img src="@/assets/svg/members/public.svg" alt="" /> -->
-                            Public
+                            Ochiq
                         </div>
                     </div>
                     <p>
-                        Anyone can see who's in the group and what they post. Content is discoverable by search engines.
+                        Har kim guruhda kimlar borligini va ular nima joylashtirganini ko'ra oladi. Kontent qidiruv
+                        tizimlarida topiladi.
                     </p>
                 </label>
             </div>
         </div>
         <button @click="updateGroup" class="px-6 py-2.5 b_ccc c_ccc r_8 md:mt-6 mt-4">
-            UPDATE SETTINGS
+            SOZLAMALARNI YANGILASH
         </button>
     </section>
 </template>

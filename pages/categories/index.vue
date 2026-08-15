@@ -15,7 +15,7 @@
                 </div>
                 <button @click="isLoading.modal.create = true"
                     class="h-[46px] px-[56px] rounded-[10px] text-sm leading-4 bg_main text-white">
-                    + Add category
+                    + Kategoriya qo'shish
                 </button>
             </div>
         </nav>
@@ -30,10 +30,10 @@
                         <template #overlay>
                             <a-menu>
                                 <a-menu-item @click="handleButton('edit', i)">
-                                    <a href="javascript:;">Edit</a>
+                                    <a href="javascript:;">Tahrirlash</a>
                                 </a-menu-item>
                                 <a-menu-item @click="handleButton('delete', i)">
-                                    <a href="javascript:;">Delete</a>
+                                    <a href="javascript:;">O'chirish</a>
                                 </a-menu-item>
                             </a-menu>
                         </template>
@@ -52,7 +52,7 @@
             <div class="relative overflow-x-auto">
                 <button @click="isLoading.modal.create = true"
                     class="h-[46px] px-[56px] rounded-[10px] text-sm leading-4 bg_main text-white">
-                    + Add category
+                    + Kategoriya qo'shish
                 </button>
                 <table v-if="useCategory.store.category[store.categoryIndex]?.subcategories?.length"
                     class="w-full text-sm text-left rtl:text-right border-separate border-spacing-y-3">
@@ -76,10 +76,10 @@
                                     <template #overlay>
                                         <a-menu>
                                             <a-menu-item @click="handleButton('edit', i)">
-                                                <a href="javascript:;">Edit</a>
+                                                <a href="javascript:;">Tahrirlash</a>
                                             </a-menu-item>
                                             <a-menu-item @click="handleButton('delete', i)">
-                                                <a href="javascript:;">Delete</a>
+                                                <a href="javascript:;">O'chirish</a>
                                             </a-menu-item>
                                         </a-menu>
                                     </template>
@@ -99,22 +99,22 @@
             <div class="space-y-6">
                 <div class="grid gap-5">
                     <FloatingInput :id="'title'" class="w-full" :type="'text'" v-model="useCategory.create.title"
-                        :label="'Title'" required />
+                        :label="'Nomi'" required />
                     <FloatingInput v-if="!store.subcategory" :id="'icon'" class="w-full" :type="'text'"
-                        v-model="useCategory.create.icon" :label="'Icon'" required />
+                        v-model="useCategory.create.icon" :label="'Belgi'" required />
                     <div v-if="store.subcategory" class="space-y-2">
-                        <h1 class="font-bold">Select category</h1>
+                        <h1 class="font-bold">Kategoriyani tanlang</h1>
                         <a-select class="block w-full" v-model:value="useCategory.create.category_id"
-                            placeholder="Select">
+                            placeholder="Tanlang">
                             <a-select-option :key="i.id" :value="i.id" v-for="i in useCategory.store.category">{{
                                 i.title
                                 }}</a-select-option>
                         </a-select>
                     </div>
                     <div class="space-y-2">
-                        <h1 class="font-bold">Category</h1>
+                        <h1 class="font-bold">Kategoriya</h1>
                         <a-select class="w-full" v-model:value="useCategory.create.type" show-search
-                            placeholder="Select a person" :options="options" :filter-option="filterOption"
+                            placeholder="Tanlang" :options="options" :filter-option="filterOption"
                             @focus="handleFocus" @blur="handleBlur" @change="handleChange"></a-select>
                     </div>
                 </div>

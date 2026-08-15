@@ -36,7 +36,7 @@
                             <button class="lg:p-0 p-2 bg_cf2 rounded-full" @click="comment(video.id)">
                                 <img class="lg:w-6 lg:h-6 w-4 h-4" src="@/assets/svg/icon/share.svg" alt="">
                             </button>
-                            <p class="text-xs">share</p>
+                            <p class="text-xs">ulashish</p>
                         </li>
                         <li>
                             <button class="lg:p-0 p-2 bg_cf2 rounded-full" @click="comment(video.id)">

@@ -69,15 +69,15 @@ defineProps({
         type: Array,
         default: () => [
             {
-                name: ["Members"],
+                name: ["A'zolar"],
                 data: [5, 10, 10, 1, 2, 2, 3, 2, 4, 4, 5, 3, 4, 9, 33],
             },
             {
-                name: ["Members2"],
+                name: ["A'zolar 2"],
                 data: [10, 100, 15, 12, 10, 8, 10, 10, 90, 31, 2, 20, 30, 24,],
             },
             {
-                name: ["Members3"],
+                name: ["A'zolar 3"],
                 data: [19, 131, 120, 122, 113, 112, 120, 120, 152, 142, 142, 152, 132, 142,],
             },
         ],

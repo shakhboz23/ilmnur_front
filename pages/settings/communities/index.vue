@@ -2,8 +2,8 @@
     <main>
         <section class="h-[calc(100vh_-140px)] animate-left overflow-hidden overflow-y-auto text-sm _c07 p-5 w-full">
             <div class="space-y-6 r_8">
-                <h1 class="text-xl font-semibold">{{ $t("Communities") }}</h1>
-                <p>Drag and drop to reorder your communities. Changes here will reflect in your switcher.</p>
+                <h1 class="text-xl font-semibold">Hamjamiyatlar</h1>
+                <p>Hamjamiyatlaringiz tartibini o'zgartirish uchun sudrab olib o'ting. O'zgarishlar almashtirgichingizda aks etadi.</p>
                 <div class="space-y-6 pt-6">
                     <draggable class="space-y-6" :list="groups" group="grid" :animation="500"
                         @change="useGroup?.update_group_position">
@@ -18,7 +18,7 @@
                                     </div>
                                     <div>
                                         <h1 class="font-semibold">{{ i.name }}</h1>
-                                        <p><span class="capitalize">{{ $t(`${i.group_type}`) }}</span> • <span
+                                        <p><span class="capitalize">{{ i.group_type }}</span> • <span
                                                 class="capitalize">
                                                 {{ i.group_price }}
                                             </span></p>
@@ -27,7 +27,7 @@
                                 <div class="flex items-center gap-4">
                                     <button @click="() => routeToGroupSettings(i.username)"
                                         class="md:flex hidden items-center justify-center gap-[10px] border border_cbc r_8 _c2a px-4 h-10 uppercase whitespace-nowrap font-semibold">
-                                        Membership
+                                        A'zolik
                                         <img src="@/assets/svg/icon/settings.svg" alt="">
                                     </button>
                                     <div @click="useGroup.pinGroupPinned(i)"
@@ -41,7 +41,7 @@
                             <div class="md:hidden grid gap-4 md:!mt-4 !mt-[10px]">
                                 <button @click="() => routeToGroupSettings(i.username)"
                                     class="xl:hidden flex items-center justify-center gap-[10px] border border_cbc r_8 _c2a px-4 h-10 uppercase whitespace-nowrap font-semibold">
-                                    Membership
+                                    A'zolik
                                     <img src="@/assets/svg/icon/settings.svg" alt="">
                                 </button>
                             </div>
@@ -61,7 +61,7 @@ const groups = [
         color: 'red',
         initials: 'A',
         group_price: '5$',
-        group_type: 'Public',
+        group_type: 'Ochiq',
     },
     {
         name: 'dssdsd',
@@ -69,7 +69,7 @@ const groups = [
         color: 'green',
         initials: 'BA',
         group_price: '5$',
-        group_type: 'Public',
+        group_type: 'Ochiq',
     },
     {
         name: 'dssdsd',
@@ -77,7 +77,7 @@ const groups = [
         color: 'yellow',
         initials: 'C',
         group_price: '5$',
-        group_type: 'Public',
+        group_type: 'Ochiq',
     },
 ]
 </script>

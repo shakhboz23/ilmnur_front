@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1>Courses</h1>
+        <h1>Kurslar</h1>
         <section>
             <div class="mt-6">
                 <div v-for="i in useCourses.store.courses" class="flex items-center justify-between border-b h-10 py-8">

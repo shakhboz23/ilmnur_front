@@ -208,7 +208,7 @@
             <div class="space-y-6">
                 <div class="space-y-6">
                     <a-select id="categories" class="w-full" v-model:value="useCourses.create.teacher_id"
-                        :placeholder="$t('Select category')">
+                        placeholder="O'qituvchini tanlang">
                         <a-select-option v-for="user in useAuth.store.users?.records" :key="user" :value="user.id">
                             <div class="flex items-center gap-2">
                                 <span>{{ user.name }} {{ user.surname }}</span>
@@ -257,11 +257,11 @@
 
                 <section class="flex xl:flex-nowrap flex-wrap-reverse items-center w-full gap-2 mb-4">
                     <div class="w-full">
-                        <FloatingInput id="search" type="text" class="w-full" v-model="search" label="Search"
+                        <FloatingInput id="search" type="text" class="w-full" v-model="search" label="Qidiruv"
                             required />
                     </div>
                     <div class="flex xl:flex-nowrap flex-wrap xl:w-auto w-full items-center justify-end gap-2">
-                        <a-select v-model="time" show-search :placeholder="$t('Select time')">
+                        <a-select v-model="time" show-search placeholder="Vaqtni tanlang">
                             <a-option v-for="item in ['Barchasi', 'Qarzdorlar', 'To\'langan']" :key="item" :label="item"
                                 :value="item">
                                 <div class="flex items-center gap-2">
@@ -385,7 +385,7 @@
                 <div>
                     <label for="member">O'quvchi</label>
                     <a-select id="member" class="w-full" v-model:value="store.member_id"
-                        :placeholder="$t('Select category')">
+                        placeholder="O'quvchini tanlang">
                         <a-select-option v-for="user in useAuth.store.users?.records" :key="user" :value="user.id">
                             <div class="flex items-center gap-2">
                                 <span>{{ user.name }} {{ user.surname }}</span>

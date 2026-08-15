@@ -10,7 +10,7 @@
                 </div>
                 <button @click="isLoading.modal.create = true"
                     class="h-[46px] px-[56px] rounded-[10px] text-sm leading-4 bg_main text-white">
-                    + Add user
+                    + Foydalanuvchi qo'shish
                 </button>
             </div>
         </nav>
@@ -65,12 +65,12 @@
                                     <li class="full_flex max-w-fit gap-2">
                                         <img loading="lazy"  src="@/assets/svg/members/access.svg" alt="">
                                         <p>
-                                            Lifetime access
+                                            Umrbod kirish
                                         </p>
                                     </li>
                                     <li class="full_flex max-w-fit gap-2">
                                         <img loading="lazy"  src="@/assets/svg/members/free.svg" alt="">
-                                        <p>Free</p>
+                                        <p>Bepul</p>
                                     </li>
                                 </ul>
                             </td>
@@ -115,10 +115,10 @@
                             :label="'Email'" :placeholder="'example@gmail.com'" required />
                     </div> -->
                     <div class="col-span-2 space-y-2">
-                        <h1 class="font-bold">User</h1>
+                        <h1 class="font-bold">Foydalanuvchi</h1>
                         <a-select class="w-full" v-model:value="useAuth.user.id" show-search
                             :not-found-content="isLoading.isLoadingType('searchUser') ? undefined : null"
-                            placeholder="Select a user" :filter-option="false" @search="useAuth.searchUser">
+                            placeholder="Foydalanuvchini tanlang" :filter-option="false" @search="useAuth.searchUser">
                             <template v-if="isLoading.isLoadingType('searchUser')" #notFoundContent>
                                 <a-spin size="small" />
                             </template>
@@ -130,9 +130,9 @@
                         </a-select>
                     </div>
                     <div class="col-span-2 space-y-2">
-                        <h1 class="font-bold">Course</h1>
+                        <h1 class="font-bold">Kurs</h1>
                         <a-select class="w-full" v-model:value="useSubscription.store.course_id" show-search
-                            placeholder="Select a course" :filter-option="filterOption">
+                            placeholder="Kursni tanlang" :filter-option="filterOption">
                             <a-select-option @click.stop="handleCourseId(category)" :value="category"
                                 v-for="category in useLessons.store.courses"
                                 :class="checkCourseId(category) ? 'bg_main' : ''">{{
@@ -149,10 +149,10 @@
                     </ul>
                     <!-- {{ useSubscription.store.course_ids }} -->
                     <div class="col-span-2 space-y-2">
-                        <h1 class="font-bold">Role</h1>
+                        <h1 class="font-bold">Rol</h1>
                         {{ isLoading.user?.role }}
                         <a-select class="w-full" v-model:value="isLoading.user.role" show-search
-                            placeholder="Select a person" :options="options" :filter-option="filterOption"
+                            placeholder="Rolni tanlang" :options="options" :filter-option="filterOption"
                             @focus="handleFocus" @blur="handleBlur" @change="handleChange"></a-select>
                     </div>
                 </div>
@@ -177,8 +177,8 @@ useCourses.getUsersByGroupId();
 const store = reactive({})
 
 const options = ref([
-    { value: 'student', label: 'Student' },
-    { value: 'teacher', label: 'Teacher' },
+    { value: 'student', label: 'O\'quvchi' },
+    { value: 'teacher', label: 'O\'qituvchi' },
     { value: 'admin', label: 'Admin' },
 ]);
 

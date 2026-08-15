@@ -2,12 +2,12 @@
     <main>
         <nav class="flex items-center justify-between">
             <div>
-                <h1 class="text-2xl font-bold">Group Analytics</h1>
-                <p class="text-gray-600">Current period: Last 28 days</p>
+                <h1 class="text-2xl font-bold">Guruh analitikasi</h1>
+                <p class="text-gray-600">Joriy davr: so'nggi 28 kun</p>
             </div>
 
             <div class="flex items-center gap-5">
-                <a-select class="w-full" v-model="time" show-search :placeholder="$t('Select time')">
+                <a-select class="w-full" v-model="time" show-search placeholder="Vaqtni tanlang">
                     <a-option v-for="item in time_list" :key="item" :label="item" :value="item">
                         <div class="flex items-center gap-2">
                             {{ item }}
@@ -19,7 +19,7 @@
                     </template>
                 </a-select>
 
-                <button class="bg_main text-white px-4 py-2 rounded-lg">Export</button>
+                <button class="bg_main text-white px-4 py-2 rounded-lg">Yuklab olish</button>
             </div>
         </nav>
         <section class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 my-8">
@@ -29,7 +29,7 @@
                         {{ i.title }}
                     </li>
                     <li class="text-2xl font-bold">{{ getTotalInfo(i.key, 'val') }}</li>
-                    <li class="text-green-600 whitespace-nowrap text-sm">{{ getTotalInfo(i.key) }}% from last period
+                    <li class="text-green-600 whitespace-nowrap text-sm">{{ getTotalInfo(i.key) }}% o'tgan davrga nisbatan
                     </li>
                 </ul>
                 <img class="w-12 h-12 min-w-[48px] bg-blue-100 p-3 rounded-lg" :src="i.icon" alt="">
@@ -40,7 +40,7 @@
             <LazyPageDashboardPieChart />
         </section>
         <section>
-            <h1>Top Performing Videos</h1>
+            <h1>Eng ko'p ko'rilgan videolar</h1>
             ...
         </section>
     </main>
@@ -52,26 +52,26 @@ import { useStripeStore } from '~/store';
 const useStripe = useStripeStore();
 
 const time_list = [
-    "Last 28 days",
-    "Last 90 days",
-    "Last year",
+    "So'nggi 28 kun",
+    "So'nggi 90 kun",
+    "So'nggi yil",
 ]
 
 const statistics = [
     {
-        title: "Total Views",
+        title: "Jami ko'rishlar",
         key: "watched",
         icon: new URL('@/assets/svg/icon/show.svg', import.meta.url).href,
     }, {
-        title: "Likes",
+        title: "Yoqtirishlar",
         key: "like",
         icon: new URL('@/assets/svg/icon/star.svg', import.meta.url).href,
     }, {
-        title: "Subscribers",
+        title: "Obunachilar",
         key: "subscribers",
         icon: new URL('@/assets/svg/payment/dollar.svg', import.meta.url).href,
     }, {
-        title: "Revenue",
+        title: "Daromad",
         key: "payment",
         icon: new URL('@/assets/svg/icon/members.svg', import.meta.url).href,
     },

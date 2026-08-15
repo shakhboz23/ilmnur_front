@@ -5,12 +5,12 @@
       <router-link class="flex justify-center" to="/">
         <img src="/logo.png" alt="" />
       </router-link>
-      <h1 class="_c07 text-2xl font-semibold">Create a new password</h1>
+      <h1 class="_c07 text-2xl font-semibold">Yangi parol yarating</h1>
       <form class="space-y-5 text-center" @submit.prevent="useAuth.resetPassword">
         <div class="flex relative">
           <div class="w-full">
             <FloatingInput id="new_password" :type="useAuth.store.passType"
-              v-model="useAuth.changepassword.new_password" label="New password"
+              v-model="useAuth.changepassword.new_password" label="Yangi parol"
               required />
           </div>
           <img loading="lazy" v-if="useAuth.store.passType == 'password'" @click="useAuth.changePassType"
@@ -30,7 +30,7 @@
           <div class="w-full">
             <FloatingInput id="confirm_password" :type="useAuth.store.passType"
               v-model="useAuth.changepassword.confirm_password"
-              label="Repeat new password" required />
+              label="Yangi parolni takrorlang" required />
           </div>
           <img loading="lazy" v-if="useAuth.store.passType == 'password'" @click="useAuth.changePassType"
             class="absolute top-0 right-0 p-4 cursor-pointer" src="@/assets/svg/icon/show.svg" alt="" />
@@ -48,7 +48,7 @@
         </p>
         <button type="submit" v-loading="isLoading.isLoadingType('changePass')" @click="register"
           class="rounded-full px-5 py-2 black_24" :class="useAuth.store.is_matched ? 'b_main c_main' : 'b_ccc c_ccc'">
-          Change password
+          Parolni o'zgartirish
         </button>
       </form>
     </section>
