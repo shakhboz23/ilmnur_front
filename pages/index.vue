@@ -2,101 +2,66 @@
   <main class="flex-1">
     <!-- ====== DASHBOARD ====== -->
     <div class="page active" id="page-dashboard">
-      <div class="mb-6">
+      <div class="mb-5">
         <h2 class="text-xl font-bold">Xush kelibsiz, {{ useAuth.store.analytics?.name }}! 👋</h2>
         <p v-if="testsThisWeekCount" class="text-sm text-gray-400">Bu hafta {{ testsThisWeekCount }} ta yangi test
           sizni kutmoqda.</p>
         <p v-else class="text-sm text-gray-400">Hozircha yangi testlar yo'q.</p>
       </div>
-      <div class="space-y-3">
-        <CategorySlider :all="false" :category="groups" :multiple="false" query-key="group_id" class="w-full" />
-        <!-- <div class="flex gap-3 overflow-x-auto pb-2 removeScroll pl-2">
-          <button v-for="item in selectedGroupCourses" :key="item.id" @click="selectCourse(item.id)" :class="selectedCourseId == item.id
-            ? 'bg-emerald-600 text-white shadow-lg scale-105'
-            : 'bg-white border hover:border-emerald-300'" class="min-w-[220px] transition-all rounded-2xl p-4 text-left">
 
-            <div class="flex items-center gap-3">
-              <div :class="selectedCourseId == item.id
-                ? 'bg-white/20'
-                : 'bg-emerald-50'" class="w-14 h-14 rounded-xl flex items-center justify-center">
-
-                <img v-if="item.cover" :src="item.cover" class="w-full h-full object-cover rounded-xl">
-
-                <svg v-else xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-emerald-600" fill="none"
-                  viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422A12.083 12.083 0 0121 20.055M12 14L5.84 10.578A12.083 12.083 0 003 20.055" />
-                </svg>
-              </div>
-
-              <div class="flex-1">
-                <h4 class="font-semibold text-sm">
-                  {{ item.title }}
-                </h4>
-              </div>
-            </div>
-
-          </button>
-        </div> -->
-        <!-- <CategorySlider v-if="selectedGroupCourses.length" :all="false" :category="selectedGroupCourses"
-          :multiple="false" query-key="course_id" :show-image="true" class="w-full" /> -->
+      <!-- Kurs tanlash -->
+      <div class="flex items-center gap-3 bg-white rounded-2xl border border-gray-100 p-2.5 mb-5">
+        <span class="w-9 h-9 rounded-xl bg-navy text-base flex items-center justify-center flex-shrink-0">📖</span>
+        <div class="flex-1 min-w-0">
+          <CategorySlider :all="false" :category="groups" :multiple="false" query-key="group_id" class="w-full" />
+        </div>
       </div>
 
       <!-- KPI -->
-      <div class="grid2 grid grid-cols-2 lg:grid-cols-4 gap-4 my-6">
-        <div class="card stat bg-white rounded-2xl border border-gray-100 p-5 relative overflow-hidden">
-          <div class="stat-icon bg-gold">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 20V10" />
-              <path d="M18 20V4" />
-              <path d="M6 20v-4" />
-            </svg>
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-3.5 mb-5">
+        <div class="bg-white rounded-2xl border border-gray-100 p-4">
+          <div class="flex items-start justify-between mb-3">
+            <img loading="lazy" class="w-9 h-9" src="@/assets/svg/home/ball.svg" alt="" />
+            <span class="text-xs font-bold px-2.5 py-1 rounded-full whitespace-nowrap"
+              :class="ratingBall.difference ? statusPillClass(ratingBall.status) : 'bg-gray-100 text-gray-400'">
+              <template v-if="ratingBall.difference">{{ statusArrow(ratingBall.status) }} {{ ratingBall.difference }}</template>
+              <template v-else>O'zgarmadi</template>
+            </span>
           </div>
-          <p class="text-sm text-gray-400">Umumiy ball</p>
-          <p class="text-2xl font-bold">{{ ratingBall.currentBall || 0 }}</p>
-          <p v-if="ratingBall.difference" :class="statusClass(ratingBall.status)"
-            class="text-xs font-semibold">{{ statusArrow(ratingBall.status) }} {{ ratingBall.difference }}
-            ball {{ ratingBall.status }}</p>
-          <p v-else class="text-xs text-g-600 font-semibold">O'zgarishsiz</p>
+          <p class="text-2xl font-extrabold leading-none">{{ ratingBall.currentBall || 0 }}</p>
+          <p class="text-sm text-gray-400 mt-2">Umumiy ball</p>
         </div>
-        <div class="card stat bg-white rounded-2xl border border-gray-100 p-5 relative overflow-hidden">
-          <div class="stat-icon bg-navy">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 2l2.4 6.9H22l-5.8 4.3 2.2 7-6.4-4.6L5.6 20.2l2.2-7L2 8.9h7.6z" />
-            </svg>
+        <div class="bg-white rounded-2xl border border-gray-100 p-4">
+          <div class="flex items-start justify-between mb-3">
+            <img loading="lazy" class="w-9 h-9" src="@/assets/svg/home/reyting.svg" alt="" />
+            <span class="text-xs font-bold px-2.5 py-1 rounded-full whitespace-nowrap"
+              :class="ratingPosition.difference ? statusPillClass(ratingPosition.status) : 'bg-gray-100 text-gray-400'">
+              <template v-if="ratingPosition.difference">{{ statusArrow(ratingPosition.status) }} {{ ratingPosition.difference }}</template>
+              <template v-else>O'zgarmadi</template>
+            </span>
           </div>
-          <p class="text-sm text-gray-400">Guruh reytingi</p>
-          <p class="text-2xl font-bold">#{{ ratingPosition.currentPosition || 0 }}</p>
-          <p v-if="ratingPosition.difference" :class="statusClass(ratingPosition.status)"
-            class="text-xs font-semibold">{{ statusArrow(ratingPosition.status) }} {{ ratingPosition.difference }}
-            o'rin {{ ratingPosition.status }}</p>
-          <p v-else class="text-xs text-g-600 font-semibold">O'zgarishsiz</p>
+          <p class="text-2xl font-extrabold leading-none">#{{ ratingPosition.currentPosition || 0 }}</p>
+          <p class="text-sm text-gray-400 mt-2">Guruh reytingi</p>
         </div>
-        <div class="card stat bg-white rounded-2xl border border-gray-100 p-5 relative overflow-hidden">
-          <div class="stat-icon bg-teal">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="3" y="4" width="18" height="18" rx="3" />
-              <line x1="16" y1="2" x2="16" y2="6" />
-              <line x1="8" y1="2" x2="8" y2="6" />
-              <line x1="3" y1="10" x2="21" y2="10" />
-            </svg>
+        <div class="bg-white rounded-2xl border border-gray-100 p-4">
+          <div class="flex items-start justify-between mb-3">
+            <img loading="lazy" class="w-9 h-9" src="@/assets/svg/home/attendance.svg" alt="" />
+            <span class="text-xs font-bold px-2.5 py-1 rounded-full whitespace-nowrap" :class="attendanceQualityClass">{{ attendanceQualityLabel }}</span>
           </div>
-          <p class="text-sm text-gray-400">Davomat</p>
-          <p class="text-2xl font-bold">{{ attendanceStats.percentage ?? 0 }}%</p>
-          <p class="text-xs text-g-600 font-semibold">{{ monthLabel }} bo'yicha</p>
+          <p class="text-2xl font-extrabold leading-none">{{ attendanceStats.percentage ?? 0 }}%</p>
+          <p class="text-sm text-gray-400 mt-2">Davomat</p>
         </div>
-        <div class="card stat bg-white rounded-2xl border border-gray-100 p-5 relative overflow-hidden">
-          <div class="stat-icon bg-coral">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M9 11l3 3L22 4" />
-              <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" />
-            </svg>
+        <div class="bg-white rounded-2xl border border-gray-100 p-4">
+          <div class="flex items-start justify-between mb-3">
+            <img loading="lazy" class="w-9 h-9" src="@/assets/svg/home/tests.svg" alt="" />
+            <span class="text-xs font-bold px-2.5 py-1 rounded-full whitespace-nowrap"
+              :class="nearestTest ? testBadgeClass(nearestTest.start_date) : 'bg-gray-100 text-gray-400'">
+              <template v-if="nearestTest">{{ daysUntil(nearestTest.start_date) }} qoldi</template>
+              <template v-else>Yo'q</template>
+            </span>
           </div>
-          <p class="text-sm text-gray-400">Yangi testlar</p>
-          <p class="text-2xl font-bold">
-            {{ upcomingTests.length }}</p>
-          <p v-if="nearestTest" class="text-xs text-red-500 font-semibold">⏰ Eng yaqin: {{ daysUntil(nearestTest.start_date) }}</p>
-          <p v-else class="text-xs text-gray-400 font-semibold">Testlar yo'q</p>
+          <p class="text-2xl font-extrabold leading-none">{{ upcomingTests.length }}</p>
+          <p class="text-sm text-gray-400 mt-2">Yangi testlar</p>
         </div>
       </div>
 
@@ -106,17 +71,19 @@
 
           <!-- Haftalik -->
           <div class="bg-white rounded-2xl border border-gray-100 p-5">
-            <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center justify-between mb-1">
               <h3 class="text-sm font-bold">Haftalik faollik</h3>
-              <span class="text-sm text-gray-400">{{ monthLabel }}</span>
+              <span class="text-sm font-bold text-navy">{{ monthLabel }}</span>
             </div>
-            <div v-if="weeklyActivity.length" class="flex items-end gap-2 h-24">
-              <div v-for="day in weeklyActivity" :key="day.date" class="flex-1 flex flex-col items-center gap-1.5 h-full">
-                <div class="flex-1 w-full bg-g-50 rounded-md overflow-hidden flex items-end">
-                  <div v-if="day.scheduled" class="w-full rounded-md transition-all" :class="weeklyBarClass(day)"
-                    :style="{ height: (day.status === 'upcoming' ? 12 : day.intensity) + '%' }"></div>
+            <p v-if="weeklyActivity.length" class="text-sm text-gray-400 mb-4">Bu hafta {{ weeklyPresentCount }} kun faol</p>
+            <div v-if="weeklyActivity.length" class="flex items-end gap-2.5 h-24">
+              <div v-for="day in weeklyActivity" :key="day.date" class="flex-1 flex flex-col items-center gap-2 h-full">
+                <div class="flex-1 w-full flex items-end justify-center">
+                  <div v-if="day.scheduled" class="w-2.5 rounded-full transition-all" :class="weeklyBarClass(day)"
+                    :style="{ height: Math.max(day.status === 'upcoming' ? 10 : day.intensity, 6) + '%' }"></div>
+                  <div v-else class="w-2.5 h-1.5 rounded-full bg-gray-100"></div>
                 </div>
-                <span :class="day.date === todayKey ? 'text-xs text-g-600 font-bold' : 'text-sm text-gray-400'">{{ day.label }}</span>
+                <span :class="day.date === todayKey ? 'text-xs text-navy font-bold' : 'text-xs text-gray-400'">{{ day.label }}</span>
               </div>
             </div>
             <div v-else class="full_flex py-10 text-sm text-gray-400">
@@ -124,37 +91,55 @@
             </div>
           </div>
 
-          <!-- Navbatdagi testlar -->
-          <div class="bg-white rounded-2xl border border-gray-100 p-5">
+          <!-- Navbatdagi test -->
+          <div v-if="nearestTest" class="rounded-2xl bg-navy-dark p-5 text-white relative overflow-hidden">
+            <div class="flex items-center justify-between mb-3">
+              <span class="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wide text-[#E0992E]">
+                🔔 Navbatdagi test
+              </span>
+              <span class="text-xs text-white/60">{{ testWhenLabel(nearestTest.start_date) }}</span>
+            </div>
+            <p class="font-bold text-lg mb-1">{{ nearestTest.lesson_title }}</p>
+            <p class="text-sm text-white/60 mb-4">{{ nearestTest.course_title }}<template
+                v-if="nearestTest.question_count"> · {{ nearestTest.question_count }} savol</template><template
+                v-if="nearestTest.duration"> · {{ nearestTest.duration }} daqiqa</template></p>
+            <div class="flex items-center justify-between gap-3">
+              <span class="text-xs font-bold px-3 py-1.5 rounded-full bg-white/10 whitespace-nowrap">{{ daysUntil(nearestTest.start_date) }} qoldi</span>
+              <router-link :to="`/test/${nearestTest.lesson_id}`">
+                <button class="bg-[#E0992E] hover:bg-[#B87F1E] transition-colors text-white text-sm font-bold px-5 py-2.5 rounded-xl whitespace-nowrap">Testni boshlash</button>
+              </router-link>
+            </div>
+          </div>
+          <div v-else class="bg-white rounded-2xl border border-gray-100 p-5">
+            <h3 class="text-sm font-bold mb-4">Navbatdagi testlar</h3>
+            <div class="full_flex py-16 text-sm text-gray-400">Ma'lumotlar topilmadi</div>
+          </div>
+
+          <!-- Navbatdagi testlar (qolgan) -->
+          <div v-if="upcomingTests.length > 1" class="bg-white rounded-2xl border border-gray-100 p-5">
             <div class="flex items-center justify-between mb-4">
               <h3 class="text-sm font-bold">Navbatdagi testlar</h3>
-              <!-- <button class="text-xs text-g-600 font-semibold hover:underline" data-page="testlar">Barchasi →</button> -->
               <router-link :to="`/group/${selectedGroupId || 0}`"
-                class="text-xs text-g-600 font-semibold hover:underline">Barchasi →</router-link>
+                class="text-xs text-navy font-bold flex items-center gap-1 hover:underline">Barchasi
+                <img src="@/assets/svg/home/viewmore.svg" class="w-2 h-2" alt="" /></router-link>
             </div>
-            <template v-if="upcomingTests.length">
-              <div v-for="test in upcomingTests.slice(0, 6)" :key="test.id"
-                class="flex items-center gap-3 p-3 rounded-xl border border-g-100 bg-g-50/50 mb-3">
-                <div class="w-10 h-10 rounded-lg bg-g-50 flex items-center justify-center flex-shrink-0">
-                  <svg class="w-5 h-5 text-g-600" fill="none" stroke="currentColor" stroke-width="2"
-                    viewBox="0 0 24 24">
-                    <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2" />
-                    <rect x="9" y="3" width="6" height="4" rx="1" />
-                    <path d="M9.5 14.5 11 16l3.5-3.5" />
-                  </svg>
-                </div>
-                <div class="flex-1">
-                  <p class="text-sm font-semibold">{{ test.lesson_title }}</p>
-                  <p class="text-sm text-gray-400">{{ test.course_title }} · {{ test.question_count }} savol<template
-                      v-if="test.duration"> · {{ test.duration }} daqiqa</template></p>
-                </div>
-                <span class="text-xs font-bold px-2.5 py-1 rounded-full flex-shrink-0"
-                  :class="testBadgeClass(test.start_date)">{{ daysUntil(test.start_date) }}</span>
+            <div v-for="test in upcomingTests.slice(1, 6)" :key="test.id"
+              class="flex items-center gap-3 p-3 rounded-xl border border-g-100 bg-g-50/50 mb-3 last:mb-0">
+              <div class="w-10 h-10 rounded-lg bg-g-50 flex items-center justify-center flex-shrink-0">
+                <svg class="w-5 h-5 text-g-600" fill="none" stroke="currentColor" stroke-width="2"
+                  viewBox="0 0 24 24">
+                  <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2" />
+                  <rect x="9" y="3" width="6" height="4" rx="1" />
+                  <path d="M9.5 14.5 11 16l3.5-3.5" />
+                </svg>
               </div>
-              
-            </template>
-            <div v-else class="full_flex py-20">
-              Ma'lumotlar topilmadi
+              <div class="flex-1">
+                <p class="text-sm font-semibold">{{ test.lesson_title }}</p>
+                <p class="text-sm text-gray-400">{{ test.course_title }} · {{ test.question_count }} savol<template
+                    v-if="test.duration"> · {{ test.duration }} daqiqa</template></p>
+              </div>
+              <span class="text-xs font-bold px-2.5 py-1 rounded-full flex-shrink-0"
+                :class="testBadgeClass(test.start_date)">{{ daysUntil(test.start_date) }}</span>
             </div>
           </div>
         </div>
@@ -166,15 +151,16 @@
             <div class="flex items-center justify-between mb-4">
               <h3 class="text-sm font-bold">Guruh reytingi</h3>
               <router-link :to="`/group/${selectedGroupId || 0}?page=reyting`"
-                class="text-xs text-g-600 font-semibold hover:underline">Barchasi →</router-link>
+                class="text-xs text-navy font-bold flex items-center gap-1 hover:underline">Barchasi
+                <img src="@/assets/svg/home/viewmore.svg" class="w-2 h-2" alt="" /></router-link>
             </div>
             <div v-if="rankings.length" class="space-y-1">
               <div v-for="user in rankings" :key="user?.user?.id"
                 class="flex items-center gap-2.5 py-2 border-b border-gray-50 rounded-lg px-2 -mx-2"
-                :class="isCurrentUser(user) ? 'bg-g-50' : ''">
+                :class="isCurrentUser(user) ? 'bg-navy' : ''">
                 <span class="text-sm text-gray-400 w-4 text-center font-semibold">{{ user.position }}</span>
                 <UIAvatar class="w-10 h-10 max-w-[40px] max-h-[40px]" :src="user?.user?.image" />
-                <span class="text-sm flex-1" :class="isCurrentUser(user) ? 'font-bold text-g-700' : ''">{{ user?.user?.name }} {{ user?.user?.surname }}<template
+                <span class="text-sm flex-1" :class="isCurrentUser(user) ? 'font-bold text-navy' : ''">{{ user?.user?.name }} {{ user?.user?.surname }}<template
                     v-if="isCurrentUser(user)"> (Siz)</template></span>
                 <span class="text-sm font-bold">{{ user?.ball }}</span>
               </div>
@@ -189,7 +175,8 @@
             <div class="flex items-center justify-between mb-4">
               <h3 class="text-sm font-bold">Davomat — {{ monthLabel }}</h3>
               <router-link :to="`/group/${selectedGroupId || 0}?page=activity`"
-                class="text-xs text-g-600 font-semibold hover:underline">Batafsil →</router-link>
+                class="text-xs text-navy font-bold flex items-center gap-1 hover:underline">Batafsil
+                <img src="@/assets/svg/home/viewmore.svg" class="w-2 h-2" alt="" /></router-link>
             </div>
             <template v-if="attendanceStats.calendar?.length">
               <div class="grid grid-cols-7 gap-2 mb-2">
@@ -206,7 +193,7 @@
               </div>
               <div class="flex gap-4 mt-3 flex-wrap">
                 <span class="flex items-center gap-1.5 text-xs text-gray-400"><span
-                    class="w-2 h-2 rounded-sm bg-g-400"></span>Keldi — {{ attendanceStats.present || 0 }}</span>
+                    class="w-2 h-2 rounded-sm bg-navy-dark"></span>Keldi — {{ attendanceStats.present || 0 }}</span>
                 <span class="flex items-center gap-1.5 text-xs text-gray-400"><span
                     class="w-2 h-2 rounded-sm bg-amber-400"></span>Kechikdi — {{ attendanceStats.late || 0 }}</span>
                 <span class="flex items-center gap-1.5 text-xs text-gray-400"><span
@@ -614,36 +601,52 @@ function statusArrow(status) {
   if (status === 'tushdi' || status === 'kamaydi') return '↓';
   return '';
 }
-function statusClass(status) {
-  if (status === "ko'tarildi" || status === 'oshdi' || status === 'yangi') return 'c_green';
-  if (status === 'tushdi' || status === 'kamaydi') return 'c_red';
-  return 'text-g-600';
+function statusPillClass(status) {
+  if (status === "ko'tarildi" || status === 'oshdi' || status === 'yangi') return 'bg-green-50 text-green-600';
+  if (status === 'tushdi' || status === 'kamaydi') return 'bg-red-50 text-red-500';
+  return 'bg-gray-100 text-gray-400';
 }
 
+const weeklyPresentCount = computed(() => weeklyActivity.value.filter(day => day.status === 'present').length);
+
+const attendanceQualityLabel = computed(() => {
+  const pct = attendanceStats.value.percentage ?? 0;
+  if (pct >= 90) return "A'lo";
+  if (pct >= 75) return 'Yaxshi';
+  if (pct >= 50) return "O'rtacha";
+  return 'Past';
+});
+const attendanceQualityClass = computed(() => {
+  const pct = attendanceStats.value.percentage ?? 0;
+  if (pct >= 75) return 'bg-green-50 text-green-600';
+  if (pct >= 50) return 'bg-amber-50 text-amber-600';
+  return 'bg-red-50 text-red-500';
+});
+
 function weeklyBarClass(day) {
-  if (day.status === 'present') return 'bg-g-600';
+  if (day.status === 'present') return 'bg-navy-dark';
   if (day.status === 'late') return 'bg-amber-400';
   if (day.status === 'absent') return 'bg-red-400';
-  if (day.status === 'upcoming') return 'bg-g-100';
+  if (day.status === 'upcoming') return 'bg-navy-soft';
   return '';
 }
 
 function calendarDayClass(day) {
   const classes = [];
-  if (day.status === 'present') classes.push('bg-g-50 text-g-800');
+  if (day.status === 'present') classes.push('bg-navy-soft text-ink');
   else if (day.status === 'late') classes.push('bg-amber-50 text-amber-700');
   else if (day.status === 'absent') classes.push('bg-red-50 text-red-600');
   else if (day.status === 'upcoming') classes.push('text-gray-300');
   else classes.push('text-gray-200');
-  if (day.date === todayKey.value) classes.push('border-2 border-g-400 font-bold');
+  if (day.date === todayKey.value) classes.push('border-2 border-navy-dark font-bold');
   return classes;
 }
 
 function testBadgeClass(startDate) {
   const diffDays = Math.round((new Date(startDate).setHours(0, 0, 0, 0) - new Date().setHours(0, 0, 0, 0)) / 86400000);
-  if (diffDays <= 1) return 'bg-red-100 text-red-600';
-  if (diffDays <= 3) return 'bg-amber-100 text-amber-700';
-  return 'bg-g-100 text-g-600';
+  if (diffDays <= 1) return 'bg-red-50 text-red-500';
+  if (diffDays <= 3) return 'bg-amber-50 text-amber-600';
+  return 'bg-navy-soft text-navy';
 }
 
 function daysUntil(dateStr) {
@@ -652,6 +655,16 @@ function daysUntil(dateStr) {
   if (diffDays <= 0) return 'Bugun';
   if (diffDays === 1) return 'Ertaga';
   return `${diffDays} kun`;
+}
+
+function testWhenLabel(dateStr) {
+  if (!dateStr) return '';
+  const date = new Date(dateStr);
+  const time = date.toLocaleTimeString('uz-UZ', { hour: '2-digit', minute: '2-digit' });
+  const diffDays = Math.round((date.setHours(0, 0, 0, 0) - new Date().setHours(0, 0, 0, 0)) / 86400000);
+  if (diffDays === 0) return `Bugun, ${time}`;
+  if (diffDays === 1) return `Ertaga, ${time}`;
+  return `${new Date(dateStr).getDate()}-${monthNames[new Date(dateStr).getMonth()]}, ${time}`;
 }
 
 onMounted(async () => {
@@ -667,68 +680,3 @@ watch(selectedGroupId, (groupId) => {
   if (groupId) useAuth.getUserAnalytics(groupId);
 }, { immediate: true });
 </script>
-
-<style lang="css" scoped>
-/* ---------- stat grid ---------- */
-.grid2 {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  padding: 0 20px 6px;
-}
-
-.stat {
-  padding: 18px 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 9px;
-}
-
-.stat-icon {
-  width: 34px;
-  height: 34px;
-  border-radius: 9px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.stat .label {
-  font-size: 12px;
-  color: var(--muted);
-}
-
-.stat .value {
-  font-family: var(--mono);
-  font-weight: 700;
-  font-size: 22px;
-  display: flex;
-  align-items: baseline;
-  gap: 7px;
-}
-
-.stat .value .unit {
-  font-size: 12px;
-  font-family: var(--sans);
-  font-weight: 600;
-  color: var(--muted);
-}
-
-.stat .sub {
-  font-size: 11.5px;
-  font-weight: 700;
-}
-
-.sub.up {
-  color: var(--teal);
-}
-
-.sub.warn {
-  color: var(--coral);
-}
-
-.sub.flat {
-  color: var(--muted);
-  font-weight: 600;
-}
-</style>
