@@ -239,19 +239,19 @@
                 <section class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8 no-print">
                     <div class="b_main rounded-lg p-4">
                         <p class="text-xs">Jami o'quvchilar</p>
-                        <p class="mono text-3xl mt-1" id="statTotal">0</p>
+                        <p class="mono text-3xl mt-1">{{ memberStats.total }}</p>
                     </div>
                     <div class="b_main rounded-lg p-4">
                         <p class="text-xs">Bu oy yig'ilgan</p>
-                        <p class="mono text-3xl mt-1" id="statCollected">0</p>
+                        <p class="mono text-3xl mt-1">{{ memberStats.collected }}</p>
                     </div>
                     <div class="b_main rounded-lg p-4">
                         <p class="text-xs">Umumiy qarzdorlik</p>
-                        <p class="mono text-3xl mt-1" id="statDebt">0</p>
+                        <p class="mono text-3xl mt-1">{{ memberStats.debt }}</p>
                     </div>
                     <div class="b_main rounded-lg p-4">
                         <p class="text-xs">To'liq to'lagan</p>
-                        <p class="mono text-3xl mt-1" id="statPaidFull">0</p>
+                        <p class="mono text-3xl mt-1">{{ memberStats.paidFull }}</p>
                     </div>
                 </section>
 
@@ -292,6 +292,7 @@
                                 <th class="text-left p-2">Oylik to'lov</th>
                                 <th class="text-left p-2">To'langan</th>
                                 <th class="text-left p-2">Qolgan</th>
+                                <th class="text-left p-2">Muddat</th>
                                 <th class="text-left p-2">Davomat</th>
                                 <th class="text-left p-2">Holat</th>
                                 <th class="text-left p-2">A'zolik sanasi</th>
@@ -310,13 +311,14 @@
                                 <td class="p-2 whitespace-nowrap">{{ item.user?.payments?.[0]?.monthly_payment }}</td>
                                 <td class="p-2 whitespace-nowrap">{{ item.user?.payments?.[0]?.amount }}</td>
                                 <td class="p-2 whitespace-nowrap">{{ item.user?.payments?.[0]?.debt }}</td>
+                                <td class="p-2 whitespace-nowrap">{{ formatDateToYYYYMMDD(item.user?.payments?.[0]?.due_date) }}</td>
                                 <td class="p-2 whitespace-nowrap">{{ item.user?.attendance }}</td>
                                 <td class="p-2 whitespace-nowrap">{{ item.user?.payments?.[0]?.status }}</td>
                                 <td class="p-2 whitespace-nowrap">{{ formatDateToYYYYMMDD(item?.start_date) }}</td>
                                 <td class="p-2">
                                     <div class="flex items-center gap-2">
                                         <button v-if="isLoading.user?.current_role == 'admin'"
-                                            @click="store.member_id = item.user.id; store.addPaymentModal = true"
+                                            @click="openPaymentModal(item)"
                                             class="b_main p-2 r_8 min-w-5">
                                             <img class="w-5" loading="lazy" src="@/assets/svg/course/editpen.svg" alt="">
                                         </button>
@@ -354,7 +356,26 @@
         <!-- modal -->
         <UIModal class="!bg-white !min-h-fit" :title="''" :isOpen="store.addPaymentModal" :loadingType="'creategroup'"
             @update:isOpen="(value) => handleModal(value, 'payment')">
-            <FloatingInput id="payment" :type="'number'" v-model="store.data.amount" label="Payment" required />
+            <div class="space-y-4">
+                <ul class="space-y-1 text-sm">
+                    <li class="flex items-center justify-between">
+                        <span class="c_c66">Oylik to'lov</span>
+                        <span class="font-semibold">{{ store.currentPayment?.monthly_payment ??
+                            useCourses.store.courses?.course?.price }} UZS</span>
+                    </li>
+                    <li class="flex items-center justify-between">
+                        <span class="c_c66">To'langan</span>
+                        <span class="font-semibold">{{ store.currentPayment?.amount || 0 }} UZS</span>
+                    </li>
+                    <li class="flex items-center justify-between">
+                        <span class="c_c66">Qolgan qarz</span>
+                        <span class="font-semibold">{{ store.currentPayment?.debt ?? useCourses.store.courses?.course?.price }}
+                            UZS</span>
+                    </li>
+                </ul>
+                <FloatingInput id="payment" :type="'number'" v-model="store.data.amount"
+                    label="Qo'shimcha to'lov summasi" required />
+            </div>
         </UIModal>
 
         <!-- modal -->
@@ -423,9 +444,32 @@ const store = reactive({
     deleteMemberModal: false,
     teacher_id: 0,
     member_id: null,
+    currentPayment: null,
     course_id: +router.currentRoute.value.params.course_id,
     start_date: null,
 })
+
+const memberStats = computed(() => {
+    const subscriptions = useCourses.store.courses?.course?.subscriptions || [];
+    let collected = 0;
+    let debt = 0;
+    let paidFull = 0;
+    for (const item of subscriptions) {
+        const payment = item.user?.payments?.[0];
+        if (!payment) continue;
+        collected += Number(payment.amount || 0);
+        debt += Number(payment.debt || 0);
+        if (payment.status == 'success') paidFull++;
+    }
+    return { total: subscriptions.length, collected, debt, paidFull };
+})
+
+function openPaymentModal(item) {
+    store.member_id = item.user.id;
+    store.currentPayment = item.user?.payments?.[0] || null;
+    store.data.amount = 0;
+    store.addPaymentModal = true;
+}
 
 function openTeacherModal() {
     for (let i in useCourses.store.courses?.course) {
@@ -460,7 +504,10 @@ async function handleModal(value, modalType) {
             store.data.amount = +store.data.amount;
             store.data.user_id = store.member_id;
             store.data.course_id = useCourses.store.courses?.course?.id;
-            return useCourses.createPayment(store.data);
+            const result = useCourses.createPayment(store.data);
+            store.data.amount = 0;
+            store.currentPayment = null;
+            return result;
         }
         else if (store.addTeacherModal) {
             store.addTeacherModal = false;
@@ -491,6 +538,8 @@ async function handleModal(value, modalType) {
         store.addPaymentModal = false;
         store.addTeacherModal = false;
         store.addMember = false;
+        store.data.amount = 0;
+        store.currentPayment = null;
         useCourses.clearData();
     }
 }
