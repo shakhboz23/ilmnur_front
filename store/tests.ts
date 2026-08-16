@@ -139,6 +139,8 @@ export const useTestsStore = defineStore("tests", () => {
     store.isChecked = true;
     store.checked_answers[step] = data.data[1];
     store.checked_true_answers = data.data[2];
+
+    router.push('/');
   }
   function checkAnswerList(list: boolean[]): boolean {
     return list?.every(item => item === true);
