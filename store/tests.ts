@@ -47,7 +47,7 @@ export const useTestsStore = defineStore("tests", () => {
     sort_level: [[null, null, null, null]],
     test_count: null,
     period: null,
-    mix: true,
+    mix: false,
   });
 
   function resetTest() {
@@ -89,7 +89,7 @@ export const useTestsStore = defineStore("tests", () => {
     test_settings.sort_level = [[null, null, null, null]];
     test_settings.test_count = null;
     test_settings.period = null;
-    test_settings.mix = true;
+    test_settings.mix = false;
   }
 
   async function getByLesson() {

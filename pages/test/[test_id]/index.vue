@@ -699,7 +699,7 @@
     </div>
     <!-- modal -->
     <UIModal :isOpen="isLoading.modal.create" :loadingType="'creategroup'"
-      @update:isOpen="(value) => handleModal(value)">
+      @update:isOpen="(value) => isLoading.modal.create = false">
       <div class="flex justify-between items-center w-full">
         <h1 class="font-semibold text-2xl">Sozlamalalar</h1>
       </div>
