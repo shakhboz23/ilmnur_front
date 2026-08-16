@@ -172,7 +172,7 @@
             :loadingType="'createLesson'" @update:isOpen="(value) => handleModal(value)">
             <div class="space-y-6">
                 <FloatingInput :id="'title'" :maxValue="50" class="w-full" :type="'text'"
-                    v-model="useLessons.create.title" :label="'Title'" required />
+                    v-model="useLessons.create.title" :label="'Sarlavha'" required />
                 <p class="c_red">{{ isLoading.store.errorMessage.message }}</p>
 
                 <div class="space-y-2">
@@ -192,7 +192,7 @@
             :loadingType="'createLesson'" @update:isOpen="(value) => handleModal(value)">
             <div class="space-y-6">
                 <FloatingInput :id="'title'" :maxValue="50" class="w-full" :type="'text'"
-                    v-model="useLessons.create.title" :label="'Title'" required />
+                    v-model="useLessons.create.title" :label="'Sarlavha'" required />
                 <p class="c_red">{{ isLoading.store.errorMessage.message }}</p>
 
                 <div class="space-y-2">

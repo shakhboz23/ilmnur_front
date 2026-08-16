@@ -50,7 +50,50 @@ export const useTestsStore = defineStore("tests", () => {
     mix: true,
   });
 
+  function resetTest() {
+    clearInterval(store.timeInterval);
+
+    store.tests = [];
+    store.true_answers = {};
+    store.checked_true_answers = null;
+    store.checked_answers = {};
+    store.is_checked = false;
+    store.questions_count = 1;
+    store.test_step = 1;
+    store.testResBall = [];
+    store.slideStep = 1;
+    store.isChecked = false;
+    store.deletedTestList = [];
+    store.calculateHours = null;
+    store.time = {
+      days: 0,
+      hours: 0,
+      minutes: 0,
+      seconds: 0,
+      percentage: 0,
+    };
+
+    for (const key of Object.keys(test)) {
+      delete test[key];
+    }
+    test[0] = {
+      question: null,
+      variants: [null],
+      type: "variant",
+      true_answer: [0],
+    };
+
+    test_settings.test_type = 'test';
+    test_settings.start_date = null;
+    test_settings.end_date = null;
+    test_settings.sort_level = [[null, null, null, null]];
+    test_settings.test_count = null;
+    test_settings.period = null;
+    test_settings.mix = true;
+  }
+
   async function getByLesson() {
+    resetTest();
     const data: any = await apiRequest.get(
       `tests/${router.currentRoute.value.params.test_id}`,
       "getById"
@@ -207,6 +250,7 @@ export const useTestsStore = defineStore("tests", () => {
     test,
     test_settings,
     getByLesson,
+    resetTest,
     checkAnswer,
     checkAllAnswers,
     deleteTest,

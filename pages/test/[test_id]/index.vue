@@ -78,186 +78,96 @@
       </nav>
       <section v-if="store.currentStep == 1">
         <div class="mt-4 space-y-4">
-          <div>
-            <div class="full_flex space-y-2 min-h-[calc(100vh_-_150px)]">
-              <div id="quiz-steps-container" class="w-[650px] bg-white rounded-2xl shadow-lg p-8">
-                <div v-if="store.innerStep == 0" id="step-1" class="step-content">
-                  <h3 class="text-xl font-semibold text-gray-800 mb-6">
-                    Test turini tanlang
-                  </h3>
-                  <div class="grid grid-cols-2 gap-4">
-                    <div @click="useTests.test_settings.test_type = i.value" v-for="i in testSettingsType"
-                      class="duration-700 quiz-card p-6 !border-2 border-gray-200 rounded-xl cursor-pointer hover:border-primary border-primary"
-                      :class="useTests.test_settings.test_type == i.value ? 'bg-blue-50 b_main' : 'bg-white'">
-                      <div class="flex items-center space-x-4">
-                        <div class="w-12 h-12 rounded-lg flex items-center justify-center" :class="`${i.color}`">
-                          <img :src="i.icon" alt="">
-                        </div>
-                        <div>
-                          <h4 class="font-semibold text-gray-800">{{ i.label }}</h4>
-                          <p class="text-gray-600 text-sm">{{ i.defination }}</p>
-                        </div>
+          <div class="full_flex">
+            <div class="w-[650px] bg-white rounded-2xl shadow-lg p-8 space-y-8 my-6">
+              <div>
+                <h3 class="text-xl font-semibold text-gray-800 mb-6">
+                  Test turini tanlang
+                </h3>
+                <div class="grid grid-cols-2 gap-4">
+                  <div @click="useTests.test_settings.test_type = i.value" v-for="i in testSettingsType"
+                    class="duration-700 quiz-card p-6 !border-2 border-gray-200 rounded-xl cursor-pointer hover:border-primary border-primary"
+                    :class="useTests.test_settings.test_type == i.value ? 'bg-blue-50 b_main' : 'bg-white'">
+                    <div class="flex items-center space-x-4">
+                      <div class="w-12 h-12 rounded-lg flex items-center justify-center" :class="`${i.color}`">
+                        <img :src="i.icon" alt="">
                       </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div v-if="store.innerStep == 1" id="step-2" class="step-content">
-                  <h3 class="text-xl font-semibold text-gray-800 mb-6">
-                    Boshlanish vaqtini belgilang (Ixtiyoriy)
-                  </h3>
-                  <div class="space-y-4">
-                    <div>
-                      <label class="block text-sm font-medium text-gray-700 mb-2">Boshlanish sanasi</label>
-                      <a-date-picker class="w-full" v-model:value="useTests.test_settings.start_date"
-                        placeholder="0000-00-00" />
-                    </div>
-                    <div>
-                      <label class="block text-sm font-medium text-gray-700 mb-2">Boshlanish vaqti</label>
-                      <a-time-picker v-model:value="useTests.test_settings.start_date" format="HH:mm"
-                        placeholder="00:00" />
-                    </div>
-                    <div class="flex items-center">
-                      <a-checkbox v-model:checked="checked">Darhol boshlanish</a-checkbox>
-                    </div>
-                  </div>
-                </div>
-
-                <div v-if="store.innerStep == 2" id="step-3" class="step-content">
-                  <h3 class="text-xl font-semibold text-gray-800 mb-6">
-                    Tugash vaqtini belgilang (Ixtiyoriy)
-                  </h3>
-                  <div class="space-y-4">
-                    <div>
-                      <label class="block text-sm font-medium text-gray-700 mb-2">Tugash sanasi</label>
-                      <a-date-picker class="w-full" v-model:value="useTests.test_settings.end_date"
-                        placeholder="0000-00-00" />
-                    </div>
-                    <div>
-                      <label class="block text-sm font-medium text-gray-700 mb-2">Tugash vaqti</label>
-                      <a-time-picker v-model:value="useTests.test_settings.end_date" format="HH:mm"
-                        placeholder="00:00" />
-                    </div>
-                    <div class="flex items-center">
-                      <a-checkbox v-model:checked="checked">Tugash vaqti cheklovi yo'q</a-checkbox>
-                    </div>
-                  </div>
-                </div>
-
-                <div v-if="store.innerStep == 3" id="step-4" class="step-content">
-                  <h3 class="text-xl font-semibold text-gray-800 mb-6">
-                    Test davomiyligi (Ixtiyoriy)
-                  </h3>
-                  <div class="space-y-4">
-                    <div>
-                      <label class="block text-sm font-medium text-gray-700 mb-2">Minutlarda</label>
-                      <input @input="convertMinutePeriod" type="number" placeholder="60"
-                        class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" />
-                    </div>
-                    <div class="grid grid-cols-4 gap-4">
-                      <a-time-picker v-model:value="useTests.test_settings.period" format="HH:mm" value-format="HH:mm"
-                        placeholder="00:00" />
-                      <button @click="useTests.test_settings.period = '00:15'"
-                        class="p-3 border-2 border-gray-200 rounded-lg hover:border-primary">
-                        15 min
-                      </button>
-                      <button @click="useTests.test_settings.period = '00:30'"
-                        class="p-3 border-2 border-gray-200 rounded-lg hover:border-primary">
-                        30 min
-                      </button>
-                      <button @click="useTests.test_settings.period = '00:60'"
-                        class="p-3 border-2 border-gray-200 rounded-lg hover:border-primary">
-                        60 min
-                      </button>
-                    </div>
-                    <div class="flex items-center">
-                      <a-checkbox v-model:checked="checked">Cheksiz</a-checkbox>
-                    </div>
-                  </div>
-                </div>
-
-                <div v-if="store.innerStep == 4" id="step-5" class="step-content">
-                  <h3 class="text-xl font-semibold text-gray-800 mb-6">Test savollari</h3>
-                  <div id="questions-container" class="space-y-6">
-                    <div class="question-card border border-gray-200 rounded-lg p-6">
-                      <div class="flex justify-between items-start mb-4">
-                        <h4 class="font-semibold text-gray-800">Savol 1</h4>
-                        <button class="text-red-500 hover:text-red-700">
-                          <i data-fa-i2svg=""><svg class="svg-inline--fa fa-trash" aria-hidden="true" focusable="false"
-                              data-prefix="fas" data-icon="trash" role="img" xmlns="http://www.w3.org/2000/svg"
-                              viewBox="0 0 448 512" data-fa-i2svg="">
-                              <path fill="currentColor"
-                                d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z">
-                              </path>
-                            </svg></i>
-                        </button>
-                      </div>
-                      <textarea placeholder="Savolingizni shu yerga kiriting..."
-                        class="w-full p-3 border border-gray-300 rounded-lg mb-4 focus:ring-2 focus:ring-primary focus:border-primary"></textarea>
-                      <div class="space-y-2">
-                        <input type="text" placeholder="A varianti"
-                          class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" />
-                        <input type="text" placeholder="B varianti"
-                          class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" />
-                        <input type="text" placeholder="C varianti"
-                          class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" />
-                        <input type="text" placeholder="D varianti"
-                          class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" />
-                      </div>
-                    </div>
-                  </div>
-                  <button class="mt-4 px-4 py-2 bg-primary text-white rounded-lg hover:bg-opacity-90">
-                    <i class="mr-2" data-fa-i2svg=""><svg class="svg-inline--fa fa-plus" aria-hidden="true"
-                        focusable="false" data-prefix="fas" data-icon="plus" role="img"
-                        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg="">
-                        <path fill="currentColor"
-                          d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z">
-                        </path>
-                      </svg></i>Savol qo'shish
-                  </button>
-                </div>
-
-                <div id="step-6" class="step-content hidden">
-                  <h3 class="text-xl font-semibold text-gray-800 mb-6">Test sozlamalari</h3>
-                  <div class="space-y-6">
-                    <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
                       <div>
-                        <h4 class="font-semibold text-gray-800">Aralash savollar</h4>
-                        <p class="text-gray-600 text-sm">Savollar tartibini tasodifiylashtirish</p>
+                        <h4 class="font-semibold text-gray-800">{{ i.label }}</h4>
+                        <p class="text-gray-600 text-sm">{{ i.defination }}</p>
                       </div>
-                      <label class="relative inline-flex items-center cursor-pointer">
-                        <input type="checkbox" class="sr-only peer" />
-                        <div
-                          class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary">
-                        </div>
-                      </label>
-                    </div>
-                    <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                      <div>
-                        <h4 class="font-semibold text-gray-800">Natijalarni ko'rsatish</h4>
-                        <p class="text-gray-600 text-sm">
-                          Yakunlangandan so'ng natijalarni ko'rsatish
-                        </p>
-                      </div>
-                      <label class="relative inline-flex items-center cursor-pointer">
-                        <input type="checkbox" class="sr-only peer" checked="" />
-                        <div
-                          class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary">
-                        </div>
-                      </label>
                     </div>
                   </div>
                 </div>
               </div>
+
+              <hr />
+
+              <div class="grid grid-cols-2 gap-6">
+                <div class="space-y-4">
+                  <h3 class="font-semibold text-gray-800">Boshlanish vaqti (Ixtiyoriy)</h3>
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Sana</label>
+                    <a-date-picker class="w-full" v-model:value="useTests.test_settings.start_date"
+                      placeholder="0000-00-00" />
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Vaqt</label>
+                    <a-time-picker class="w-full" v-model:value="useTests.test_settings.start_date" format="HH:mm"
+                      placeholder="00:00" />
+                  </div>
+                </div>
+                <div class="space-y-4">
+                  <h3 class="font-semibold text-gray-800">Tugash vaqti (Ixtiyoriy)</h3>
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Sana</label>
+                    <a-date-picker class="w-full" v-model:value="useTests.test_settings.end_date"
+                      placeholder="0000-00-00" />
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Vaqt</label>
+                    <a-time-picker class="w-full" v-model:value="useTests.test_settings.end_date" format="HH:mm"
+                      placeholder="00:00" />
+                  </div>
+                </div>
+              </div>
+
+              <hr />
+
+              <div class="space-y-4">
+                <h3 class="font-semibold text-gray-800">Test davomiyligi (Ixtiyoriy)</h3>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Minutlarda</label>
+                  <input @input="convertMinutePeriod" type="number" placeholder="60"
+                    class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary" />
+                </div>
+                <div class="grid grid-cols-4 gap-4">
+                  <a-time-picker v-model:value="useTests.test_settings.period" format="HH:mm" value-format="HH:mm"
+                    placeholder="00:00" />
+                  <button @click="useTests.test_settings.period = '00:15'"
+                    class="p-3 border-2 border-gray-200 rounded-lg hover:border-primary">
+                    15 min
+                  </button>
+                  <button @click="useTests.test_settings.period = '00:30'"
+                    class="p-3 border-2 border-gray-200 rounded-lg hover:border-primary">
+                    30 min
+                  </button>
+                  <button @click="useTests.test_settings.period = '00:60'"
+                    class="p-3 border-2 border-gray-200 rounded-lg hover:border-primary">
+                    60 min
+                  </button>
+                </div>
+              </div>
             </div>
-            <div class="flex justify-between">
-              <button @click="prevInnerStep" class="b_main c_main px-8 py-2 rounded-full">
-                Orqaga
-              </button>
-              <button @click="nextInnerStep" class="bg_main text-white px-8 py-2 rounded-full">
-                Keyingi
-              </button>
-            </div>
+          </div>
+          <div class="flex justify-between max-w-[650px] mx-auto">
+            <button @click="$router.back()" class="b_main c_main px-8 py-2 rounded-full">
+              Orqaga
+            </button>
+            <button :disabled="!useTests.test_settings.test_type" @click="store.currentStep = 2"
+              class="bg_main text-white px-8 py-2 rounded-full disabled:opacity-50 disabled:cursor-not-allowed">
+              Davom etish
+            </button>
           </div>
         </div>
       </section>
@@ -418,11 +328,27 @@
                           </div>
                         </template>
                         <template v-else>
-                          <ClientOnly>
-                            <EditorTiptapEditor id="answerEditor" class="w-full bg_cf5 r_8 my-4"
-                              v-model="useTests.test[+index].variants[0]" :toolbar="false"
-                              :placeholder="'To‘g‘ri javobni shu yerga yozing'" />
-                          </ClientOnly>
+                          <p class="text-sm text-gray-500 mt-4 mb-1">
+                            To‘g‘ri deb hisoblanadigan javob variantlari (bir nechta qo‘shishingiz mumkin)
+                          </p>
+                          <div class="space-y-2 mb-4">
+                            <div v-for="(v, v_index) in useTests.test[+index].variants" :key="v_index"
+                              class="flex items-center gap-2">
+                              <ClientOnly>
+                                <EditorTiptapEditor id="answerEditor" class="w-full bg_cf5 r_8"
+                                  v-model="useTests.test[+index].variants[v_index]" :toolbar="false"
+                                  :placeholder="'To‘g‘ri javobni shu yerga yozing'" />
+                              </ClientOnly>
+                              <img v-if="useTests.test[+index].variants?.length > 1"
+                                @click="useTests.test[+index].variants.splice(v_index, 1)" class="w-6 h-6 pcursor"
+                                loading="lazy" src="@/assets/svg/icon/delete.svg" alt="" />
+                            </div>
+                            <div @click="useTests.test[+index].variants.push(null)"
+                              class="full_flex gap-2 bg_cf5 p-2 r_8 pcursor text-sm w-fit px-4">
+                              <img loading="lazy" class="w-4 h-4" src="@/assets/svg/icon/plus.svg" alt="" />
+                              <span>Yana javob qo‘shish</span>
+                            </div>
+                          </div>
                         </template>
                       </li>
                     </ul>
@@ -501,7 +427,7 @@
             </li>
           </ul>
 
-          <footer v-if="Object.keys(useTests.test)?.length" class="w-full bg-white r_8 overflow-hidden fixed bottom-0" ">
+          <footer v-if="Object.keys(useTests.test)?.length" class="w-full bg-white r_8 overflow-hidden fixed bottom-0">
             <hr />
             <ul class=" flex items-center justify-around py-5">
             <li class="md:!flex !hidden full_flex gap-3">
@@ -674,11 +600,7 @@
                   <img loading="lazy" src="@/assets/svg/test/true.svg" alt="" />
                   <p class="c_green font-bold">Javob to‘g‘ri!</p>
                 </li>
-                <li v-else="
-                    !useTests.checkAnswerList(
-                      useTests.store.checked_answers[useTests.store.slideStep]
-                    )
-                  " class="full_flex gap-3">
+                <li v-else class="full_flex gap-3">
                   <img loading="lazy" src="@/assets/svg/test/false.svg" alt="" />
                   <p class="c_red font-bold">Javob noto‘g‘ri!</p>
                 </li>
@@ -987,10 +909,11 @@ const useUpload = useUploadStore();
 const store = reactive({
   convertedContent: [],
   currentStep: 1,
-  innerStep: 0,
   listKey: 0,
   importModal: false,
 });
+
+const checked = ref(false);
 
 async function getModels() {
   useCategory.getCategory();
@@ -1020,20 +943,6 @@ function handleCount(e) {
     delete useTests.test[i];
   }
   useTests.store.questions_count = count;
-}
-
-function prevInnerStep() {
-  if (store.innerStep == 0) {
-  } else {
-    store.innerStep--;
-  }
-}
-function nextInnerStep() {
-  if (store.innerStep == 3) {
-    store.currentStep = 2;
-  } else {
-    store.innerStep++;
-  }
 }
 
 function handleImage(e, type, index, v_index) {
@@ -1332,12 +1241,7 @@ onBeforeMount(() => {
 });
 
 onBeforeUnmount(() => {
-  useTests.store.slideStep = 1;
-  useTests.store.testResBall = [];
-  useTests.store.true_answers = {};
-  useTests.store.checked_answers = {};
-  useTests.store.is_checked = false;
-  useTests.store.checked_answers = {};
+  useTests.resetTest();
 });
 </script>
 
