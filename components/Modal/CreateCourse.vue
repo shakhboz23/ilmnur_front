@@ -28,14 +28,55 @@
                     v-model="useCourses.create.discount" :label="'Chegirma'" required />
             </div>
             <fieldset>
-                <legend class="mb-3 font-medium">Dars kunlari</legend>
-                <div class="grid grid-cols-4 gap-3">
+                <div class="mb-3 flex items-center justify-between">
+                    <legend class="font-medium">Dars kunlari</legend>
+                    <button v-if="!isSplit" type="button" @click="splitIntoGroups"
+                        class="text-sm bg_main c_white px-3 py-1 rounded-full">
+                        + Guruhlarga bo'lish
+                    </button>
+                </div>
+
+                <div v-if="!isSplit" class="grid grid-cols-4 gap-3">
                     <label v-for="day in attendanceDays" :key="day"
                         class="flex cursor-pointer items-center justify-center rounded-lg border px-3 py-2"
                         :class="useCourses.create.attendance_days.includes(day) ? 'b_main bg_main c_white font-semibold' : 'border-[#CCCCCC]'">
                         <input v-model="useCourses.create.attendance_days" :value="day" type="checkbox" class="h-0 w-0 overflow-hidden" />
                         <span>{{ dayLabels[day] }}</span>
                     </label>
+                </div>
+
+                <div v-else class="space-y-3">
+                    <p class="text-sm c_ccc">
+                        Kurs bitta sinfga sig'maganda, o'quvchilarni turli kunlarda o'qitish uchun guruhlarga bo'ling.
+                        Darslar va testlar barcha guruhlar uchun bir xil bo'lib qoladi — faqat bir marta yuklanadi.
+                    </p>
+                    <div v-for="(group, index) in useCourses.create.subgroups" :key="index"
+                        class="space-y-3 r_8 p-3 border border-[#CCCCCC]">
+                        <div class="flex items-center gap-2">
+                            <input v-model="group.name" type="text" placeholder="Guruh nomi"
+                                class="flex-1 rounded-lg border border-[#CCCCCC] px-3 py-2 text-sm" />
+                            <button v-if="useCourses.create.subgroups.length > 1" type="button"
+                                @click="removeGroup(index)" class="text-sm c_red px-2">
+                                O'chirish
+                            </button>
+                        </div>
+                        <div class="grid grid-cols-4 gap-3">
+                            <label v-for="day in attendanceDays" :key="day"
+                                class="flex cursor-pointer items-center justify-center rounded-lg border px-3 py-2"
+                                :class="group.attendance_days.includes(day) ? 'b_main bg_main c_white font-semibold' : 'border-[#CCCCCC]'">
+                                <input v-model="group.attendance_days" :value="day" type="checkbox" class="h-0 w-0 overflow-hidden" />
+                                <span>{{ dayLabels[day] }}</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <button type="button" @click="addGroup" class="text-sm b_main px-3 py-1 rounded-full border">
+                            + Yana guruh qo'shish
+                        </button>
+                        <button type="button" @click="mergeGroups" class="text-sm c_ccc underline">
+                            Bitta jadvalga qaytarish
+                        </button>
+                    </div>
                 </div>
             </fieldset>
             <div class="space-y-2">
@@ -112,14 +153,59 @@ const dayLabels = {
     Sun: "Ya",
 };
 
+const isSplit = computed(() => useCourses.create.subgroups.length > 0);
+
+function splitIntoGroups() {
+    useCourses.create.subgroups = [
+        { name: "1-guruh", attendance_days: [...useCourses.create.attendance_days] },
+        { name: "2-guruh", attendance_days: [] },
+    ];
+}
+
+function mergeGroups() {
+    useCourses.create.attendance_days = [...(useCourses.create.subgroups[0]?.attendance_days || [])];
+    useCourses.create.subgroups = [];
+}
+
+function addGroup() {
+    useCourses.create.subgroups.push({
+        name: `${useCourses.create.subgroups.length + 1}-guruh`,
+        attendance_days: [],
+    });
+}
+
+function removeGroup(index) {
+    useCourses.create.subgroups.splice(index, 1);
+    if (useCourses.create.subgroups.length === 1) {
+        mergeGroups();
+    }
+}
+
 onBeforeMount(() => {
     const attendanceDaysValue = useCourses.create.attendance_days;
-    if (Array.isArray(attendanceDaysValue)) return;
+    if (Array.isArray(attendanceDaysValue)) {
+        if (attendanceDaysValue.length && attendanceDaysValue[0]?.attendance_day) {
+            useCourses.create.attendance_days = attendanceDaysValue[0].attendance_day;
+        }
+    } else {
+        try {
+            useCourses.create.attendance_days = JSON.parse(attendanceDaysValue || "[]");
+        } catch {
+            useCourses.create.attendance_days = attendanceDaysValue ? attendanceDaysValue.split(",") : [];
+        }
+    }
 
-    try {
-        useCourses.create.attendance_days = JSON.parse(attendanceDaysValue || "[]");
-    } catch {
-        useCourses.create.attendance_days = attendanceDaysValue ? attendanceDaysValue.split(",") : [];
+    const rawSubgroups = useCourses.create.subgroups;
+    if (Array.isArray(rawSubgroups) && rawSubgroups.length) {
+        useCourses.create.subgroups = rawSubgroups.map((group) => ({
+            id: group.id,
+            name: group.name,
+            attendance_days: Array.isArray(group.attendance_days)
+                ? group.attendance_days
+                : (group.schedules?.[0]?.attendance_day || []),
+        }));
+    } else {
+        useCourses.create.subgroups = [];
     }
 });
 

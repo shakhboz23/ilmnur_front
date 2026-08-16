@@ -147,6 +147,17 @@
                             {{ i.category || i.title }}
                         </button>
                     </ul>
+                    <!-- Offline courses split into weekday subgroups (e.g. 1-guruh
+                    Du/Chor/Ju vs 2-guruh Se/Pay/Sha) need to know which one this
+                    student will attend. -->
+                    <div v-for="course in splitCourses" :key="course.id" class="col-span-2 space-y-2">
+                        <h1 class="font-bold">{{ course.title }} — guruh</h1>
+                        <a-select class="w-full" v-model:value="useSubscription.store.subgroup_by_course[course.id]"
+                            placeholder="Guruhni tanlang">
+                            <a-select-option v-for="g in course.subgroups" :key="g.id" :value="g.id">{{ g.name }}
+                            </a-select-option>
+                        </a-select>
+                    </div>
                     <!-- {{ useSubscription.store.course_ids }} -->
                     <div class="col-span-2 space-y-2">
                         <h1 class="font-bold">Rol</h1>
@@ -181,6 +192,10 @@ const options = ref([
     { value: 'teacher', label: 'O\'qituvchi' },
     { value: 'admin', label: 'Admin' },
 ]);
+
+const splitCourses = computed(() =>
+    useSubscription.store.course_ids.filter((course) => course.subgroups?.length)
+);
 
 function handleModal(value) {
     if (value == "OK") {

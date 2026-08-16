@@ -29,6 +29,11 @@ export const useCoursesStore = defineStore("courses", () => {
     subcategory_id: null,
     group_type: 'public',
     attendance_days: [] as string[],
+    // Non-empty when the course is split into multiple weekday groups (e.g.
+    // because one physical classroom can't fit everyone offline): each item
+    // is { id?, name, attendance_days }. Empty means a single flat schedule,
+    // using attendance_days above instead.
+    subgroups: [] as any[],
     start_date: "",
   });
 
@@ -38,6 +43,7 @@ export const useCoursesStore = defineStore("courses", () => {
     });
     create.group_type = 'public';
     create.attendance_days = [];
+    create.subgroups = [];
     store.course_id = 0;
     store.image = "";
   }
@@ -99,16 +105,36 @@ export const useCoursesStore = defineStore("courses", () => {
     }
   }
 
+  // A split course (subgroups.length >= 2) sends "subgroups" instead of the
+  // flat "attendance_days" list, one entry per weekday group.
+  function appendScheduleFields(formData: FormData) {
+    if (create.subgroups?.length >= 2) {
+      formData.append(
+        "subgroups",
+        JSON.stringify(
+          create.subgroups.map((group: any) => ({
+            id: group.id,
+            name: group.name,
+            attendance_days: group.attendance_days,
+          }))
+        )
+      );
+    } else {
+      formData.append("attendance_days", JSON.stringify(create.attendance_days));
+    }
+  }
+
   async function createCourse() {
     create.group_id = router.currentRoute.value.params.group_id;
     const formData = new FormData();
     for (let i in create) {
-      if (i === "attendance_days") {
-        formData.append(i, JSON.stringify(create[i]));
+      if (i === "attendance_days" || i === "subgroups") {
+        continue;
       } else if (create[i]) {
         formData.append(i, create[i]);
       }
     }
+    appendScheduleFields(formData);
 
     await apiRequest.post(
       "course/create",
@@ -128,12 +154,13 @@ export const useCoursesStore = defineStore("courses", () => {
     }
     console.log(create)
     for (let i in create) {
-      if (i === "attendance_days") {
-        formData.append(i, JSON.stringify(create[i]));
+      if (i === "attendance_days" || i === "subgroups") {
+        continue;
       } else if (create[i] || create[i] == 0) {
         formData.append(i, create[i]);
       }
     }
+    appendScheduleFields(formData);
     await apiRequest.put(
       `course/${store.course_id}`,
       formData,

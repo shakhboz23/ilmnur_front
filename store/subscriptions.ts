@@ -16,6 +16,10 @@ export const useSubscriptionStore = defineStore("subscription", () => {
     subscriptions: [],
     subscription_id: 0,
     currentDate: dayjs(new Date()),
+    // Which subgroup (weekday schedule) the student being added should
+    // follow, per course_id, for any selected course that's split into
+    // subgroups. { [course_id]: subgroup_id }
+    subgroup_by_course: {},
   });
 
   // const create: any = reactive({});
@@ -50,24 +54,30 @@ export const useSubscriptionStore = defineStore("subscription", () => {
     isLoading.modal.create = false;
   }
 
-  async function createSubscribeUser(data: any) {
+  async function createSubscribeUser(data?: any) {
     let course_ids: any = [];
+    const subgroups: Record<number, number> = {};
     for (let i of store.course_ids) {
       course_ids.push(i.id);
+      if (store.subgroup_by_course[i.id]) {
+        subgroups[i.id] = store.subgroup_by_course[i.id];
+      }
     }
-    data = await apiRequest.post(
+    const result = await apiRequest.post(
       "subscriptions/createSubscription",
       {
-        user_id: data.user_id || useAuth.user.id,
-        role: data.role || isLoading.user.role,
+        user_id: data?.user_id || useAuth.user.id,
+        role: data?.role || isLoading.user.role,
         course_ids,
-        start_date: data.start_date
+        start_date: data?.start_date || dayjs().format('YYYY-MM-DD'),
+        subgroups: Object.keys(subgroups).length ? JSON.stringify(subgroups) : undefined,
       },
       "subscriptions"
     );
     useCourses.getUsersByGroupId();
     isLoading.modal.create = false;
-    console.log(data);
+    store.subgroup_by_course = {};
+    console.log(result);
   }
 
 

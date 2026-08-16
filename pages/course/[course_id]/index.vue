@@ -288,6 +288,9 @@
                         <thead>
                             <tr class="whitespace-nowrap">
                                 <th class="text-left p-2">O'quvchi</th>
+                                <th v-if="useCourses.store.courses?.course?.subgroups?.length" class="text-left p-2">
+                                    Guruh
+                                </th>
                                 <th class="text-left p-2">Telefon raqam</th>
                                 <th class="text-left p-2">Oylik to'lov</th>
                                 <th class="text-left p-2">To'langan</th>
@@ -300,27 +303,38 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="item in useCourses.store.courses?.course?.subscriptions" :key="item.id">
+                            <tr v-for="item in useCourses.store.courses?.course?.subscriptions" :key="item.id"
+                                class="group">
                                 <td class="p-2 whitespace-nowrap">
                                     <div class="flex items-center gap-2">
                                         <UIAvatar :src="item.user?.image" class="max-w-7 max-h-7" />
-                                        <span>{{ item.user?.name }} {{ item.user?.surname }}</span>
+                                        <div>
+                                            <span>{{ item.user?.name }} {{ item.user?.surname }}</span>
+                                            <span
+                                                class="block text-xs c_ccc opacity-0 group-hover:opacity-100 transition-opacity">
+                                                ID: {{ item.user?.student_id }}
+                                            </span>
+                                        </div>
                                     </div>
                                 </td>
+                                <td v-if="useCourses.store.courses?.course?.subgroups?.length"
+                                    class="p-2 whitespace-nowrap">{{ subgroupLabel(item) }}</td>
                                 <td class="p-2 whitespace-nowrap">{{ item.user?.phone }}</td>
                                 <td class="p-2 whitespace-nowrap">{{ item.user?.payments?.[0]?.monthly_payment }}</td>
                                 <td class="p-2 whitespace-nowrap">{{ item.user?.payments?.[0]?.amount }}</td>
                                 <td class="p-2 whitespace-nowrap">{{ item.user?.payments?.[0]?.debt }}</td>
-                                <td class="p-2 whitespace-nowrap">{{ formatDateToYYYYMMDD(item.user?.payments?.[0]?.due_date) }}</td>
+                                <td class="p-2 whitespace-nowrap">{{
+                                    formatDateToYYYYMMDD(item.user?.payments?.[0]?.due_date) }}
+                                </td>
                                 <td class="p-2 whitespace-nowrap">{{ item.user?.attendance }}</td>
                                 <td class="p-2 whitespace-nowrap">{{ item.user?.payments?.[0]?.status }}</td>
                                 <td class="p-2 whitespace-nowrap">{{ formatDateToYYYYMMDD(item?.start_date) }}</td>
                                 <td class="p-2">
                                     <div class="flex items-center gap-2">
                                         <button v-if="isLoading.user?.current_role == 'admin'"
-                                            @click="openPaymentModal(item)"
-                                            class="b_main p-2 r_8 min-w-5">
-                                            <img class="w-5" loading="lazy" src="@/assets/svg/course/editpen.svg" alt="">
+                                            @click="openPaymentModal(item)" class="b_main p-2 r_8 min-w-5">
+                                            <img class="w-5" loading="lazy" src="@/assets/svg/course/editpen.svg"
+                                                alt="">
                                         </button>
                                         <button v-if="isLoading.user?.current_role == 'admin'"
                                             @click="store.member_id = item.user.id; store.deleteMemberModal = true"
@@ -369,7 +383,8 @@
                     </li>
                     <li class="flex items-center justify-between">
                         <span class="c_c66">Qolgan qarz</span>
-                        <span class="font-semibold">{{ store.currentPayment?.debt ?? useCourses.store.courses?.course?.price }}
+                        <span class="font-semibold">{{ store.currentPayment?.debt ??
+                            useCourses.store.courses?.course?.price }}
                             UZS</span>
                     </li>
                 </ul>
@@ -401,6 +416,17 @@
 
                     <a-date-picker id="date" v-model:value="store.start_date" format="DD/MM/YYYY"
                         class="!rounded-[10px] !h-[42px] !border-gray-200 hover:!border-gray-300" />
+                </div>
+                <div v-if="useCourses.store.courses?.course?.subgroups?.length">
+                    <label for="subgroup">Guruh</label>
+                    <a-select id="subgroup" class="w-full"
+                        v-model:value="useSubscription.store.subgroup_by_course[useCourses.store.courses?.course?.id]"
+                        placeholder="Guruhni tanlang">
+                        <a-select-option v-for="g in useCourses.store.courses?.course?.subgroups" :key="g.id"
+                            :value="g.id">
+                            {{ g.name }}
+                        </a-select-option>
+                    </a-select>
                 </div>
             </div>
         </UIModal>
@@ -463,6 +489,18 @@ const memberStats = computed(() => {
     }
     return { total: subscriptions.length, collected, debt, paidFull };
 })
+
+const dayLabels = { Mon: "Du", Tue: "Se", Wed: "Ch", Thu: "Pa", Fri: "Ju", Sat: "Sh", Sun: "Ya" };
+
+function subgroupLabel(item) {
+    const subgroups = useCourses.store.courses?.course?.subgroups || [];
+    const group = subgroups.find((g) => g.id === item.subgroup_id);
+    if (!group) return "—";
+    const days = (group.schedules?.[0]?.attendance_day || [])
+        .map((day) => dayLabels[day] || day)
+        .join(", ");
+    return days ? `${group.name} (${days})` : group.name;
+}
 
 function openPaymentModal(item) {
     store.member_id = item.user.id;
