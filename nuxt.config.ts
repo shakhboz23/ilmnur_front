@@ -2,13 +2,11 @@
 export default defineNuxtConfig({
   app: {
     head: {
-      // title: "",
-      // link: [
-      //   {
-      //     rel: "icon",
-      //     href: "",
-      //   },
-      // ],
+      htmlAttrs: {
+        lang: "uz",
+      },
+      title: "Academic Success Hub | ASH Academy — onlayn ta'lim platformasi",
+      titleTemplate: "%s",
       meta: [
         // {
         //   "http-equiv": 'Content-Security-Policy',
@@ -22,11 +20,105 @@ export default defineNuxtConfig({
           name: "theme-color",
           content: "#16224B",
         },
+        {
+          name: "description",
+          content:
+            "Academic Success Hub (ASH Academy) — ta'lim olish uchun zamonaviy platforma: kurslar va o'quv materiallarini o'rganing, testlar orqali bilimingizni sinang, natijalaringizni kuzating.",
+        },
+        {
+          name: "keywords",
+          content:
+            "ASH Academy, Academic Success Hub, ashacademy.uz, onlayn ta'lim, onlayn kurslar, testlar, bilim sinovi, o'quv platformasi, masofaviy ta'lim, kurslar Uzbekistan",
+        },
+        {
+          name: "author",
+          content: "ASH Academy",
+        },
+        {
+          name: "robots",
+          content: "index, follow",
+        },
+        // Open Graph (Telegram, Facebook, LinkedIn va h.k. shu orqali havola oldindan ko'rinishini chiqaradi)
+        {
+          property: "og:type",
+          content: "website",
+        },
+        {
+          property: "og:site_name",
+          content: "ASH Academy",
+        },
+        {
+          property: "og:locale",
+          content: "uz_UZ",
+        },
+        {
+          property: "og:url",
+          content: "https://ashacademy.uz",
+        },
+        {
+          property: "og:title",
+          content: "Academic Success Hub | ASH Academy",
+        },
+        {
+          property: "og:description",
+          content:
+            "Ta'lim va bilim olish uchun zamonaviy yordamchi platforma: kurslar, darslar, testlar va natijalarni kuzatish bir joyda.",
+        },
+        {
+          property: "og:image",
+          content: "https://ashacademy.uz/logo.png",
+        },
+        {
+          property: "og:image:secure_url",
+          content: "https://ashacademy.uz/logo.png",
+        },
+        {
+          property: "og:image:type",
+          content: "image/png",
+        },
+        {
+          property: "og:image:width",
+          content: "1536",
+        },
+        {
+          property: "og:image:height",
+          content: "1024",
+        },
+        {
+          property: "og:image:alt",
+          content: "ASH Academy — Academic Success Hub logotipi",
+        },
+        // Twitter Card
+        {
+          name: "twitter:card",
+          content: "summary_large_image",
+        },
+        {
+          name: "twitter:title",
+          content: "Academic Success Hub | ASH Academy",
+        },
+        {
+          name: "twitter:description",
+          content:
+            "Ta'lim va bilim olish uchun zamonaviy yordamchi platforma: kurslar, darslar, testlar va natijalarni kuzatish bir joyda.",
+        },
+        {
+          name: "twitter:image",
+          content: "https://ashacademy.uz/logo.png",
+        },
       ],
       link: [
         {
           rel: "icon",
           href: "/logo.png",
+        },
+        {
+          rel: "apple-touch-icon",
+          href: "/logo.png",
+        },
+        {
+          rel: "canonical",
+          href: "https://ashacademy.uz",
         },
         {
           rel: "stylesheet",
