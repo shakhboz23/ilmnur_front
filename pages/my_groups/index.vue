@@ -52,6 +52,12 @@
                 <img @click="$router.push(`/group/${i.id}`)" loading="lazy" class="aspect-video w-full object-cover" :src="i?.cover" alt="">
                 <ul class="space-y-1 p-2">
                     <li class="flex items-center justify-between gap-1">
+                        <span>{{ i.title }}</span>
+                    </li>
+                    <li class="flex items-center justify-between gap-1">
+                        <pre>{{ i.description }}</pre>
+                    </li>
+                    <li class="flex items-center justify-between gap-1">
                         <span>Ko'rishlar</span>
                         <span class="inline-block bg_cf5 px-2 r_50">{{ i.watched_count }}</span>
                     </li>

@@ -86,4 +86,5 @@ function toRoute(e, id) {
 // background: linear-gradient(to left, transparent, #f5f5f5 10%, transparent);
 // backdrop-filter: blur(10px);
 // pointer-events: none;
-// }</style>
+// }
+</style>

@@ -188,7 +188,7 @@ async function handleButton(type, lesson) {
 
 
 function isOwner() {
-    if (useCourses.store.courses?.course?.user_id == isLoading.user.id && isLoading.user?.current_role == 'admin') {
+    if (isLoading.user?.current_role == 'admin') {
         return true;
     }
     return false;

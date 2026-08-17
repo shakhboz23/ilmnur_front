@@ -15,6 +15,7 @@ export const useLessonsStore = defineStore("lessons", () => {
     lessons: {},
     all_lessons: {},
     courses: [],
+    group: {},
     modal: {
       create: false,
     },
@@ -85,6 +86,7 @@ export const useLessonsStore = defineStore("lessons", () => {
       `course/getByCourse/${router.currentRoute.value.params.group_id || group_id || 0}/${subcategory_id}`,
       "getByCourse"
     );
+    store.group = data.data?.group;
     store.courses = data.data?.courses?.map((item: any) => {
       return {...item, attendance_days: item?.attendance_days?.[0]?.attendance_day || []}
     });
