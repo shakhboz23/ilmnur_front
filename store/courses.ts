@@ -79,7 +79,7 @@ export const useCoursesStore = defineStore("courses", () => {
   async function getUsersByGroupId(form?: { group_id?: number, lesson_id?: number }): Promise<void> {
     if (router.currentRoute.value.params.group_id || form?.group_id) {
       const data: any = await apiRequest.get(
-        `course/getUsersByGroupId/${router.currentRoute.value.params.group_id || form?.group_id}?date=${useAttendance.store.currentDate}&course_id=${+router.currentRoute.value.params.course_id}&lesson_id=${form?.lesson_id || router.currentRoute.value.params.lesson_id}&page=${router.currentRoute.value.query.page}`,
+        `course/getUsersByGroupId/${router.currentRoute.value.params.group_id || form?.group_id}?date=${useAttendance.store.currentDate}&course_id=${+router.currentRoute.value.params.course_id || +(JSON.parse(String(router.currentRoute.value.query?.course_id) || '[]')?.[0])}&lesson_id=${form?.lesson_id || router.currentRoute.value.params.lesson_id}&page=${router.currentRoute.value.query.page}`,
         "course"
       );
       store.users = data.data;

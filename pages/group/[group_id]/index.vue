@@ -10,10 +10,10 @@
         </nav>
 
         <section v-if="!isLoading.isLoadingType('getByCourse')" class="mt-3">
-            <div class="bg_cf2 r_20 overflow-hidden" v-if="useLessons.store.group?.cover">
+            <!-- <div class="bg_cf2 r_20 overflow-hidden" v-if="useLessons.store.group?.cover">
                 <img loading="lazy" class="w-full aspect-[21/9] object-cover"
                     :src="useLessons.store.group?.cover" alt="">
-            </div>
+            </div> -->
 
             <div class="flex flex-wrap items-center justify-between gap-2 mt-3">
                 <h1 class="font-semibold text-[24px]">{{ useLessons.store.group?.title }}</h1>

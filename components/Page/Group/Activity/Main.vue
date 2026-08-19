@@ -1,30 +1,20 @@
 <template>
     <div class="w-full">
-        <!-- <nav class="w-full mb-4 space-y-3">
-            <CategorySlider
-                :category_id="useCourses.store.users?.user?.role == 'teacher' ? useCourses.store.users?.user?.course_id : null"
-                :all="false" :category="useLessons.store.courses" class="w-full" />
-            <div class="flex items-center gap-3 min-w-fit">
-                <button
-                    class="flex items-center justify-center h-[46px] w-[46px] rounded-[12px] bg_bg border border-transparent hover:border-gray-300 transition-all duration-200 active:scale-95">
-                    <img loading="lazy" src="@/assets/svg/members/filter.svg" alt="filter" class="w-5 h-5" />
-                </button>
-                <button @click="isLoading.modal.create = true"
-                    class="h-[46px] px-14 rounded-[12px] text-sm font-semibold leading-4 bg_main text-white shadow-sm hover:shadow-md hover:brightness-105 active:scale-[0.98] transition-all duration-200">
-                    Show result
-                </button>
+        <nav v-if="!group_id" class="w-full mb-4">
+            <div class="flex items-center gap-2 overflow-x-auto pb-1">
+                <CategorySlider :multiple="false" :all="false" queryKey="course_id" :category="useLessons.store.courses" class="w-full" />
             </div>
-        </nav> -->
+        </nav>
 
         <section class="space-y-4">
-            <a-date-picker :disabled="props.start_date" v-model:value="useAttendance.store.currentDate" format="DD/MM/YYYY"
-                :disabled-date="disabledDate"
+            <a-date-picker :disabled="props.start_date" v-model:value="useAttendance.store.currentDate"
+                format="DD/MM/YYYY" :disabled-date="disabledDate"
                 class="!rounded-[10px] !h-[42px] !border-gray-200 hover:!border-gray-300" />
 
             <div class="relative overflow-x-auto rounded-2xl">
                 <table class="w-full text-sm text-left rtl:text-right border-separate border-spacing-y-3">
                     <tbody>
-                        <tr v-for="(i, index) in useCourses.store.users?.[0]?.subscriptions" :key="i?.id"
+                        <tr v-for="(i, index) in selectedCourseUsers" :key="i?.id"
                             class="bg_bg group hover:shadow-md rounded-2xl hover:-translate-y-[1px] transition-all duration-200">
                             <th scope="row" class="p-4 rounded-l-2xl">
                                 <div class="flex items-center gap-4">
@@ -118,10 +108,6 @@ import { useLoadingStore, useAttendanceStore, useLessonsStore, useCoursesStore }
 import dayjs from 'dayjs';
 
 const props = defineProps({
-    lesson_id: {
-        type: Number,
-        default: 0,
-    },
     group_id: {
         type: Number,
         default: 0,
@@ -138,7 +124,7 @@ const useAttendance = useAttendanceStore();
 const useLessons = useLessonsStore();
 const useCourses = useCoursesStore();
 useAttendance.store.currentDate = props.start_date ? dayjs(props.start_date) : dayjs(new Date());
-useCourses.getUsersByGroupId({ group_id: props.group_id, lesson_id: props.lesson_id });
+useCourses.getUsersByGroupId({ group_id: props.group_id, course_id: props.course_id });
 
 const store = reactive({
     is_show: false,
@@ -157,6 +143,18 @@ const ball_options = {
     excellent: ["A'lo", "bg_main"],
     none: ["Yo'q", "bg-[#919191]"],
 }
+
+const selectedCourseIndex = computed(() => {
+    try {
+        if (!isLoading.store.category_id) return 0;
+        const idx = useCourses.store.users?.findIndex((course) => course.id == isLoading.store.category_id);
+        return idx >= 0 ? idx : 0;
+    } catch (error) {
+
+    }
+});
+
+const selectedCourseUsers = computed(() => useCourses.store.users?.[selectedCourseIndex.value]?.subscriptions || []);
 
 function handleModal(value) {
     if (value == "OK") {
@@ -203,8 +201,8 @@ function activeChartLine(type) {
 }
 
 function setAttendanceStatus(attendance, role, user_id, index) {
-    useCourses.store.users[0].subscriptions[index].user.attendance = [{ attendance }];
-    useAttendance.postAttendance({ attendance, role, user_id, lesson_id: props.lesson_id, date: useAttendance.store.currentDate });
+    useCourses.store.users[selectedCourseIndex.value].subscriptions[index].user.attendance = [{ attendance }];
+    useAttendance.postAttendance({ attendance, role, user_id, course_id: +(JSON.parse(String(router.currentRoute.value.query?.course_id) || '[]')?.[0]), date: useAttendance.store.currentDate });
 }
 
 const disabledDate = (current) => {
@@ -212,22 +210,29 @@ const disabledDate = (current) => {
 };
 
 watch(() => useAttendance.store.currentDate, async () => {
-    await useCourses.getUsersByGroupId({ group_id: props.group_id, lesson_id: props.lesson_id });
-    for (let i in useCourses.store.users?.[0]?.subscriptions) {
-        const attendance = useCourses.store.users?.[0]?.subscriptions[i]?.user?.attendance?.[0]?.attendance;
+    await useCourses.getUsersByGroupId({ group_id: props.group_id, course_id: props.course_id });
+    const courseIndex = selectedCourseIndex.value;
+    for (let i in useCourses.store.users?.[courseIndex]?.subscriptions) {
+        const attendance = useCourses.store.users?.[courseIndex]?.subscriptions[i]?.user?.attendance?.[0]?.attendance;
         if (attendance !== undefined) {
-            useCourses.store.users[0].subscriptions[i].user.attendance = [{ attendance }];
+            useCourses.store.users[courseIndex].subscriptions[i].user.attendance = [{ attendance }];
         }
     }
 })
 
 watch(() => isLoading.store.category_id, () => {
-    useCourses.getUsersByGroupId({ group_id: props.group_id, lesson_id: props.lesson_id });
+    useCourses.getUsersByGroupId({ group_id: props.group_id, course_id: props.course_id });
 })
 
 watch(() => router.currentRoute.value.query.page, () => {
     if (router.currentRoute.value.query.page == 'activity') {
-        useCourses.getUsersByGroupId({ group_id: props.group_id, lesson_id: props.lesson_id });
+        useCourses.getUsersByGroupId({ group_id: props.group_id, course_id: props.course_id });
+    }
+})
+
+watch(() => router.currentRoute.value.query.course_id, () => {
+    if (router.currentRoute.value.query.page == 'activity') {
+        useCourses.getUsersByGroupId({ group_id: props.group_id, course_id: props.course_id });
     }
 })
 </script>
