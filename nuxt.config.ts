@@ -66,11 +66,11 @@ export default defineNuxtConfig({
         },
         {
           property: "og:image",
-          content: "https://ashacademy.uz/logo.png",
+          content: "https://ashacademy.uz/academic_success_hub.png",
         },
         {
           property: "og:image:secure_url",
-          content: "https://ashacademy.uz/logo.png",
+          content: "https://ashacademy.uz/academic_success_hub.png",
         },
         {
           property: "og:image:type",
@@ -86,7 +86,7 @@ export default defineNuxtConfig({
         },
         {
           property: "og:image:alt",
-          content: "ASH Academy — Academic Success Hub logotipi",
+          content: "ASH Academy — Academic Success Hub",
         },
         // Twitter Card
         {
@@ -104,7 +104,7 @@ export default defineNuxtConfig({
         },
         {
           name: "twitter:image",
-          content: "https://ashacademy.uz/logo.png",
+          content: "https://ashacademy.uz/academic_success_hub.png",
         },
       ],
       link: [
