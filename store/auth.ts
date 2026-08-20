@@ -6,7 +6,7 @@ import { useNotification } from "~/composables";
 export const useAuthStore = defineStore("auth", () => {
   const apiRequest: any = useApiRequest();
   const { openNotification } = useNotification();
-  const store = reactive({
+  const store: any = reactive({
     passType: "password",
     is_matched: false,
     step: 0,
