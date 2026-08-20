@@ -48,17 +48,37 @@
                         {{ user.is_active }}
                     </td>
                     <td class="px-6 py-4">
-                        {{ user.current_role }}
+                        <select v-model="user.current_role"
+                            @change="useAuth.updateUserRole(user.id, user.current_role)"
+                            class="bg-neutral-secondary-medium border border-default-medium text-body text-sm rounded-xs focus:ring-2 focus:ring-brand-soft block p-2">
+                            <option value="student">Student</option>
+                            <option value="teacher">Teacher</option>
+                            <option value="parent">Parent</option>
+                            <option value="admin">Admin</option>
+                        </select>
                     </td>
                     <td class="px-6 py-4">
                         {{ formatDate(user.createdAt) }}
                     </td>
                     <td class="px-6 py-4">
-                        <a href="#" class="font-medium text-fg-brand hover:underline">Foydalanuvchini tahrirlash</a>
+                        <a href="#" @click.prevent="openEditModal(user)"
+                            class="font-medium text-fg-brand hover:underline">Foydalanuvchini tahrirlash</a>
                     </td>
                 </tr>
             </tbody>
         </table>
+
+        <UIModal :isOpen="isLoading.modal.edit" :loadingType="'updateUser'" :title="'Foydalanuvchini tahrirlash'"
+            @update:isOpen="(value) => handleModal(value)">
+            <div class="space-y-4">
+                <FloatingInput :id="'edit_name'" class="w-full" :type="'text'" v-model="useAuth.editUser.name"
+                    :label="'Ism'" required />
+                <FloatingInput :id="'edit_surname'" class="w-full" :type="'text'" v-model="useAuth.editUser.surname"
+                    :label="'Familiya'" required />
+                <FloatingInput :id="'edit_bio'" class="w-full" :type="'text'" v-model="useAuth.editUser.bio"
+                    :label="'Bio'" />
+            </div>
+        </UIModal>
     </div>
 </template>
 
@@ -69,6 +89,22 @@ const useAuth = useAuthStore();
 const isLoading = useLoadingStore();
 
 useAuth.getUsers();
+
+function openEditModal(user) {
+    useAuth.editUser.id = user.id;
+    useAuth.editUser.name = user.name;
+    useAuth.editUser.surname = user.surname;
+    useAuth.editUser.bio = user.bio;
+    isLoading.modal.edit = true;
+}
+
+function handleModal(value) {
+    if (value == 'OK') {
+        useAuth.updateUser();
+    } else {
+        isLoading.modal.edit = false;
+    }
+}
 </script>
 
 <style scoped lang="scss"></style>

@@ -76,6 +76,13 @@ export const useAuthStore = defineStore("auth", () => {
     role: "",
   });
 
+  const editUser: any = reactive({
+    id: "",
+    name: "",
+    surname: "",
+    bio: "",
+  });
+
   function changePassType() {
     store.passType = store.passType == 'password' ? 'text' : 'password';
   }
@@ -356,6 +363,47 @@ export const useAuthStore = defineStore("auth", () => {
       });
   }
 
+  function updateUser() {
+    apiRequest
+      .put(`user/profile/${editUser.id}`, {
+        name: editUser.name,
+        surname: editUser.surname,
+        bio: editUser.bio,
+      }, 'updateUser')
+      .then((res: any) => {
+        if (res.data.statusCode == 200) {
+          const target = store.users?.records?.find((i: any) => i.id == editUser.id);
+          if (target) {
+            target.name = res.data?.data?.name;
+            target.surname = res.data?.data?.surname;
+            target.bio = res.data?.data?.bio;
+          }
+          isLoading.modal.edit = false;
+          openNotification('success', "Muvaffaqiyatli", "Foydalanuvchi yangilandi")
+        }
+      })
+      .catch((err: any) => {
+        console.log(err);
+      });
+  }
+
+  function updateUserRole(id: number, current_role: string) {
+    apiRequest
+      .put(`user/current-role/${id}`, { current_role })
+      .then((res: any) => {
+        if (res.data.statusCode == 200) {
+          const target = store.users?.records?.find((i: any) => i.id == id);
+          if (target) {
+            target.current_role = res.data?.data?.current_role;
+          }
+          openNotification('success', "Muvaffaqiyatli", "Rol o'zgartirildi")
+        }
+      })
+      .catch((err: any) => {
+        console.log(err);
+      });
+  }
+
   function updateProfile() {
     const formData = new FormData();
     for (let i in profile) {
@@ -395,6 +443,9 @@ export const useAuthStore = defineStore("auth", () => {
     authLogin,
     searchUser,
     getUsers,
+    updateUserRole,
+    editUser,
+    updateUser,
     authRegister,
     authActivateLink,
     forgotPassword,
