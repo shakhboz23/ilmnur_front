@@ -93,6 +93,7 @@ export const useAuthStore = defineStore("auth", () => {
       apiRequest
         .post(`user/telegram_info`, tg.initData)
         .then((res: any): void => {
+
           isLoading.store.middleware = false;
           isLoading.store.isLogin = true;
 
@@ -110,9 +111,9 @@ export const useAuthStore = defineStore("auth", () => {
         })
       return;
     }
-    if (is_check == 'login') {
-      if (isLoading.user.name) return;
-    }
+    // if (is_check == 'login') {
+    //   if (isLoading.user.name) return;
+    // }
     isLoading.addLoading("getUserFullInfo");
     if (!isLoading.user?.name)
       apiRequest
@@ -178,8 +179,19 @@ export const useAuthStore = defineStore("auth", () => {
         }
         isLoading.store.error = '';
         localStorage.setItem("token", res.data?.token);
-        getUserFullInfo('login');
+        // getUserFullInfo('login');
         if (res.data.statusCode == 200) {
+
+          isLoading.store.middleware = false;
+          isLoading.store.isLogin = true;
+
+          isLoading.user = res.data?.user;
+          localStorage.setItem('token', res.data?.token);
+          for (let i in res.data?.user) {
+            profile[i] = res.data?.user[i];
+          }
+          isLoading.removeLoading("getUserFullInfo");
+
           router.push("/");
         }
       })
