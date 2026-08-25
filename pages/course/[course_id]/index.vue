@@ -284,6 +284,7 @@
                     <table class="w-full min-w-[900px]">
                         <thead>
                             <tr class="whitespace-nowrap">
+                                <th class="text-left p-2">N</th>
                                 <th class="text-left p-2">O'quvchi</th>
                                 <th v-if="useCourses.store.courses?.course?.subgroups?.length" class="text-left p-2">
                                     Guruh
@@ -300,8 +301,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="item in useCourses.store.courses?.course?.subscriptions" :key="item.id"
+                            <tr v-for="(item, index) in useCourses.store.courses?.course?.subscriptions" :key="item.id"
                                 class="group">
+                                <td class="p-2 whitespace-nowrap">{{ index+1 }}</td>
                                 <td class="p-2 whitespace-nowrap">
                                     <div class="flex items-center gap-2">
                                         <UIAvatar :src="item.user?.image" class="max-w-7 max-h-7" />
@@ -319,7 +321,7 @@
                                 <td class="p-2 whitespace-nowrap">{{ item.user?.phone }}</td>
                                 <td class="p-2 whitespace-nowrap">{{ item.user?.payments?.[0]?.monthly_payment }}</td>
                                 <td class="p-2 whitespace-nowrap">{{ item.user?.payments?.[0]?.amount }}</td>
-                                <td class="p-2 whitespace-nowrap">{{ item.user?.payments?.[0]?.debt }}</td>
+                                <td class="p-2 whitespace-nowrap">{{ totalDebt(item) }}</td>
                                 <td class="p-2 whitespace-nowrap">{{
                                     formatDateToYYYYMMDD(item.user?.payments?.[0]?.due_date) }}
                                 </td>
@@ -330,13 +332,13 @@
                                     <div class="flex items-center gap-2">
                                         <button v-if="isLoading.user?.current_role == 'admin'"
                                             @click="openPaymentModal(item)" class="b_main p-2 r_8 min-w-5">
-                                            <img class="w-5" loading="lazy" src="@/assets/svg/course/editpen.svg"
+                                            <img class="min-w-5" loading="lazy" src="@/assets/svg/course/editpen.svg"
                                                 alt="">
                                         </button>
                                         <button v-if="isLoading.user?.current_role == 'admin'"
                                             @click="store.member_id = item.user.id; store.deleteMemberModal = true"
                                             class="b_red p-2 r_8 min-w-5">
-                                            <img class="w-5" loading="lazy" src="@/assets/svg/icon/delete.svg" alt="">
+                                            <img class="min-w-5" loading="lazy" src="@/assets/svg/icon/delete.svg" alt="">
                                         </button>
                                     </div>
                                 </td>
@@ -398,7 +400,7 @@
                     <label for="member">O'quvchi</label>
                     <a-select id="member" class="w-full" v-model:value="store.member_id"
                         placeholder="O'quvchini tanlang">
-                        <a-select-option v-for="user in useAuth.store.users?.records" :key="user" :value="user.id">
+                        <a-select-option v-for="user in availableUsers" :key="user" :value="user.id">
                             <div class="flex items-center gap-2">
                                 <span>{{ user.name }} {{ user.surname }}</span>
                             </div>
@@ -472,6 +474,14 @@ const store = reactive({
     start_date: null,
 })
 
+// A student accrues one Payment row per unpaid month (see
+// generateDuePayments on the backend), so their real remaining debt is the
+// sum of every row's debt, not just the most recent month's.
+function totalDebt(item) {
+    const payments = item.user?.payments || [];
+    return payments.reduce((sum, payment) => sum + Number(payment?.debt || 0), 0);
+}
+
 const memberStats = computed(() => {
     const subscriptions = useCourses.store.courses?.course?.subscriptions || [];
     let collected = 0;
@@ -481,10 +491,19 @@ const memberStats = computed(() => {
         const payment = item.user?.payments?.[0];
         if (!payment) continue;
         collected += Number(payment.amount || 0);
-        debt += Number(payment.debt || 0);
-        if (payment.status == 'success') paidFull++;
+        const remaining = totalDebt(item);
+        debt += remaining;
+        if (remaining <= 0) paidFull++;
     }
     return { total: subscriptions.length, collected, debt, paidFull };
+})
+
+const availableUsers = computed(() => {
+    const users = useAuth.store.users?.records || [];
+    const subscribedIds = new Set(
+        (useCourses.store.courses?.course?.subscriptions || []).map((item) => item.user?.id)
+    );
+    return users.filter((user) => !subscribedIds.has(user.id));
 })
 
 const dayLabels = { Mon: "Du", Tue: "Se", Wed: "Ch", Thu: "Pa", Fri: "Ju", Sat: "Sh", Sun: "Ya" };
