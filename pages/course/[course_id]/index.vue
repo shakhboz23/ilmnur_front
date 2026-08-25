@@ -75,7 +75,7 @@
                         <h1 class="font-semibold text-[24px]">{{ useCourses.store.courses?.course?.title }}
                         </h1>
                         <div v-if="!isOwner()">
-                            <div v-if="useCourses.store.courses?.course?.is_subscribed">
+                            <!-- <div v-if="useCourses.store.courses?.course?.is_subscribed">
                                 <a-dropdown>
                                     <a-button :loading="isLoading.isLoadingType('subscribe')"
                                         class="bg_main rounded-full text-white px-4 py-1 text-sm">Obuna</a-button>
@@ -87,14 +87,11 @@
                                         </a-menu>
                                     </template>
                                 </a-dropdown>
-                            </div>
-                            <!-- <a-button @click="createCheckout"
-                        :loading="isLoading.isLoadingType('checkout') || isLoading.isLoadingType('getByCourse')"
-                        class="b_main rounded-full h-10 px-5 c_main">Kursga qo'shilish</a-button> -->
-                            <a-button v-else @click="createCheckout"
+                            </div> -->
+                            <!-- <a-button v-else @click="createCheckout"
                                 :loading="isLoading.isLoadingType('checkout') || isLoading.isLoadingType('getByCourse')"
                                 class="b_main c_main rounded-full px-4 py-1 text-sm">Obuna
-                                bo'lish</a-button>
+                                bo'lish</a-button> -->
                         </div>
                     </div>
                     <a-dropdown>
@@ -150,7 +147,7 @@
             </div>
         </section>
 
-        <div v-if="!['completed'].includes(useCourses.store.courses?.course?.payment?.status) && !isOwner()"
+        <!-- <div v-if="!['completed'].includes(useCourses.store.courses?.course?.payment?.status) && !isOwner()"
             class="sticky sm:bottom-3 bottom-20 my-3 w-full bg_cf2 r_20 p-3">
             <ul class="flex items-center justify-between">
                 <li>Kurs narxi</li>
@@ -165,7 +162,7 @@
                         class="b_main rounded-full h-10 px-5 c_main">Kursga qo'shilish</a-button>
                 </li>
             </ul>
-        </div>
+        </div> -->
 
         <!-- modal -->
         <UIModal v-if="['lesson', 'test'].includes(isLoading.store.modalType)" :isOpen="isLoading.modal.create"
