@@ -1,7 +1,7 @@
 <template>
     <div class="w-full">
         <nav class="w-full space-y-2">
-            <CategorySlider :category="useLessons.store.courses" class="w-full" />
+            <CategorySlider :category="useLessons.store.courses" :queryKey="'course_id'" class="w-full" />
             <div class="flex gap-3 min-w-fit">
                 <div class="flex items-center bg_bg h-[46px] w-[46px] rounded-[10px]">
                     <button class="flex items-center justify-center h-[46px] w-[46px] rounded-[10px]">
@@ -184,6 +184,8 @@ const useAuth = useAuthStore();
 const useLessons = useLessonsStore();
 const useCourses = useCoursesStore();
 const useSubscription = useSubscriptionStore();
+
+const router = useRouter();
 useCourses.getUsersByGroupId();
 const store = reactive({})
 
@@ -235,7 +237,7 @@ function handleCourseId(course) {
     useSubscription.store.course_ids.push(course);
 }
 
-watch(() => isLoading.store.category_id, () => {
+watch(() => router.currentRoute.value.query.course_id, () => {
     useCourses.getUsersByGroupId();
 })
 </script>

@@ -67,7 +67,7 @@ const selectedCategoryIds = computed(() => {
     if (typeof value !== 'string') return [];
 
     try {
-        const ids = JSON.parse(value);
+        const ids = JSON.parse(value || "[]");
         return Array.isArray(ids) ? ids : [];
     } catch {
         return [];

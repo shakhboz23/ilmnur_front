@@ -11,7 +11,7 @@
                 format="DD/MM/YYYY" :disabled-date="disabledDate"
                 class="!rounded-[10px] !h-[42px] !border-gray-200 hover:!border-gray-300" />
 
-            <div class="relative overflow-x-auto rounded-2xl">
+            <div v-if="router.currentRoute.value.query.course_id" class="relative overflow-x-auto rounded-2xl">
                 <table class="w-full text-sm text-left rtl:text-right border-separate border-spacing-y-3">
                     <tbody>
                         <tr v-for="(i, index) in selectedCourseUsers" :key="i?.id"
@@ -202,7 +202,7 @@ function activeChartLine(type) {
 
 function setAttendanceStatus(attendance, role, user_id, index) {
     useCourses.store.users[selectedCourseIndex.value].subscriptions[index].user.attendance = [{ attendance }];
-    useAttendance.postAttendance({ attendance, role, user_id, course_id: +(JSON.parse(String(router.currentRoute.value.query?.course_id) || '[]')?.[0]), date: useAttendance.store.currentDate });
+    useAttendance.postAttendance({ attendance, role, user_id, course_id: +(JSON.parse(String(router.currentRoute.value.query?.course_id || []) || '[]')?.[0]), date: useAttendance.store.currentDate });
 }
 
 const disabledDate = (current) => {
