@@ -164,6 +164,10 @@ export const useTestsStore = defineStore("tests", () => {
     setTimeout(() => {
       store.slideStep = Object.keys(test)?.length + 1
     }, 1000);
+    
+    if (test_settings.test_type == 'pdf_file') {
+      router.push('/');
+    }
   }
 
   function deleteTest() {
