@@ -1,10 +1,8 @@
 import type { Router } from "vue-router";
 import { useApiRequest } from "~/composables";
-import { useLoadingStore } from "./loading";
 
 export const useReytingStore = defineStore("reyting", () => {
   const apiRequest = useApiRequest();
-  const isLoading = useLoadingStore();
   const router: Router = useRouter();
 
   const store: any = reactive({
@@ -12,11 +10,11 @@ export const useReytingStore = defineStore("reyting", () => {
   });
 
   async function getReyting() {
+    const course_id = +(JSON.parse(String(router.currentRoute.value.query?.course_id || []))?.[0] || 0);
     const data: any = await apiRequest.get(
-      `user/reyting/${router.currentRoute.value.params.group_id || 0}/${isLoading.store.category_id}`,
+      `user/reyting/${router.currentRoute.value.params.group_id || 0}/${course_id}`,
       "getReyting"
     );
-    console.log(data, "skslaskl");
     store.reytings = data.data;
   }
 

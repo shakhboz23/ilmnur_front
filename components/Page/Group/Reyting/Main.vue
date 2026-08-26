@@ -7,8 +7,8 @@
                 yangi o'rinni egallashga harakat qiling</p>
         </section>
         <section :class="type != 'navreyting' ? 'mt-10' : ''">
-            <CategorySlider v-if="type != 'lesson' && type != 'navreyting'" :category="useLessons.store.courses"
-                class="mb-5" />
+            <CategorySlider v-if="type != 'lesson' && type != 'navreyting'" :multiple="false" queryKey="course_id"
+                :category="useLessons.store.courses" class="mb-5" />
             <hr />
             <div v-if="isLoading.isLoadingType('getReyting')">
                 <LoadingDiv v-for="i in 10" class="h-16 w-full my-2" />
@@ -74,7 +74,7 @@ onBeforeMount(() => {
     }
 })
 
-watch(() => router.currentRoute.value.query.category, () => {
+watch(() => router.currentRoute.value.query.course_id, () => {
     if (router.currentRoute.value.query.page == 'reyting') {
         useReyting.getReyting();
     }

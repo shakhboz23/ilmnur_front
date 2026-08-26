@@ -17,8 +17,8 @@
             </div>
         </section>
         <!-- modal -->
-        <UIModal v-if="!$route.query?.tab" :isOpen="isLoading.modal.create" :title="'Kurs qo\'shish'" :loadingType="'createCourse'"
-            @update:isOpen="(value) => handleModal(value)">
+        <UIModal v-if="!$route.query?.tab" :isOpen="isLoading.modal.create" :title="'Kurs qo\'shish'"
+            :loadingType="'createCourse'" @update:isOpen="(value) => handleModal(value)">
             <ModalCreateCourse />
         </UIModal>
         <UIDeleteModal :isOpen="isLoading.modal.delete" :loadingType="'deletegroup'"
@@ -62,7 +62,9 @@ watch(() => router.currentRoute.value.query.category, () => {
 })
 
 watch(() => router.currentRoute.value.query.subcategory_id, () => {
-    useLessons.getByCourse();
+    if (!router.currentRoute.value.query.page) {
+        useLessons.getByCourse();
+    }
 })
 </script>
 
