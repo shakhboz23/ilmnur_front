@@ -499,3 +499,7 @@ img {
   margin-left: calc(100% - 24px) !important;
   margin-bottom: 16px !important;
 }
+
+.ant-select-selection-search {
+  z-index: 100 !important;
+}

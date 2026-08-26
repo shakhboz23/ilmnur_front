@@ -168,8 +168,15 @@ export default defineNuxtConfig({
 
   css: [
     "~/assets/scss/main.scss",
+    "katex/dist/katex.min.css",
     // "vue-plyr/dist/vue-plyr.css",
   ],
+
+  vue: {
+    compilerOptions: {
+      isCustomElement: (tag) => tag === "math-field",
+    },
+  },
 
   modules: ["@pinia/nuxt", "@nuxtjs/tailwindcss", "nuxt-swiper"],
 

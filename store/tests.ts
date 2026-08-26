@@ -127,9 +127,9 @@ export const useTestsStore = defineStore("tests", () => {
       return checkAllAnswers();
     }
     console.log(store.true_answers);
-    console.log(store.true_answers[step]);
+    console.log('DEBUG true_answers[step] before wrap:', JSON.stringify(store.true_answers[step]), typeof store.true_answers[step]);
     store.true_answers[step] = Array.isArray(store.true_answers[step]) ? store.true_answers[step] : [store.true_answers[step]];
-    console.log(store.true_answers[step]);
+    console.log('DEBUG true_answers[step] after wrap:', JSON.stringify(store.true_answers[step]));
 
     const data: any = await apiRequest.post(
       `tests/check/${id}`,
@@ -140,7 +140,7 @@ export const useTestsStore = defineStore("tests", () => {
     store.checked_answers[step] = data.data[1];
     store.checked_true_answers = data.data[2];
 
-    router.push('/');
+    // router.push('/');
   }
   function checkAnswerList(list: boolean[]): boolean {
     return list?.every(item => item === true);
@@ -166,7 +166,7 @@ export const useTestsStore = defineStore("tests", () => {
     }, 1000);
     
     if (test_settings.test_type == 'pdf_file') {
-      router.push('/');
+      // router.push('/');
     }
   }
 

@@ -1,6 +1,11 @@
 <template>
     <div v-if="editor">
         <div v-if="editable" class="control-group">
+            <div class="button-group">
+                <button type="button" class="math-toggle-btn" @click="openFormulaModal">
+                    ∑ Formula
+                </button>
+            </div>
             <div v-if="toolbar" class="button-group">
                 <button @click="addImage">
                     Rasm qo'yish
@@ -93,6 +98,8 @@
             </div>
         </bubble-menu>
         <editor-content :editor="editor" v-model="tableHTML" />
+        <MathEditorModal :visible="mathModal.visible" v-model="mathModal.latex" @confirm="confirmMath"
+            @cancel="cancelMath" />
     </div>
 </template>
 
@@ -115,6 +122,8 @@ import Image from '@tiptap/extension-image'
 import Placeholder from '@tiptap/extension-placeholder'
 import ListItem from '@tiptap/extension-list-item'
 import OrderedList from '@tiptap/extension-ordered-list'
+import { MathInline } from './MathExtension'
+import MathEditorModal from './MathEditorModal.vue'
 
 import css from 'highlight.js/lib/languages/css'
 import js from 'highlight.js/lib/languages/javascript'
@@ -191,6 +200,7 @@ export default {
     components: {
         EditorContent,
         BubbleMenu,
+        MathEditorModal,
     },
     props: {
         modelValue: {
@@ -217,6 +227,11 @@ export default {
             editor: null,
             tableHTML: ``,
             useCategory: null,
+            mathModal: {
+                visible: false,
+                latex: '',
+                resolve: null,
+            },
         }
     },
 
@@ -227,6 +242,24 @@ export default {
             if (url) {
                 this.editor.chain().focus().setImage({ src: url }).run()
             }
+        },
+        openFormulaModal() {
+            this.mathModal.latex = ''
+            this.mathModal.resolve = (latex) => {
+                if (latex) {
+                    this.editor.chain().focus().insertContent({ type: 'mathInline', attrs: { latex } }).run()
+                }
+            }
+            this.mathModal.visible = true
+        },
+        confirmMath(latex) {
+            if (this.mathModal.resolve) {
+                this.mathModal.resolve(latex)
+            }
+            this.mathModal.visible = false
+        },
+        cancelMath() {
+            this.mathModal.visible = false
         },
     },
 
@@ -322,11 +355,20 @@ export default {
                     //   return 'Can you add some further context?'
                     // },
                 }),
+                MathInline.configure({
+                    onEdit: (latex, applyFn) => {
+                        this.mathModal.latex = latex
+                        this.mathModal.resolve = applyFn
+                        this.mathModal.visible = true
+                    },
+                }),
             ],
             content: this.modelValue,
             onUpdate: () => {
                 // HTML
-                this.$emit('update:modelValue', this.editor.getHTML())
+                const html = this.editor.getHTML()
+                console.log('DEBUG TiptapEditor getHTML length:', html.length, JSON.stringify(html.slice(0, 80)))
+                this.$emit('update:modelValue', html)
 
                 // JSON
                 // this.$emit('update:modelValue', this.editor.getJSON())
@@ -638,6 +680,21 @@ export default {
   float: left;
   height: 0;
   pointer-events: none;
+}
+
+.math-toggle-btn {
+    background: #f5f5f7;
+    border: 1px solid #e2e2e6;
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 13px;
+    cursor: pointer;
+    margin-bottom: 6px;
+
+    &:hover {
+        background: #ececf0;
+        border-color: #ccc;
+    }
 }
 
 /* Bubble menu */
