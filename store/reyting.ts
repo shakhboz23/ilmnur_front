@@ -10,7 +10,7 @@ export const useReytingStore = defineStore("reyting", () => {
   });
 
   async function getReyting() {
-    const course_id = +(JSON.parse(String(router.currentRoute.value.query?.course_id || []))?.[0] || 0);
+    const course_id = +(JSON.parse(String(router.currentRoute.value.query?.course_id || []) || "[]")?.[0] || 0);
     const data: any = await apiRequest.get(
       `user/reyting/${router.currentRoute.value.params.group_id || 0}/${course_id}`,
       "getReyting"
