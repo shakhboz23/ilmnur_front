@@ -62,4 +62,11 @@ export const group_tabs = [
     component: "PageGroupSettingsMain",
     role: [],
   },
+  {
+    id: 10,
+    name: "Vazifalar",
+    url: "vazifalar",
+    component: "PageGroupVazifalarMain",
+    role: [],
+  },
 ];

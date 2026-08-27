@@ -38,6 +38,7 @@ const PageGroupCalendarMain = resolveComponent('PageGroupCalendarMain');
 const PageGroupSettingsMain = resolveComponent('PageGroupSettingsMain');
 const PageGroupActivityMain = resolveComponent('PageGroupActivityMain');
 const PageGroupAboutMain = resolveComponent('PageGroupAboutMain');
+const PageGroupVazifalarMain = resolveComponent('PageGroupVazifalarMain');
 let t = 1;
 for (let i of group_tabs) {
     if (i.url == router.currentRoute.value.query.page) {
@@ -57,6 +58,7 @@ const tabsComponents = {
     PageGroupSettingsMain,
     PageGroupAboutMain,
     PageGroupActivityMain,
+    PageGroupVazifalarMain,
 }
 const getComponent = (component) => {
     // if (activeKey.value == component.id) {

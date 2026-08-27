@@ -166,7 +166,7 @@ export const useTestsStore = defineStore("tests", () => {
     }, 1000);
     
     if (test_settings.test_type == 'pdf_file') {
-      // router.push('/');
+      router.push('/');
     }
   }
 
