@@ -23,7 +23,7 @@
                             <img v-if="!i.content && i.type == 'lesson'" loading="lazy" class="h-7"
                                 src="@/assets/svg/course/question.svg" alt="">
                             <p v-if="i.type == 'lesson'" class="min-w-fit">{{ formatDurationFromSeconds(i.duration || 0)
-                                }}</p>
+                            }}</p>
                             <p v-else class="min-w-fit">{{ calculateTotalDuration(index) }}</p>
                             <div class="flex gap-5 min-w-fit">
                                 <img v-if="i.type != 'module'" class="h-7 statistics" loading="lazy"
@@ -94,7 +94,7 @@
         </UIModal>
 
         <UIModal :title="''" v-if="isLoading.modal.draft" :isOpen="isLoading.modal.draft" :loadingType="'creategroup'"
-            @update:isOpen="() => isLoading.modal.draft = false" :showActions="false" >
+            @update:isOpen="() => isLoading.modal.draft = false" :showActions="false">
             <div class="space-y-6">
                 <div class="rounded-2xl bg_bg p-4">
                     <div class="space-y-2">
@@ -153,14 +153,10 @@ function handleClick(e, lesson) {
     if (lesson.type == 'module') {
         store.active_id = store.active_id == lesson.id ? 0 : lesson.id
     } else {
-        if (useCourses.store.courses?.course?.payment?.status == 'completed' || isOwner()) {
-            if (!lesson.content) {
-                router.push(`/test/${lesson.id}`)
-            } else {
-                router.push(`/lesson/${lesson.id}`)
-            }
+        if (!lesson.content) {
+            router.push(`/test/${lesson.id}`)
         } else {
-            openNotification('warning', "Kurslarga obuna bo'lmagansiz", "Kursga qo'shilish tugmasini bosing")
+            router.push(`/lesson/${lesson.id}`)
         }
     }
 }

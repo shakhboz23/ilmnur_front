@@ -191,7 +191,7 @@ export const useTestsStore = defineStore("tests", () => {
     let tests: any = []
     for (let i = 0; i < store.questions_count; i++) {
       try {
-        tests.push({ ...test[i], is_action: store.deletedTestList.includes(i + 1) ? "deleted" : test[i].is_action, true_answer: test.true_answer?.length ? test.true_answer : [0] });
+        tests.push({ ...test[i], is_action: store.deletedTestList.includes(i + 1) ? "deleted" : test[i].is_action, true_answer: test[i].true_answer?.length ? test[i].true_answer : [0] });
       } catch (err) {
         console.log(err);
       }
