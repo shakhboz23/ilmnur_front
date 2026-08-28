@@ -2,19 +2,28 @@
     <div class="w-full">
         <nav v-if="!group_id" class="w-full mb-4">
             <div class="flex items-center gap-2 overflow-x-auto pb-1">
-                <CategorySlider :multiple="false" :all="false" queryKey="course_id" :category="useLessons.store.courses" class="w-full" />
+                <CategorySlider :multiple="false" :all="false" queryKey="course_id" :category="useLessons.store.courses"
+                    class="w-full" />
             </div>
         </nav>
 
         <section class="space-y-4">
-            <a-date-picker :disabled="props.start_date" v-model:value="useAttendance.store.currentDate"
-                format="DD/MM/YYYY" :disabled-date="disabledDate"
-                class="!rounded-[10px] !h-[42px] !border-gray-200 hover:!border-gray-300" />
+            <div class="flex flex-wrap items-center gap-2">
+                <a-select v-if="selectedCourseSubgroups.length" v-model:value="store.subgroup_id" @change="useAttendance.store.currentDate = ''" allow-clear
+                    placeholder="Guruhni tanlang" class="!min-w-[200px] !h-[42px]">
+                    <a-select-option v-for="g in selectedCourseSubgroups" :key="g.id" :value="g.id">
+                        {{ g.name }} ({{ g.schedules?.[0]?.attendance_day?.join(', ') }})
+                    </a-select-option>
+                </a-select>
+                <a-date-picker :disabled="props.start_date" v-model:value="useAttendance.store.currentDate"
+                    format="DD/MM/YYYY" :disabled-date="disabledDate"
+                    class="!rounded-[10px] !h-[42px] !border-gray-200 mt-4 hover:!border-gray-300" />
+            </div>
 
-            <div v-if="router.currentRoute.value.query.course_id" class="relative overflow-x-auto rounded-2xl">
+            <div v-if="router.currentRoute.value.query.course_id && useAttendance.store.currentDate" class="relative overflow-x-auto rounded-2xl">
                 <table class="w-full text-sm text-left rtl:text-right border-separate border-spacing-y-3">
                     <tbody>
-                        <tr v-for="(i, index) in selectedCourseUsers" :key="i?.id"
+                        <tr v-for="i in selectedCourseUsers" :key="i?.id"
                             class="bg_bg group hover:shadow-md rounded-2xl hover:-translate-y-[1px] transition-all duration-200">
                             <th scope="row" class="p-4 rounded-l-2xl">
                                 <div class="flex items-center gap-4">
@@ -41,8 +50,7 @@
 
                             <td class="px-6 rounded-r-2xl">
                                 <div class="flex items-center gap-2 justify-end md:justify-end">
-                                    <button @click="setAttendanceStatus(2, i?.role, i?.user_id, index)"
-                                        title="Bajarildi"
+                                    <button @click="setAttendanceStatus(2, i?.role, i?.user_id, i)" title="Bajarildi"
                                         :class="i.user.attendance?.[0]?.attendance == 2 ? 'bg-emerald-500 text-white hover:bg-emerald-500' : 'bg-emerald-50 hover:bg-emerald-100 text-emerald-500'"
                                         class="flex items-center justify-center w-10 h-8 rounded-lg px-3 bg-emerald-50 text-emerald-500 hover:scale-105 transition-all duration-150">
                                         <svg class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none" stroke-width="2.4"
@@ -51,8 +59,7 @@
                                         </svg>
                                     </button>
 
-                                    <button @click="setAttendanceStatus(1, i?.role, i?.user_id, index)"
-                                        title="Kutilmoqda"
+                                    <button @click="setAttendanceStatus(1, i?.role, i?.user_id, i)" title="Kutilmoqda"
                                         :class="i.user.attendance?.[0]?.attendance == 1 ? 'bg-amber-500 text-white hover:bg-amber-500' : 'bg-amber-50 hover:bg-amber-100 text-amber-500'"
                                         class="flex items-center justify-center w-10 h-8 rounded-lg px-3 bg-amber-50 text-amber-500 hover:scale-105 transition-all duration-150">
                                         <svg class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none" stroke-width="2.4"
@@ -62,7 +69,7 @@
                                         </svg>
                                     </button>
 
-                                    <button @click="setAttendanceStatus(0, i?.role, i?.user_id, index)"
+                                    <button @click="setAttendanceStatus(0, i?.role, i?.user_id, i)"
                                         title="Bekor qilingan"
                                         :class="i.user.attendance?.[0]?.attendance == 0 ? 'bg-rose-500 text-white hover:bg-rose-500' : 'bg-rose-50 hover:bg-rose-100 text-rose-500'"
                                         class="flex items-center justify-center w-10 h-8 rounded-lg px-3 bg-rose-50 text-rose-500 hover:scale-105 transition-all duration-150">
@@ -128,6 +135,7 @@ useCourses.getUsersByGroupId({ group_id: props.group_id, course_id: props.course
 
 const store = reactive({
     is_show: false,
+    subgroup_id: null,
 })
 
 const options = ref([
@@ -154,7 +162,33 @@ const selectedCourseIndex = computed(() => {
     }
 });
 
-const selectedCourseUsers = computed(() => useCourses.store.users?.[selectedCourseIndex.value]?.subscriptions || []);
+const selectedCourseSubgroups = computed(() => useCourses.store.users?.[selectedCourseIndex.value]?.subgroups || []);
+
+const weekdayMap = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+// Days attendance can be taken on for the currently selected course/subgroup.
+// Empty means no schedule is set, so no restriction is applied.
+const selectedCourseAttendanceDays = computed(() => {
+    const course = useCourses.store.users?.[selectedCourseIndex.value];
+    if (!course) return [];
+    const subgroups = course.subgroups || [];
+    if (subgroups.length) {
+        if (store.subgroup_id) {
+            const group = subgroups.find((g) => g.id == store.subgroup_id);
+            return group?.schedules?.[0]?.attendance_day || [];
+        }
+        const union = new Set();
+        subgroups.forEach((g) => (g.schedules?.[0]?.attendance_day || []).forEach((d) => union.add(d)));
+        return [...union];
+    }
+    return course.attendance_days?.[0]?.attendance_day || [];
+});
+
+const selectedCourseUsers = computed(() => {
+    const subscriptions = useCourses.store.users?.[selectedCourseIndex.value]?.subscriptions || [];
+    if (!store.subgroup_id) return subscriptions;
+    return subscriptions.filter((i) => i?.subgroup_id == store.subgroup_id);
+});
 
 function handleModal(value) {
     if (value == "OK") {
@@ -200,13 +234,19 @@ function activeChartLine(type) {
     }
 }
 
-function setAttendanceStatus(attendance, role, user_id, index) {
-    useCourses.store.users[selectedCourseIndex.value].subscriptions[index].user.attendance = [{ attendance }];
+function setAttendanceStatus(attendance, role, user_id, subscription) {
+    subscription.user.attendance = [{ attendance }];
     useAttendance.postAttendance({ attendance, role, user_id, course_id: +(JSON.parse(String(router.currentRoute.value.query?.course_id || []) || '[]')?.[0]), date: useAttendance.store.currentDate });
 }
 
 const disabledDate = (current) => {
-    return current && current > dayjs().endOf('day');
+    if (!current) return false;
+    if (current > dayjs().endOf('day')) return true;
+    const days = selectedCourseAttendanceDays.value;
+    if (days.length) {
+        return !days.includes(weekdayMap[current.day()]);
+    }
+    return false;
 };
 
 watch(() => useAttendance.store.currentDate, async () => {
@@ -220,7 +260,26 @@ watch(() => useAttendance.store.currentDate, async () => {
     }
 })
 
+// If the course/subgroup's schedule doesn't include the currently picked
+// weekday (e.g. right after switching subgroup), snap back to the closest
+// earlier valid day so the table isn't left showing attendance for a day
+// that course doesn't meet on.
+watch(selectedCourseAttendanceDays, (days) => {
+    if (!days.length) return;
+    const current = dayjs(useAttendance.store.currentDate);
+    if (days.includes(weekdayMap[current.day()])) return;
+    let candidate = current;
+    for (let i = 0; i < 7; i++) {
+        candidate = candidate.subtract(1, 'day');
+        if (days.includes(weekdayMap[candidate.day()])) {
+            useAttendance.store.currentDate = candidate;
+            return;
+        }
+    }
+});
+
 watch(() => isLoading.store.category_id, () => {
+    store.subgroup_id = null;
     useCourses.getUsersByGroupId({ group_id: props.group_id, course_id: props.course_id });
 })
 
