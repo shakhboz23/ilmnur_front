@@ -164,11 +164,11 @@ try {
     }
   }
 
-  showNotification('Yangi video yuklandi!', {
-    body: 'JavaScript maslahatlari bo\'yicha eng so\'nggi videoni ko\'ring.',
-    // icon: 'https://ilmnur.online/icon.png', // image for the notification
-    tag: 'new-video', // prevents stacking multiple notifications with same tag
-  });
+  // showNotification('Yangi video yuklandi!', {
+  //   body: 'JavaScript maslahatlari bo\'yicha eng so\'nggi videoni ko\'ring.',
+  //   // icon: 'https://ilmnur.online/icon.png', // image for the notification
+  //   tag: 'new-video', // prevents stacking multiple notifications with same tag
+  // });
 } catch (error) {
   console.log(error);
 }

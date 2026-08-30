@@ -81,6 +81,40 @@ export const useSubscriptionStore = defineStore("subscription", () => {
   }
 
 
+  // Fetches the roster (subscriptions + user info) of an arbitrary course,
+  // used to preview who would be copied over before the copy is confirmed.
+  // Deliberately doesn't touch useCourses.store.courses, since that holds
+  // the course currently on screen.
+  async function getCourseMembers(course_id: number) {
+    const data: any = await apiRequest.get(
+      `course/getById/${course_id}`,
+      "courseMembers"
+    );
+    if (data?.status >= 400) {
+      return [];
+    }
+    return data.data?.subscriptions || [];
+  }
+
+  // Bulk-enrolls students already subscribed to from_course_id into
+  // to_course_id, so a teacher/admin can reuse a course's roster instead of
+  // adding each student one by one.
+  async function copyFromCourse(payload: {
+    from_course_id: number;
+    to_course_id: number;
+    start_date?: string;
+    user_ids?: number[];
+    subgroup_id?: number;
+  }) {
+    const result: any = await apiRequest.post(
+      "subscriptions/copyFromCourse",
+      payload,
+      "copyFromCourse"
+    );
+    useCourses.getByCourse();
+    return result;
+  }
+
   async function deleteSubscription(course_id: number, user_id: number) {
     await apiRequest.delete_req(
       `subscriptions/deleteSubscription/${course_id}/${user_id}`,
@@ -112,5 +146,7 @@ export const useSubscriptionStore = defineStore("subscription", () => {
     subscribeToGroup,
     changeSubscriptionStatus,
     deleteSubscription,
+    getCourseMembers,
+    copyFromCourse,
   };
 });

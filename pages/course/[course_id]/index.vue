@@ -284,7 +284,7 @@
                     <table class="w-full min-w-[900px]">
                         <thead>
                             <tr class="whitespace-nowrap">
-                                <th class="text-left p-2">N</th>
+                                <th class="text-left p-2">№</th>
                                 <th class="text-left p-2">O'quvchi</th>
                                 <th v-if="useCourses.store.courses?.course?.subgroups?.length" class="text-left p-2">
                                     Guruh
@@ -396,7 +396,20 @@
         <UIModal class="!bg-white !min-h-fit" :title="''" :isOpen="store.addMember" :loadingType="'subscriptions'"
             @update:isOpen="(value) => handleModal(value, 'payment')">
             <div class="space-y-6">
-                <div>
+                <div v-if="copySourceCourses.length" class="flex items-center gap-2 p-1 bg_cf2 r_8 w-fit">
+                    <button type="button" @click="store.addMemberMode = 'single'"
+                        :class="store.addMemberMode === 'single' ? 'bg_main text-white' : 'c_c66'"
+                        class="px-4 py-2 text-sm font-medium r_8 transition-colors">
+                        Bittalab qo'shish
+                    </button>
+                    <button type="button" @click="store.addMemberMode = 'copy'"
+                        :class="store.addMemberMode === 'copy' ? 'bg_main text-white' : 'c_c66'"
+                        class="px-4 py-2 text-sm font-medium r_8 transition-colors">
+                        Boshqa kursdan nusxalash
+                    </button>
+                </div>
+
+                <div v-if="store.addMemberMode === 'single'">
                     <label for="member">O'quvchi</label>
                     <a-select id="member" class="w-full" v-model:value="store.member_id"
                         placeholder="O'quvchini tanlang">
@@ -410,6 +423,55 @@
                         </template>
                     </a-select>
                 </div>
+
+                <div v-else class="space-y-3">
+                    <div>
+                        <label for="copy_course">Qaysi kursdagi o'quvchilar nusxalansin</label>
+                        <a-select id="copy_course" class="w-full" v-model:value="store.copySourceCourseId"
+                            placeholder="Kursni tanlang" @change="onCopySourceCourseChange">
+                            <a-select-option v-for="course in copySourceCourses" :key="course.id" :value="course.id">
+                                {{ course.title }}
+                            </a-select-option>
+                            <template #suffixIcon>
+                                <img class="w-4" src="@/assets/svg/icon/arrow.svg" alt="" />
+                            </template>
+                        </a-select>
+                    </div>
+
+                    <div v-if="isLoading.isLoadingType('courseMembers')" class="space-y-1">
+                        <LoadingDiv v-for="_ in 3" class="h-9 w-full" />
+                    </div>
+
+                    <template v-else-if="store.copySourceCourseId">
+                        <p v-if="!store.copySourceMembers.length" class="text-sm c_c66">
+                            Bu kursda o'quvchilar topilmadi
+                        </p>
+                        <template v-else>
+                            <div class="flex items-center justify-between">
+                                <a-checkbox :checked="isAllCopySelected" @change="toggleSelectAllCopyMembers">
+                                    Hammasini tanlash
+                                </a-checkbox>
+                                <span class="text-xs c_c66">{{ selectedCopyCount }}/{{ store.copySourceMembers.length
+                                    }} tanlandi</span>
+                            </div>
+                            <div class="max-h-64 overflow-y-auto space-y-1 border border-solid border-[#eee] r_8 p-2">
+                                <label v-for="member in store.copySourceMembers" :key="member.id"
+                                    class="flex items-center gap-2 p-2 r_8"
+                                    :class="member.alreadySubscribed ? 'opacity-50' : 'hover:bg_cf2'">
+                                    <a-checkbox v-model:checked="member.selected"
+                                        :disabled="member.alreadySubscribed" />
+                                    <UIAvatar :src="member.image" class="max-w-7 max-h-7" />
+                                    <div class="flex-1">
+                                        <div class="text-sm">{{ member.name }} {{ member.surname }}</div>
+                                        <div class="text-xs c_c66">{{ member.phone }}</div>
+                                    </div>
+                                    <span v-if="member.alreadySubscribed" class="text-xs c_c66">Qo'shilgan</span>
+                                </label>
+                            </div>
+                        </template>
+                    </template>
+                </div>
+
                 <div>
                     <label for="date">Kursga qo'shilish sanasi</label>
 
@@ -466,6 +528,9 @@ const store = reactive({
     membersModal: false,
     addPaymentModal: false,
     addMember: false,
+    addMemberMode: 'single',
+    copySourceCourseId: null,
+    copySourceMembers: [],
     deleteMemberModal: false,
     teacher_id: 0,
     member_id: null,
@@ -498,13 +563,65 @@ const memberStats = computed(() => {
     return { total: subscriptions.length, collected, debt, paidFull };
 })
 
-const availableUsers = computed(() => {
-    const users = useAuth.store.users?.records || [];
-    const subscribedIds = new Set(
+// Ids of users already enrolled in the course currently on screen, shared
+// by both the single-add dropdown and the copy-from-course preview so
+// neither offers someone who's already a member.
+const currentSubscribedIds = computed(() => {
+    return new Set(
         (useCourses.store.courses?.course?.subscriptions || []).map((item) => item.user?.id)
     );
-    return users.filter((user) => !subscribedIds.has(user.id));
 })
+
+const availableUsers = computed(() => {
+    const users = useAuth.store.users?.records || [];
+    return users.filter((user) => !currentSubscribedIds.value.has(user.id));
+})
+
+// Sibling courses in the same group as the one currently open, excluding
+// itself — these are the courses a roster can be copied from.
+const copySourceCourses = computed(() => {
+    const currentCourseId = useCourses.store.courses?.course?.id;
+    return (useLessons.store.courses || []).filter((c) => c.id !== currentCourseId);
+})
+
+const selectedCopyCount = computed(() => {
+    return store.copySourceMembers.filter((m) => m.selected && !m.alreadySubscribed).length;
+})
+
+const isAllCopySelected = computed(() => {
+    const selectable = store.copySourceMembers.filter((m) => !m.alreadySubscribed);
+    return selectable.length > 0 && selectable.every((m) => m.selected);
+})
+
+async function onCopySourceCourseChange(course_id) {
+    store.copySourceMembers = [];
+    if (!course_id) return;
+    const subscriptions = await useSubscription.getCourseMembers(course_id);
+    store.copySourceMembers = subscriptions
+        .filter((sub) => sub.user)
+        .map((sub) => ({
+            id: sub.user.id,
+            name: sub.user.name,
+            surname: sub.user.surname,
+            phone: sub.user.phone,
+            image: sub.user.image,
+            alreadySubscribed: currentSubscribedIds.value.has(sub.user.id),
+            selected: !currentSubscribedIds.value.has(sub.user.id),
+        }));
+}
+
+function toggleSelectAllCopyMembers(e) {
+    const checked = e.target.checked;
+    store.copySourceMembers.forEach((m) => {
+        if (!m.alreadySubscribed) m.selected = checked;
+    });
+}
+
+function resetCopyState() {
+    store.addMemberMode = 'single';
+    store.copySourceCourseId = null;
+    store.copySourceMembers = [];
+}
 
 const dayLabels = { Mon: "Du", Tue: "Se", Wed: "Ch", Thu: "Pa", Fri: "Ju", Sat: "Sh", Sun: "Ya" };
 
@@ -551,7 +668,11 @@ async function handleModal(value, modalType) {
 
     if (value == "OK") {
         if (store.addMember) {
-            await addMember()
+            if (store.addMemberMode === 'copy') {
+                await copyMembers();
+            } else {
+                await addMember();
+            }
         }
         else if (store.addPaymentModal) {
             store.addPaymentModal = false;
@@ -595,6 +716,7 @@ async function handleModal(value, modalType) {
         store.data.amount = 0;
         store.currentPayment = null;
         useCourses.clearData();
+        resetCopyState();
     }
 }
 
@@ -618,6 +740,33 @@ async function addMember() {
     await useSubscription.createSubscribeUser({ user_id: store.member_id, role: 'student', start_date: store.start_date });
     await useCourses.getByCourse();
     store.addMember = false;
+    resetCopyState();
+}
+
+async function copyMembers() {
+    if (!store.copySourceCourseId) {
+        return openNotification('warning', 'Kursni tanlang', "Nusxalash uchun avval kursni tanlang");
+    }
+    const user_ids = store.copySourceMembers
+        .filter((m) => m.selected && !m.alreadySubscribed)
+        .map((m) => m.id);
+    if (!user_ids.length) {
+        return openNotification('warning', "O'quvchi tanlanmadi", "Nusxalash uchun kamida bitta o'quvchi tanlang");
+    }
+    try {
+        const result = await useSubscription.copyFromCourse({
+            from_course_id: store.copySourceCourseId,
+            to_course_id: useCourses.store.courses?.course?.id,
+            start_date: store.start_date,
+            user_ids,
+            subgroup_id: useSubscription.store.subgroup_by_course[useCourses.store.courses?.course?.id],
+        });
+        const addedCount = result?.data?.added_count ?? user_ids.length;
+        openNotification('success', "Muvaffaqiyatli qo'shildi", `${addedCount} ta o'quvchi kursga qo'shildi`);
+    } finally {
+        store.addMember = false;
+        resetCopyState();
+    }
 }
 
 async function handleDeleteMember(value) {
