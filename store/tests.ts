@@ -98,7 +98,6 @@ export const useTestsStore = defineStore("tests", () => {
       `tests/${router.currentRoute.value.params.test_id}`,
       "getById"
     );
-    console.log(data);
     if (data.data?.test_settings) {
       for (let i in test_settings) {
         test_settings[i] = data.data?.test_settings[i];
@@ -126,10 +125,7 @@ export const useTestsStore = defineStore("tests", () => {
     if (Object.keys(test)?.length == step - 1) {
       return checkAllAnswers();
     }
-    console.log(store.true_answers);
-    console.log('DEBUG true_answers[step] before wrap:', JSON.stringify(store.true_answers[step]), typeof store.true_answers[step]);
     store.true_answers[step] = Array.isArray(store.true_answers[step]) ? store.true_answers[step] : [store.true_answers[step]];
-    console.log('DEBUG true_answers[step] after wrap:', JSON.stringify(store.true_answers[step]));
 
     const data: any = await apiRequest.post(
       `tests/check/${id}`,
@@ -217,7 +213,6 @@ export const useTestsStore = defineStore("tests", () => {
             : (test[i].true_answer?.length ? test[i].true_answer : [0]),
         });
       } catch (err) {
-        console.log(err);
       }
     }
 
@@ -238,7 +233,6 @@ export const useTestsStore = defineStore("tests", () => {
         router.push(`/course/${store.tests?.lesson?.course_id}`)
       })
       .catch((err) => {
-        console.log(err);
       });
   }
 

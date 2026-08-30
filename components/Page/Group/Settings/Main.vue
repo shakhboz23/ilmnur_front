@@ -16,12 +16,6 @@ import { group_settings_sidebar } from '~/constants';
 const router = useRouter();
 
 function goToPage(url) {
-    console.log(url)
-    // router.push({
-    //     query: {
-    //         tab: 'page'
-    //     }
-    // })
     router.push(`?category=dsds`)
 }
 </script>

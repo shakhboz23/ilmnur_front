@@ -3,20 +3,6 @@
     <ckeditor :editor="ClassicEditor" v-model="content" :config="editorConfig" placeholder="djksdjskd"
       @ready="onEditorReady" />
   </div>
-  <!-- <div>
-    <a-tooltip v-if="type == 'fill' || type == 'customizable'" @click="addToEditor()" class="pcursor">
-      <template #title>Add answer space</template>
-______
-</a-tooltip>
-<a-tooltip @click="undo()" class="pcursor">
-  <template #title>Undo</template>
-  🔙
-</a-tooltip>
-<a-tooltip @click="redo()" class="pcursor">
-  <template #title>Redo</template>
-  🔜
-</a-tooltip>
-</div> -->
 </template>
 
 <script setup>
@@ -74,7 +60,6 @@ function addToEditor() {
     }
   }
   const l = +document.querySelectorAll('.fill-blank')?.length;
-  console.log(l)
   useTests.test[useTests.store.slideStep - 1]?.variants.push(null);
   const letter = String.fromCharCode(65 + l); // A, B, C...
 
@@ -139,7 +124,6 @@ class MyUploadAdapter {
     return this.loader.file
       .then(file => new Promise((resolve, reject) => {
         useCategory.uploadFile(file, 'image').then(res => {
-          console.log("Uploaded image URL:", res);
           resolve({ default: res }); // Backenddan URL qaytadi
         }).catch(err => {
           console.error("Upload failed:", err);
@@ -149,7 +133,6 @@ class MyUploadAdapter {
   }
 
   abort() {
-    console.log("File upload aborted");
   }
 }
 

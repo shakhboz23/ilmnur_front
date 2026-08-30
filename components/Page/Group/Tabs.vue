@@ -85,8 +85,6 @@ watch(activeKey, (newValue) => {
 
 
 const getGroupTabs = computed(() => {
-    console.log(isLoading.user?.id, isLoading.store.owner_id);
-    
     if (isLoading.user?.id === isLoading.store.owner_id) {
         return group_tabs;
     }

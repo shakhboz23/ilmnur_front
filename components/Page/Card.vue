@@ -72,7 +72,6 @@ function handleButton(type, id) {
     useGroups.store.group_id = id;
     isLoading.modal[type] = true;
     if (type == 'edit') {
-        console.log(props.carddata);
         for (let i in useGroups.create) {
             useGroups.create[i] = props.carddata[i];
         }

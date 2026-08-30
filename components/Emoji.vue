@@ -13,7 +13,6 @@ import 'vue3-emoji-picker/css'
 
 // event callback
 function onSelectEmoji(emoji) {
-  console.log(emoji)
 }
 </script>
 

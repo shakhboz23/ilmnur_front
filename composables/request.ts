@@ -26,20 +26,16 @@ export const useApiRequest = () => {
     if (process.client) {
       let headers = getHeader();
       isLoading.addLoading(loadingType);
-      console.log(isLoading.store.loadingTypes);
       url = endPoint + url;
       return new Promise(function (resolve) {
         axios
           .get(url, { headers })
           .then((res) => {
-            console.log(res, "res");
             isLoading.removeLoading(loadingType);
-            console.log(isLoading.store.loadingTypes);
             resolve(res);
           })
           .catch((err) => {
             isLoading.removeLoading(loadingType);
-            console.log(err);
             openNotification('error', 'Xatolik yuz berdi', getErrResponse(err.response?.data?.message));
             // if (err.response?.status == 401) {
             //   isLoading.store.isLogin = false;
@@ -51,10 +47,6 @@ export const useApiRequest = () => {
   }
 
   function post(url: string, data: any = {}, loadingType?: string) {
-    console.log(data);
-    // for (let [key, value] of data.entries()) {
-    //   console.log(`${key}: ${value}`);
-    // }
     let headers = getHeader();
     isLoading.addLoading(loadingType);
     url = endPoint + url;
@@ -72,7 +64,6 @@ export const useApiRequest = () => {
           reject(err);
           if (err) {
             isLoading.store.errorMessage.message = err.response.data.message;
-            console.log(err);
           }
         });
     });
@@ -94,7 +85,6 @@ export const useApiRequest = () => {
           openNotification('error', 'Xatolik yuz berdi', getErrResponse(err.response?.data?.message));
           isLoading.removeLoading(loadingType);
           isLoading.store.errorMessage.message = err.response.data.message;
-          console.log(err);
           reject(err);
         });
     });
@@ -116,7 +106,6 @@ export const useApiRequest = () => {
           openNotification('error', 'Xatolik yuz berdi', getErrResponse(err.response?.data?.message));
           isLoading.removeLoading(loadingType);
           isLoading.store.errorMessage.message = err.response.data.message;
-          console.log(err);
           reject(err);
         });
     });

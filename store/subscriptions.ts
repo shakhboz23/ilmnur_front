@@ -63,7 +63,7 @@ export const useSubscriptionStore = defineStore("subscription", () => {
         subgroups[i.id] = store.subgroup_by_course[i.id];
       }
     }
-    const result = await apiRequest.post(
+    await apiRequest.post(
       "subscriptions/createSubscription",
       {
         user_id: data?.user_id || useAuth.user.id,
@@ -77,7 +77,6 @@ export const useSubscriptionStore = defineStore("subscription", () => {
     useCourses.getUsersByGroupId();
     isLoading.modal.create = false;
     store.subgroup_by_course = {};
-    console.log(result);
   }
 
 
@@ -124,7 +123,7 @@ export const useSubscriptionStore = defineStore("subscription", () => {
   }
 
   async function changeSubscriptionStatus(status: string, course_id: number) {
-    const data: any = await apiRequest.post(
+    await apiRequest.post(
       "subscription_activity/create",
       {
         subscription_id: store.subscription_id,
@@ -135,7 +134,6 @@ export const useSubscriptionStore = defineStore("subscription", () => {
     );
     useCourses.getUsersByGroupId();
     isLoading.modal.create = false;
-    console.log(data);
   }
 
   return {

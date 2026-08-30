@@ -828,11 +828,9 @@ function getCalendar(year, month) {
     year,
     month,
     function (d) {
-      console.log(d);
       return [d.getMonth(), (" " + d.getDate()).slice(-2)];
     },
     function (w) {
-      console.log(w);
       return w;
     }
   );
@@ -841,7 +839,6 @@ function getCalendar(year, month) {
 watch(
   () => store.sliderShow,
   () => {
-    console.log(store.sliderShow);
     document.getElementById("mainSlider").style.transform = `translateX(-${store.sliderShow * 100 - 100
       }%)`;
   }

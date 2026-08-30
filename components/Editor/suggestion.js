@@ -5,14 +5,12 @@ import MentionList from './MentionList.vue';
 import { useLoadingStore } from '~/store';
 
 export default {
-  // isLoading: useLoadingStore(),
   items: ({ query }) => {
     const isLoading = useLoadingStore();
     const filteredItems = [...isLoading.store.suggestions.list].filter(item => {
       return item.toLowerCase().startsWith(query.toLowerCase());
     }).slice(0, 5);
 
-    console.log(isLoading.store.suggestions.list); // Logs all pushed items after filtering
     return filteredItems;
   },
 

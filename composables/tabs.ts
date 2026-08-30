@@ -20,8 +20,6 @@ export const useTabs = () => {
         if (translateMatch) {
           const translateValues = translateMatch[1].split(","); // Split the values by comma
           firstTranslateValue = +translateValues[0].trim().slice(0, -2); // Get the first item and trim any whitespace
-        } else {
-          console.log("No translate values found");
         }
 
         // Check if firstTranslateValue is not null before using it

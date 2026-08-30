@@ -163,11 +163,9 @@ export const useLoadingStore = defineStore("loading", () => {
   function checkIsTelegramMiniApp() {
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.has("tgWebAppPlatform")) {
-      console.log("Sayt Telegram mini app ichida ochilgan!");
       store.error = 'telegram'
     } else {
       store.error = 'not telegram'
-      console.log("Sayt oddiy browserda ochilgan.");
     }
   }
 

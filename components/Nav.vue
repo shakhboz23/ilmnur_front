@@ -152,7 +152,6 @@ try {
   if (Notification.permission !== 'granted') {
     Notification.requestPermission().then(permission => {
       if (permission === 'granted') {
-        console.log('Notification permission granted.');
         showNotification("Bildirishnomalarga ruxsat berildi");
       }
     });
@@ -164,13 +163,8 @@ try {
     }
   }
 
-  // showNotification('Yangi video yuklandi!', {
-  //   body: 'JavaScript maslahatlari bo\'yicha eng so\'nggi videoni ko\'ring.',
-  //   // icon: 'https://ilmnur.online/icon.png', // image for the notification
-  //   tag: 'new-video', // prevents stacking multiple notifications with same tag
-  // });
 } catch (error) {
-  console.log(error);
+  console.error(error);
 }
 </script>
 

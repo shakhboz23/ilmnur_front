@@ -56,7 +56,6 @@ export const useCommentsStore = defineStore("comments", () => {
             `comments/pagination/${useLessons.store.lessons.comments.pagination.currentPage + 1}/${router.currentRoute.value.params.lesson_id}`,
             "loadMoreComments"
         );
-        console.log(data, 2303)
         useLessons.store.lessons.comments.records.push(...(data?.data?.records || []))
         useLessons.store.lessons.comments.pagination.currentPage = data.data.pagination.currentPage;
     }
@@ -67,8 +66,7 @@ export const useCommentsStore = defineStore("comments", () => {
             "comments/create",
             { lesson_id, comment: store.comment.text },
             "createComment"
-        ); 
-        console.log(data);
+        );
         useLessons.store.lessons.comments.records.unshift(data?.data);
         clearData();
     }

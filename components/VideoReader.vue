@@ -28,7 +28,6 @@ const playerOptions = {
 };
 
 const onVideoPlay = () => {
-    console.log("Video is playing!");
 };
 
 const onVideoPause = () => {

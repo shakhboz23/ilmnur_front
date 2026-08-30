@@ -31,15 +31,9 @@ const useComments = useCommentsStore();
 onMounted(() => {
     const target = document.querySelector('#loadingDiv');
 
-    // if (!target) {
-    //     console.warn('Target element #loadingDiv not found');
-    //     return;
-    // }
-
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                console.log('Div ekranga chiqdi!');
                 // Bir marta aniqlangach to‘xtatmoqchi bo‘lsangiz:
                 observer.unobserve(target);
                 // Ma'lumot yuklash funksiyasi (async)

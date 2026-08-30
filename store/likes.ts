@@ -17,7 +17,6 @@ export const useLikesStore = defineStore("likes", () => {
       { lesson_id },
       "like"
     );
-    console.log(data);
 
     if (data.data.statusCode == 200) {
       useLessons.store.lessons.is_liked = false;

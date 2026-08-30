@@ -365,13 +365,8 @@ export default {
             ],
             content: this.modelValue,
             onUpdate: () => {
-                // HTML
                 const html = this.editor.getHTML()
-                console.log('DEBUG TiptapEditor getHTML length:', html.length, JSON.stringify(html.slice(0, 80)))
                 this.$emit('update:modelValue', html)
-
-                // JSON
-                // this.$emit('update:modelValue', this.editor.getJSON())
             },
         });
         // ✨ **Event qo‘shish**
@@ -384,7 +379,6 @@ export default {
                 const file = event.dataTransfer?.files[0];
                 if (file && file.type.startsWith('image/')) {
                     const imageUrl = await this.useCategory.uploadFile(file, 'image')
-                    console.log(imageUrl);
                     this.editor.chain().focus().setImage({ src: imageUrl }).run();
                 }
             });
@@ -392,10 +386,8 @@ export default {
             // 📌 **Paste event**
             editorElement.addEventListener('paste', async (event) => {
                 const file = event.clipboardData?.files[0];
-                console.log(file);
                 if (file && file.type.startsWith('image/')) {
                     const imageUrl = await this.useCategory.uploadFile(file, 'image')
-                    console.log(imageUrl);
                     this.editor.chain().focus().setImage({ src: imageUrl }).run();
                     //  document.querySelectorAll('img[contenteditable]').forEach(img => {
                     //         img.removeAttribute('contenteditable');
@@ -408,10 +400,6 @@ export default {
         modelValue(value) {
             // HTML
             const isSame = this.editor.getHTML() === value
-
-            // JSON
-            // const isSame = JSON.stringify(this.editor.getJSON()) === JSON.stringify(value)
-            console.log(isSame);
 
             if (isSame) {
                 return

@@ -72,9 +72,7 @@ const chartOptions = ref({
       let tooltipContent = `<div style="font-size: 12px; padding: 5px;">
         <b>${Highcharts.dateFormat('%A, %b %d, %I:%M %p', this.x)}</b><br>`
         this.points.forEach(point => {
-          console.log(point.point.index, "Hi")
         useWatched.store.currentIndex = point.point.index
-        console.log(point, 'dslds')
         tooltipContent += `<div style="font-size: 12px; padding: 5px;">
           🔸 <span style="color:${point.series.color}">${point.series.name}: ${point.y} </span>
           <div v-if="index != 10" class="flex items-center gap-4 px-4 py-[10px]">
@@ -156,10 +154,6 @@ watch(() => isLoading.store.analytics_id, () => {
 })
 
 onMounted(async () => {
-  // const data = await fetch('https://www.highcharts.com/samples/data/usdeur.json')
-  //   .then(response => response.json());
-  // console.log(data);
-
   if (chartContainer.value) {
     chartInstance.value = Highcharts.chart(chartContainer.value, chartOptions.value);
   }

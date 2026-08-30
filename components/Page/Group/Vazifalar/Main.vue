@@ -130,7 +130,6 @@ function flattenLessons(list) {
 
 async function fetchLessons(course_id) {
     const res = await apiRequest.get(`lesson/getByCourse/${course_id}`, 'vazifaLessons');
-    console.log(res);
     courseLessons.value = flattenLessons(res?.data?.lessons);
 }
 

@@ -84,7 +84,6 @@ const store = reactive({
 store.is_sidebar = checkSidebarType()
 
 function checkSidebarType() {
-    console.log(router.currentRoute.value.path);
     for (let i of is_sidebar) {
         if (router.currentRoute.value.path.includes(i)) {
             return true;

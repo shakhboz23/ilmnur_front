@@ -145,7 +145,6 @@ const store = reactive({
 
 function handleClick(e, lesson) {
     useLessons.store.lesson_id = lesson.id;
-    console.log(e.target.className);
 
     if (e.target.className.includes("statistics")) {
         return useCourses.store.reytingModal = true;
@@ -198,7 +197,6 @@ function checkIsCurrentDate(date) {
 
 function calculateTotalDuration(index) {
     const lesson = props?.lessons[index]?.lessons || [];
-    console.log(lesson);
     let s = 0;
     for (let i of lesson) {
         s = s + (i.duration || 0);

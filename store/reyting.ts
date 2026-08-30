@@ -23,7 +23,6 @@ export const useReytingStore = defineStore("reyting", () => {
       `user/lesson-reyting/${id}`,
       "getReyting"
     );
-    console.log(data, "2303");
     store.reytings = data.data;
   }
 

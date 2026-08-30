@@ -48,8 +48,6 @@ export const useLessonsStore = defineStore("lessons", () => {
     });
     create.published = true;
     create.type = "module";
-    console.log('cleared');
-
   }
 
   async function getLessons() {
@@ -63,7 +61,6 @@ export const useLessonsStore = defineStore("lessons", () => {
   async function markAsRead() {
     const lesson_id: number = +router.currentRoute.value.params.lesson_id;
     const data: any = await apiRequest.post(`reyting/markAsRead/${lesson_id}`, "markAsRead");
-    console.log(data, 230303);
     if (data.status == 400) {
       openNotification('error', data?.response?.data?.message, '');
     }
@@ -110,7 +107,6 @@ export const useLessonsStore = defineStore("lessons", () => {
       create.video = '';
     }
     for (let i in create) {
-      console.log(create[i]);
       if (create[i]) {
         formData.append(i, create[i]);
       }

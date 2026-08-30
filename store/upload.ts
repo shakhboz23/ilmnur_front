@@ -17,7 +17,6 @@ export const useUploadStore = defineStore("upload", () => {
     const formData = new FormData();
     formData.append("file", file);
     const res: any = await apiRequest.post("tests/create_url", formData);
-    console.log(res);
     if (res.data.statusCode == 200) {
       openNotification("Muvaffaqiyatli yuklandi");
       return res.data.data;
