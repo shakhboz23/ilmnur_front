@@ -866,6 +866,10 @@ onBeforeMount(async () => {
     await useAuth.getUsers();
     useLessons.getByCourse(useCourses.store.courses?.course?.group_id);
 })
+
+onBeforeUnmount(() => {
+    useLessons.store.lesson_id = null;
+})
 </script>
 
 <style lang="scss" scoped></style>
