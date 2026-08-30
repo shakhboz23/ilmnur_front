@@ -1000,8 +1000,6 @@ function handleModal(value) {
 }
 
 function deleteVariants(index, v_index) {
-  console.log(index, v_index);
-
   useTests.test[index]?.variants?.splice(v_index, 1);
 }
 

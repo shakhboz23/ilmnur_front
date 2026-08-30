@@ -53,8 +53,6 @@ function onKeyUpEvent(index, event) {
       getCodeBoxElement(index + 1).focus();
     } else {
       getCodeBoxElement(index).blur();
-      // Submit code
-      console.log("submit code ");
     }
   }
   if (eventCode === 8 && index !== 1) {

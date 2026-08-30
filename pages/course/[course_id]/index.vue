@@ -644,8 +644,6 @@ function openPaymentModal(item) {
 
 function openTeacherModal() {
     for (let i in useCourses.store.courses?.course) {
-        console.log(i);
-
         useCourses.create[i] = useCourses.store.courses?.course[i]
     }
 
@@ -664,7 +662,6 @@ function onChange(e) {
 
 async function handleModal(value, modalType) {
     modalType = modalType || 'lesson'
-    console.log(modalType);
 
     if (value == "OK") {
         if (store.addMember) {

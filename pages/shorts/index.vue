@@ -70,7 +70,6 @@ const isLoading = useLoadingStore();
 useLessons.getLessons();
 
 function changeSlide() {
-    console.log(+document.querySelector(".swiper-slide-visible")?.id);
     router.push({
         query: {
             id: document.querySelector(".swiper-slide-visible")?.id,

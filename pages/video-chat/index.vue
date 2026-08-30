@@ -70,15 +70,8 @@ async function joinRoom() {
         const firstPub = Array.from(publications.values())[0];
         localTrack.value = firstPub?.videoTrack;
 
-        // } else {
-        // Oddiy user: faqat audio
-        // await livekitRoom.localParticipant.setCameraEnabled(false);
-        // await livekitRoom.localParticipant.setMicrophoneEnabled(true);
-        // localTrack.value = null;
-        // }
-
     } catch (error: any) {
-        console.log('There was an error connecting to the room:', error.message);
+        console.error('There was an error connecting to the room:', error.message);
         await leaveRoom();
     }
 
