@@ -318,7 +318,7 @@
                                 </td>
                                 <td v-if="useCourses.store.courses?.course?.subgroups?.length"
                                     class="p-2 whitespace-nowrap">{{ subgroupLabel(item) }}</td>
-                                <td class="p-2 whitespace-nowrap">{{ item.user?.phone }}</td>
+                                <td class="p-2 whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">{{ item.user?.phone }}</td>
                                 <td class="p-2 whitespace-nowrap">{{ item.user?.payments?.[0]?.monthly_payment }}</td>
                                 <td class="p-2 whitespace-nowrap">{{ item.user?.payments?.[0]?.amount }}</td>
                                 <td class="p-2 whitespace-nowrap">{{ totalDebt(item) }}</td>
@@ -463,7 +463,7 @@
                                     <UIAvatar :src="member.image" class="max-w-7 max-h-7" />
                                     <div class="flex-1">
                                         <div class="text-sm">{{ member.name }} {{ member.surname }}</div>
-                                        <div class="text-xs c_c66">{{ member.phone }}</div>
+                                        <!-- <div class="text-xs c_c66">{{ member.phone }}</div> -->
                                     </div>
                                     <span v-if="member.alreadySubscribed" class="text-xs c_c66">Qo'shilgan</span>
                                 </label>
