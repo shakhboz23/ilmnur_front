@@ -9,7 +9,8 @@
       <LoadingDiv v-for="i in 10" class="w-full h-10" />
     </div>
     <div v-else-if="isLoading.user?.current_role == 'admin'">
-      <nav class="flex boredr border-red-500 fixed top-0 left-0 p-4 z-20 bg-white items-center justify-between pb-5 w-full">
+      <nav
+        class="flex boredr border-red-500 fixed top-0 left-0 p-4 z-20 bg-white items-center justify-between pb-5 w-full">
         <a-steps v-if="store.currentStep != 2" :current="store.currentStep" :items="[
           {
             title: 'Finished',
@@ -182,7 +183,8 @@
           </ul>
         </nav>
         <ClientOnly>
-          <ul v-if="useTests.test_settings.test_type != 'pdf_file'" class="flex items-center justify-between lg:max-w-[50vw] mx-auto my-6">
+          <ul v-if="useTests.test_settings.test_type != 'pdf_file'"
+            class="flex items-center justify-between lg:max-w-[50vw] mx-auto my-6">
             <a-select class="min-w-[200px]" v-if="useTests.test[useTests.store.slideStep - 1]"
               v-model:value="useTests.test[useTests.store.slideStep - 1].type" placeholder="Turini tanlang"
               :options="testType"></a-select>
@@ -275,8 +277,7 @@
                               {{ generateAlphabet(v_index) }}
                             </p>
                             <ClientOnly>
-                              <CKEditor class="w-full b-none"
-                                v-model:editorContent="useTests.test[index].variants[v_index]" :toolbar="false"
+                              <EditorMathFieldInline class="w-full" v-model="useTests.test[index].variants[v_index]"
                                 :placeholder="'Javobni shu yerga yozing'" />
                             </ClientOnly>
                             <label class="inline" :for="`anwer_file_input${index}${v_index}`">
@@ -334,9 +335,13 @@
                           <div class="space-y-2 mb-4">
                             <div v-for="(v, v_index) in useTests.test[+index].variants" :key="v_index"
                               class="flex items-center gap-2">
+                              <p v-if="useTests.test[+index].variants?.length > 1"
+                                class="border w-6 h-6 shrink-0 full_flex r_4 text-sm font-medium border-[#EDEDED]">
+                                {{ generateAlphabet(v_index) }}
+                              </p>
                               <ClientOnly>
-                                <EditorTiptapEditor id="answerEditor" class="w-full bg_cf5 r_8"
-                                  v-model="useTests.test[+index].variants[v_index]" :toolbar="false"
+                                <EditorMathFieldInline class="w-full r_8"
+                                  v-model="useTests.test[+index].variants[v_index]"
                                   :placeholder="'To‘g‘ri javobni shu yerga yozing'" />
                               </ClientOnly>
                               <img v-if="useTests.test[+index].variants?.length > 1"
@@ -419,9 +424,17 @@
               </div>
               <div v-else-if="i.type == 'fill'" class="w-full">
                 <ClientOnly>
-                  <EditorTiptapEditor id="answerEditor" class="w-full bg_cf5 r_8 my-4 min-h-20"
-                    v-model="useTests.store.true_answers[+index + 1]" :toolbar="false"
-                    :placeholder="'To‘g‘ri javobni shu yerga yozing'" />
+                  <div v-for="(t, t_index) in (i.variants?.length ? i.variants : [null])" :key="t_index"
+                    class="flex items-center gap-2">
+                    <p v-if="i.variants?.length > 1"
+                      class="border duration-700 w-6 h-6 shrink-0 full_flex r_4 text-sm font-medium border-[#EDEDED]">
+                      {{ generateAlphabet(t_index) }}
+                    </p>
+                    <EditorMathFieldInline class="w-full r_8 my-4"
+                      :model-value="useTests.store.true_answers[+index + 1]?.[t_index]"
+                      @update:model-value="(val) => setFillAnswer(+index + 1, t_index, val)"
+                      :placeholder="'To‘g‘ri javobni shu yerga yozing'" />
+                  </div>
                 </ClientOnly>
               </div>
             </li>
@@ -430,19 +443,20 @@
           <footer v-if="Object.keys(useTests.test)?.length" class="w-full bg-white r_8 overflow-hidden fixed bottom-0">
             <hr />
             <ul class=" flex items-center justify-around py-5">
-            <li class="md:!flex !hidden full_flex gap-3">
-              <img loading="lazy" src="@/assets/svg/test/help.svg" alt="" />
-              <p class="font-medium text-sm max-w-[112px] c_c65">
-                Muammo haqida xabar bering
-              </p>
-            </li>
+              <li class="md:!flex !hidden full_flex gap-3">
+                <img loading="lazy" src="@/assets/svg/test/help.svg" alt="" />
+                <p class="font-medium text-sm max-w-[112px] c_c65">
+                  Muammo haqida xabar bering
+                </p>
+              </li>
 
-            <li>
-              <div>
-                <a-button :loading="isLoading.isLoadingType('checkAllAnswer')" @click="() => useTests.checkAllAnswers()"
-                  class="bg_main px-[54px] py-3 min-h-fit r_50 text-white">Yakunlash</a-button>
-              </div>
-            </li>
+              <li>
+                <div>
+                  <a-button :loading="isLoading.isLoadingType('checkAllAnswer')"
+                    @click="() => useTests.checkAllAnswers()"
+                    class="bg_main px-[54px] py-3 min-h-fit r_50 text-white">Yakunlash</a-button>
+                </div>
+              </li>
             </ul>
           </footer>
         </section>
@@ -510,9 +524,17 @@
                       </li>
                     </ul>
                     <ClientOnly v-else>
-                      <EditorTiptapEditor id="questionEditor" class="w-full min-w-[20vw] bg_cf5 r_8"
-                        v-model="useTests.store.true_answers[useTests.store.slideStep]" :toolbar="false"
-                        :placeholder="'Javobingizni shu yerga yozing'" />
+                      <div v-for="(t, t_index) in (i.variants?.length ? i.variants : [null])" :key="t_index"
+                        class="flex items-center gap-2 my-2">
+                        <p v-if="i.variants?.length > 1"
+                          class="border duration-700 w-6 h-6 shrink-0 full_flex r_4 text-sm font-medium border-[#EDEDED]">
+                          {{ generateAlphabet(t_index) }}
+                        </p>
+                        <EditorMathFieldInline class="w-full min-w-[20vw] bg_cf5 r_8"
+                          :model-value="useTests.store.true_answers[+index + 1]?.[t_index]"
+                          @update:model-value="(val) => setFillAnswer(+index + 1, t_index, val)"
+                          :placeholder="'Javobingizni shu yerga yozing'" />
+                      </div>
                     </ClientOnly>
                   </section>
                 </swiper-slide>
@@ -1126,6 +1148,13 @@ function selectedAnswer(id, variant, type, step) {
       // useTests.store.true_answers.push(variant);
     }
   }
+}
+
+function setFillAnswer(step, t_index, val) {
+  if (!Array.isArray(useTests.store.true_answers[step])) {
+    useTests.store.true_answers[step] = [];
+  }
+  useTests.store.true_answers[step][t_index] = val;
 }
 
 function getSelectedItem(variant) {

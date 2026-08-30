@@ -179,6 +179,18 @@ export const useTestsStore = defineStore("tests", () => {
     }
   }
 
+  function labelFillVariants(variants: any[]) {
+    if (!Array.isArray(variants) || variants.length <= 1) return variants;
+    return variants.map((v: any, idx: number) => {
+      if (v == null) return v;
+      const letter = String.fromCharCode(65 + idx);
+      const stripped = String(v).replace(/^(<p>)?[A-Z]\)\s*/, (_m: string, p1: string) => p1 || '');
+      return /^<p>/.test(stripped)
+        ? stripped.replace(/^<p>/, `<p>${letter}) `)
+        : `${letter}) ${stripped}`;
+    });
+  }
+
   async function createTest() {
     store.questions_count = Object.keys(test)?.length;
     let l = test_settings.sort_level?.length;
@@ -191,7 +203,19 @@ export const useTestsStore = defineStore("tests", () => {
     let tests: any = []
     for (let i = 0; i < store.questions_count; i++) {
       try {
-        tests.push({ ...test[i], is_action: store.deletedTestList.includes(i + 1) ? "deleted" : test[i].is_action, true_answer: test[i].true_answer?.length ? test[i].true_answer : [0] });
+        const isMultiFill = test[i].type === 'fill' && test[i].variants?.length > 1;
+        tests.push({
+          ...test[i],
+          variants: test[i].type === 'fill' ? labelFillVariants(test[i].variants) : test[i].variants,
+          is_action: store.deletedTestList.includes(i + 1) ? "deleted" : test[i].is_action,
+          // A "fill" question's variants are all independently-correct answers
+          // (not alternate phrasings of one answer), so every index counts as
+          // "true" - this only feeds the post-check "correct answer" display,
+          // not scoring (see checkFillAnswer on the backend).
+          true_answer: isMultiFill
+            ? test[i].variants.map((_: any, idx: number) => idx)
+            : (test[i].true_answer?.length ? test[i].true_answer : [0]),
+        });
       } catch (err) {
         console.log(err);
       }
