@@ -71,7 +71,6 @@
 <script setup>
 import { useLoadingStore, useTestsStore } from "~/store";
 import { formatDate } from "@/composables";
-import mammoth from "mammoth";
 
 defineProps({
   currentStep: {
@@ -134,6 +133,7 @@ function convertFileToHtml(file) {
     const reader = new FileReader();
     reader.onload = async (event) => {
       const arrayBuffer = event.target.result;
+      const mammoth = await import("mammoth");
       const result = await mammoth.convertToHtml(
         { arrayBuffer },
         {
