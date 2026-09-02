@@ -8,9 +8,6 @@
           class="h-[46px] px-6 sm:px-10 lg:px-[56px] whitespace-nowrap rounded-[10px] text-sm leading-4 bg_main text-white">
           + O'quvchi qo'shish
         </button>
-        <div class="w-min min-w-40">
-          <DatePicker v-model:value="store.date" @change="onChange" picker="month" />
-        </div>
       </div>
 
       <section class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8 no-print">
@@ -49,6 +46,8 @@
               <img class="w-4" src="@/assets/svg/icon/arrow.svg" alt="" />
             </template>
           </a-select>
+          <a-date-picker v-model:value="paymentDate" @change="onDateChange"
+            placeholder="To'lov sanasi" allow-clear class="!h-[42px] min-w-fit" />
           <button @click="store.addMember = true"
             class="h-[46px] px-6 sm:px-10 lg:px-[56px] whitespace-nowrap rounded-[10px] text-sm leading-4 bg_main text-white">
             Export
@@ -132,6 +131,7 @@
 </template>
 
 <script setup>
+import dayjs from 'dayjs';
 import { useLoadingStore, useCoursesStore } from '~/store';
 import { formatDateToYYYYMMDD } from "@/composables";
 
@@ -147,6 +147,35 @@ const store = props.store;
 const isLoading = useLoadingStore();
 const useCourses = useCoursesStore();
 const router = useRouter();
+
+// search/status/date all drive query params that the store's getByCourse()
+// sends to the API - the member list returned is already filtered server-side,
+// so nothing here filters the subscriptions array on the client.
+const search = ref(String(router.currentRoute.value.query?.search || ""));
+const time = ref(String(router.currentRoute.value.query?.status || "Barchasi"));
+const paymentDate = ref(
+  router.currentRoute.value.query?.date ? dayjs(+router.currentRoute.value.query.date) : null
+);
+
+let searchDebounceId = null;
+watch(search, (value) => {
+  clearTimeout(searchDebounceId);
+  searchDebounceId = setTimeout(() => updateQuery({ search: value || undefined }), 400);
+});
+
+watch(time, (value) => {
+  updateQuery({ status: value === "Barchasi" ? undefined : value });
+});
+
+function onDateChange(value) {
+  const date = value ? (typeof value.toDate === "function" ? value.toDate() : new Date(value)) : null;
+  updateQuery({ date: date ? date.getTime() : undefined });
+}
+
+async function updateQuery(patch) {
+  await router.push({ query: { ...router.currentRoute.value.query, ...patch } });
+  useCourses.getByCourse();
+}
 
 // A student accrues one Payment row per unpaid month (see
 // generateDuePayments on the backend), so their real remaining debt is the
@@ -191,12 +220,4 @@ function openPaymentModal(item) {
   store.addPaymentModal = true;
 }
 
-function onChange(e) {
-  router.push({
-    query: {
-      date: e
-    }
-  });
-  useCourses.getByCourse();
-}
 </script>

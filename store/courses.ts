@@ -66,9 +66,14 @@ export const useCoursesStore = defineStore("courses", () => {
   }
 
   async function getByCourse() {
-    const date: any = router.currentRoute.value.query?.date ? new Date(+router.currentRoute.value.query?.date) : null;
+    const query = router.currentRoute.value.query || {};
+    const date: any = query.date ? new Date(+query.date) : null;
+    const params = new URLSearchParams();
+    params.set('date', String(date));
+    if (query.search) params.set('search', String(query.search));
+    if (query.status && query.status !== 'Barchasi') params.set('status', String(query.status));
     const data: any = await apiRequest.get(
-      `lesson/getByCourse/${router.currentRoute.value.params.course_id || 0}?date=${date}`,
+      `lesson/getByCourse/${router.currentRoute.value.params.course_id || 0}?${params.toString()}`,
       "getByCourse"
     );
     store.courses = data.data;
