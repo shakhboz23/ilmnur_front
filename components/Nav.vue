@@ -3,11 +3,11 @@
     <nav class="full_flex bg_white r_8 py-4 px-5 !justify-between !w-full">
       <ul class="flex md:justify-center items-center md:gap-20 gap-4 w-[50%] h-[40px]">
         <li class="md:hidden block" @click="isLoading.store.drawer = true">
-          <img loading="lazy" class="h-6 min-w-[24px]" src="@/assets/svg/icon/menu.svg" alt="">
+          <img loading="lazy" class="h-6" src="@/assets/svg/icon/menu.svg" alt="">
         </li>
         <li>
           <router-link to="/">
-            <img loading="lazy" class="min-w-fit h-16" src="/logo.png" alt="">
+            <img loading="lazy" class="h-16" src="/logo.png" alt="">
           </router-link>
         </li>
         <li class="md:block hidden bg_cf5 relative r_8 w-full">

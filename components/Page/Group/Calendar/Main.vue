@@ -1,6 +1,6 @@
 <template>
   <main class="overflow-hidden">
-    <PageGroupCalendarCalendarGrid :store="store" />
+    <PageGroupCalendarGrid :store="store" />
     <PageGroupCalendarAddEventModal :store="store" />
   </main>
 </template>

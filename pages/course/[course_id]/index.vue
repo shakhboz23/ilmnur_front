@@ -1,6 +1,6 @@
 <template>
     <div>
-        <PageCourseCourseHeader :store="store" />
+        <PageCourseHeader :store="store" />
 
         <!-- modal -->
         <UIModal v-if="['lesson', 'test'].includes(isLoading.store.modalType)" :isOpen="isLoading.modal.create"
