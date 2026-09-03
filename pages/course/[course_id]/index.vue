@@ -125,6 +125,7 @@ const store = reactive({
         user_id: 0,
         course_id: 0,
         amount: 0,
+        payment_id: null,
         comment: '',
     },
     date: null,
@@ -168,8 +169,10 @@ async function handleModal(value, modalType) {
             store.data.amount = +store.data.amount;
             store.data.user_id = store.member_id;
             store.data.course_id = useCourses.store.courses?.course?.id;
+            store.data.payment_id = store.currentPayment?.id;
             const result = useCourses.createPayment(store.data);
             store.data.amount = 0;
+            store.data.payment_id = null;
             store.currentPayment = null;
             return result;
         }
@@ -203,6 +206,7 @@ async function handleModal(value, modalType) {
         store.addTeacherModal = false;
         store.addMember = false;
         store.data.amount = 0;
+        store.data.payment_id = null;
         store.currentPayment = null;
         useCourses.clearData();
         resetCopyState();
