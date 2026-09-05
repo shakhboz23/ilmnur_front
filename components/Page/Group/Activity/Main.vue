@@ -20,7 +20,7 @@
                     class="!rounded-[10px] !h-[42px] !border-gray-200 mt-4 hover:!border-gray-300" />
             </div>
 
-            <div v-if="router.currentRoute.value.query.course_id && useAttendance.store.currentDate" class="relative overflow-x-auto rounded-2xl">
+            <div v-if="router.currentRoute.value.query.course_id && useAttendance.store.currentDate && store.subgroup_id" class="relative overflow-x-auto rounded-2xl">
                 <table class="w-full text-sm text-left rtl:text-right border-separate border-spacing-y-3">
                     <tbody>
                         <tr v-for="i in selectedCourseUsers" :key="i?.id"
