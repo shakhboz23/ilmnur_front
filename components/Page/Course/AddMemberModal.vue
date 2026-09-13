@@ -18,7 +18,7 @@
       <div v-if="store.addMemberMode === 'single'">
         <label for="member">O'quvchi</label>
         <a-select id="member" class="w-full" v-model:value="store.member_id"
-          placeholder="O'quvchini tanlang">
+          placeholder="O'quvchini tanlang" showSearch>
           <a-select-option v-for="user in availableUsers" :key="user" :value="user.id">
             <div class="flex items-center gap-2">
               <span>{{ user.name }} {{ user.surname }}</span>

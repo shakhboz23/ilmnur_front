@@ -329,7 +329,7 @@ export const useAuthStore = defineStore("auth", () => {
 
   async function getUsers() {
     apiRequest
-      .get("user/pagination/1/100", 'users')
+      .get("user/pagination/1/500", 'users')
       .then((res: any) => {
         if (res.data.statusCode == 200) {
           store.users = res.data?.data;
