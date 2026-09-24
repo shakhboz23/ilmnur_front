@@ -4,7 +4,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
   const router = useRouter();
   const useAuth = useAuthStore();
   const isLoading = useLoadingStore();
-  
+
   try {
     if (process.client) {
       const tg = window?.Telegram?.WebApp;
@@ -14,6 +14,13 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
         return;
       }
       const token = localStorage.getItem("token") || to.query.token;
+      const isLoggedOut = localStorage.getItem("isLoggedOut") || to.query.token;
+      if (!isLoggedOut) {
+        localStorage.removeItem("token");
+        isLoading.store.middleware = false;
+        isLoading.store.isLogin = false;
+        localStorage.setItem("true");
+      }
       if (to.query.token && to.query.token != undefined && to.name == 'login') {
         localStorage.setItem("token", to.query.token);
         router.push('/');
