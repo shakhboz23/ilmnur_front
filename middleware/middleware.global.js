@@ -20,6 +20,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
         isLoading.store.middleware = false;
         isLoading.store.isLogin = false;
         localStorage.setItem("isLoggedOut", true);
+        return;
       }
       if (to.query.token && to.query.token != undefined && to.name == 'login') {
         localStorage.setItem("token", to.query.token);
