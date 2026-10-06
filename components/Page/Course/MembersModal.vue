@@ -99,7 +99,7 @@
               <td class="p-2 whitespace-nowrap">{{ item.user?.payments?.[0]?.amount }}</td>
               <td class="p-2 whitespace-nowrap">{{ totalDebt(item) }}</td>
               <td class="p-2 whitespace-nowrap">{{
-                formatDateToYYYYMMDD(item.user?.payments?.[0]?.due_date) }}
+                item.user?.payments?.[0]?.due_date ? formatDateToYYYYMMDD(item.user.payments[0].due_date) : '—' }}
               </td>
               <td class="p-2 whitespace-nowrap">{{ item.user?.attendance }}</td>
               <td class="p-2 whitespace-nowrap">{{ formatDateToYYYYMMDD(item?.start_date) }}</td>
